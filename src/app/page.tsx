@@ -35,8 +35,8 @@ export default function HomePage() {
           <Image
             src="/logo-gospel-nation.png"
             alt={`Logo ${church.name}`}
-            width={480}
-            height={240}
+            width={566}
+            height={429}
             className="gn-logo-shadow h-40 w-auto object-contain sm:h-52"
             priority
           />

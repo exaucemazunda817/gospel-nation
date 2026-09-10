@@ -11,9 +11,9 @@ export default function Footer() {
           <Image
             src="/logo-gospel-nation.png"
             alt={`Logo ${church.name}`}
-            width={160}
-            height={80}
-            className="h-10 w-auto object-contain"
+            width={566}
+            height={429}
+            className="h-12 w-auto object-contain"
           />
           <p className="mt-3 max-w-sm text-sm text-gn-cream/70">{church.tagline}</p>
         </div>
