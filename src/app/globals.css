@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0c0c0c;
+  --foreground: #f7f2e7;
+
+  /* Palette échantillonnée directement sur le logo officiel
+     (public/logo-gospel-nation.png) : fond noir, texte crème, lueur
+     ambre/or en accent. */
+  --gn-black: #0c0c0c;
+  --gn-black-soft: #161311;
+  --gn-cream: #f7f2e7;
+  --gn-gold: #d99a3d;
+  --gn-gold-dark: #a66a1c;
+  --gn-ember: #7a2f0a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-gn-black: var(--gn-black);
+  --color-gn-black-soft: var(--gn-black-soft);
+  --color-gn-cream: var(--gn-cream);
+  --color-gn-gold: var(--gn-gold);
+  --color-gn-gold-dark: var(--gn-gold-dark);
+  --color-gn-ember: var(--gn-ember);
+  --font-sans: var(--font-manrope);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.placeholder-note {
+  border: 1px dashed var(--gn-gold);
+  background: #241b0f;
+  color: var(--gn-gold);
+}
+
+/* Fine bande dorée, clin d'œil à la lueur du logo. */
+.gn-accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gn-gold) 50%, transparent);
+}
+
+.gn-glow {
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--gn-ember) 55%, transparent), transparent 60%);
+}
+
+.gn-logo-shadow {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
 }

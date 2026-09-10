@@ -1,69 +1,142 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+import PlaceholderNote from '@/components/PlaceholderNote';
+import { church, departmentSeeds, missionPlaceholder } from '@/lib/content';
 
-export default function Home() {
+const quickLinks = [
+  {
+    href: '/departements',
+    title: 'Nos départements',
+    description: 'Gospel Family, Worship, Gospel Kids, One Love et plus encore.'
+  },
+  {
+    href: '/predications',
+    title: 'Prédications',
+    description: 'Notes et vidéos de nos cultes, à revoir quand vous voulez.'
+  },
+  {
+    href: '/temoignages',
+    title: 'Témoignages',
+    description: "Partagez ce que Dieu a fait dans votre vie, ou lisez ceux d'autres membres."
+  },
+  {
+    href: '/rendez-vous',
+    title: 'Rendez-vous pastoral',
+    description: 'Prenez un moment avec le pasteur pour un accompagnement personnel.'
+  }
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div>
+      {/* Hero */}
+      <section className="gn-glow bg-gn-black text-gn-cream">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-4 py-16 text-center sm:px-6 md:py-24">
+          <Image
+            src="/logo-gospel-nation.png"
+            alt={`Logo ${church.name}`}
+            width={480}
+            height={240}
+            className="gn-logo-shadow h-40 w-auto object-contain sm:h-52"
+            priority
+          />
+          <div className="flex flex-col items-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gn-gold">{church.tagline}</p>
+            <p className="mt-4 max-w-2xl text-base text-gn-cream/85 sm:text-lg">
+              Une église où chacun peut adorer, servir et grandir dans la foi. Rejoignez-nous, en
+              personne ou en ligne.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-4">
+              <Link
+                href="/inscription"
+                className="rounded-full bg-gn-gold px-6 py-3 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
+              >
+                Devenir membre
+              </Link>
+              <Link
+                href="/eglise"
+                className="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-gn-cream transition-colors hover:bg-white/10"
+              >
+                Découvrir notre église
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className="gn-accent-bar" />
+
+      {/* Horaires + adresse */}
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-xl border border-gn-gold/20 bg-gn-black-soft p-6">
+            <p className="text-sm font-semibold uppercase tracking-wide text-gn-gold">Horaires des cultes</p>
+            <ul className="mt-2 space-y-1 text-gn-cream/80">
+              {church.schedule.map((s) => (
+                <li key={s.day}>
+                  {s.day} — {s.time} ({s.label})
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-xl bg-gn-gold px-6 py-6 text-gn-black">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gn-black/70">Adresse</p>
+            <p className="mt-2 text-lg font-bold">{church.address}</p>
+            {church.addressIsPlaceholder && (
+              <p className="mt-1 text-sm text-gn-black/70">À confirmer avec l&apos;église.</p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Liens rapides */}
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <h2 className="text-2xl font-bold text-gn-gold">Vivez la vie de l&apos;église</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {quickLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-lg border border-white/10 bg-gn-black-soft p-4 text-sm text-gn-cream/80 shadow-sm transition-colors hover:border-gn-gold/50 hover:text-gn-cream"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <p className="font-semibold text-gn-cream">{link.title}</p>
+              <p className="mt-1">{link.description}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Départements */}
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <h2 className="text-2xl font-bold text-gn-gold">Nos départements</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {departmentSeeds.map((dept) => (
+            <div key={dept.slug} className="rounded-lg border border-white/10 bg-gn-black-soft p-4 text-sm text-gn-cream/80">
+              {dept.name}
+            </div>
+          ))}
+        </div>
+        <div className="mt-4">
+          <PlaceholderNote>{missionPlaceholder}</PlaceholderNote>
+        </div>
+      </section>
+
+      {/* Dons */}
+      <section className="border-t border-white/10 bg-gn-black-soft">
+        <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
+          <h2 className="text-2xl font-bold text-gn-gold">Soutenez l&apos;œuvre de Dieu</h2>
+          <p className="mx-auto mt-3 max-w-xl text-gn-cream/80">
+            Vos dons soutiennent la vie de l&apos;église et nos œuvres sociales, dont le ministère One
+            Love auprès des enfants de la rue.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/dons"
+            className="mt-6 inline-block rounded-full bg-gn-gold px-6 py-3 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Faire un don
+          </Link>
         </div>
-      </main>
+      </section>
     </div>
   );
 }

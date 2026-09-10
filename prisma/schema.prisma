@@ -1,0 +1,211 @@
+// Site de l'église Gospel Nation — Prisma + PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN // plusieurs administrateurs possibles (plusieurs Users avec ce rôle)
+  MEMBER
+}
+
+enum MemberStatus {
+  PENDING // inscription faite, pas encore validée par un administrateur
+  VALIDATED
+  REJECTED
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  DECLINED
+  DONE
+}
+
+/// Compte applicatif. `clerkUserId` relie ce profil à l'identité Clerk (auth).
+/// Un compte peut être MEMBER (inscription libre, validée ensuite par un
+/// administrateur) ou ADMIN (plusieurs administrateurs possibles).
+model User {
+  id          String       @id @default(cuid())
+  clerkUserId String       @unique
+  email       String       @unique
+  firstName   String
+  lastName    String
+  phone       String?
+  photoUrl    String?
+  birthDate   DateTime?
+  // Un membre choisit s'il veut apparaître dans le coin anniversaires public.
+  showBirthdayPublicly Boolean @default(false)
+
+  role   Role         @default(MEMBER)
+  status MemberStatus @default(PENDING)
+
+  // Numéro de membre attribué à la validation — sert pour la carte virtuelle.
+  memberNumber String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  testimonies           Testimony[]
+  departmentSignups     DepartmentRegistration[]
+  offers                MemberOffer[]
+  appointments          Appointment[]
+  blogPosts             BlogPost[]
+
+  @@index([role])
+  @@index([status])
+  @@map("users")
+}
+
+/// Un département/ministère de l'église (Gospel Family, Worship, Ministries,
+/// Gospel Kids, Gospel Café, Gospel Prod, Gospel Nation Music, One Love...).
+/// `registrationOpen` contrôle si le bouton d'inscription est actif.
+model Department {
+  id               String  @id @default(cuid())
+  name             String
+  slug             String  @unique
+  description      String
+  imageUrl         String?
+  instagramHandle  String?
+  registrationOpen Boolean @default(false)
+  order            Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  signups DepartmentRegistration[]
+
+  @@map("departments")
+}
+
+/// Inscription d'un membre à un département, quand l'inscription est ouverte.
+model DepartmentRegistration {
+  id           String            @id @default(cuid())
+  departmentId String
+  department   Department        @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message      String?
+  status       ModerationStatus  @default(PENDING)
+  createdAt    DateTime          @default(now())
+
+  @@unique([departmentId, userId])
+  @@map("department_registrations")
+}
+
+/// Témoignage soumis (par un membre connecté ou un visiteur) — modéré par un
+/// administrateur avant publication publique.
+model Testimony {
+  id         String            @id @default(cuid())
+  userId     String?
+  user       User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  authorName String
+  content    String
+  videoUrl   String?
+  status     ModerationStatus  @default(PENDING)
+  createdAt  DateTime          @default(now())
+
+  @@index([status])
+  @@map("testimonies")
+}
+
+/// Notes et vidéo d'un culte/prédication.
+model Sermon {
+  id           String   @id @default(cuid())
+  title        String
+  speaker      String
+  date         DateTime
+  videoUrl     String?
+  notesContent String?
+  series       String?
+  coverImageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+  @@map("sermons")
+}
+
+/// Article du blog "Gospel News", lié à la vie de l'église.
+model BlogPost {
+  id            String    @id @default(cuid())
+  title         String
+  slug          String    @unique
+  excerpt       String
+  content       String
+  coverImageUrl String?
+  category      String?
+  authorId      String?
+  author        User?     @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  publishedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([publishedAt])
+  @@map("blog_posts")
+}
+
+/// Coordonnées de don affichées sur le site (Mobile Money, virement...).
+/// Pas de passerelle de paiement en ligne pour cette version.
+model DonationMethod {
+  id           String  @id @default(cuid())
+  label        String // ex. "Airtel Money", "Orange Money", "Compte bancaire"
+  accountName  String
+  accountValue String // numéro de téléphone ou numéro de compte
+  instructions String?
+  isActive     Boolean @default(true)
+  order        Int     @default(0)
+
+  @@map("donation_methods")
+}
+
+/// Offre de service ou de bien qu'un membre propose aux autres membres
+/// ("coin des offres et services") — modérée avant publication.
+model MemberOffer {
+  id            String            @id @default(cuid())
+  userId        String
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  description   String
+  category      String?
+  contactPhone  String?
+  contactEmail  String?
+  status        ModerationStatus  @default(PENDING)
+  createdAt     DateTime          @default(now())
+
+  @@index([status])
+  @@map("member_offers")
+}
+
+/// Demande de rendez-vous avec le pasteur.
+model Appointment {
+  id            String             @id @default(cuid())
+  userId        String?
+  user          User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  requesterName String
+  requesterPhone String
+  requesterEmail String?
+  reason        String
+  preferredDate DateTime
+  status        AppointmentStatus  @default(PENDING)
+  pastorNote    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@map("appointments")
+}
