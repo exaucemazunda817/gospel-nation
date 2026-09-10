@@ -52,6 +52,18 @@ export const missionPlaceholder =
 export const histoirePlaceholder =
   "[À COMPLÉTER] L'histoire de l'église (contexte de création, étapes marquantes) sera ajoutée ici une fois le contenu validé.";
 
+export const predicationsPlaceholder =
+  'Aucune prédication publiée pour le moment. Cette page accueillera les notes et vidéos de nos cultes.';
+
+export const blogPlaceholder =
+  'Aucun article publié pour le moment. Gospel News accueillera bientôt les actualités et réflexions liées à la vie de notre église.';
+
+export const temoignagesPlaceholder =
+  'Aucun témoignage publié pour le moment. Soyez le premier à partager ce que Dieu a fait dans votre vie !';
+
+export const donsPlaceholder =
+  "Les coordonnées de don (Mobile Money, virement bancaire) seront publiées ici une fois confirmées par l'église.";
+
 // Départements/ministères vus publiquement sur Instagram (noms réels) —
 // descriptions détaillées à valider avec l'église.
 export const departmentSeeds = [
