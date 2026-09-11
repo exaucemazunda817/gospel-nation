@@ -1,5 +1,5 @@
 const inputClass =
-  'w-full rounded-xl border border-white/15 bg-gn-black px-4 py-2.5 text-gn-cream shadow-sm transition-colors placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30';
+  'w-full rounded-xl border border-white/15 bg-[#2a231b] px-4 py-2.5 text-gn-cream shadow-sm transition-colors placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30';
 
 export function Field({
   label,
@@ -18,7 +18,7 @@ export function Field({
 }) {
   return (
     <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-cream/80">
+      <span className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
       </span>
@@ -47,7 +47,7 @@ export function SelectField({
 }) {
   return (
     <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-cream/80">
+      <span className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
       </span>
@@ -71,7 +71,7 @@ export function TextAreaField({
 }) {
   return (
     <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-cream/80">
+      <span className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
       </span>
