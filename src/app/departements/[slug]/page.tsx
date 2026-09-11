@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
@@ -23,6 +24,11 @@ export default async function DepartementDetailPage({ params }: PageProps) {
       <PageHero eyebrow="Département" title={dept.name} />
 
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+        {dept.imageUrl && (
+          <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl">
+            <Image src={dept.imageUrl} alt={dept.name} fill className="object-cover" />
+          </div>
+        )}
         <p className="text-gn-cream/80">{dept.description}</p>
 
         <div className="mt-8 rounded-2xl border border-gn-gold/30 bg-gn-black-soft p-6">
