@@ -160,6 +160,25 @@ model BlogPost {
 
 /// Coordonnées de don affichées sur le site (Mobile Money, virement...).
 /// Pas de passerelle de paiement en ligne pour cette version.
+/// Événement à venir (ex. Valorous) — affiché avec son affiche sur la page
+/// publique Événements.
+model Event {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  posterImageUrl String
+  description    String?
+  eventDate      DateTime?
+  location       String?
+  order          Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eventDate])
+  @@map("events")
+}
+
 model DonationMethod {
   id           String  @id @default(cuid())
   label        String // ex. "Airtel Money", "Orange Money", "Compte bancaire"
@@ -183,6 +202,7 @@ model MemberOffer {
   category      String?
   contactPhone  String?
   contactEmail  String?
+  externalUrl   String?
   status        ModerationStatus  @default(PENDING)
   createdAt     DateTime          @default(now())
 

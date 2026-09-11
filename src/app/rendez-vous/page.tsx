@@ -16,9 +16,11 @@ export default function RendezVousPage() {
         subtitle={`Prenez un moment avec le ${church.mainPastor.title.toLowerCase()} ${church.mainPastor.name} pour un accompagnement personnel.`}
       />
 
-      <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
-        <div className="rounded-2xl border border-white/10 bg-gn-black-soft p-6 sm:p-8">
-          <AppointmentForm />
+      <div className="gn-section-light">
+        <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
+          <div className="rounded-2xl border border-gn-ink/10 bg-white p-6 shadow-sm sm:p-8">
+            <AppointmentForm />
+          </div>
         </div>
       </div>
     </div>

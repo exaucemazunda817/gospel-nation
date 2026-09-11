@@ -46,7 +46,7 @@ export default function TestimonyForm() {
           ✓
         </span>
         <p className="mt-4 font-semibold text-gn-gold">Merci pour votre témoignage !</p>
-        <p className="mt-1 text-sm text-gn-cream/70">
+        <p className="mt-1 text-sm text-gn-ink/70">
           Il sera publié sur cette page après vérification par un administrateur.
         </p>
       </div>

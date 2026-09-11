@@ -30,11 +30,13 @@ export default async function BlogPostPage({ params }: PageProps) {
         })}
       />
 
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-        <p className="whitespace-pre-line text-gn-cream/85">{post.content}</p>
-        <Link href="/blog" className="mt-10 inline-block text-sm text-gn-gold hover:underline">
-          ← Retour à Gospel News
-        </Link>
+      <div className="gn-section-light">
+        <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+          <p className="whitespace-pre-line text-gn-ink/85">{post.content}</p>
+          <Link href="/blog" className="mt-10 inline-block text-sm text-gn-gold-dark hover:underline">
+            ← Retour à Gospel News
+          </Link>
+        </div>
       </div>
     </div>
   );

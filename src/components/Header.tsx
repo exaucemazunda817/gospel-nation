@@ -9,9 +9,11 @@ const navLinks = [
   { href: '/', label: 'Accueil' },
   { href: '/eglise', label: 'Notre église' },
   { href: '/departements', label: 'Départements' },
+  { href: '/evenements', label: 'Événements' },
   { href: '/predications', label: 'Prédications' },
   { href: '/blog', label: 'Gospel News' },
   { href: '/temoignages', label: 'Témoignages' },
+  { href: '/services', label: 'Services' },
   { href: '/dons', label: 'Dons' },
   { href: '/rendez-vous', label: 'Rendez-vous' }
 ];
@@ -22,7 +24,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-gn-black/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src="/logo-gospel-nation.png"
             alt={`Logo ${church.name}`}
@@ -32,14 +34,14 @@ export default function Header() {
             priority
           />
         </Link>
-        <nav className="hidden shrink-0 gap-1 text-sm font-medium lg:flex">
+        <nav className="hidden flex-wrap justify-end gap-1 text-sm font-medium lg:flex">
           {navLinks.map((link) => {
             const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`whitespace-nowrap rounded-full px-3.5 py-2 text-center transition-colors ${
+                className={`whitespace-nowrap rounded-full px-3 py-1.5 text-center transition-colors ${
                   isActive
                     ? 'bg-gn-gold text-gn-black'
                     : 'text-gn-cream/70 hover:bg-gn-gold/10 hover:text-gn-gold'

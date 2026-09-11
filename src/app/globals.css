@@ -6,13 +6,19 @@
 
   /* Palette échantillonnée directement sur le logo officiel
      (public/logo-gospel-nation.png) : fond noir, texte crème, lueur
-     ambre/or en accent. */
+     ambre/or en accent. Complétée le 10/09/2026 pour un rendu plus chaleureux
+     et vivant (retour de Mazunda : le site paraissait trop sombre/plat par
+     rapport aux publications Instagram de l'église) — sections claires
+     crème alternées avec le noir, et un orange vif en accent secondaire. */
   --gn-black: #0c0c0c;
   --gn-black-soft: #161311;
   --gn-cream: #f7f2e7;
+  --gn-cream-bg: #fbf3e4;
+  --gn-ink: #241a0f;
   --gn-gold: #d99a3d;
   --gn-gold-dark: #a66a1c;
   --gn-ember: #7a2f0a;
+  --gn-orange: #e8752c;
 }
 
 @theme inline {
@@ -21,9 +27,12 @@
   --color-gn-black: var(--gn-black);
   --color-gn-black-soft: var(--gn-black-soft);
   --color-gn-cream: var(--gn-cream);
+  --color-gn-cream-bg: var(--gn-cream-bg);
+  --color-gn-ink: var(--gn-ink);
   --color-gn-gold: var(--gn-gold);
   --color-gn-gold-dark: var(--gn-gold-dark);
   --color-gn-ember: var(--gn-ember);
+  --color-gn-orange: var(--gn-orange);
   --font-sans: var(--font-manrope);
 }
 
@@ -47,9 +56,26 @@ body {
 
 .gn-glow {
   background:
-    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--gn-ember) 55%, transparent), transparent 60%);
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--gn-ember) 55%, transparent), transparent 60%),
+    radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--gn-orange) 35%, transparent), transparent 55%);
 }
 
 .gn-logo-shadow {
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
+}
+
+/* Section claire, chaleureuse — alterne avec les sections noires pour éviter
+   un rendu trop sombre/plat sur toute la page. */
+.gn-section-light {
+  background: var(--gn-cream-bg);
+  color: var(--gn-ink);
+}
+
+.gn-card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.gn-card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -12px color-mix(in srgb, var(--gn-gold) 35%, transparent);
 }

@@ -48,7 +48,7 @@ export default function AppointmentForm() {
           ✓
         </span>
         <p className="mt-4 font-semibold text-gn-gold">Demande envoyée.</p>
-        <p className="mt-1 text-sm text-gn-cream/70">
+        <p className="mt-1 text-sm text-gn-ink/70">
           Le pasteur ou son secrétariat vous contactera pour confirmer le rendez-vous.
         </p>
       </div>

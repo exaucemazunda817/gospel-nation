@@ -19,17 +19,15 @@ export default function Footer() {
         </div>
 
         <div className="text-sm text-gn-cream/80">
-          <p className="mb-2 font-semibold text-gn-cream">Cultes</p>
-          <ul className="space-y-1">
-            {church.schedule.map((s) => (
-              <li key={s.day}>
-                {s.day} — {s.time}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3">
+          <p className="mb-2 font-semibold text-gn-cream">Adresse</p>
+          <p>
             {church.address}
             {church.addressIsPlaceholder && <span className="ml-1 text-gn-gold/70">(à confirmer)</span>}
+          </p>
+          <p className="mt-3">
+            <Link href="/eglise" className="hover:text-gn-gold">
+              Voir les horaires des cultes →
+            </Link>
           </p>
         </div>
 
