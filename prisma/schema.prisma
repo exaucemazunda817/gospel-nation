@@ -33,20 +33,39 @@ enum AppointmentStatus {
   DONE
 }
 
-/// Compte applicatif. `clerkUserId` relie ce profil à l'identité Clerk (auth).
+/// Compte applicatif. `clerkUserId` relie ce profil à l'identité Clerk (auth) —
+/// nul tant que la personne s'est seulement inscrite via le formulaire public
+/// "Devenir membre" et n'a pas encore de compte Clerk (Clerk n'est pas encore
+/// branché sur ce projet). `accessToken` sécurise le lien de téléchargement de
+/// la carte de membre (evite qu'une carte soit accessible en devinant l'id).
 /// Un compte peut être MEMBER (inscription libre, validée ensuite par un
 /// administrateur) ou ADMIN (plusieurs administrateurs possibles).
 model User {
   id          String       @id @default(cuid())
-  clerkUserId String       @unique
+  clerkUserId String?      @unique
+  accessToken String       @unique @default(cuid())
   email       String       @unique
   firstName   String
   lastName    String
   phone       String?
+  address     String?
+  // Nom du fichier de la photo dans le stockage privé (storage/photos), PAS
+  // une URL publique — la photo n'est jamais servie par une route publique.
   photoUrl    String?
   birthDate   DateTime?
   // Un membre choisit s'il veut apparaître dans le coin anniversaires public.
   showBirthdayPublicly Boolean @default(false)
+
+  // Année (déclarée par le membre) depuis laquelle il fréquente l'église —
+  // distincte de `createdAt`, qui est la date technique d'inscription sur le
+  // site et peut être bien postérieure à son arrivée réelle dans l'église.
+  memberSinceYear Int?
+
+  // Département où le membre sert déjà, s'il en précise un à l'inscription.
+  // Simple déclaration informative — pas une demande d'inscription soumise à
+  // modération (voir DepartmentRegistration pour ce flux-là).
+  departmentId String?
+  department   Department? @relation("MemberWorkingDepartment", fields: [departmentId], references: [id], onDelete: SetNull)
 
   role   Role         @default(MEMBER)
   status MemberStatus @default(PENDING)
@@ -85,6 +104,7 @@ model Department {
   updatedAt DateTime @updatedAt
 
   signups DepartmentRegistration[]
+  members User[] @relation("MemberWorkingDepartment")
 
   @@map("departments")
 }
@@ -128,6 +148,9 @@ model Sermon {
   date         DateTime
   videoUrl     String?
   notesContent String?
+  // Lien vers le livret PDF complet des notes (stocké dans public/sermons),
+  // quand l'enseignement en a un — distinct du résumé affiché dans notesContent.
+  documentUrl   String?
   series       String?
   coverImageUrl String?
 
@@ -228,4 +251,19 @@ model Appointment {
 
   @@index([status])
   @@map("appointments")
+}
+
+/// Message envoyé depuis le formulaire de contact public.
+model ContactMessage {
+  id      String  @id @default(cuid())
+  name    String
+  email   String
+  subject String?
+  message String
+  isRead  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@map("contact_messages")
 }

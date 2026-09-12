@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# photos des membres (données personnelles, jamais versionnées)
+/storage/photos
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
