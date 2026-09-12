@@ -3,9 +3,11 @@ import { prisma } from "@/lib/prisma";
 import AdminLogoutButton from "@/components/AdminLogoutButton";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [pendingTemoignages, pendingRendezVous] = await Promise.all([
+  const [pendingTemoignages, pendingRendezVous, totalMembres, unreadMessages] = await Promise.all([
     prisma.testimony.count({ where: { status: "PENDING" } }),
     prisma.appointment.count({ where: { status: "PENDING" } }),
+    prisma.user.count({ where: { role: "MEMBER" } }),
+    prisma.contactMessage.count({ where: { isRead: false } }),
   ]);
 
   return (
@@ -30,6 +32,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <SectionTab
           href="/admin/rendez-vous"
           label={`Rendez-vous${pendingRendezVous ? ` (${pendingRendezVous})` : ""}`}
+        />
+        <SectionTab
+          href="/admin/membres"
+          label={`Membres${totalMembres ? ` (${totalMembres})` : ""}`}
+        />
+        <SectionTab
+          href="/admin/contact"
+          label={`Messages${unreadMessages ? ` (${unreadMessages})` : ""}`}
         />
       </nav>
 

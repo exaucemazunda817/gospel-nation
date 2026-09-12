@@ -1,0 +1,115 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { church } from '@/lib/content';
+import ContactForm from './ContactForm';
+
+export const metadata: Metadata = {
+  title: 'Contact'
+};
+
+export default function ContactPage() {
+  const schedule = church.schedule[0];
+
+  const infoItems = [
+    {
+      label: 'Adresse',
+      value: church.address,
+      path: (
+        <>
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </>
+      )
+    },
+    {
+      label: 'Instagram',
+      value: church.instagram.replace('https://www.instagram.com/', '@'),
+      path: (
+        <>
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="m2 7 10 6 10-6" />
+        </>
+      )
+    },
+    {
+      label: 'Horaires des cultes',
+      value: `${schedule.day} — ${schedule.time}`,
+      path: (
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <polyline points="12 7 12 12 16 14" />
+        </>
+      )
+    }
+  ];
+
+  return (
+    <div className="bg-gn-black">
+      <section className="gn-glow relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
+        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+          <p className="mb-3.5 text-xs text-gn-muted">
+            <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">Contact</span>
+          </p>
+          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-[38px]">Contactez-nous</h1>
+        </div>
+      </section>
+
+      <section className="bg-gn-black">
+        <div className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="flex flex-col gap-7">
+            <p className="text-sm leading-relaxed text-gn-muted">
+              Une question, une demande de prière ou envie d&apos;en savoir plus sur Gospel Nation ? Écrivez-nous,
+              nous vous répondrons rapidement.
+            </p>
+            {infoItems.map((item) => (
+              <div key={item.label} className="flex items-start gap-4">
+                <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full border border-gn-gold/40 bg-gn-gold/10">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    {item.path}
+                  </svg>
+                </div>
+                <div>
+                  <p className="mb-1 text-[11px] uppercase tracking-wide text-gn-muted">{item.label}</p>
+                  <p className="font-serif text-[15px] font-semibold text-gn-cream">{item.value}</p>
+                </div>
+              </div>
+            ))}
+            <div className="mt-1.5 flex gap-2.5">
+              <a
+                href={church.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+                aria-label="YouTube"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21.6 7.2s-.2-1.5-.8-2.2c-.8-.9-1.7-.9-2.1-1C15.9 3.8 12 3.8 12 3.8s-3.9 0-6.7.2c-.4 0-1.3.1-2.1 1-.6.7-.8 2.2-.8 2.2S2.2 9 2.2 10.7v1.5c0 1.8.2 3.5.2 3.5s.2 1.5.8 2.2c.8.9 1.9.9 2.4 1 1.7.2 7.4.2 7.4.2s3.9 0 6.7-.3c.4 0 1.3-.1 2.1-1 .6-.7.8-2.2.8-2.2s.2-1.8.2-3.5v-1.5c0-1.8-.2-3.5-.2-3.5zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z" />
+                </svg>
+              </a>
+              <a
+                href={church.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+                aria-label="Instagram"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-6">
+            <div className="rounded-xl bg-gn-cream-bg p-7 sm:p-11">
+              <p className="mb-6 font-serif text-xl font-semibold text-gn-ink">Envoyez-nous un message</p>
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
