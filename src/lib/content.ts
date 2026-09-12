@@ -15,7 +15,7 @@ export const church = {
   },
   schedule: [
     { day: 'Dimanche', time: '8h30 – 9h30', label: "Culte d'intercession" },
-    { day: 'Dimanche', time: '9h30', label: 'Culte du dimanche' },
+    { day: 'Dimanche', time: '9h30 – 11h30', label: 'Culte du dimanche' },
     { day: 'Mardi', time: '17h', label: 'Nation United, culte de la jeunesse' },
     { day: 'Mercredi', time: '17h30', label: "Culte d'enseignement" },
     { day: 'Vendredi', time: '17h', label: "Culte d'intercession" }
@@ -130,7 +130,7 @@ export const departmentSeeds = [
     name: 'One Love',
     slug: 'one-love',
     description:
-      "Ministère de l'église au service des enfants de la rue (orphelinat).",
+      "Ministère de l'église au service des enfants de la rue, porté par l'association One Love (fondée en 2010 par le pasteur Kanda Kabangu et son épouse) : valoriser les enfants marginalisés de Kinshasa par l'éducation et un accompagnement social et sanitaire.",
     imageUrl: '/departments/one-love-v2.jpg'
   },
   {
@@ -151,7 +151,181 @@ export const departmentSeeds = [
     name: 'École Nation Classe',
     slug: 'ecole-nation-classe',
     description:
-      "Incubateur des leaders de Gospel Nation. Formation en trois parcours — Appelés (Fondations), Ouvriers (Service) et Ministères (Appel & Impact) — pour former des personnes affermies dans leur identité, transformées dans leur caractère, équipées pour leur mission et envoyées pour impacter leur génération."
+      "Incubateur des leaders de Gospel Nation. Formation en trois parcours — Appelés (Fondations), Ouvriers (Service) et Ministères (Appel & Impact) — pour former des personnes affermies dans leur identité, transformées dans leur caractère, équipées pour leur mission et envoyées pour impacter leur génération.",
+    imageUrl: '/departments/ecole-nation-classe.jpg'
+    // Le programme complet (vision, parcours, modules) est détaillé plus bas
+    // dans `nationClasseProgram`, fourni par Mazunda le 12/09/2026.
+  }
+] as const;
+
+// Programme détaillé de l'École Nation Classe (École Gospel Nation), fourni
+// par Mazunda le 12/09/2026. Trois parcours progressifs : Appel → Service →
+// Impact. Affiché sur la page de détail du département (slug
+// "ecole-nation-classe").
+export const nationClasseProgram = {
+  tagline: 'Appel → Service → Impact',
+  vision:
+    "L'École Gospel Nation (Nation Classe) a pour objectif de former des hommes et des femmes affermis dans leur identité, transformés dans leur caractère, équipés pour leur mission et envoyés pour impacter leur génération, à travers une école proposant trois parcours, trois dimensions profondes.",
+  parcours: [
+    {
+      name: 'Les Appelés',
+      subtitle: 'Fondations profondes de la foi',
+      summary: 'Qui tu es',
+      description:
+        "Ce parcours pose les bases essentielles et profondes de la vie chrétienne. Il ne s'agit pas de simples notions, mais d'une transformation intérieure. Pour ceux qui souhaitent repartir sur de bonnes bases, il est vivement conseillé.",
+      objective: 'Être enraciné et fondé, ne plus retourner en arrière, raffermir la marche.',
+      modules: [
+        'Introduction — vision de la classe',
+        "Qu'est-ce que l'homme",
+        'Qui est Dieu',
+        'Relation Dieu & Homme',
+        'Le péché',
+        'Le salut',
+        'Jésus-Christ',
+        'Nouvelle identité',
+        'Baptême du Saint-Esprit',
+        'La Parole de Dieu',
+        'La prière',
+        'Repentance & transformation',
+        "Vie dans l'Esprit",
+        'Communion fraternelle'
+      ]
+    },
+    {
+      name: 'Les Ouvriers',
+      subtitle: 'Servir avec caractère et maturité',
+      summary: 'Comment tu sers',
+      description:
+        "Ce parcours est destiné à ceux qui souhaitent servir Dieu efficacement, avec un cœur transformé et une compréhension du service. Obligatoire pour tous ceux qui servent à Gospel Nation.",
+      objective: "Servir avec justesse, maturité et impact, contribuer à l'expansion de l'église.",
+      modules: [
+        'Introduction — vision',
+        'Béatitudes',
+        "Fruit de l'Esprit",
+        'Caractère',
+        'Dons spirituels',
+        'Église et fonctionnement',
+        'Influence (leadership)',
+        "Vision de l'Église",
+        "Culture de l'honneur",
+        'Discipline & fidélité',
+        'Travail en équipe',
+        'Gestion des offenses',
+        'Excellence dans le service',
+        'Soumission & autorité'
+      ]
+    },
+    {
+      name: 'Les Ministères',
+      subtitle: 'Être équipé pour impacter dans le monde',
+      summary: 'Où tu impactes',
+      description:
+        "Ce parcours est destiné à ceux qui portent un appel spécifique, dans l'Église ou dans les différentes sphères d'influence de la société.",
+      objective: 'Former des leaders qui impactent les nations.',
+      modules: [
+        'Vocation',
+        'Dons',
+        'Les 5 ministères',
+        'Vision et mission',
+        'Discernement spirituel',
+        'Autorité spirituelle',
+        "Gestion de l'onction",
+        'Leadership & responsabilité',
+        'Influence dans les sphères',
+        "Achever l'œuvre (échecs, transmission)"
+      ]
+    }
+  ]
+} as const;
+
+// Manuels réels du parcours "Les Appelés", fournis en PDF par Mazunda le
+// 12/09/2026, stockés dans public/nation-classe/. À compléter au fur et à
+// mesure que les manuels des autres modules/parcours seront transmis.
+export const nationClasseManuels = [
+  {
+    parcours: 'Les Appelés',
+    module: "Module 1 — Qu'est-ce que l'homme",
+    fileUrl: '/nation-classe/module-1-quest-ce-que-lhomme.pdf'
+  },
+  {
+    parcours: 'Les Appelés',
+    module: 'Module 2 — Qui est Dieu',
+    fileUrl: '/nation-classe/module-2-qui-est-dieu.pdf'
+  }
+] as const;
+
+// One Love : contenu réel sourcé le 13/09/2026 sur associationonelove.org
+// (mission, vision, fondateurs) et sur la page Facebook @associationonelove
+// (projet en cours RÊVES 2 et ses photos). Mazunda a transmis les photos
+// directement dans le dossier du projet — les liens Facebook individuels des
+// vidéos/reels n'ont pas pu être récupérés (Facebook bloque le contenu des
+// publications derrière une connexion), donc seul un lien vers la page/les
+// reels publics est utilisé, pas de vidéo individuelle inventée.
+export const oneLoveOrg = {
+  foundedYear: 2010,
+  founders: 'Kanda Kabangu et son épouse',
+  facebookUrl: 'https://www.facebook.com/associationonelove',
+  facebookReelsUrl: 'https://www.facebook.com/associationonelove/reels_tab',
+  websiteUrl: 'http://associationonelove.org',
+  vision:
+    "L'amour est un besoin fondamental de l'être humain. Toute personne victime d'exclusion devrait pouvoir satisfaire ce besoin d'être aimée.",
+  mission:
+    "Réaliser des projets en République Démocratique du Congo qui ont pour objet de valoriser les populations marginalisées, en particulier les enfants.",
+  objectifs: [
+    "Permettre l'accès à un mode de vie décent par l'éducation et des actions sociales et sanitaires.",
+    'Co-construire des programmes de (ré)insertion professionnelle.',
+    'Accompagner les bénéficiaires dans leur accomplissement professionnel et/ou personnel.'
+  ]
+} as const;
+
+export const oneLoveProject = {
+  name: 'RÊVES 2',
+  tagline: 'Réaménager – Éduquer – Valoriser – Écouter – Soigner',
+  partner: 'Angel Foundation',
+  period: 'Septembre à décembre 2026 (4 mois)',
+  intro:
+    "Lancé une première fois l'année dernière, le projet RÊVES revient avec une deuxième phase, davantage axée sur l'éducation, en partenariat avec Angel Foundation.",
+  description:
+    "Sur une période de 4 mois (septembre à décembre), RÊVES 2 propose aux enfants de One Love un accompagnement structuré combinant alphabétisation, apprentissage du français, activités culturelles, sportives et artistiques. Le projet comprend également la formation des animateurs, le renforcement des ressources pédagogiques et la mise à disposition de matériel informatique. Il intègre aussi un suivi médical et psychosocial régulier pour les enfants.",
+  objectif: "Renforcer les compétences, la confiance et l'autonomie des enfants.",
+  firstMilestone: {
+    label: "Premiers pas dans l'alphabétisation",
+    date: 'Samedi 5 septembre 2026'
+  }
+} as const;
+
+export const oneLoveGallery = [
+  {
+    src: '/departments/one-love/reves2-annonce.jpg',
+    caption: "Premiers pas dans l'alphabétisation — samedi 5 septembre 2026, lancement du programme RÊVES 2."
+  },
+  {
+    src: '/departments/one-love/reves2-arrivee.jpg',
+    caption: 'Les enfants arrivent au centre One Love, prêts à découvrir et apprendre.'
+  },
+  {
+    src: '/departments/one-love/reves2-formateurs.jpg',
+    caption: 'Les formateurs du programme RÊVES 2, mobilisés pour encadrer les enfants.'
+  },
+  {
+    src: '/departments/one-love/reves2-enfant-1.jpg',
+    caption: "Un enfant du centre One Love, pendant une pause entre deux activités."
+  },
+  {
+    src: '/departments/one-love/reves2-enfant-2.jpg',
+    caption: "Atelier d'écriture en fin de journée, sur le programme d'alphabétisation."
+  },
+  {
+    src: '/departments/one-love/reves2-enfant-3.jpg',
+    caption: "Une enfant concentrée sur son cahier pendant l'atelier d'alphabétisation."
+  },
+  {
+    src: '/departments/one-love/reves2-atelier-1.jpg',
+    caption: 'Atelier de coloriage et de lecture en petits groupes.'
+  },
+  {
+    src: '/departments/one-love/reves2-atelier-2.jpg',
+    caption: 'Deux enfants dessinent ensemble pendant une activité artistique.'
   }
 ] as const;
 

@@ -8,17 +8,14 @@ export default function PageHero({
   subtitle?: React.ReactNode;
 }) {
   return (
-    <>
-      <section className="gn-glow bg-gn-black-soft text-gn-cream">
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
-          {eyebrow && (
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gn-gold/80">{eyebrow}</p>
-          )}
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">{title}</h1>
-          {subtitle && <p className="mt-3 max-w-2xl text-gn-cream/80">{subtitle}</p>}
-        </div>
-      </section>
-      <div className="gn-accent-bar" />
-    </>
+    <section className="gn-glow relative overflow-hidden border-b border-gn-gold/20 bg-gn-black text-gn-cream">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        {eyebrow && (
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">{eyebrow}</p>
+        )}
+        <h1 className="mt-3 max-w-2xl font-serif text-4xl font-bold leading-tight sm:text-[44px]">{title}</h1>
+        {subtitle && <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-gn-muted">{subtitle}</p>}
+      </div>
+    </section>
   );
 }

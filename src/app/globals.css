@@ -1,24 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0c0c0c;
-  --foreground: #f7f2e7;
+  --background: #0b0b0a;
+  --foreground: #f4efe3;
 
-  /* Palette échantillonnée directement sur le logo officiel
-     (public/logo-gospel-nation.png) : fond noir, texte crème, lueur
-     ambre/or en accent. Complétée le 10/09/2026 pour un rendu plus chaleureux
-     et vivant (retour de Mazunda : le site paraissait trop sombre/plat par
-     rapport aux publications Instagram de l'église) — sections claires
-     crème alternées avec le noir, et un orange vif en accent secondaire. */
-  --gn-black: #0c0c0c;
-  --gn-black-soft: #161311;
-  --gn-cream: #f7f2e7;
-  --gn-cream-bg: #fbf3e4;
-  --gn-ink: #241a0f;
-  --gn-gold: #d99a3d;
-  --gn-gold-dark: #a66a1c;
-  --gn-ember: #7a2f0a;
-  --gn-orange: #e8752c;
+  /* Palette du modèle "Design Canvas" (noir/or éditorial, Playfair Display +
+     Montserrat), avec l'accent doré du 12/09/2026 mélangé au rouge-ambre réel
+     de la bannière/couverture YouTube de l'église — un or plus chaud que le
+     brun doré d'origine, sans aller jusqu'au rouge-ambre pur. Le halo des
+     bannières à gros titres (.gn-glow, plus bas) garde lui le rouge-ambre pur. */
+  --gn-black: #0b0b0a;
+  --gn-black-soft: #161310;
+  --gn-cream: #f4efe3;
+  --gn-cream-bg: #fbf9f5;
+  --gn-ink: #221c13;
+  --gn-gold: #d28943;
+  --gn-gold-light: #e9ac6a;
+  --gn-gold-dark: #995e30;
+  --gn-gold-line: #995b27;
+  --gn-muted: #8a8371;
+  --gn-line: #e6ddc7;
 }
 
 @theme inline {
@@ -30,10 +31,13 @@
   --color-gn-cream-bg: var(--gn-cream-bg);
   --color-gn-ink: var(--gn-ink);
   --color-gn-gold: var(--gn-gold);
+  --color-gn-gold-light: var(--gn-gold-light);
   --color-gn-gold-dark: var(--gn-gold-dark);
-  --color-gn-ember: var(--gn-ember);
-  --color-gn-orange: var(--gn-orange);
-  --font-sans: var(--font-manrope);
+  --color-gn-gold-line: var(--gn-gold-line);
+  --color-gn-muted: var(--gn-muted);
+  --color-gn-line: var(--gn-line);
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-playfair);
 }
 
 body {
@@ -54,10 +58,13 @@ body {
   background: linear-gradient(90deg, transparent, var(--gn-gold) 50%, transparent);
 }
 
+/* background-image (pas le raccourci `background`) pour ne pas écraser la
+   couleur de fond posée par une classe Tailwind (ex. bg-gn-black) sur le
+   même élément — sinon la section devient transparente hors des dégradés. */
 .gn-glow {
-  background:
-    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--gn-ember) 55%, transparent), transparent 60%),
-    radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--gn-orange) 35%, transparent), transparent 55%);
+  background-image:
+    radial-gradient(ellipse at 82% 8%, rgba(217, 102, 31, 0.26), transparent 55%),
+    radial-gradient(ellipse at 6% 100%, rgba(138, 47, 10, 0.2), transparent 55%);
 }
 
 .gn-logo-shadow {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import PageHero from '@/components/PageHero';
+import Link from 'next/link';
 import PlaceholderNote from '@/components/PlaceholderNote';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
@@ -17,32 +17,53 @@ export default async function TemoignagesPage() {
   });
 
   return (
-    <div>
-      <PageHero
-        eyebrow="Ce que Dieu a fait"
-        title="Témoignages"
-        subtitle="Partagez ce que Dieu a fait dans votre vie, ou lisez ceux d'autres membres."
-      />
+    <div className="bg-gn-cream-bg">
+      <section className="gn-glow relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
+        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+          <p className="mb-3.5 text-xs text-gn-muted">
+            <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">Témoignages</span>
+          </p>
+          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-[38px]">Témoignages</h1>
+          <p className="mt-3.5 max-w-md text-sm text-gn-muted">
+            Ce que Dieu accomplit dans la vie des membres de Gospel Nation — et si c&apos;était votre tour de
+            partager le vôtre ?
+          </p>
+        </div>
+      </section>
 
-      <div className="gn-section-light">
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+      <section className="bg-gn-cream-bg">
+        <div className="mx-auto max-w-6xl px-5 pb-6 pt-14 sm:px-10 sm:pt-16">
           {testimonies.length === 0 ? (
             <PlaceholderNote>{temoignagesPlaceholder}</PlaceholderNote>
           ) : (
-            <div className="space-y-6">
+            <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
               {testimonies.map((t, index) => (
                 <Reveal key={t.id} delay={index * 0.06}>
-                  <article className="gn-card-lift rounded-2xl border border-gn-ink/10 bg-white p-6">
-                    <p className="whitespace-pre-line text-gn-ink/85">{t.content}</p>
-                    <p className="mt-3 text-sm font-medium text-gn-gold-dark">— {t.authorName}</p>
+                  <article className="flex h-full flex-col gap-4 rounded-lg border border-gn-line bg-white p-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#eee7d6] to-[#e3dabd]">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a8946a" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="9" cy="8" r="3.2" />
+                          <path d="M2.5 19c.6-3 3.2-5 6.5-5s5.9 2 6.5 5" />
+                          <circle cx="17.5" cy="9" r="2.6" />
+                          <path d="M15.8 14.2c2.6.4 4.6 2.1 5.1 4.4" />
+                        </svg>
+                      </div>
+                      <p className="font-serif text-[14.5px] font-semibold text-gn-ink">{t.authorName}</p>
+                    </div>
+                    <p className="text-[13px] italic leading-relaxed text-gn-ink/60">« {t.content} »</p>
                     {t.videoUrl && (
                       <a
                         href={t.videoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-2 inline-block text-sm text-gn-gold-dark hover:underline"
+                        className="mt-auto flex items-center gap-1.5 text-[12.5px] font-semibold text-gn-gold-line hover:underline"
                       >
-                        Voir la vidéo →
+                        Voir la vidéo
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
                       </a>
                     )}
                   </article>
@@ -50,18 +71,32 @@ export default async function TemoignagesPage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
 
-          <div className="mt-12">
-            <h2 className="text-xl font-bold text-gn-gold-dark">Partager mon témoignage</h2>
-            <p className="mt-1 text-sm text-gn-ink/60">
-              Votre témoignage sera publié après vérification par un administrateur.
-            </p>
-            <div className="mt-6 rounded-2xl border border-gn-ink/10 bg-white p-6 shadow-sm sm:p-8">
+      <section className="gn-glow relative overflow-hidden bg-gn-black">
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          <Reveal>
+            <div className="flex flex-col gap-4">
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">Votre histoire compte</p>
+              <h2 className="font-serif text-[28px] font-semibold leading-snug text-gn-cream">
+                Partagez votre témoignage
+              </h2>
+              <p className="text-sm leading-relaxed text-gn-muted">
+                Racontez ce que Dieu a fait dans votre vie. Votre témoignage sera publié sur le site après
+                vérification par un administrateur.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="rounded-xl bg-gn-cream-bg p-7 sm:p-10">
+              <p className="mb-1 font-serif text-xl font-semibold text-gn-ink">Formulaire de témoignage</p>
+              <p className="mb-6 text-xs text-gn-muted">Remplissez ce formulaire pour partager ce que Dieu a fait pour vous.</p>
               <TestimonyForm />
             </div>
-          </div>
+          </Reveal>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

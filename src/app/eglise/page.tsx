@@ -1,95 +1,189 @@
 import type { Metadata } from 'next';
-import PageHero from '@/components/PageHero';
+import Link from 'next/link';
 import PlaceholderNote from '@/components/PlaceholderNote';
 import Reveal from '@/components/Reveal';
-import { baptemeNote, church, gospelFamilyNote, histoirePlaceholder, missionPlaceholder } from '@/lib/content';
+import { church, histoirePlaceholder } from '@/lib/content';
 
 export const metadata: Metadata = {
-  title: 'Notre église'
+  title: 'À propos'
 };
+
+const values = [
+  {
+    title: 'La Parole',
+    description: 'La Bible comme fondement de notre foi et de notre enseignement.',
+    path: <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
+  },
+  {
+    title: 'La prière',
+    description: 'Un dialogue constant avec Dieu, individuel et communautaire.',
+    path: (
+      <>
+        <path d="M7 11V5a2 2 0 1 1 4 0v4" />
+        <path d="M11 9V4a2 2 0 1 1 4 0v5" />
+        <path d="M15 9.5V6a2 2 0 1 1 4 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L4.3 13a1.6 1.6 0 0 1 2.4-2.1L7 11.5" />
+      </>
+    )
+  },
+  {
+    title: 'La communauté',
+    description: 'Grandir ensemble, se soutenir et marcher côte à côte.',
+    path: (
+      <>
+        <circle cx="9" cy="8" r="3.2" />
+        <path d="M2.5 19c.6-3 3.2-5 6.5-5s5.9 2 6.5 5" />
+        <circle cx="17.5" cy="9" r="2.6" />
+        <path d="M15.8 14.2c2.6.4 4.6 2.1 5.1 4.4" />
+      </>
+    )
+  },
+  {
+    title: 'La mission',
+    description: "Porter l'Évangile ici et au-delà de nos frontières.",
+    path: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <ellipse cx="12" cy="12" rx="4" ry="9" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+      </>
+    )
+  }
+];
 
 export default function EglisePage() {
   return (
-    <div>
-      <PageHero
-        eyebrow={church.tagline}
-        title="Notre église"
-        subtitle="Qui nous sommes, ce que nous croyons, et comment nous rassembler."
-      />
+    <div className="bg-white">
+      {/* Fil d'ariane */}
+      <section className="gn-glow relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
+        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+          <p className="mb-3.5 text-xs text-gn-muted">
+            <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">À propos</span>
+          </p>
+          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-[38px]">Qui sommes-nous</h1>
+        </div>
+      </section>
 
-      <div className="gn-section-light">
-        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+      {/* Notre histoire */}
+      <section className="bg-white">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <Reveal>
-            <section>
-              <h2 className="text-xl font-bold text-gn-gold-dark">Notre mission</h2>
-              <p className="mt-3 text-gn-ink/80">{missionPlaceholder}</p>
-            </section>
+            <div className="flex h-[280px] items-center justify-center rounded-lg bg-gradient-to-br from-[#eee7d6] to-[#e3dabd] sm:h-[360px]">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#a8946a" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 8h3l2-2.5h6L17 8h3a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 20H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 8z" />
+                <circle cx="12" cy="14" r="3.6" />
+              </svg>
+            </div>
           </Reveal>
-
-          <Reveal delay={0.06}>
-            <section className="mt-10">
-              <h2 className="text-xl font-bold text-gn-gold-dark">Notre histoire</h2>
-              <p className="mt-3 text-gn-ink/80">{histoirePlaceholder}</p>
-            </section>
-          </Reveal>
-
-          <Reveal delay={0.12}>
-            <section className="mt-10 grid gap-6 sm:grid-cols-2">
-              <div className="gn-card-lift rounded-2xl border-t-4 border-gn-gold bg-white p-6 shadow-sm">
-                <h2 className="font-bold text-gn-ink">Pasteur principal</h2>
-                <p className="mt-2 text-gn-ink/80">{church.mainPastor.name}</p>
-                <a
-                  href={`https://www.instagram.com/${church.mainPastor.instagram.replace('@', '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-1 inline-block text-sm text-gn-gold-dark hover:underline"
-                >
-                  {church.mainPastor.instagram}
-                </a>
+          <Reveal delay={0.08}>
+            <div>
+              <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Notre histoire</p>
+              <h2 className="mb-[18px] font-serif text-[28px] font-semibold leading-snug text-gn-ink">
+                Une famille bâtie sur la foi
+              </h2>
+              <p className="mb-3 text-sm leading-[1.8] text-gn-ink/60">{histoirePlaceholder}</p>
+              <div className="mt-5">
+                <PlaceholderNote>
+                  L&apos;histoire complète de la fondation de l&apos;église (année, lieu, vision initiale) sera
+                  ajoutée dès validation par le pasteur principal.
+                </PlaceholderNote>
               </div>
-
-              <div className="gn-card-lift rounded-2xl border-t-4 border-gn-gold bg-white p-6 shadow-sm">
-                <h2 className="font-bold text-gn-ink">Cultes</h2>
-                <ul className="mt-2 space-y-1 text-gn-ink/80">
-                  {church.schedule.map((s) => (
-                    <li key={`${s.day}-${s.time}`}>
-                      {s.day} — {s.time} ({s.label})
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
+            </div>
           </Reveal>
+        </div>
+      </section>
 
-          <Reveal delay={0.18}>
-            <section className="mt-10">
-              <h2 className="text-xl font-bold text-gn-gold-dark">Adresse</h2>
-              <p className="mt-3 text-gn-ink/80">{church.address}</p>
-            </section>
-          </Reveal>
-
-          <Reveal delay={0.24}>
-            <section className="mt-10 grid gap-6 sm:grid-cols-2">
-              <div className="gn-card-lift rounded-2xl border-t-4 border-gn-gold bg-white p-6 shadow-sm">
-                <h2 className="font-bold text-gn-ink">Gospel Family</h2>
-                <p className="mt-2 text-gn-ink/80">{gospelFamilyNote}</p>
-              </div>
-
-              <div className="gn-card-lift rounded-2xl border-t-4 border-gn-gold bg-white p-6 shadow-sm">
-                <h2 className="font-bold text-gn-ink">Baptêmes</h2>
-                <p className="mt-2 text-gn-ink/80">{baptemeNote}</p>
-              </div>
-            </section>
-          </Reveal>
-
-          <div className="mt-8">
-            <PlaceholderNote>
-              La mission et l&apos;histoire complètes seront mises à jour dès validation par le pasteur
-              principal.
-            </PlaceholderNote>
+      {/* Nos valeurs */}
+      <section className="border-y border-gn-line bg-gn-cream-bg">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Ce que nous croyons</p>
+          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Nos valeurs</h2>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value, index) => (
+              <Reveal key={value.title} delay={index * 0.06}>
+                <div className="flex flex-col gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gn-black">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                      {value.path}
+                    </svg>
+                  </div>
+                  <p className="font-serif text-base font-semibold text-gn-ink">{value.title}</p>
+                  <p className="text-[12.5px] leading-relaxed text-gn-ink/60">{value.description}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Équipe pastorale */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">L&apos;équipe</p>
+          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Notre équipe pastorale</h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <Reveal>
+              <div className="flex flex-col gap-3.5">
+                <div className="flex h-[220px] items-center justify-center rounded-lg bg-gradient-to-br from-[#eee7d6] to-[#e3dabd]">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#a8946a" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 8h3l2-2.5h6L17 8h3a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 20H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 8z" />
+                    <circle cx="12" cy="14" r="3.6" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="mb-1 font-serif text-[15px] font-semibold text-gn-ink">{church.mainPastor.name}</p>
+                  <p className="text-[11.5px] uppercase tracking-wide text-gn-gold-line">{church.mainPastor.title}</p>
+                  <a
+                    href={`https://www.instagram.com/${church.mainPastor.instagram.replace('@', '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-block text-xs text-gn-gold-dark hover:underline"
+                  >
+                    {church.mainPastor.instagram}
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+          <div className="mt-8">
+            <PlaceholderNote>Le reste de l&apos;équipe pastorale sera ajouté dès confirmation des noms et rôles.</PlaceholderNote>
+          </div>
+        </div>
+      </section>
+
+      {/* Horaires */}
+      <section className="border-t border-gn-line bg-gn-cream-bg">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Nous rejoindre</p>
+          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Horaires des cultes</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {church.schedule.map((s) => (
+              <div key={`${s.day}-${s.time}`} className="gn-card-lift flex items-center justify-between gap-4 rounded-lg border border-gn-line bg-white px-6 py-5">
+                <div>
+                  <p className="font-serif text-base font-semibold text-gn-ink">{s.label}</p>
+                  <p className="mt-1 text-[13px] text-gn-ink/60">{s.day} — {s.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-sm text-gn-ink/60">{church.address}</p>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="gn-glow relative overflow-hidden bg-gn-black">
+        <div className="relative mx-auto max-w-6xl px-5 py-16 text-center sm:px-10 sm:py-20">
+          <h2 className="mb-4 font-serif text-[28px] font-semibold text-gn-cream">Rejoignez-nous ce dimanche</h2>
+          <p className="mx-auto mb-7 max-w-md text-sm text-gn-muted">
+            Toute la famille Gospel Nation vous attend pour ce temps de culte, de partage et de communion.
+          </p>
+          <Link
+            href="/inscription"
+            className="inline-block rounded bg-gradient-to-br from-gn-gold-light to-gn-gold px-8 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+          >
+            Devenir membre
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

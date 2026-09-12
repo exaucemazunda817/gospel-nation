@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
+import { nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -19,9 +20,12 @@ export default async function DepartementDetailPage({ params }: PageProps) {
 
   if (!dept) notFound();
 
+  const isNationClasse = slug === 'ecole-nation-classe';
+  const isOneLove = slug === 'one-love';
+
   return (
-    <div>
-      <PageHero eyebrow="Département" title={dept.name} />
+    <div className="bg-gn-cream-bg">
+      <PageHero eyebrow={isNationClasse ? nationClasseProgram.tagline : 'Département'} title={dept.name} />
 
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         {dept.imageUrl && (
@@ -29,7 +33,145 @@ export default async function DepartementDetailPage({ params }: PageProps) {
             <Image src={dept.imageUrl} alt={dept.name} fill className="object-cover" />
           </div>
         )}
-        <p className="text-gn-cream/80">{dept.description}</p>
+        <p className="text-[15px] leading-relaxed text-gn-ink/75">
+          {isNationClasse ? nationClasseProgram.vision : isOneLove ? oneLoveOrg.mission : dept.description}
+        </p>
+
+        {isOneLove && (
+          <>
+            <p className="mt-4 text-[15px] italic leading-relaxed text-gn-ink/60">
+              « {oneLoveOrg.vision} »
+            </p>
+            <ul className="mt-5 space-y-2">
+              {oneLoveOrg.objectifs.map((objectif) => (
+                <li key={objectif} className="flex gap-2.5 text-sm leading-relaxed text-gn-ink/70">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gn-gold" />
+                  {objectif}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-xs text-gn-muted">
+              Association One Love, fondée en {oneLoveOrg.foundedYear} par {oneLoveOrg.founders} —{' '}
+              <a href={oneLoveOrg.websiteUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-gn-gold-line hover:underline">
+                associationonelove.org
+              </a>
+            </p>
+
+            <div className="mt-10 rounded-2xl border border-gn-line bg-white p-6 sm:p-7">
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">
+                Projet en cours · {oneLoveProject.partner}
+              </p>
+              <h2 className="mt-1 font-serif text-xl font-bold text-gn-ink">{oneLoveProject.name}</h2>
+              <p className="mt-1 text-sm font-semibold text-gn-gold-line">{oneLoveProject.tagline}</p>
+              <p className="mt-3 text-sm leading-relaxed text-gn-ink/70">{oneLoveProject.intro}</p>
+              <p className="mt-3 text-sm leading-relaxed text-gn-ink/70">{oneLoveProject.description}</p>
+              <p className="mt-3 text-sm leading-relaxed text-gn-ink/70">
+                <span className="font-semibold text-gn-ink">Période : </span>
+                {oneLoveProject.period}
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-gn-ink/70">
+                <span className="font-semibold text-gn-ink">Objectif : </span>
+                {oneLoveProject.objectif}
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <h2 className="font-serif text-lg font-bold text-gn-ink">En images</h2>
+              <p className="mt-1 text-sm text-gn-ink/60">
+                Photos du lancement de {oneLoveProject.name} — {oneLoveProject.firstMilestone.label},{' '}
+                {oneLoveProject.firstMilestone.date}.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {oneLoveGallery.map((photo) => (
+                  <figure key={photo.src} className="overflow-hidden rounded-lg border border-gn-line bg-white">
+                    <div className="relative aspect-[4/3] w-full">
+                      <Image src={photo.src} alt={photo.caption} fill className="object-cover" />
+                    </div>
+                    <figcaption className="px-3.5 py-3 text-[12.5px] leading-relaxed text-gn-ink/65">
+                      {photo.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-gn-line bg-white p-6">
+              <h2 className="font-serif text-lg font-bold text-gn-ink">Vidéos et actualités</h2>
+              <p className="mt-1 text-sm text-gn-ink/60">
+                One Love publie régulièrement des vidéos (reels) de ses activités sur Facebook.
+              </p>
+              <a
+                href={oneLoveOrg.facebookReelsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded bg-gn-gold px-5 py-2.5 text-[11.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+              >
+                Voir les vidéos sur Facebook
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+            </div>
+          </>
+        )}
+
+        {isNationClasse && (
+          <div className="mt-10 space-y-6">
+            {nationClasseProgram.parcours.map((parcours, index) => (
+              <div key={parcours.name} className="rounded-2xl border border-gn-line bg-white p-6 sm:p-7">
+                <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">
+                  {index + 1}. {parcours.summary}
+                </p>
+                <h2 className="mt-1 font-serif text-xl font-bold text-gn-ink">{parcours.name}</h2>
+                <p className="mt-1 text-sm font-semibold text-gn-gold-line">{parcours.subtitle}</p>
+                <p className="mt-3 text-sm leading-relaxed text-gn-ink/70">{parcours.description}</p>
+                <p className="mt-3 text-sm leading-relaxed text-gn-ink/70">
+                  <span className="font-semibold text-gn-ink">Objectif : </span>
+                  {parcours.objective}
+                </p>
+                <p className="mt-4 text-[11px] font-bold uppercase tracking-wide text-gn-muted">
+                  Modules ({parcours.modules.length})
+                </p>
+                <ol className="mt-2 grid gap-x-6 gap-y-1.5 text-sm text-gn-ink/80 sm:grid-cols-2">
+                  {parcours.modules.map((module, moduleIndex) => (
+                    <li key={module} className="flex gap-2">
+                      <span className="text-gn-gold-dark">{moduleIndex + 1}.</span>
+                      {module}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {isNationClasse && nationClasseManuels.length > 0 && (
+          <div className="mt-8 rounded-2xl border border-gn-line bg-white p-6">
+            <h2 className="font-serif text-lg font-bold text-gn-ink">Manuels disponibles</h2>
+            <p className="mt-1 text-sm text-gn-ink/60">
+              Supports de cours du parcours « Les Appelés », téléchargeables au format PDF.
+            </p>
+            <ul className="mt-4 space-y-2">
+              {nationClasseManuels.map((manuel) => (
+                <li key={manuel.fileUrl}>
+                  <a
+                    href={manuel.fileUrl}
+                    download
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-gn-gold-line hover:underline"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                      <path d="M12 3v12" />
+                      <path d="m7 10 5 5 5-5" />
+                      <path d="M5 21h14" />
+                    </svg>
+                    {manuel.module}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="mt-8 rounded-2xl border border-gn-gold/30 bg-gn-black-soft p-6">
           {dept.registrationOpen ? (
@@ -52,7 +194,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
           )}
         </div>
 
-        <Link href="/departements" className="mt-8 inline-block text-sm text-gn-gold hover:underline">
+        <Link href="/departements" className="mt-8 inline-block text-sm text-gn-gold-line hover:underline">
           ← Retour aux départements
         </Link>
       </div>

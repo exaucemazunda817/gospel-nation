@@ -1,56 +1,116 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { church, linkedAccounts } from '@/lib/content';
+import { church } from '@/lib/content';
+
+const explore = [
+  { href: '/', label: 'Accueil' },
+  { href: '/eglise', label: 'À propos' },
+  { href: '/predications', label: 'Prédications' },
+  { href: '/evenements', label: 'Événements' }
+];
+
+const community = [
+  { href: '/inscription', label: 'Devenir membre' },
+  { href: '/blog', label: 'Bibliothèque' },
+  { href: '/temoignages', label: 'Témoignages' },
+  { href: '/services', label: 'Offres et services' },
+  { href: '/dons', label: 'Faire un don' },
+  { href: '/rendez-vous', label: 'Prendre rendez-vous' }
+];
 
 export default function Footer() {
+  const schedule = church.schedule[1];
+
   return (
-    <footer className="mt-16 border-t border-white/10 bg-gn-black-soft text-gn-cream">
-      <div className="gn-accent-bar" />
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <Image
-            src="/logo-gospel-nation.png"
-            alt={`Logo ${church.name}`}
-            width={566}
-            height={429}
-            className="h-12 w-auto object-contain"
-          />
-          <p className="mt-3 max-w-sm text-sm text-gn-cream/70">{church.tagline}</p>
+    <footer className="bg-gn-black pt-16">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 sm:px-10 md:grid-cols-3 lg:grid-cols-5">
+        <div className="col-span-2 flex flex-col gap-3.5 lg:col-span-1">
+          <div className="flex items-center gap-2.5">
+            <Image
+              src="/logo-gospel-nation.png"
+              alt={`Logo ${church.name}`}
+              width={566}
+              height={429}
+              className="h-9 w-9 object-contain"
+            />
+            <span className="font-serif text-[15px] font-bold text-gn-cream">GOSPEL NATION</span>
+          </div>
+          <p className="max-w-[230px] text-[12.5px] leading-relaxed text-gn-cream/60">
+            Une famille spirituelle qui accueille, forme et envoie ceux qui cherchent Dieu.
+          </p>
+          <div className="mt-1 flex gap-2.5">
+            <a
+              href={church.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+              aria-label="YouTube"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.6 7.2s-.2-1.5-.8-2.2c-.8-.9-1.7-.9-2.1-1C15.9 3.8 12 3.8 12 3.8s-3.9 0-6.7.2c-.4 0-1.3.1-2.1 1-.6.7-.8 2.2-.8 2.2S2.2 9 2.2 10.7v1.5c0 1.8.2 3.5.2 3.5s.2 1.5.8 2.2c.8.9 1.9.9 2.4 1 1.7.2 7.4.2 7.4.2s3.9 0 6.7-.3c.4 0 1.3-.1 2.1-1 .6-.7.8-2.2.8-2.2s.2-1.8.2-3.5v-1.5c0-1.8-.2-3.5-.2-3.5zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z" />
+              </svg>
+            </a>
+            <a
+              href={church.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+              aria-label="Instagram"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+          </div>
         </div>
 
-        <div className="text-sm text-gn-cream/80">
-          <p className="mb-2 font-semibold text-gn-cream">Adresse</p>
-          <p>
+        <div className="flex flex-col gap-3">
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Explorer</p>
+          {explore.map((l) => (
+            <Link key={l.href} href={l.href} className="text-[12.5px] text-gn-cream/60 hover:text-gn-gold">
+              {l.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Communauté</p>
+          {community.map((l) => (
+            <Link key={l.href} href={l.href} className="text-[12.5px] text-gn-cream/60 hover:text-gn-gold">
+              {l.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Contact</p>
+          <p className="text-[12.5px] leading-relaxed text-gn-cream/60">
             {church.address}
             {church.addressIsPlaceholder && <span className="ml-1 text-gn-gold/70">(à confirmer)</span>}
           </p>
-          <p className="mt-3">
-            <Link href="/eglise" className="hover:text-gn-gold">
-              Voir les horaires des cultes →
-            </Link>
-          </p>
+          <p className="text-[12.5px] text-gn-cream/60">{church.city}</p>
+          <Link href="/contact" className="text-[12.5px] text-gn-gold-dark hover:text-gn-gold">
+            Nous contacter →
+          </Link>
         </div>
 
-        <div className="text-sm text-gn-cream/80">
-          <p className="mb-2 font-semibold text-gn-cream">Nos autres comptes</p>
-          <ul className="space-y-1">
-            {linkedAccounts.map((account) => (
-              <li key={account.handle}>
-                <a href={account.url} target="_blank" rel="noopener noreferrer" className="hover:text-gn-gold">
-                  {account.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3">
-            <Link href="/inscription" className="hover:text-gn-gold">
-              Devenir membre
-            </Link>
+        <div className="flex flex-col gap-3">
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Cultes</p>
+          <p className="text-[12.5px] leading-relaxed text-gn-cream/60">
+            {schedule.day}, {schedule.time}
+            <br />
+            {church.address}
           </p>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-gn-cream/50 sm:px-6">
-        © {new Date().getFullYear()} {church.fullName} — {church.city}
+
+      <div className="mx-auto mt-12 flex max-w-6xl flex-col gap-2 border-t border-gn-gold/15 px-5 py-5 sm:flex-row sm:justify-between sm:px-10">
+        <span className="text-[11px] text-gn-cream/50">
+          © {new Date().getFullYear()} {church.name}. Tous droits réservés.
+        </span>
+        <span className="text-[11px] tracking-wide text-gn-gold-dark">{church.tagline}</span>
       </div>
     </footer>
   );
