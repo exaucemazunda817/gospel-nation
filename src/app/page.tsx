@@ -1,31 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
+import HeroVideo from '@/components/HeroVideo';
 import { church } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
 
 const DEPARTMENT_ICONS: Record<string, React.ReactNode> = {
-  worship: (
-    <>
-      <path d="M9 18V5l12-2v13" />
-      <circle cx="6" cy="18" r="3" />
-      <circle cx="18" cy="16" r="3" />
-    </>
-  ),
-  intercession: (
+  fire: (
     <>
       <path d="M7 11V5a2 2 0 1 1 4 0v4" />
       <path d="M11 9V4a2 2 0 1 1 4 0v5" />
       <path d="M15 9.5V6a2 2 0 1 1 4 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L4.3 13a1.6 1.6 0 0 1 2.4-2.1L7 11.5" />
     </>
   ),
-  media: (
-    <>
-      <rect x="3" y="7" width="14" height="11" rx="2" />
-      <path d="M17 10.5 22 8v9l-5-2.5" />
-    </>
-  ),
-  welcome: <path d="M12 21s-7.5-4.9-10-9.4C.4 8 2 4.5 5.6 4A5.6 5.6 0 0 1 12 7.5 5.6 5.6 0 0 1 18.4 4C22 4.5 23.6 8 22 11.6 19.5 16.1 12 21 12 21z" />,
+  accueil: <path d="M12 21s-7.5-4.9-10-9.4C.4 8 2 4.5 5.6 4A5.6 5.6 0 0 1 12 7.5 5.6 5.6 0 0 1 18.4 4C22 4.5 23.6 8 22 11.6 19.5 16.1 12 21 12 21z" />,
   'gospel-kids': (
     <>
       <circle cx="9" cy="8" r="3.2" />
@@ -71,13 +59,12 @@ export default async function HomePage() {
     <div className="bg-gn-black">
       {/* Hero */}
       <section className="relative overflow-hidden bg-gn-black">
+        <HeroVideo src="/video/hero-accueil.mp4" />
+        <div className="pointer-events-none absolute inset-0 bg-gn-black/70" />
         <div className="gn-glow absolute inset-0" />
-        <div className="pointer-events-none absolute right-[-90px] top-1/2 h-[420px] w-[420px] -translate-y-1/2 opacity-[0.06] sm:h-[520px] sm:w-[520px]">
-          <Image src="/logo-gospel-nation.png" alt="" fill className="object-contain" />
-        </div>
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-10 sm:py-28 lg:py-32">
           <Reveal>
-            <div className="flex max-w-xl flex-col gap-5 sm:gap-6">
+            <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center sm:mx-0 sm:items-start sm:gap-6 sm:text-left">
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">{church.name}</p>
               <h1 className="font-serif text-4xl font-bold leading-[1.12] text-gn-cream sm:text-[52px]">
                 {church.tagline}
@@ -86,10 +73,10 @@ export default async function HomePage() {
                 Une famille spirituelle qui accueille, forme et envoie ceux qui cherchent Dieu. Rejoignez-nous
                 pour adorer, apprendre et servir ensemble.
               </p>
-              <div className="mt-2 flex flex-wrap gap-4">
+              <div className="mt-2 flex flex-wrap justify-center gap-4 sm:justify-start">
                 <Link
                   href="/eglise"
-                  className="flex items-center gap-2.5 rounded bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                  className="flex items-center gap-2.5 rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
                 >
                   Rejoindre un culte
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -99,7 +86,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/predications"
-                  className="rounded border border-gn-cream/35 px-[26px] py-[15px] text-[12.5px] font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
+                  className="rounded-full border border-gn-cream/35 px-[26px] py-[15px] text-[12.5px] font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
                 >
                   Nos prédications
                 </Link>
