@@ -173,6 +173,9 @@ model BlogPost {
   authorId      String?
   author        User?     @relation(fields: [authorId], references: [id], onDelete: SetNull)
   publishedAt   DateTime?
+  // Lien vers le PDF téléchargeable (stocké dans public/bibliotheque),
+  // quand l'article de la Bibliothèque en propose un.
+  documentUrl String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -251,6 +254,25 @@ model Appointment {
 
   @@index([status])
   @@map("appointments")
+}
+
+/// Progression d'un visiteur sur le plan de lecture biblique en 365 jours.
+/// Volontairement PAS lié au modèle User (celui-ci porte l'adhésion physique
+/// à l'église, avec son propre statut PENDING/VALIDATED) — un compte ouvert
+/// à tout visiteur pour suivre sa lecture n'a rien à voir avec une demande
+/// d'adhésion. Identifié uniquement par clerkUserId, sans ligne User créée.
+model ReadingProgress {
+  id          String  @id @default(cuid())
+  clerkUserId String
+  day         Int
+  ot          Boolean @default(false)
+  nt          Boolean @default(false)
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([clerkUserId, day])
+  @@index([clerkUserId])
+  @@map("reading_progress")
 }
 
 /// Message envoyé depuis le formulaire de contact public.

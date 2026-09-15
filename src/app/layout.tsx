@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import { Montserrat, Playfair_Display } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import { frFR } from '@clerk/localizations';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { church } from '@/lib/content';
+import { isClerkConfigured } from '@/lib/clerk-configured';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -27,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
-  return (
+  const body = (
     <html lang="fr" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-gn-black text-gn-cream">
         <Header />
@@ -36,4 +39,10 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       </body>
     </html>
   );
+
+  // TEMP : voir src/lib/clerk-configured.ts — à retirer une fois les clés
+  // Clerk ajoutées, ClerkProvider devient alors permanent.
+  if (!isClerkConfigured) return body;
+
+  return <ClerkProvider localization={frFR}>{body}</ClerkProvider>;
 }
