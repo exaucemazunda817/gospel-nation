@@ -34,70 +34,74 @@ export default async function BlogPage() {
           <PlaceholderNote>{blogPlaceholder}</PlaceholderNote>
         ) : (
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, index) => (
-              <Reveal key={post.id} delay={index * 0.06}>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="gn-card-lift flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6"
-                >
-                  {post.coverImageUrl && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={post.coverImageUrl}
-                      alt={post.title}
-                      className="-mx-6 -mt-6 h-[190px] w-[calc(100%+3rem)] rounded-t-lg object-cover object-top"
-                    />
-                  )}
-                  <div className="flex items-center justify-between">
-                    {!post.coverImageUrl && (
-                      <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-gn-black">
-                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
-                          <path d="M4 5.5v15.5" />
-                        </svg>
-                      </div>
-                    )}
-                    <div className="ml-auto flex items-center gap-1.5">
-                      {post.documentUrl && (
-                        <span
-                          title="PDF téléchargeable"
-                          className="flex items-center gap-1 rounded-full bg-gn-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line"
-                        >
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 3v12" />
-                            <path d="m7 10 5 5 5-5" />
-                            <path d="M5 21h14" />
-                          </svg>
-                          PDF
-                        </span>
-                      )}
+            {posts.map((post, index) => {
+              const cardImage = post.coverImageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={post.coverImageUrl}
+                  alt={post.title}
+                  className="-mx-6 -mt-6 h-[190px] w-[calc(100%+3rem)] rounded-t-lg object-cover object-top"
+                />
+              ) : (
+                <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-gn-black">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
+                    <path d="M4 5.5v15.5" />
+                  </svg>
+                </div>
+              );
+
+              return (
+                <Reveal key={post.id} delay={index * 0.06}>
+                  {post.documentUrl ? (
+                    <div className="flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
+                      {cardImage}
                       {post.category && (
-                        <span className="rounded-full bg-gn-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line">
+                        <span className="w-fit rounded-full bg-gn-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line">
                           {post.category}
                         </span>
                       )}
+                      <div>
+                        <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
+                        <p className="line-clamp-3 text-[12.5px] leading-relaxed text-gn-ink/60">{post.excerpt}</p>
+                      </div>
+                      <a
+                        href={post.documentUrl}
+                        download
+                        className="mt-auto flex items-center justify-center gap-2 rounded bg-gn-gold px-4 py-3 text-[12px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                          <path d="M12 3v12" />
+                          <path d="m7 10 5 5 5-5" />
+                          <path d="M5 21h14" />
+                        </svg>
+                        Télécharger le PDF
+                      </a>
                     </div>
-                  </div>
-                  <div>
-                    <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
-                    <p className="line-clamp-3 text-[12.5px] leading-relaxed text-gn-ink/60">{post.excerpt}</p>
-                  </div>
-                  <div className="mt-auto flex items-center justify-between border-t border-gn-line pt-3.5">
-                    <span className="text-[11.5px] text-gn-muted">
-                      {post.publishedAt &&
-                        new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-[12.5px] font-semibold text-gn-gold-line">
-                      Ouvrir
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+                  ) : (
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="gn-card-lift flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6"
+                    >
+                      {cardImage}
+                      {post.category && (
+                        <span className="w-fit rounded-full bg-gn-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line">
+                          {post.category}
+                        </span>
+                      )}
+                      <div>
+                        <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
+                        <p className="line-clamp-3 text-[12.5px] leading-relaxed text-gn-ink/60">{post.excerpt}</p>
+                      </div>
+                      <span className="mt-auto border-t border-gn-line pt-3.5 text-[11.5px] text-gn-muted">
+                        {post.publishedAt &&
+                          new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </span>
+                    </Link>
+                  )}
+                </Reveal>
+              );
+            })}
           </div>
         )}
       </div>
