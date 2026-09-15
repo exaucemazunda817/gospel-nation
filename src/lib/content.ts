@@ -284,12 +284,17 @@ export const nationClasseManuels = [
 // et à mesure (le journal trimestriel paraît en janvier, mai et septembre —
 // voir la description du département). Stockées dans public/bibliotheque/
 // (même fichier proposé aussi comme article de la Bibliothèque). À compléter
-// avec les volumes suivants et, si un jour retrouvés, les volumes 1 et 2.
+// avec les volumes suivants et, si un jour retrouvé, le volume 1.
 export const gospelNewsIssues = [
   {
     volume: 3,
     date: '31 mai 2026',
     fileUrl: '/bibliotheque/revue-gospel-news-vol-3.pdf'
+  },
+  {
+    volume: 2,
+    date: '30 mars 2025',
+    fileUrl: '/bibliotheque/revue-gospel-news-vol-2.pdf'
   }
 ] as const;
 
