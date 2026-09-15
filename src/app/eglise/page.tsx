@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import PlaceholderNote from '@/components/PlaceholderNote';
 import Reveal from '@/components/Reveal';
@@ -67,11 +68,14 @@ export default function EglisePage() {
       <section className="bg-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <Reveal>
-            <div className="flex h-[280px] items-center justify-center rounded-lg bg-gradient-to-br from-[#eee7d6] to-[#e3dabd] sm:h-[360px]">
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#a8946a" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 8h3l2-2.5h6L17 8h3a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 20H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 8z" />
-                <circle cx="12" cy="14" r="3.6" />
-              </svg>
+            <div className="relative h-[280px] overflow-hidden rounded-lg bg-black sm:h-[360px]">
+              <Image
+                src="/logo-gospel-nation-square.jpg"
+                alt="Logo Gospel Nation"
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-contain p-10"
+              />
             </div>
           </Reveal>
           <Reveal delay={0.08}>
@@ -115,19 +119,22 @@ export default function EglisePage() {
         </div>
       </section>
 
-      {/* Équipe pastorale */}
+      {/* Pasteur */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">L&apos;équipe</p>
-          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Notre équipe pastorale</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Direction</p>
+          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Notre pasteur</h2>
+          <div className="max-w-xs">
             <Reveal>
               <div className="flex flex-col gap-3.5">
-                <div className="flex h-[220px] items-center justify-center rounded-lg bg-gradient-to-br from-[#eee7d6] to-[#e3dabd]">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#a8946a" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 8h3l2-2.5h6L17 8h3a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 20H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 8z" />
-                    <circle cx="12" cy="14" r="3.6" />
-                  </svg>
+                <div className="relative h-[220px] overflow-hidden rounded-lg bg-gradient-to-br from-[#eee7d6] to-[#e3dabd]">
+                  <Image
+                    src={church.mainPastor.photoUrl}
+                    alt={church.mainPastor.name}
+                    fill
+                    sizes="(min-width: 640px) 320px, 100vw"
+                    className="object-cover object-top"
+                  />
                 </div>
                 <div>
                   <p className="mb-1 font-serif text-[15px] font-semibold text-gn-ink">{church.mainPastor.name}</p>
@@ -143,9 +150,6 @@ export default function EglisePage() {
                 </div>
               </div>
             </Reveal>
-          </div>
-          <div className="mt-8">
-            <PlaceholderNote>Le reste de l&apos;équipe pastorale sera ajouté dès confirmation des noms et rôles.</PlaceholderNote>
           </div>
         </div>
       </section>

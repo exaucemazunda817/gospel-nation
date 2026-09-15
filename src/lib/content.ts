@@ -11,7 +11,8 @@ export const church = {
   mainPastor: {
     name: 'Kanda Kabangu',
     instagram: '@kandakabangu',
-    title: 'Pasteur principal'
+    title: 'Pasteur principal',
+    photoUrl: '/team/pasteur-kanda-kabangu.jpg'
   },
   schedule: [
     { day: 'Dimanche', time: '8h30 – 9h30', label: "Culte d'intercession" },
@@ -264,19 +265,46 @@ export const nationClasseProgram = {
   ]
 } as const;
 
-// Manuels réels du parcours "Les Appelés", fournis en PDF par Mazunda le
-// 12/09/2026, stockés dans public/nation-classe/. À compléter au fur et à
-// mesure que les manuels des autres modules/parcours seront transmis.
+// Manuels réels des différents parcours de l'École Nation Classe, fournis en
+// PDF par Mazunda (12/09/2026 puis 15/09/2026), stockés dans
+// public/nation-classe/. Le parcours de chaque manuel est déterminé à partir
+// de la page de titre du PDF lui-même, recoupée avec la liste des modules de
+// `nationClasseProgram` ci-dessus. "Le suiveur" ne porte pas de numéro de
+// module explicite sur sa page de titre (juste "Enseignement Nation Classe") —
+// classé provisoirement sous "Les Appelés" par proximité thématique
+// (fondements de la foi) ; à confirmer avec Mazunda si un autre parcours est
+// plus approprié. À compléter au fur et à mesure que d'autres manuels seront
+// transmis.
 export const nationClasseManuels = [
   {
     parcours: 'Les Appelés',
     module: "Module 1 — Qu'est-ce que l'homme",
-    fileUrl: '/nation-classe/module-1-quest-ce-que-lhomme.pdf'
+    fileUrl: '/nation-classe/module-1-quest-ce-que-lhomme.pdf',
+    coverUrl: '/nation-classe/covers/module-1-quest-ce-que-lhomme.png'
   },
   {
     parcours: 'Les Appelés',
     module: 'Module 2 — Qui est Dieu',
-    fileUrl: '/nation-classe/module-2-qui-est-dieu.pdf'
+    fileUrl: '/nation-classe/module-2-qui-est-dieu.pdf',
+    coverUrl: '/nation-classe/covers/module-2-qui-est-dieu.png'
+  },
+  {
+    parcours: 'Les Ouvriers',
+    module: "Module 2 — Le fruit de l'Esprit",
+    fileUrl: '/nation-classe/ouvriers-module-2-fruit-de-lesprit.pdf',
+    coverUrl: '/nation-classe/covers/ouvriers-module-2-fruit-de-lesprit.png'
+  },
+  {
+    parcours: 'Les Ouvriers',
+    module: 'Module 3 — Le caractère',
+    fileUrl: '/nation-classe/ouvriers-module-3-le-caractere.pdf',
+    coverUrl: '/nation-classe/covers/ouvriers-module-3-le-caractere.png'
+  },
+  {
+    parcours: 'Les Appelés',
+    module: 'Le suiveur — De la foule à suiveur, de suiveur à disciple',
+    fileUrl: '/nation-classe/le-suiveur.pdf',
+    coverUrl: '/nation-classe/covers/le-suiveur.png'
   }
 ] as const;
 

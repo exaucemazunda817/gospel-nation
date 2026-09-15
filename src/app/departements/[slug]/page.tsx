@@ -148,29 +148,44 @@ export default async function DepartementDetailPage({ params }: PageProps) {
         )}
 
         {isNationClasse && nationClasseManuels.length > 0 && (
-          <div className="mt-8 rounded-2xl border border-gn-line bg-white p-6">
+          <div className="mt-8">
             <h2 className="font-serif text-lg font-bold text-gn-ink">Manuels disponibles</h2>
             <p className="mt-1 text-sm text-gn-ink/60">
-              Supports de cours du parcours « Les Appelés », téléchargeables au format PDF.
+              Supports de cours des différents parcours de l&apos;École, téléchargeables au format PDF.
             </p>
-            <ul className="mt-4 space-y-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {nationClasseManuels.map((manuel) => (
-                <li key={manuel.fileUrl}>
-                  <a
-                    href={manuel.fileUrl}
-                    download
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-gn-gold-line hover:underline"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                      <path d="M12 3v12" />
-                      <path d="m7 10 5 5 5-5" />
-                      <path d="M5 21h14" />
-                    </svg>
-                    {manuel.module}
-                  </a>
-                </li>
+                <div key={manuel.fileUrl} className="flex flex-col overflow-hidden rounded-2xl border border-gn-line bg-white">
+                  {manuel.coverUrl && (
+                    <Image
+                      src={manuel.coverUrl}
+                      alt={manuel.module}
+                      width={400}
+                      height={230}
+                      className="h-[160px] w-full object-cover object-top"
+                    />
+                  )}
+                  <div className="flex flex-1 flex-col gap-2.5 p-5">
+                    <span className="inline-flex w-fit items-center rounded-full bg-gn-gold/15 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-wide text-gn-gold-dark">
+                      {manuel.parcours}
+                    </span>
+                    <p className="font-serif text-[15px] font-semibold leading-snug text-gn-ink">{manuel.module}</p>
+                    <a
+                      href={manuel.fileUrl}
+                      download
+                      className="mt-auto inline-flex items-center justify-center gap-2 rounded bg-gn-gold px-4 py-2.5 text-[12px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                        <path d="M12 3v12" />
+                        <path d="m7 10 5 5 5-5" />
+                        <path d="M5 21h14" />
+                      </svg>
+                      Télécharger le PDF
+                    </a>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
