@@ -40,18 +40,43 @@ export default async function BlogPage() {
                   href={`/blog/${post.slug}`}
                   className="gn-card-lift flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6"
                 >
+                  {post.coverImageUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={post.coverImageUrl}
+                      alt={post.title}
+                      className="-mx-6 -mt-6 h-[190px] w-[calc(100%+3rem)] rounded-t-lg object-cover object-top"
+                    />
+                  )}
                   <div className="flex items-center justify-between">
-                    <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-gn-black">
-                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
-                        <path d="M4 5.5v15.5" />
-                      </svg>
-                    </div>
-                    {post.category && (
-                      <span className="rounded-full bg-gn-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line">
-                        {post.category}
-                      </span>
+                    {!post.coverImageUrl && (
+                      <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-gn-black">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
+                          <path d="M4 5.5v15.5" />
+                        </svg>
+                      </div>
                     )}
+                    <div className="ml-auto flex items-center gap-1.5">
+                      {post.documentUrl && (
+                        <span
+                          title="PDF téléchargeable"
+                          className="flex items-center gap-1 rounded-full bg-gn-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line"
+                        >
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 3v12" />
+                            <path d="m7 10 5 5 5-5" />
+                            <path d="M5 21h14" />
+                          </svg>
+                          PDF
+                        </span>
+                      )}
+                      {post.category && (
+                        <span className="rounded-full bg-gn-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gn-gold-line">
+                          {post.category}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div>
                     <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
