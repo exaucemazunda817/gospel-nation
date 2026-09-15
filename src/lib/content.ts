@@ -280,6 +280,19 @@ export const nationClasseManuels = [
   }
 ] as const;
 
+// Revues Gospel News réellement publiées, fournies en PDF par Mazunda au fur
+// et à mesure (le journal trimestriel paraît en janvier, mai et septembre —
+// voir la description du département). Stockées dans public/bibliotheque/
+// (même fichier proposé aussi comme article de la Bibliothèque). À compléter
+// avec les volumes suivants et, si un jour retrouvés, les volumes 1 et 2.
+export const gospelNewsIssues = [
+  {
+    volume: 3,
+    date: '31 mai 2026',
+    fileUrl: '/bibliotheque/revue-gospel-news-vol-3.pdf'
+  }
+] as const;
+
 // One Love : contenu réel sourcé le 13/09/2026 sur associationonelove.org
 // (mission, vision, fondateurs) et sur la page Facebook @associationonelove
 // (projet en cours RÊVES 2 et ses photos). Mazunda a transmis les photos

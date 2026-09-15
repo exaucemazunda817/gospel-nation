@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
-import { nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
+import { gospelNewsIssues, nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -22,6 +22,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
 
   const isNationClasse = slug === 'ecole-nation-classe';
   const isOneLove = slug === 'one-love';
+  const isGospelNews = slug === 'gospel-news';
 
   return (
     <div className="bg-gn-cream-bg">
@@ -166,6 +167,34 @@ export default async function DepartementDetailPage({ params }: PageProps) {
                       <path d="M5 21h14" />
                     </svg>
                     {manuel.module}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {isGospelNews && gospelNewsIssues.length > 0 && (
+          <div className="mt-8 rounded-2xl border border-gn-line bg-white p-6">
+            <h2 className="font-serif text-lg font-bold text-gn-ink">Revues publiées</h2>
+            <p className="mt-1 text-sm text-gn-ink/60">
+              Le journal trimestriel de Gospel Nation, téléchargeable au format PDF — à retrouver aussi dans la
+              Bibliothèque.
+            </p>
+            <ul className="mt-4 space-y-2">
+              {gospelNewsIssues.map((issue) => (
+                <li key={issue.fileUrl}>
+                  <a
+                    href={issue.fileUrl}
+                    download
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-gn-gold-line hover:underline"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                      <path d="M12 3v12" />
+                      <path d="m7 10 5 5 5-5" />
+                      <path d="M5 21h14" />
+                    </svg>
+                    Vol. {issue.volume} — {issue.date}
                   </a>
                 </li>
               ))}
