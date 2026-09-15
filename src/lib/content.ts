@@ -87,30 +87,18 @@ export const donsPlaceholder =
 // avant de les considérer comme définitives.
 export const departmentSeeds = [
   {
-    name: 'Worship Gospel Nation',
-    slug: 'worship',
+    name: 'Fire',
+    slug: 'fire',
     description:
-      "Département en charge de la louange et de l'adoration pendant les cultes et événements de l'église.",
-    imageUrl: '/departments/worship.jpg'
+      "Département de prière et d'intercession de Gospel Nation, deux fois par semaine, avec des programmes variés. Coordonné par Maman Annie.",
+    imageUrl: '/departments/fire-hq.png'
   },
   {
-    name: 'Intercession',
-    slug: 'intercession',
+    name: 'Accueil',
+    slug: 'accueil',
     description:
-      "Département de prière et d'intercession pour l'église, ses membres et ses projets.",
-    imageUrl: '/departments/intercession.jpg'
-  },
-  {
-    name: 'Media',
-    slug: 'media',
-    description:
-      "Département en charge de la communication et de la production audiovisuelle de l'église (réseaux sociaux, captation, diffusion)."
-  },
-  {
-    name: 'Welcome',
-    slug: 'welcome',
-    description:
-      "Département chargé d'accueillir les visiteurs et nouveaux membres et de les orienter au sein de l'église."
+      "Département chargé d'accueillir les visiteurs et nouveaux membres et de les orienter au sein de l'église.",
+    imageUrl: '/departments/accueil-hq.png'
   },
   {
     name: 'Gospel Kids',
@@ -123,29 +111,29 @@ export const departmentSeeds = [
     name: 'Nation United',
     slug: 'nation-united',
     description:
-      "Département de la jeunesse de Gospel Nation, qui regroupe plusieurs pôles dédiés aux jeunes.",
-    imageUrl: '/departments/nation-united.jpg'
+      "Ministère de la jeunesse de Gospel Nation. Il rassemble les jeunes autour d'une activité hebdomadaire (le mardi, coordonnée par Chris Luyeye), d'une retraite annuelle (le Jésus Camp), d'une soirée festive (Heaven Ciné) et de temps d'échange (talk-shows, United Youth Session), pour renforcer leur foi et leur communauté.",
+    imageUrl: '/departments/nation-united-hq.png'
   },
   {
     name: 'One Love',
     slug: 'one-love',
     description:
       "Ministère de l'église au service des enfants de la rue, porté par l'association One Love (fondée en 2010 par le pasteur Kanda Kabangu et son épouse) : valoriser les enfants marginalisés de Kinshasa par l'éducation et un accompagnement social et sanitaire.",
-    imageUrl: '/departments/one-love-v2.jpg'
+    imageUrl: '/departments/one-love-hq.png'
   },
   {
     name: 'One Nation',
     slug: 'one-nation',
     description:
-      "Équipe de basketball de l'église, fondée le 14 août 2023 et dirigée par le pasteur Kanda Kabangu (coach). Elle a pour mission de mettre en valeur les dons que Dieu a déposés en chaque joueur, pour impacter et évangéliser le monde par le basketball.",
-    imageUrl: '/departments/one-nation.jpg'
+      "Équipe de basketball de l'église, fondée le 14 août 2023 et dirigée par le pasteur Kanda Kabangu (coach). Elle a pour mission de mettre en valeur les dons que Dieu a déposés en chaque joueur, pour impacter et évangéliser le monde par le basketball. Elle organise chaque année la compétition « Champions of Kingdom », sur six mois.",
+    imageUrl: '/departments/one-nation-hq.png'
   },
   {
     name: 'Valorous',
     slug: 'valorous',
     description:
-      "Ministère des hommes de Gospel Nation — « Men according to God » : Leader, Époux, Père, Ami. Dirigé par le frère Étienne Mabunda, ce ministère rassemble les hommes de l'église pour la communion fraternelle et la croissance spirituelle.",
-    imageUrl: '/events/valorous-2026-09-26.jpeg'
+      "Ministère des hommes de Gospel Nation — « Men according to God » : Leader, Époux, Père, Ami. Dirigé par le frère Étienne Mabunda, ce ministère rassemble les hommes de l'église pour la communion fraternelle et la croissance spirituelle, à travers un rassemblement six fois par an.",
+    imageUrl: '/departments/valorous-hq.png'
   },
   {
     name: 'École Nation Classe',
@@ -155,6 +143,44 @@ export const departmentSeeds = [
     imageUrl: '/departments/ecole-nation-classe.jpg'
     // Le programme complet (vision, parcours, modules) est détaillé plus bas
     // dans `nationClasseProgram`, fourni par Mazunda le 12/09/2026.
+  },
+  // Cinq départements ajoutés le 14/09/2026 à partir du document officiel
+  // "Gospel Nation - Organisation 2025" (organigramme + programme annuel)
+  // fourni par Mazunda — descriptions et coordinateurs repris de ce document.
+  {
+    name: 'Gospel Café',
+    slug: 'gospel-cafe',
+    description:
+      "Ministère convivial et évangélique de Gospel Nation : un espace souvent gratuit où l'on se réunit pour des moments de joie, des prestations musicales et des activités variées (battles, soirées à thème, karaoké...), lieu de partage et d'évangélisation. Il organise aussi chaque année un Comedy Club. Coordonné par Nader, Kanda et Tim.",
+    imageUrl: '/departments/gospel-cafe-hq.png'
+  },
+  {
+    name: 'Gospel Prod',
+    slug: 'gospel-prod',
+    description:
+      "Ministère audiovisuel de Gospel Nation : production de la série Mission et du court-métrage Mission Genesis, gestion d'un label artistique qui accompagne plusieurs musiciens, chanteurs et rappeurs (Maïté, Victor, Maryse, Jrd, Georges), et communication de l'église au quotidien. Coordonné par Tim Ntalaja.",
+    imageUrl: '/departments/gospel-prod-hq.png'
+  },
+  {
+    name: 'Gospel Nation Music',
+    slug: 'gn-music',
+    description:
+      "Groupe de louange et de chorale de Gospel Nation. Il organise plusieurs temps forts dans l'année — le Worship Fire (trois fois par an), une Worship Night annuelle et une sortie évangélique — pour rassembler et inviter à découvrir l'église à travers la musique.",
+    imageUrl: '/departments/gospel-nation-music-hq.png'
+  },
+  {
+    name: 'Gospel News',
+    slug: 'gospel-news',
+    description:
+      "Ministère responsable du journal trimestriel de Gospel Nation, publié en janvier, mai et septembre. Ces journaux résument les activités passées, annoncent les programmes à venir et partagent les nouvelles de la communauté — à retrouver dans la Bibliothèque du site. Coordonné par Maryse.",
+    imageUrl: '/departments/gospel-news-hq.png'
+  },
+  {
+    name: 'Ladies Nation',
+    slug: 'ladies-nation',
+    description:
+      "Ministère des femmes de Gospel Nation. Six fois par an, elles se réunissent pour échanger sur des sujets liés à leur quotidien et à leur foi. Coordonné par Kenya.",
+    imageUrl: '/departments/ladies-nation-hq.png'
   }
 ] as const;
 
