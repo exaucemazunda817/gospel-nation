@@ -289,12 +289,14 @@ export const gospelNewsIssues = [
   {
     volume: 3,
     date: '31 mai 2026',
-    fileUrl: '/bibliotheque/revue-gospel-news-vol-3.pdf'
+    fileUrl: '/bibliotheque/revue-gospel-news-vol-3.pdf',
+    coverUrl: '/bibliotheque/covers/revue-gospel-news-vol-3.jpg'
   },
   {
     volume: 2,
     date: '30 mars 2025',
-    fileUrl: '/bibliotheque/revue-gospel-news-vol-2.pdf'
+    fileUrl: '/bibliotheque/revue-gospel-news-vol-2.pdf',
+    coverUrl: '/bibliotheque/covers/revue-gospel-news-vol-2.jpg'
   }
 ] as const;
 

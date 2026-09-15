@@ -175,30 +175,44 @@ export default async function DepartementDetailPage({ params }: PageProps) {
         )}
 
         {isGospelNews && gospelNewsIssues.length > 0 && (
-          <div className="mt-8 rounded-2xl border border-gn-line bg-white p-6">
+          <div className="mt-8">
             <h2 className="font-serif text-lg font-bold text-gn-ink">Revues publiées</h2>
             <p className="mt-1 text-sm text-gn-ink/60">
               Le journal trimestriel de Gospel Nation, téléchargeable au format PDF — à retrouver aussi dans la
               Bibliothèque.
             </p>
-            <ul className="mt-4 space-y-2">
+            <div className="mt-4 grid gap-5 sm:grid-cols-2">
               {gospelNewsIssues.map((issue) => (
-                <li key={issue.fileUrl}>
-                  <a
-                    href={issue.fileUrl}
-                    download
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-gn-gold-line hover:underline"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                      <path d="M12 3v12" />
-                      <path d="m7 10 5 5 5-5" />
-                      <path d="M5 21h14" />
-                    </svg>
-                    Vol. {issue.volume} — {issue.date}
-                  </a>
-                </li>
+                <div key={issue.fileUrl} className="flex flex-col overflow-hidden rounded-2xl border border-gn-line bg-white">
+                  {issue.coverUrl && (
+                    <Image
+                      src={issue.coverUrl}
+                      alt={`Gospel News Vol. ${issue.volume}`}
+                      width={400}
+                      height={230}
+                      className="h-[190px] w-full object-cover object-top"
+                    />
+                  )}
+                  <div className="flex flex-1 flex-col gap-3 p-5">
+                    <p className="font-serif text-base font-semibold text-gn-ink">
+                      Vol. {issue.volume} — {issue.date}
+                    </p>
+                    <a
+                      href={issue.fileUrl}
+                      download
+                      className="mt-auto inline-flex items-center justify-center gap-2 rounded bg-gn-gold px-4 py-2.5 text-[12px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+                        <path d="M12 3v12" />
+                        <path d="m7 10 5 5 5-5" />
+                        <path d="M5 21h14" />
+                      </svg>
+                      Télécharger le PDF
+                    </a>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
