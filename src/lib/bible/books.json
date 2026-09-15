@@ -1,0 +1,464 @@
+[
+  {
+    "number": 1,
+    "slug": "genese",
+    "name": "Genèse",
+    "testament": "AT",
+    "chapterCount": 50
+  },
+  {
+    "number": 2,
+    "slug": "exode",
+    "name": "Exode",
+    "testament": "AT",
+    "chapterCount": 40
+  },
+  {
+    "number": 3,
+    "slug": "levitique",
+    "name": "Lévitique",
+    "testament": "AT",
+    "chapterCount": 27
+  },
+  {
+    "number": 4,
+    "slug": "nombres",
+    "name": "Nombres",
+    "testament": "AT",
+    "chapterCount": 36
+  },
+  {
+    "number": 5,
+    "slug": "deuteronome",
+    "name": "Deutéronome",
+    "testament": "AT",
+    "chapterCount": 34
+  },
+  {
+    "number": 6,
+    "slug": "josue",
+    "name": "Josué",
+    "testament": "AT",
+    "chapterCount": 24
+  },
+  {
+    "number": 7,
+    "slug": "juges",
+    "name": "Juges",
+    "testament": "AT",
+    "chapterCount": 21
+  },
+  {
+    "number": 8,
+    "slug": "ruth",
+    "name": "Ruth",
+    "testament": "AT",
+    "chapterCount": 4
+  },
+  {
+    "number": 9,
+    "slug": "1-samuel",
+    "name": "1 Samuel",
+    "testament": "AT",
+    "chapterCount": 31
+  },
+  {
+    "number": 10,
+    "slug": "2-samuel",
+    "name": "2 Samuel",
+    "testament": "AT",
+    "chapterCount": 24
+  },
+  {
+    "number": 11,
+    "slug": "1-rois",
+    "name": "1 Rois",
+    "testament": "AT",
+    "chapterCount": 22
+  },
+  {
+    "number": 12,
+    "slug": "2-rois",
+    "name": "2 Rois",
+    "testament": "AT",
+    "chapterCount": 25
+  },
+  {
+    "number": 13,
+    "slug": "1-chroniques",
+    "name": "1 Chroniques",
+    "testament": "AT",
+    "chapterCount": 29
+  },
+  {
+    "number": 14,
+    "slug": "2-chroniques",
+    "name": "2 Chroniques",
+    "testament": "AT",
+    "chapterCount": 36
+  },
+  {
+    "number": 15,
+    "slug": "esdras",
+    "name": "Esdras",
+    "testament": "AT",
+    "chapterCount": 10
+  },
+  {
+    "number": 16,
+    "slug": "nehemie",
+    "name": "Néhémie",
+    "testament": "AT",
+    "chapterCount": 13
+  },
+  {
+    "number": 17,
+    "slug": "esther",
+    "name": "Esther",
+    "testament": "AT",
+    "chapterCount": 10
+  },
+  {
+    "number": 18,
+    "slug": "job",
+    "name": "Job",
+    "testament": "AT",
+    "chapterCount": 42
+  },
+  {
+    "number": 19,
+    "slug": "psaumes",
+    "name": "Psaumes",
+    "testament": "AT",
+    "chapterCount": 150
+  },
+  {
+    "number": 20,
+    "slug": "proverbes",
+    "name": "Proverbes",
+    "testament": "AT",
+    "chapterCount": 31
+  },
+  {
+    "number": 21,
+    "slug": "ecclesiaste",
+    "name": "Ecclésiaste",
+    "testament": "AT",
+    "chapterCount": 12
+  },
+  {
+    "number": 22,
+    "slug": "cantique-des-cantiques",
+    "name": "Cantique des Cantiques",
+    "testament": "AT",
+    "chapterCount": 8
+  },
+  {
+    "number": 23,
+    "slug": "esaie",
+    "name": "Ésaïe",
+    "testament": "AT",
+    "chapterCount": 66
+  },
+  {
+    "number": 24,
+    "slug": "jeremie",
+    "name": "Jérémie",
+    "testament": "AT",
+    "chapterCount": 52
+  },
+  {
+    "number": 25,
+    "slug": "lamentations",
+    "name": "Lamentations",
+    "testament": "AT",
+    "chapterCount": 5
+  },
+  {
+    "number": 26,
+    "slug": "ezechiel",
+    "name": "Ézéchiel",
+    "testament": "AT",
+    "chapterCount": 48
+  },
+  {
+    "number": 27,
+    "slug": "daniel",
+    "name": "Daniel",
+    "testament": "AT",
+    "chapterCount": 12
+  },
+  {
+    "number": 28,
+    "slug": "osee",
+    "name": "Osée",
+    "testament": "AT",
+    "chapterCount": 14
+  },
+  {
+    "number": 29,
+    "slug": "joel",
+    "name": "Joël",
+    "testament": "AT",
+    "chapterCount": 3
+  },
+  {
+    "number": 30,
+    "slug": "amos",
+    "name": "Amos",
+    "testament": "AT",
+    "chapterCount": 9
+  },
+  {
+    "number": 31,
+    "slug": "abdias",
+    "name": "Abdias",
+    "testament": "AT",
+    "chapterCount": 1
+  },
+  {
+    "number": 32,
+    "slug": "jonas",
+    "name": "Jonas",
+    "testament": "AT",
+    "chapterCount": 4
+  },
+  {
+    "number": 33,
+    "slug": "michee",
+    "name": "Michée",
+    "testament": "AT",
+    "chapterCount": 7
+  },
+  {
+    "number": 34,
+    "slug": "nahum",
+    "name": "Nahum",
+    "testament": "AT",
+    "chapterCount": 3
+  },
+  {
+    "number": 35,
+    "slug": "habacuc",
+    "name": "Habacuc",
+    "testament": "AT",
+    "chapterCount": 3
+  },
+  {
+    "number": 36,
+    "slug": "sophonie",
+    "name": "Sophonie",
+    "testament": "AT",
+    "chapterCount": 3
+  },
+  {
+    "number": 37,
+    "slug": "aggee",
+    "name": "Aggée",
+    "testament": "AT",
+    "chapterCount": 2
+  },
+  {
+    "number": 38,
+    "slug": "zacharie",
+    "name": "Zacharie",
+    "testament": "AT",
+    "chapterCount": 14
+  },
+  {
+    "number": 39,
+    "slug": "malachie",
+    "name": "Malachie",
+    "testament": "AT",
+    "chapterCount": 4
+  },
+  {
+    "number": 40,
+    "slug": "matthieu",
+    "name": "Matthieu",
+    "testament": "NT",
+    "chapterCount": 28
+  },
+  {
+    "number": 41,
+    "slug": "marc",
+    "name": "Marc",
+    "testament": "NT",
+    "chapterCount": 16
+  },
+  {
+    "number": 42,
+    "slug": "luc",
+    "name": "Luc",
+    "testament": "NT",
+    "chapterCount": 24
+  },
+  {
+    "number": 43,
+    "slug": "jean",
+    "name": "Jean",
+    "testament": "NT",
+    "chapterCount": 21
+  },
+  {
+    "number": 44,
+    "slug": "actes",
+    "name": "Actes",
+    "testament": "NT",
+    "chapterCount": 28
+  },
+  {
+    "number": 45,
+    "slug": "romains",
+    "name": "Romains",
+    "testament": "NT",
+    "chapterCount": 16
+  },
+  {
+    "number": 46,
+    "slug": "1-corinthiens",
+    "name": "1 Corinthiens",
+    "testament": "NT",
+    "chapterCount": 16
+  },
+  {
+    "number": 47,
+    "slug": "2-corinthiens",
+    "name": "2 Corinthiens",
+    "testament": "NT",
+    "chapterCount": 13
+  },
+  {
+    "number": 48,
+    "slug": "galates",
+    "name": "Galates",
+    "testament": "NT",
+    "chapterCount": 6
+  },
+  {
+    "number": 49,
+    "slug": "ephesiens",
+    "name": "Éphésiens",
+    "testament": "NT",
+    "chapterCount": 6
+  },
+  {
+    "number": 50,
+    "slug": "philippiens",
+    "name": "Philippiens",
+    "testament": "NT",
+    "chapterCount": 4
+  },
+  {
+    "number": 51,
+    "slug": "colossiens",
+    "name": "Colossiens",
+    "testament": "NT",
+    "chapterCount": 4
+  },
+  {
+    "number": 52,
+    "slug": "1-thessaloniciens",
+    "name": "1 Thessaloniciens",
+    "testament": "NT",
+    "chapterCount": 5
+  },
+  {
+    "number": 53,
+    "slug": "2-thessaloniciens",
+    "name": "2 Thessaloniciens",
+    "testament": "NT",
+    "chapterCount": 3
+  },
+  {
+    "number": 54,
+    "slug": "1-timothee",
+    "name": "1 Timothée",
+    "testament": "NT",
+    "chapterCount": 6
+  },
+  {
+    "number": 55,
+    "slug": "2-timothee",
+    "name": "2 Timothée",
+    "testament": "NT",
+    "chapterCount": 4
+  },
+  {
+    "number": 56,
+    "slug": "tite",
+    "name": "Tite",
+    "testament": "NT",
+    "chapterCount": 3
+  },
+  {
+    "number": 57,
+    "slug": "philemon",
+    "name": "Philémon",
+    "testament": "NT",
+    "chapterCount": 1
+  },
+  {
+    "number": 58,
+    "slug": "hebreux",
+    "name": "Hébreux",
+    "testament": "NT",
+    "chapterCount": 13
+  },
+  {
+    "number": 59,
+    "slug": "jacques",
+    "name": "Jacques",
+    "testament": "NT",
+    "chapterCount": 5
+  },
+  {
+    "number": 60,
+    "slug": "1-pierre",
+    "name": "1 Pierre",
+    "testament": "NT",
+    "chapterCount": 5
+  },
+  {
+    "number": 61,
+    "slug": "2-pierre",
+    "name": "2 Pierre",
+    "testament": "NT",
+    "chapterCount": 3
+  },
+  {
+    "number": 62,
+    "slug": "1-jean",
+    "name": "1 Jean",
+    "testament": "NT",
+    "chapterCount": 5
+  },
+  {
+    "number": 63,
+    "slug": "2-jean",
+    "name": "2 Jean",
+    "testament": "NT",
+    "chapterCount": 1
+  },
+  {
+    "number": 64,
+    "slug": "3-jean",
+    "name": "3 Jean",
+    "testament": "NT",
+    "chapterCount": 1
+  },
+  {
+    "number": 65,
+    "slug": "jude",
+    "name": "Jude",
+    "testament": "NT",
+    "chapterCount": 1
+  },
+  {
+    "number": 66,
+    "slug": "apocalypse",
+    "name": "Apocalypse",
+    "testament": "NT",
+    "chapterCount": 22
+  }
+]

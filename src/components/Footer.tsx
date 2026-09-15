@@ -11,6 +11,7 @@ const explore = [
 
 const community = [
   { href: '/inscription', label: 'Devenir membre' },
+  { href: '/bible', label: 'Bible' },
   { href: '/blog', label: 'Bibliothèque' },
   { href: '/temoignages', label: 'Témoignages' },
   { href: '/services', label: 'Offres et services' },
