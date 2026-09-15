@@ -7,12 +7,27 @@ export default async function AdminMembersPage() {
     include: { department: { select: { name: true } } }
   });
 
-  if (members.length === 0) {
-    return <p className="text-gn-cream/60">Aucune inscription pour le moment.</p>;
-  }
-
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-sm text-gn-cream/50">
+          {members.length} membre{members.length > 1 ? 's' : ''}
+        </p>
+        <a
+          href="/api/admin/membres/export"
+          className="inline-flex items-center gap-2 rounded-full bg-gn-gold px-5 py-2.5 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <path d="M12 3v12" />
+            <path d="m7 10 5 5 5-5" />
+            <path d="M5 21h14" />
+          </svg>
+          Télécharger en Excel
+        </a>
+      </div>
+
+      {members.length === 0 && <p className="text-gn-cream/60">Aucune inscription pour le moment.</p>}
+
       {members.map((m) => (
         <div key={m.id} className="rounded-2xl border border-gn-cream/15 bg-gn-black-soft p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
