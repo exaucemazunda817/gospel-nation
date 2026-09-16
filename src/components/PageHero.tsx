@@ -1,17 +1,28 @@
+import Image from 'next/image';
+
 export default function PageHero({
   eyebrow,
   title,
   subtitle,
+  image,
   children
 }: {
   eyebrow?: string;
   title: string;
   subtitle?: React.ReactNode;
+  image?: string;
   children?: React.ReactNode;
 }) {
   return (
-    <section className="gn-glow relative overflow-hidden border-b border-gn-gold/20 bg-gn-black text-gn-cream">
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+    <section className="relative overflow-hidden border-b border-gn-gold/20 bg-gn-black text-gn-cream">
+      {image && (
+        <>
+          <Image src={image} alt="" fill className="object-cover object-top" />
+          <div className="pointer-events-none absolute inset-0 bg-gn-black/40" />
+        </>
+      )}
+      <div className="gn-glow pointer-events-none absolute inset-0" />
+      <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         {eyebrow && (
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">{eyebrow}</p>
         )}

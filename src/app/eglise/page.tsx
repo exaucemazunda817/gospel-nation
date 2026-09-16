@@ -55,7 +55,10 @@ export default function EglisePage() {
   return (
     <div className="bg-white">
       {/* Fil d'ariane */}
-      <section className="gn-glow relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
+      <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
+        <Image src="/hero/eglise.jpg" alt="" fill className="object-cover object-top" />
+        <div className="pointer-events-none absolute inset-0 bg-gn-black/40" />
+        <div className="gn-glow pointer-events-none absolute inset-0" />
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-3.5 text-xs text-gn-muted">
             <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">À propos</span>
