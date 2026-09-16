@@ -8,7 +8,8 @@ export type BibleVersion = {
 export const bibleVersions: BibleVersion[] = [
   { code: 'lsg1910', name: 'Louis Segond', year: '1910' },
   { code: 'martin', name: 'Martin', year: '1744' },
-  { code: 'oster', name: 'Ostervald', year: '1996' }
+  { code: 'oster', name: 'Ostervald', year: '1996' },
+  { code: 'darby', name: 'Darby', year: '1885' }
 ];
 
 export const defaultVersionCode = 'lsg1910';

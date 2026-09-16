@@ -19,7 +19,8 @@ export default function BiblePage() {
       <PageHero
         eyebrow="Ressource"
         title="La Bible"
-        subtitle="Trois versions dans le domaine public. Cherchez une référence ou choisissez un livre pour commencer votre lecture."
+        subtitle="Quatre versions dans le domaine public. Cherchez une référence ou choisissez un livre pour commencer votre lecture."
+        image="/hero/bible.jpg"
       >
         <BibleSearch variant="dark" />
       </PageHero>
