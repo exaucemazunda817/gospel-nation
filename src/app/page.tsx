@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import HeroVideo from '@/components/HeroVideo';
+import HorizontalScroller from '@/components/HorizontalScroller';
 import { church } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
 
@@ -206,9 +207,9 @@ export default async function HomePage() {
               l&apos;église.
             </p>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <HorizontalScroller className="gn-scroll-x -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 sm:-mx-10 sm:px-10">
             {departments.map((dept, index) => (
-              <Reveal key={dept.slug} delay={index * 0.06}>
+              <Reveal key={dept.slug} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-[320px]">
                 <Link
                   href={`/departements/${dept.slug}`}
                   className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-gn-cream-bg"
@@ -236,7 +237,7 @@ export default async function HomePage() {
                 </Link>
               </Reveal>
             ))}
-          </div>
+          </HorizontalScroller>
           <div className="mt-8 text-center">
             <Link
               href="/departements"

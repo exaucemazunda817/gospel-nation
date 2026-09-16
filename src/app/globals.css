@@ -86,3 +86,15 @@ body {
   transform: translateY(-4px);
   box-shadow: 0 16px 32px -12px color-mix(in srgb, var(--gn-gold) 35%, transparent);
 }
+
+/* Carrousel horizontal (ex. départements en accueil) : défilement natif au
+   doigt/trackpad, molette convertie en horizontal par HorizontalScroller,
+   scrollbar masquée pour un rendu plus propre. */
+.gn-scroll-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gn-scroll-x::-webkit-scrollbar {
+  display: none;
+}
