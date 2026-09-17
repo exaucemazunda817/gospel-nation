@@ -79,7 +79,7 @@ export default async function PredicationsPage() {
                       {sermon.series && ` — ${sermon.series}`}
                     </p>
                     <p className="font-serif text-base font-semibold text-gn-ink">{sermon.title}</p>
-                    <p className="mt-1 text-xs text-gn-muted">{sermon.speaker}</p>
+                    <p className="mt-1 text-xs text-gn-muted-strong">{sermon.speaker}</p>
                   </div>
                   {sermon.notesContent && (
                     <p className="line-clamp-4 text-[13px] leading-relaxed text-gn-ink/70">{sermon.notesContent}</p>
@@ -106,7 +106,7 @@ export default async function PredicationsPage() {
                         rel="noopener noreferrer"
                         className="text-[12.5px] font-semibold text-gn-gold-line hover:underline"
                       >
-                        Voir la vidéo →
+                        Voir la vidéo
                       </a>
                     )}
                   </div>

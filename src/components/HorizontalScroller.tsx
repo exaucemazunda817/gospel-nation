@@ -1,40 +1,22 @@
 'use client';
 
-import { useEffect, useRef, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-// Convertit le défilement vertical de la molette en défilement horizontal
-// quand le curseur survole la rangée (comportement attendu sur desktop pour
-// un carrousel horizontal — sans ça, la molette fait juste défiler la page).
-// Le défilement tactile (mobile/trackpad) fonctionne nativement, sans JS.
+// Rangée à défilement horizontal natif : ne répond qu'aux vrais gestes
+// horizontaux (glissement deux doigts sur trackpad, molette+Shift, glisser
+// tactile) — jamais à un simple défilement vertical de la molette, qui
+// continue de faire défiler la page normalement au-dessus de la rangée.
 //
-// Écouteur natif (pas onWheel React) : React attache wheel en mode passif
-// par défaut, ce qui rend preventDefault() inopérant (et lève une erreur
-// silencieuse) — il faut { passive: false } pour pouvoir réellement bloquer
-// le défilement vertical de la page pendant qu'on fait défiler la rangée.
+// Corrige un défaut signalé par Mazunda le 17/09/2026 sur la précédente
+// version "rangée épinglée" (technique sticky + translateX pilotée par la
+// progression du défilement vertical, inspirée de webflow-path-one.webflow.io) :
+// un simple défilement vertical de la souris faisait glisser la rangée
+// horizontalement, ce qu'il jugeait contre-intuitif — pour lui, un
+// mouvement horizontal de la souris/du geste doit être nécessaire pour
+// obtenir un défilement horizontal. Le défilement natif du navigateur a
+// exactement cette propriété : un `overflow-x-auto` sans overflow vertical
+// ignore la molette verticale (qui remonte donc scroller la page), et ne
+// répond qu'à un geste horizontal explicite.
 export default function HorizontalScroller({ children, className }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    function handleWheel(e: WheelEvent) {
-      const canScrollHorizontally = el!.scrollWidth > el!.clientWidth;
-      const isMostlyVertical = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-      if (canScrollHorizontally && isMostlyVertical) {
-        e.preventDefault();
-        e.stopPropagation();
-        el!.scrollLeft += e.deltaY;
-      }
-    }
-
-    el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
-  }, []);
-
-  return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
-  );
+  return <div className={className}>{children}</div>;
 }

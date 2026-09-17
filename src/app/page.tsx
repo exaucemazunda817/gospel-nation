@@ -62,11 +62,17 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-gn-black">
         <HeroVideo src="/video/hero-accueil.mp4" />
         <div className="pointer-events-none absolute inset-0 bg-gn-black/70" />
+        {/* Voile supplémentaire côté texte : la vidéo contient son propre
+            texte incrusté par endroits, qui peut entrer en collision avec le
+            titre superposé. On assombrit davantage la zone où le texte
+            s'affiche (bas sur mobile où il est centré, gauche sur desktop où
+            il est aligné à gauche) sans assombrir toute la vidéo. */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/55 via-gn-black/10 to-transparent sm:bg-gradient-to-r sm:from-gn-black/65 sm:via-gn-black/15 sm:to-transparent" />
         <div className="gn-glow absolute inset-0" />
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-10 sm:py-28 lg:py-32">
           <Reveal>
             <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center sm:mx-0 sm:items-start sm:gap-6 sm:text-left">
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">{church.name}</p>
+              <p className="font-serif text-[15px] italic font-medium text-gn-gold">{church.name}</p>
               <h1 className="font-serif text-4xl font-bold leading-[1.12] text-gn-cream sm:text-[52px]">
                 {church.tagline}
               </h1>
@@ -77,13 +83,9 @@ export default async function HomePage() {
               <div className="mt-2 flex flex-wrap justify-center gap-4 sm:justify-start">
                 <Link
                   href="/eglise"
-                  className="flex items-center gap-2.5 rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                  className="rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
                 >
                   Rejoindre un culte
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
                 </Link>
                 <Link
                   href="/predications"
@@ -106,7 +108,7 @@ export default async function HomePage() {
               <polyline points="12 7 12 12 16 14" />
             </svg>
             <div>
-              <p className="mb-0.5 text-[11px] uppercase tracking-wide text-gn-muted">Prochain culte</p>
+              <p className="mb-0.5 text-[11px] uppercase tracking-wide text-gn-muted-strong">Prochain culte</p>
               <p className="font-serif text-base font-semibold text-gn-ink">
                 {schedule.day}, {schedule.time}
               </p>
@@ -118,7 +120,7 @@ export default async function HomePage() {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <div>
-              <p className="mb-0.5 text-[11px] uppercase tracking-wide text-gn-muted">Lieu</p>
+              <p className="mb-0.5 text-[11px] uppercase tracking-wide text-gn-muted-strong">Lieu</p>
               <p className="font-serif text-base font-semibold text-gn-ink">{church.address}</p>
             </div>
           </div>
@@ -138,20 +140,16 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Écouter</p>
+              <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Écouter</p>
               <h2 className="font-serif text-[28px] font-semibold text-gn-ink sm:text-[30px]">
                 Dernières prédications
               </h2>
             </div>
             <Link
               href="/predications"
-              className="flex items-center gap-1.5 text-[13px] font-semibold text-gn-gold-line hover:underline"
+              className="text-[13px] font-semibold text-gn-gold-line hover:underline"
             >
               Voir toutes les prédications
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
             </Link>
           </div>
           {sermons.length === 0 ? (
@@ -184,7 +182,7 @@ export default async function HomePage() {
                     </div>
                     <div>
                       <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{sermon.title}</p>
-                      <p className="text-xs text-gn-muted">
+                      <p className="text-xs text-gn-muted-strong">
                         {sermon.speaker} · {new Date(sermon.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </p>
                     </div>
@@ -200,7 +198,7 @@ export default async function HomePage() {
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <div className="mb-11 max-w-xl">
-            <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Servir</p>
+            <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Servir</p>
             <h2 className="mb-3 font-serif text-[28px] font-semibold text-gn-ink sm:text-[30px]">Nos départements</h2>
             <p className="text-sm leading-relaxed text-gn-ink/60">
               Chaque membre trouve sa place pour servir selon ses dons, au sein d&apos;un département de
@@ -243,7 +241,7 @@ export default async function HomePage() {
               href="/departements"
               className="text-[13px] font-semibold text-gn-gold-line hover:underline"
             >
-              Voir tous les départements →
+              Voir tous les départements
             </Link>
           </div>
         </div>
@@ -258,7 +256,7 @@ export default async function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
           <Reveal>
             <div>
-              <p className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">Rejoindre la famille</p>
+              <p className="mb-3.5 font-serif text-[15px] italic font-medium text-gn-gold">Rejoindre la famille</p>
               <h2 className="mb-4 font-serif text-[28px] font-semibold leading-snug text-gn-cream sm:text-[30px]">
                 Devenez membre de Gospel Nation
               </h2>
@@ -282,13 +280,9 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/inscription"
-                className="inline-flex items-center gap-2.5 rounded bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                className="inline-flex rounded bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
               >
                 Devenir membre
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
               </Link>
             </div>
           </Reveal>

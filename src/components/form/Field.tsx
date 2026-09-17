@@ -1,3 +1,7 @@
+'use client';
+
+import { useId } from 'react';
+
 const inputClass =
   'w-full rounded-xl border border-white/15 bg-[#2a231b] px-4 py-2.5 text-gn-cream shadow-sm transition-colors placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30';
 
@@ -16,13 +20,15 @@ export function Field({
   placeholder?: string;
   defaultValue?: string;
 }) {
+  const id = useId();
   return (
-    <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-ink/80">
+    <div className="text-sm">
+      <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
-      </span>
+      </label>
       <input
+        id={id}
         type={type}
         name={name}
         required={required}
@@ -30,7 +36,7 @@ export function Field({
         defaultValue={defaultValue}
         className={inputClass}
       />
-    </label>
+    </div>
   );
 }
 
@@ -45,16 +51,17 @@ export function SelectField({
   required?: boolean;
   children: React.ReactNode;
 }) {
+  const id = useId();
   return (
-    <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-ink/80">
+    <div className="text-sm">
+      <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
-      </span>
-      <select name={name} required={required} className={inputClass}>
+      </label>
+      <select id={id} name={name} required={required} className={inputClass}>
         {children}
       </select>
-    </label>
+    </div>
   );
 }
 
@@ -73,22 +80,30 @@ export function FileField({
   hint?: string;
   onChange?: (file: File | null) => void;
 }) {
+  const id = useId();
+  const hintId = useId();
   return (
-    <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-ink/80">
+    <div className="text-sm">
+      <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
-      </span>
+      </label>
       <input
+        id={id}
         type="file"
         name={name}
         required={required}
         accept={accept}
+        aria-describedby={hint ? hintId : undefined}
         onChange={(e) => onChange?.(e.currentTarget.files?.[0] ?? null)}
         className="block w-full rounded-xl border border-white/15 bg-[#2a231b] px-4 py-2.5 text-sm text-gn-cream/80 shadow-sm transition-colors file:mr-3 file:rounded-full file:border-0 file:bg-gn-gold file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-gn-black focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       />
-      {hint && <span className="mt-1 block text-xs text-gn-ink/50">{hint}</span>}
-    </label>
+      {hint && (
+        <span id={hintId} className="mt-1 block text-xs text-gn-ink/50">
+          {hint}
+        </span>
+      )}
+    </div>
   );
 }
 
@@ -101,16 +116,18 @@ export function CheckboxField({
   name: string;
   defaultChecked?: boolean;
 }) {
+  const id = useId();
   return (
-    <label className="flex items-start gap-2.5 text-sm text-gn-ink/80">
+    <div className="flex items-start gap-2.5 text-sm text-gn-ink/80">
       <input
+        id={id}
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
         className="mt-0.5 h-4 w-4 rounded border-white/30 text-gn-gold focus:ring-gn-gold/40"
       />
-      <span>{label}</span>
-    </label>
+      <label htmlFor={id}>{label}</label>
+    </div>
   );
 }
 
@@ -125,13 +142,14 @@ export function TextAreaField({
   required?: boolean;
   rows?: number;
 }) {
+  const id = useId();
   return (
-    <label className="block text-sm">
-      <span className="mb-1.5 block font-medium text-gn-ink/80">
+    <div className="text-sm">
+      <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
         {required && <span className="text-gn-gold"> *</span>}
-      </span>
-      <textarea name={name} required={required} rows={rows} className={inputClass} />
-    </label>
+      </label>
+      <textarea id={id} name={name} required={required} rows={rows} className={inputClass} />
+    </div>
   );
 }

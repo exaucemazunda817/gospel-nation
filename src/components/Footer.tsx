@@ -68,7 +68,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Explorer</p>
+          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Explorer</p>
           {explore.map((l) => (
             <Link key={l.href} href={l.href} className="text-[12.5px] text-gn-cream/60 hover:text-gn-gold">
               {l.label}
@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Communauté</p>
+          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Communauté</p>
           {community.map((l) => (
             <Link key={l.href} href={l.href} className="text-[12.5px] text-gn-cream/60 hover:text-gn-gold">
               {l.label}
@@ -86,19 +86,19 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Contact</p>
+          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Contact</p>
           <p className="text-[12.5px] leading-relaxed text-gn-cream/60">
             {church.address}
             {church.addressIsPlaceholder && <span className="ml-1 text-gn-gold/70">(à confirmer)</span>}
           </p>
           <p className="text-[12.5px] text-gn-cream/60">{church.city}</p>
-          <Link href="/contact" className="text-[12.5px] text-gn-gold-dark hover:text-gn-gold">
-            Nous contacter →
+          <Link href="/contact" className="text-[12.5px] text-gn-gold hover:text-gn-gold-light">
+            Nous contacter
           </Link>
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-gn-gold">Cultes</p>
+          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Cultes</p>
           <p className="text-[12.5px] leading-relaxed text-gn-cream/60">
             {schedule.day}, {schedule.time}
             <br />
@@ -111,7 +111,7 @@ export default function Footer() {
         <span className="text-[11px] text-gn-cream/50">
           © {new Date().getFullYear()} {church.name}. Tous droits réservés.
         </span>
-        <span className="text-[11px] tracking-wide text-gn-gold-dark">{church.tagline}</span>
+        <span className="text-[11px] tracking-wide text-gn-gold">{church.tagline}</span>
       </div>
     </footer>
   );

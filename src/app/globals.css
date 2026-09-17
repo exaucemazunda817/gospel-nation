@@ -19,6 +19,13 @@
   --gn-gold-dark: #995e30;
   --gn-gold-line: #995b27;
   --gn-muted: #8a8371;
+  /* Variante plus foncée de gn-muted, pour les petits textes sur fond clair
+     (gn-cream/gn-cream-bg) : gn-muted seul tombe à 3,3:1-3,6:1, sous le
+     minimum WCAG AA de 4,5:1 pour du texte normal. Corrigé le 17/09/2026
+     après audit UX/accessibilité. Ne pas changer gn-muted lui-même : il sert
+     aussi de texte clair sur fond sombre (hero, section "Devenir membre"),
+     où l'assombrir dégraderait au contraire son contraste. */
+  --gn-muted-strong: #726c5d;
   --gn-line: #e6ddc7;
 }
 
@@ -35,6 +42,7 @@
   --color-gn-gold-dark: var(--gn-gold-dark);
   --color-gn-gold-line: var(--gn-gold-line);
   --color-gn-muted: var(--gn-muted);
+  --color-gn-muted-strong: var(--gn-muted-strong);
   --color-gn-line: var(--gn-line);
   --font-sans: var(--font-montserrat);
   --font-serif: var(--font-playfair);
@@ -88,8 +96,8 @@ body {
 }
 
 /* Carrousel horizontal (ex. départements en accueil) : défilement natif au
-   doigt/trackpad, molette convertie en horizontal par HorizontalScroller,
-   scrollbar masquée pour un rendu plus propre. */
+   doigt/trackpad/glisser (aucune conversion de la molette verticale — voir
+   HorizontalScroller), scrollbar masquée pour un rendu plus propre. */
 .gn-scroll-x {
   scrollbar-width: none;
   -ms-overflow-style: none;
