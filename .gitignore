@@ -40,6 +40,9 @@ yarn-error.log*
 # photos des membres (données personnelles, jamais versionnées)
 /storage/photos
 
+# exports de données personnelles (ex. liste des membres) — jamais versionnés
+*.xlsx
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
