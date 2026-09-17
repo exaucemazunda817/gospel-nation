@@ -61,7 +61,7 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
+        <nav className="hidden items-center gap-4 xl:flex xl:gap-6">
           {primaryLinks.map((link) => (
             <Link
               key={link.href}
@@ -117,7 +117,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-2 lg:flex xl:gap-3">
+        <div className="hidden shrink-0 items-center gap-2 xl:flex xl:gap-3">
           {isClerkConfigured && (
             <>
               <Show when="signed-in">
@@ -154,7 +154,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMobileOpen((v) => !v)}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gn-gold/30 text-gn-cream shadow-[0_0_0_0_rgba(210,137,67,0)] transition-all duration-300 ease-out hover:scale-110 hover:border-gn-gold hover:bg-gn-gold/10 hover:text-gn-gold hover:shadow-[0_0_18px_2px_rgba(210,137,67,0.55)] lg:hidden"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gn-gold/30 text-gn-cream shadow-[0_0_0_0_rgba(210,137,67,0)] transition-all duration-300 ease-out hover:scale-110 hover:border-gn-gold hover:bg-gn-gold/10 hover:text-gn-gold hover:shadow-[0_0_18px_2px_rgba(210,137,67,0.55)] xl:hidden"
           aria-label="Menu"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
@@ -165,7 +165,7 @@ export default function Header() {
 
       {mobileOpen && (
         <nav
-          className="mx-auto mt-2 flex max-w-6xl touch-none flex-col gap-1 rounded-3xl border border-gn-gold/20 bg-gn-black/70 p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md lg:hidden"
+          className="mx-auto mt-2 flex max-w-6xl touch-none flex-col gap-1 rounded-3xl border border-gn-gold/20 bg-gn-black/70 p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md xl:hidden"
           onTouchMove={handleGlassTouchMove}
           onTouchEnd={() => setGlassHref(null)}
           onTouchCancel={() => setGlassHref(null)}

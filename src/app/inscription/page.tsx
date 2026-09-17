@@ -67,7 +67,7 @@ export default async function InscriptionPage() {
         <div className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex flex-col gap-7">
             <div>
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">Pourquoi devenir membre</p>
+              <p className="mb-3 font-serif text-[15px] italic font-medium text-gn-gold">Pourquoi devenir membre</p>
               <p className="text-sm leading-relaxed text-gn-muted">
                 L&apos;inscription vous donne accès à votre carte de membre personnalisée, générée
                 immédiatement.

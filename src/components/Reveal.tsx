@@ -28,7 +28,13 @@ export default function Reveal({
     const el = ref.current;
     if (!el) return;
 
-    const reveal = () => controls.start({ opacity: 1, y: 0, transition: { duration: 0.6, delay, ease: 'easeOut' } });
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      controls.set({ opacity: 1, y: 0 });
+      return;
+    }
+
+    const reveal = () => controls.start({ opacity: 1, y: 0, transition: { duration: 0.5, delay, ease: 'easeOut' } });
 
     const rect = el.getBoundingClientRect();
     const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
@@ -62,7 +68,7 @@ export default function Reveal({
   }, []);
 
   return (
-    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 24 }} animate={controls}>
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 12 }} animate={controls}>
       {children}
     </motion.div>
   );

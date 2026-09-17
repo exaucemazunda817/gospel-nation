@@ -62,7 +62,7 @@ export default async function DonsPage() {
 
       <section className="bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">Comment donner</p>
+          <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Comment donner</p>
           <h2 className="mb-9 font-serif text-[28px] font-semibold text-gn-ink">Choisissez un moyen de don</h2>
           {methods.length === 0 ? (
             <PlaceholderNote>{donsPlaceholder}</PlaceholderNote>
@@ -93,7 +93,7 @@ export default async function DonsPage() {
 
       <section className="gn-glow relative overflow-hidden bg-gn-black">
         <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">Pourquoi donner</p>
+          <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold">Pourquoi donner</p>
           <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-cream">L&apos;impact de votre générosité</h2>
           <div className="grid gap-9 sm:grid-cols-3">
             {impact.map((item, index) => (

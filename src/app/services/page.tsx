@@ -97,7 +97,7 @@ export default async function ServicesPage() {
                             rel="noopener noreferrer"
                             className="text-[12.5px] font-semibold text-gn-gold-line hover:underline"
                           >
-                            Voir le site →
+                            Voir le site
                           </a>
                         )}
                       </div>

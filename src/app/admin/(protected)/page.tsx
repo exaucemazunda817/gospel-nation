@@ -31,7 +31,7 @@ export default async function AdminTestimoniesPage() {
               rel="noopener noreferrer"
               className="mt-2 inline-block text-sm text-gn-gold hover:underline"
             >
-              Voir la vidéo →
+              Voir la vidéo
             </a>
           )}
           <div className="mt-4">

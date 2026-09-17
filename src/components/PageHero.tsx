@@ -24,7 +24,7 @@ export default function PageHero({
       <div className="gn-glow pointer-events-none absolute inset-0" />
       <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         {eyebrow && (
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">{eyebrow}</p>
+          <p className="font-serif text-[15px] italic font-medium text-gn-gold">{eyebrow}</p>
         )}
         <h1 className="mt-3 max-w-2xl font-serif text-4xl font-bold leading-tight sm:text-[44px]">{title}</h1>
         {subtitle && <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-gn-muted">{subtitle}</p>}

@@ -31,16 +31,10 @@ export default function BiblePage() {
           className="gn-card-lift mb-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gn-gold/30 bg-gn-black-soft px-6 py-5 text-gn-cream"
         >
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">Plan de lecture</p>
+            <p className="font-serif text-[15px] italic font-medium text-gn-gold">Plan de lecture</p>
             <p className="mt-1 font-serif text-lg font-bold">Lire toute la Bible en 365 jours</p>
           </div>
-          <span className="flex items-center gap-2 text-[12.5px] font-semibold text-gn-gold-line">
-            Commencer
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </span>
+          <span className="text-[12.5px] font-semibold text-gn-gold-line">Commencer</span>
         </Link>
 
         <div className="mb-10 flex flex-wrap items-center justify-between gap-4">

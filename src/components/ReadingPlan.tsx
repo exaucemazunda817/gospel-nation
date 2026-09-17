@@ -162,14 +162,14 @@ export default function ReadingPlan() {
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gn-line bg-white px-5 py-3.5 text-[13px] text-gn-ink/70">
           <span>Créez un compte pour retrouver votre progression sur tous vos appareils.</span>
           <Link href="/compte/inscription" className="shrink-0 font-semibold text-gn-gold-line hover:underline">
-            Créer un compte →
+            Créer un compte
           </Link>
         </div>
       )}
 
       {/* Aujourd'hui */}
       <div className="mb-8 rounded-2xl border border-gn-gold/30 bg-gn-black-soft p-6 text-gn-cream">
-        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">
+        <p className="font-serif text-[15px] italic font-medium text-gn-gold">
           {done === total ? 'Plan terminé — bravo !' : `À lire — Jour ${String(today.day).padStart(3, '0')}`}
         </p>
         <div className="mt-3 flex flex-col gap-2.5 text-[15px]">

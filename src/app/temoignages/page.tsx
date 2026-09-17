@@ -61,13 +61,9 @@ export default async function TemoignagesPage() {
                         href={t.videoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-auto flex items-center gap-1.5 text-[12.5px] font-semibold text-gn-gold-line hover:underline"
+                        className="mt-auto text-[12.5px] font-semibold text-gn-gold-line hover:underline"
                       >
                         Voir la vidéo
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                          <line x1="5" y1="12" x2="19" y2="12" />
-                          <polyline points="12 5 19 12 12 19" />
-                        </svg>
                       </a>
                     )}
                   </article>
@@ -82,7 +78,7 @@ export default async function TemoignagesPage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <Reveal>
             <div className="flex flex-col gap-4">
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold">Votre histoire compte</p>
+              <p className="font-serif text-[15px] italic font-medium text-gn-gold">Votre histoire compte</p>
               <h2 className="font-serif text-[28px] font-semibold leading-snug text-gn-cream">
                 Partagez votre témoignage
               </h2>

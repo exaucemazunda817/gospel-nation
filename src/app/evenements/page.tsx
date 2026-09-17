@@ -49,7 +49,7 @@ export default async function EvenementsPage() {
                 </Reveal>
                 <Reveal delay={0.08}>
                   <div>
-                    <p className="mb-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-gn-gold-dark">
+                    <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">
                       Prochain grand rendez-vous
                     </p>
                     <h2 className="mb-3.5 font-serif text-[28px] font-semibold leading-snug text-gn-ink">{featured.title}</h2>
