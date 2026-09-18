@@ -37,7 +37,7 @@ export default async function AdminMembersPage() {
                 <img
                   src={`/api/admin/membres/${m.id}/photo`}
                   alt={`${m.firstName} ${m.lastName}`}
-                  className="h-16 w-16 rounded-xl object-cover"
+                  className="h-16 w-16 rounded-lg object-cover"
                 />
               )}
               <div>

@@ -34,9 +34,9 @@ export default function Footer() {
               height={429}
               className="h-9 w-9 object-contain"
             />
-            <span className="font-serif text-[15px] font-bold text-gn-cream">GOSPEL NATION</span>
+            <span className="font-serif text-base font-bold text-gn-cream">GOSPEL NATION</span>
           </div>
-          <p className="max-w-[230px] text-[12.5px] leading-relaxed text-gn-cream/60">
+          <p className="max-w-[230px] text-xs leading-relaxed text-gn-cream/60">
             Une famille spirituelle qui accueille, forme et envoie ceux qui cherchent Dieu.
           </p>
           <div className="mt-1 flex gap-2.5">
@@ -44,7 +44,7 @@ export default function Footer() {
               href={church.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
               aria-label="YouTube"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -55,7 +55,7 @@ export default function Footer() {
               href={church.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
               aria-label="Instagram"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
@@ -68,38 +68,38 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Explorer</p>
+          <p className="font-serif text-sm italic font-medium text-gn-gold">Explorer</p>
           {explore.map((l) => (
-            <Link key={l.href} href={l.href} className="text-[12.5px] text-gn-cream/60 hover:text-gn-gold">
+            <Link key={l.href} href={l.href} className="inline-flex min-h-[44px] items-center text-xs text-gn-cream/60 hover:text-gn-gold">
               {l.label}
             </Link>
           ))}
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Communauté</p>
+          <p className="font-serif text-sm italic font-medium text-gn-gold">Communauté</p>
           {community.map((l) => (
-            <Link key={l.href} href={l.href} className="text-[12.5px] text-gn-cream/60 hover:text-gn-gold">
+            <Link key={l.href} href={l.href} className="inline-flex min-h-[44px] items-center text-xs text-gn-cream/60 hover:text-gn-gold">
               {l.label}
             </Link>
           ))}
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Contact</p>
-          <p className="text-[12.5px] leading-relaxed text-gn-cream/60">
+          <p className="font-serif text-sm italic font-medium text-gn-gold">Contact</p>
+          <p className="text-xs leading-relaxed text-gn-cream/60">
             {church.address}
             {church.addressIsPlaceholder && <span className="ml-1 text-gn-gold/70">(à confirmer)</span>}
           </p>
-          <p className="text-[12.5px] text-gn-cream/60">{church.city}</p>
-          <Link href="/contact" className="text-[12.5px] text-gn-gold hover:text-gn-gold-light">
+          <p className="text-xs text-gn-cream/60">{church.city}</p>
+          <Link href="/contact" className="inline-flex min-h-[44px] items-center text-xs text-gn-gold hover:text-gn-gold-light">
             Nous contacter
           </Link>
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-serif text-[14px] italic font-medium text-gn-gold">Cultes</p>
-          <p className="text-[12.5px] leading-relaxed text-gn-cream/60">
+          <p className="font-serif text-sm italic font-medium text-gn-gold">Cultes</p>
+          <p className="text-xs leading-relaxed text-gn-cream/60">
             {schedule.day}, {schedule.time}
             <br />
             {church.address}
@@ -108,10 +108,10 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto mt-12 flex max-w-6xl flex-col gap-2 border-t border-gn-gold/15 px-5 py-5 sm:flex-row sm:justify-between sm:px-10">
-        <span className="text-[11px] text-gn-cream/50">
+        <span className="text-xs text-gn-cream/50">
           © {new Date().getFullYear()} {church.name}. Tous droits réservés.
         </span>
-        <span className="text-[11px] tracking-wide text-gn-gold">{church.tagline}</span>
+        <span className="text-xs tracking-wide text-gn-gold">{church.tagline}</span>
       </div>
     </footer>
   );

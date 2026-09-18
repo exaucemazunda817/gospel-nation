@@ -27,6 +27,25 @@
      où l'assombrir dégraderait au contraire son contraste. */
   --gn-muted-strong: #726c5d;
   --gn-line: #e6ddc7;
+
+  /* Teintes de composants, remontées en tokens le 18/09/2026 : elles étaient
+     écrites en dur dans les composants, ce qui rendait impossible un vrai
+     changement de charte (une même couleur devait être retrouvée à la main
+     dans plusieurs fichiers). */
+  --gn-on-gold: #2a2013; /* texte foncé posé sur un aplat doré */
+  --gn-field: #2a231b; /* fond des champs de formulaire sur section sombre */
+  --gn-card-slot: #241f19; /* emplacement photo de la carte de membre */
+  --gn-avatar-from: #eee7d6; /* dégradé des pastilles d'avatar */
+  --gn-avatar-to: #e3dabd;
+  --gn-avatar-icon: #a8946a;
+  --gn-highlight: #fbf3df; /* surlignage temporaire (plan de lecture) */
+
+  /* Échelle de durées d'animation : 150 ms pour les changements de couleur
+     (défaut Tailwind), 300 ms pour les mouvements d'interface, 500 ms pour
+     les médias et les apparitions. Les boucles décoratives (reflet, squelette,
+     zoom lent) ont leur propre rythme, volontairement plus lent. */
+  --gn-motion-ui: 300ms;
+  --gn-motion-media: 500ms;
 }
 
 @theme inline {
@@ -44,14 +63,55 @@
   --color-gn-muted: var(--gn-muted);
   --color-gn-muted-strong: var(--gn-muted-strong);
   --color-gn-line: var(--gn-line);
+  --color-gn-on-gold: var(--gn-on-gold);
+  --color-gn-field: var(--gn-field);
+  --color-gn-card-slot: var(--gn-card-slot);
+  --color-gn-avatar-from: var(--gn-avatar-from);
+  --color-gn-avatar-to: var(--gn-avatar-to);
+  --color-gn-avatar-icon: var(--gn-avatar-icon);
+  --color-gn-highlight: var(--gn-highlight);
   --font-sans: var(--font-montserrat);
   --font-serif: var(--font-playfair);
+
+  /* Deux tailles d'affichage nommées, pour les grands titres de bannière.
+     Le reste du site s'en tient à l'échelle Tailwind (xs → 3xl) : avant le
+     18/09/2026 il circulait 32 tailles différentes, dont des demi-pixels
+     réglés à l'œil, ce qui se voyait en incohérences d'une page à l'autre. */
+  --text-hero: 2.375rem; /* 38px — titre des pages intérieures */
+  --text-display: 3.25rem; /* 52px — titre de la page d'accueil */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Largeur de lecture confortable (~70-75 caractères par ligne). L'unité ch
+   se base sur la largeur du « 0 », plus large que la lettre moyenne en
+   Montserrat : le max-w-prose de Tailwind (65ch, non surchargeable en v4)
+   donnait 80 à 90 caractères réels par ligne. Mesuré sur le site le 18/09/2026. */
+@utility max-w-measure {
+  max-width: 56ch;
+}
+
+/* Zone tactile minimale de 44 px (recommandation Apple/WCAG 2.5.5) pour tous
+   les boutons et champs : la plupart des visiteurs consultent le site au
+   téléphone. Les cases à cocher/boutons radio gardent leur taille native. */
+button,
+select,
+textarea,
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']) {
+  min-height: 44px;
+}
+
+/* Focus clavier visible et cohérent sur tout le site. :focus-visible ne se
+   déclenche qu'à la navigation au clavier, jamais au clic souris — l'anneau
+   n'apparaît donc pas de façon intempestive. */
+:focus-visible {
+  outline: 2px solid var(--gn-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .placeholder-note {
@@ -75,6 +135,25 @@ body {
     radial-gradient(ellipse at 6% 100%, rgba(138, 47, 10, 0.2), transparent 55%);
 }
 
+/* Halos dorés réutilisés en fond (vignette de prédication sans image, section
+   départements). En classe plutôt qu'en style inline pour que la teinte reste
+   pilotée par le token doré. */
+.gn-radial-gold {
+  background-image: radial-gradient(
+    ellipse at 75% 15%,
+    color-mix(in srgb, var(--gn-gold) 35%, transparent),
+    transparent 60%
+  );
+}
+
+.gn-radial-gold-soft {
+  background-image: radial-gradient(
+    ellipse at 10% 100%,
+    color-mix(in srgb, var(--gn-gold) 14%, transparent),
+    transparent 55%
+  );
+}
+
 .gn-logo-shadow {
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
 }
@@ -87,7 +166,8 @@ body {
 }
 
 .gn-card-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform var(--gn-motion-ui) ease, box-shadow var(--gn-motion-ui) ease,
+    border-color var(--gn-motion-ui) ease;
 }
 
 .gn-card-lift:hover {
@@ -105,4 +185,115 @@ body {
 
 .gn-scroll-x::-webkit-scrollbar {
   display: none;
+}
+
+/* Léger zoom lent en fond des bannières à gros titres (pages intérieures) —
+   donne un peu de vie à une photo par ailleurs statique, sans distraire du
+   texte par-dessus. Désactivé si l'utilisateur préfère moins de mouvement. */
+@keyframes gn-kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.gn-kenburns {
+  animation: gn-kenburns 16s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-kenburns {
+    animation: none;
+  }
+}
+
+/* Bloc de chargement (squelette) affiché le temps qu'une requête à la base
+   (souvent ralentie par la reprise du compute Neon, voir CLAUDE.md) résolve —
+   évite un écran vide qui laisse croire à une panne. */
+@keyframes gn-shimmer {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.gn-skeleton {
+  animation: gn-shimmer 1.4s ease-in-out infinite;
+  background-color: var(--gn-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-skeleton {
+    animation: none;
+  }
+}
+
+/* Coche animée sur les écrans de confirmation (témoignage, rendez-vous,
+   inscription, contact) : le cercle se dessine puis la coche, plutôt qu'un
+   simple remplacement de texte. */
+.gn-checkmark-circle,
+.gn-checkmark-tick {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: gn-checkmark-draw var(--gn-motion-media) ease-out forwards;
+}
+
+.gn-checkmark-tick {
+  animation-delay: 0.4s;
+}
+
+@keyframes gn-checkmark-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-checkmark-circle,
+  .gn-checkmark-tick {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Barre de progression (plan de lecture) : largeur animée en douceur au
+   changement + léger reflet qui balaie la portion remplie. */
+.gn-progress-fill {
+  position: relative;
+  overflow: hidden;
+  transition: width var(--gn-motion-media) ease;
+}
+
+.gn-progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: gn-progress-shine 2.4s ease-in-out infinite;
+}
+
+@keyframes gn-progress-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-progress-fill {
+    transition: none;
+  }
+
+  .gn-progress-fill::after {
+    animation: none;
+    display: none;
+  }
 }

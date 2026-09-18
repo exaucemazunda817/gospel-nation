@@ -56,14 +56,14 @@ export default function EglisePage() {
     <div className="bg-white">
       {/* Fil d'ariane */}
       <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/eglise.jpg" alt="" fill className="object-cover object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gn-black/40" />
+        <Image src="/hero/eglise.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
-          <p className="mb-3.5 text-xs text-gn-muted">
-            <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">À propos</span>
+          <p className="mb-1 text-xs text-gn-cream/80">
+            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">À propos</span>
           </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-[38px]">Qui sommes-nous</h1>
+          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Qui sommes-nous</h1>
         </div>
       </section>
 
@@ -83,11 +83,11 @@ export default function EglisePage() {
           </Reveal>
           <Reveal delay={0.08}>
             <div>
-              <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Notre histoire</p>
-              <h2 className="mb-[18px] font-serif text-[28px] font-semibold leading-snug text-gn-ink">
+              <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Notre histoire</p>
+              <h2 className="mb-[18px] font-serif text-3xl font-semibold leading-snug text-gn-ink">
                 Une famille bâtie sur la foi
               </h2>
-              <p className="mb-3 text-sm leading-[1.8] text-gn-ink/60">{histoirePlaceholder}</p>
+              <p className="mb-3 max-w-measure text-sm leading-[1.8] text-gn-ink/60">{histoirePlaceholder}</p>
               <div className="mt-5">
                 <PlaceholderNote>
                   L&apos;histoire complète de la fondation de l&apos;église (année, lieu, vision initiale) sera
@@ -102,8 +102,8 @@ export default function EglisePage() {
       {/* Nos valeurs */}
       <section className="border-y border-gn-line bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Ce que nous croyons</p>
-          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Nos valeurs</h2>
+          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Ce que nous croyons</p>
+          <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Nos valeurs</h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value, index) => (
               <Reveal key={value.title} delay={index * 0.06}>
@@ -114,7 +114,7 @@ export default function EglisePage() {
                     </svg>
                   </div>
                   <p className="font-serif text-base font-semibold text-gn-ink">{value.title}</p>
-                  <p className="text-[12.5px] leading-relaxed text-gn-ink/60">{value.description}</p>
+                  <p className="text-xs leading-relaxed text-gn-ink/60">{value.description}</p>
                 </div>
               </Reveal>
             ))}
@@ -125,12 +125,12 @@ export default function EglisePage() {
       {/* Pasteur */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Direction</p>
-          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Notre pasteur</h2>
+          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Direction</p>
+          <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Notre pasteur</h2>
           <div className="max-w-xs">
             <Reveal>
               <div className="flex flex-col gap-3.5">
-                <div className="relative h-[220px] overflow-hidden rounded-lg bg-gradient-to-br from-[#eee7d6] to-[#e3dabd]">
+                <div className="relative h-[220px] overflow-hidden rounded-lg bg-gradient-to-br from-gn-avatar-from to-gn-avatar-to">
                   <Image
                     src={church.mainPastor.photoUrl}
                     alt={church.mainPastor.name}
@@ -140,13 +140,13 @@ export default function EglisePage() {
                   />
                 </div>
                 <div>
-                  <p className="mb-1 font-serif text-[15px] font-semibold text-gn-ink">{church.mainPastor.name}</p>
-                  <p className="text-[11.5px] uppercase tracking-wide text-gn-gold-line">{church.mainPastor.title}</p>
+                  <p className="mb-1 font-serif text-base font-semibold text-gn-ink">{church.mainPastor.name}</p>
+                  <p className="text-xs uppercase tracking-wide text-gn-gold-line">{church.mainPastor.title}</p>
                   <a
                     href={`https://www.instagram.com/${church.mainPastor.instagram.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-1 inline-block text-xs text-gn-gold-dark hover:underline"
+                    className="mt-1 inline-flex min-h-[44px] items-center text-xs text-gn-gold-dark hover:underline"
                   >
                     {church.mainPastor.instagram}
                   </a>
@@ -160,32 +160,32 @@ export default function EglisePage() {
       {/* Horaires */}
       <section className="border-t border-gn-line bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Nous rejoindre</p>
-          <h2 className="mb-10 font-serif text-[28px] font-semibold text-gn-ink">Horaires des cultes</h2>
+          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Nous rejoindre</p>
+          <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Horaires des cultes</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {church.schedule.map((s) => (
               <div key={`${s.day}-${s.time}`} className="gn-card-lift flex items-center justify-between gap-4 rounded-lg border border-gn-line bg-white px-6 py-5">
                 <div>
                   <p className="font-serif text-base font-semibold text-gn-ink">{s.label}</p>
-                  <p className="mt-1 text-[13px] text-gn-ink/60">{s.day} — {s.time}</p>
+                  <p className="mt-1 text-sm text-gn-ink/60">{s.day} — {s.time}</p>
                 </div>
               </div>
             ))}
           </div>
-          <p className="mt-8 text-sm text-gn-ink/60">{church.address}</p>
+          <p className="mt-8 max-w-measure text-sm text-gn-ink/60">{church.address}</p>
         </div>
       </section>
 
       {/* CTA */}
       <section className="gn-glow relative overflow-hidden bg-gn-black">
         <div className="relative mx-auto max-w-6xl px-5 py-16 text-center sm:px-10 sm:py-20">
-          <h2 className="mb-4 font-serif text-[28px] font-semibold text-gn-cream">Rejoignez-nous ce dimanche</h2>
+          <h2 className="mb-4 font-serif text-3xl font-semibold text-gn-cream">Rejoignez-nous ce dimanche</h2>
           <p className="mx-auto mb-7 max-w-md text-sm text-gn-muted">
             Toute la famille Gospel Nation vous attend pour ce temps de culte, de partage et de communion.
           </p>
           <Link
             href="/inscription"
-            className="inline-block rounded bg-gradient-to-br from-gn-gold-light to-gn-gold px-8 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+            className="inline-block rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-8 py-[15px] text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
           >
             Devenir membre
           </Link>

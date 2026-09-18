@@ -5,8 +5,13 @@ import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
 
+// Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
+export const revalidate = 60;
+
 export const metadata: Metadata = {
-  title: 'Départements'
+  title: 'Départements',
+  description:
+    'Worship, intercession, médias, Gospel Kids, One Love : découvrez les départements où servir à Gospel Nation.'
 };
 
 export default async function DepartementsPage() {
@@ -46,13 +51,13 @@ export default async function DepartementsPage() {
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <h2 className="font-serif text-base font-semibold text-gn-ink">{dept.name}</h2>
-                    <p className="mt-2 line-clamp-3 flex-1 text-[13px] leading-relaxed text-gn-ink/60">{dept.description}</p>
+                    <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-gn-ink/60">{dept.description}</p>
                     {dept.registrationOpen ? (
                       <span className="mt-3 inline-block w-fit rounded-full bg-gn-gold px-3 py-1 text-xs font-semibold text-gn-black">
                         Inscriptions ouvertes
                       </span>
                     ) : (
-                      <span className="mt-3 inline-block text-xs text-gn-muted">Inscriptions fermées</span>
+                      <span className="mt-3 inline-block text-xs text-gn-muted-strong">Inscriptions fermées</span>
                     )}
                   </div>
                 </Link>

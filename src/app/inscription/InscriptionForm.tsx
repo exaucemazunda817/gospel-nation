@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import AnimatedCheckmark from '@/components/AnimatedCheckmark';
 import { Field, FileField, CheckboxField, SelectField } from '@/components/form/Field';
 
 type SuccessData = {
@@ -48,9 +49,7 @@ export default function InscriptionForm({
   if (success) {
     return (
       <div className="rounded-2xl border border-gn-gold/30 bg-gn-gold/10 p-8 text-center">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gn-gold text-2xl text-gn-black">
-          ✓
-        </span>
+        <AnimatedCheckmark />
         <p className="mt-4 font-semibold text-gn-gold">Bienvenue dans la famille, {success.firstName} !</p>
         <p className="mt-1 text-sm text-gn-ink/70">
           Votre inscription est enregistrée et votre carte de membre est prête, avec votre photo.

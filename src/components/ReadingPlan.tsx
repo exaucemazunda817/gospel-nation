@@ -159,7 +159,7 @@ export default function ReadingPlan() {
   return (
     <div>
       {isLoaded && !isSignedIn && (
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gn-line bg-white px-5 py-3.5 text-[13px] text-gn-ink/70">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gn-line bg-white px-5 py-3.5 text-sm text-gn-ink/70">
           <span>Créez un compte pour retrouver votre progression sur tous vos appareils.</span>
           <Link href="/compte/inscription" className="shrink-0 font-semibold text-gn-gold-line hover:underline">
             Créer un compte
@@ -169,10 +169,10 @@ export default function ReadingPlan() {
 
       {/* Aujourd'hui */}
       <div className="mb-8 rounded-2xl border border-gn-gold/30 bg-gn-black-soft p-6 text-gn-cream">
-        <p className="font-serif text-[15px] italic font-medium text-gn-gold">
+        <p className="font-serif text-base italic font-medium text-gn-gold">
           {done === total ? 'Plan terminé — bravo !' : `À lire — Jour ${String(today.day).padStart(3, '0')}`}
         </p>
-        <div className="mt-3 flex flex-col gap-2.5 text-[15px]">
+        <div className="mt-3 flex flex-col gap-2.5 text-base">
           <div className="flex items-center gap-2.5">
             <input
               type="checkbox"
@@ -195,7 +195,7 @@ export default function ReadingPlan() {
             <span>
               <span className="mr-1.5 text-gn-muted">NT —</span>
               <ReadingRefLinks label={today.nt} />
-              {today.ntPass === 2 && <span className="ml-1 text-[11px] text-gn-gold">(2e lecture)</span>}
+              {today.ntPass === 2 && <span className="ml-1 text-xs text-gn-gold">(2e lecture)</span>}
             </span>
           </div>
         </div>
@@ -208,9 +208,9 @@ export default function ReadingPlan() {
           <span className="font-bold text-gn-gold-line">{pct}%</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-gn-line">
-          <div className="h-full bg-gradient-to-r from-gn-gold-dark to-gn-gold transition-all" style={{ width: `${pct}%` }} />
+          <div className="gn-progress-fill h-full bg-gradient-to-r from-gn-gold-dark to-gn-gold" style={{ width: `${pct}%` }} />
         </div>
-        <button type="button" onClick={handleReset} className="mt-3 text-[12px] text-gn-gold-line underline hover:text-gn-gold-dark">
+        <button type="button" onClick={handleReset} className="mt-3 text-xs text-gn-gold-line underline hover:text-gn-gold-dark">
           Réinitialiser ma progression
         </button>
       </div>
@@ -224,9 +224,9 @@ export default function ReadingPlan() {
           value={jumpValue}
           onChange={(e) => setJumpValue(e.target.value)}
           placeholder={`Aller au jour n° (1–${TOTAL_DAYS})`}
-          className="min-w-0 flex-1 rounded-full border border-gn-line bg-white px-4 py-2.5 text-[13.5px] text-gn-ink placeholder:text-gn-ink/40 focus:border-gn-gold-line focus:outline-none"
+          className="min-w-0 flex-1 rounded-full border border-gn-line bg-white px-4 py-2.5 text-sm text-gn-ink placeholder:text-gn-ink/40 focus:border-gn-gold-line focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
         />
-        <button type="submit" className="shrink-0 rounded-full bg-gn-black px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-gn-cream hover:bg-gn-black-soft">
+        <button type="submit" className="shrink-0 rounded-full bg-gn-black px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-gn-cream hover:bg-gn-black-soft">
           Aller
         </button>
       </form>
@@ -241,10 +241,10 @@ export default function ReadingPlan() {
           const rangeLabel = first === last ? `Jour ${String(first).padStart(3, '0')}` : `Jours ${String(first).padStart(3, '0')}–${String(last).padStart(3, '0')}`;
 
           return (
-            <details key={weekNum} open={openWeek === weekNum} className="overflow-hidden rounded-xl border border-gn-line bg-white">
-              <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-serif text-[14.5px] font-bold text-gn-ink">
+            <details key={weekNum} open={openWeek === weekNum} className="overflow-hidden rounded-lg border border-gn-line bg-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-serif text-sm font-bold text-gn-ink">
                 <span>{label}</span>
-                <span className="text-[12px] font-normal text-gn-muted">{rangeLabel}</span>
+                <span className="text-xs font-normal text-gn-muted-strong">{rangeLabel}</span>
               </summary>
               <div className="border-t border-gn-line">
                 {week.map((d) => {
@@ -253,8 +253,8 @@ export default function ReadingPlan() {
                     <div
                       id={`plan-day-${d.day}`}
                       key={d.day}
-                      className={`grid grid-cols-[36px_1fr_22px_1fr_22px] items-center gap-2 border-b border-gn-line px-4 py-2.5 text-[12.5px] last:border-b-0 sm:text-[13px] ${
-                        highlightDay === d.day ? 'bg-[#fbf3df]' : ''
+                      className={`grid grid-cols-[36px_1fr_22px_1fr_22px] items-center gap-2 border-b border-gn-line px-4 py-2.5 text-xs last:border-b-0 sm:text-sm ${
+                        highlightDay === d.day ? 'bg-gn-highlight' : ''
                       }`}
                     >
                       <span className="font-serif font-bold text-gn-gold-line">{String(d.day).padStart(3, '0')}</span>

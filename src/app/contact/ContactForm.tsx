@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import AnimatedCheckmark from '@/components/AnimatedCheckmark';
 import { Field, TextAreaField } from '@/components/form/Field';
 
 export default function ContactForm() {
@@ -43,9 +44,7 @@ export default function ContactForm() {
   if (success) {
     return (
       <div className="rounded-lg border border-gn-gold/30 bg-gn-gold/10 p-6 text-center">
-        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-gn-gold text-xl text-gn-black">
-          ✓
-        </span>
+        <AnimatedCheckmark size={44} />
         <p className="mt-3 font-semibold text-gn-gold-line">Message envoyé.</p>
         <p className="mt-1 text-sm text-gn-ink/70">Nous vous répondrons dans les meilleurs délais.</p>
       </div>
@@ -66,7 +65,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-md bg-gn-black py-[15px] text-center text-[13px] font-bold uppercase tracking-wide text-gn-gold transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="w-full rounded-full bg-gn-black py-[15px] text-center text-sm font-bold uppercase tracking-wide text-gn-gold transition-opacity hover:opacity-90 disabled:opacity-60"
       >
         {submitting ? 'Envoi en cours…' : 'Envoyer'}
       </button>

@@ -83,14 +83,14 @@ function BibleVerseRow({
 
   return (
     <p id={`verset-${verse}`} className="group scroll-mt-28 leading-[1.8] text-gn-ink">
-      <span className="mr-1.5 align-super text-[11px] font-bold text-gn-gold-line">{verse}</span>
+      <span className="mr-1.5 align-super text-xs font-bold text-gn-gold-line">{verse}</span>
       {text}
       <span className="ml-2 inline-flex items-center gap-1.5 align-middle opacity-40 transition-opacity group-hover:opacity-100">
         <button
           type="button"
           onClick={handleToggleFavorite}
           aria-label={fav ? 'Retirer des favoris' : 'Ajouter aux favoris'}
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full text-gn-gold-line hover:bg-gn-gold/10"
+          className="inline-flex h-6 min-h-0 w-6 items-center justify-center rounded-full text-gn-gold-line hover:bg-gn-gold/10"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -101,7 +101,7 @@ function BibleVerseRow({
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Partager sur WhatsApp"
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full text-gn-gold-line hover:bg-gn-gold/10"
+          className="inline-flex h-6 min-h-0 w-6 items-center justify-center rounded-full text-gn-gold-line hover:bg-gn-gold/10"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.34 2 11.7c0 1.96.62 3.78 1.68 5.3L2 22l5.2-1.63A10.1 10.1 0 0 0 12 21.4c5.52 0 10-4.34 10-9.7S17.52 2 12 2zm0 17.7c-1.6 0-3.1-.44-4.38-1.2l-.31-.18-3.09.97.99-2.98-.2-.32a7.9 7.9 0 0 1-1.24-4.27c0-4.35 3.65-7.88 8.23-7.88s8.23 3.53 8.23 7.88-3.65 7.88-8.23 7.88z" />
@@ -111,7 +111,7 @@ function BibleVerseRow({
           type="button"
           onClick={handleCopy}
           aria-label="Copier le verset"
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full text-gn-gold-line hover:bg-gn-gold/10"
+          className="inline-flex h-6 min-h-0 w-6 items-center justify-center rounded-full text-gn-gold-line hover:bg-gn-gold/10"
         >
           {copied ? (
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">

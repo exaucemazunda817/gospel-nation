@@ -6,6 +6,9 @@ import HorizontalScroller from '@/components/HorizontalScroller';
 import { church } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
 
+// Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
+export const revalidate = 60;
+
 const DEPARTMENT_ICONS: Record<string, React.ReactNode> = {
   fire: (
     <>
@@ -60,7 +63,7 @@ export default async function HomePage() {
     <div className="bg-gn-black">
       {/* Hero */}
       <section className="relative overflow-hidden bg-gn-black">
-        <HeroVideo src="/video/hero-accueil.mp4" />
+        <HeroVideo src="/video/hero-accueil.mp4" poster="/video/hero-accueil-poster.jpg" />
         <div className="pointer-events-none absolute inset-0 bg-gn-black/70" />
         {/* Voile supplémentaire côté texte : la vidéo contient son propre
             texte incrusté par endroits, qui peut entrer en collision avec le
@@ -72,24 +75,24 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-10 sm:py-28 lg:py-32">
           <Reveal>
             <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center sm:mx-0 sm:items-start sm:gap-6 sm:text-left">
-              <p className="font-serif text-[15px] italic font-medium text-gn-gold">{church.name}</p>
-              <h1 className="font-serif text-4xl font-bold leading-[1.12] text-gn-cream sm:text-[52px]">
+              <p className="font-serif text-base italic font-medium text-gn-gold">{church.name}</p>
+              <h1 className="font-serif text-4xl font-bold leading-[1.12] text-gn-cream sm:text-display">
                 {church.tagline}
               </h1>
-              <p className="max-w-md text-[15.5px] leading-relaxed text-gn-muted">
+              <p className="max-w-md text-base leading-relaxed text-gn-muted">
                 Une famille spirituelle qui accueille, forme et envoie ceux qui cherchent Dieu. Rejoignez-nous
                 pour adorer, apprendre et servir ensemble.
               </p>
               <div className="mt-2 flex flex-wrap justify-center gap-4 sm:justify-start">
                 <Link
                   href="/eglise"
-                  className="rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                  className="rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
                 >
                   Rejoindre un culte
                 </Link>
                 <Link
                   href="/predications"
-                  className="rounded-full border border-gn-cream/35 px-[26px] py-[15px] text-[12.5px] font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
+                  className="rounded-full border border-gn-cream/35 px-[26px] py-[15px] text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
                 >
                   Nos prédications
                 </Link>
@@ -108,7 +111,7 @@ export default async function HomePage() {
               <polyline points="12 7 12 12 16 14" />
             </svg>
             <div>
-              <p className="mb-0.5 text-[11px] uppercase tracking-wide text-gn-muted-strong">Prochain culte</p>
+              <p className="mb-0.5 text-xs uppercase tracking-wide text-gn-muted-strong">Prochain culte</p>
               <p className="font-serif text-base font-semibold text-gn-ink">
                 {schedule.day}, {schedule.time}
               </p>
@@ -120,15 +123,15 @@ export default async function HomePage() {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <div>
-              <p className="mb-0.5 text-[11px] uppercase tracking-wide text-gn-muted-strong">Lieu</p>
-              <p className="font-serif text-base font-semibold text-gn-ink">{church.address}</p>
+              <p className="mb-0.5 text-xs uppercase tracking-wide text-gn-muted-strong">Lieu</p>
+              <p className="max-w-md font-serif text-base font-semibold text-gn-ink">{church.address}</p>
             </div>
           </div>
           <a
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded bg-gn-black px-6 py-3 text-[11.5px] font-bold uppercase tracking-wide text-gn-cream transition-opacity hover:opacity-90"
+            className="inline-flex min-h-[44px] items-center rounded-full bg-gn-black px-6 text-xs font-bold uppercase tracking-wide text-gn-cream transition-opacity hover:opacity-90"
           >
             Itinéraire
           </a>
@@ -140,14 +143,14 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Écouter</p>
-              <h2 className="font-serif text-[28px] font-semibold text-gn-ink sm:text-[30px]">
+              <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Écouter</p>
+              <h2 className="font-serif text-3xl font-semibold text-gn-ink">
                 Dernières prédications
               </h2>
             </div>
             <Link
               href="/predications"
-              className="text-[13px] font-semibold text-gn-gold-line hover:underline"
+              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
             >
               Voir toutes les prédications
             </Link>
@@ -161,17 +164,15 @@ export default async function HomePage() {
                   <Link href="/predications" className="flex flex-col gap-3.5">
                     <div className="relative flex h-[170px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gn-black-soft to-gn-black">
                       {sermon.coverImageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
+                        <Image
                           src={sermon.coverImageUrl}
                           alt={sermon.title}
-                          className="absolute inset-0 h-full w-full object-cover"
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover"
                         />
                       ) : (
-                        <div
-                          className="absolute inset-0 opacity-50"
-                          style={{ background: 'radial-gradient(ellipse at 75% 15%, rgba(203,172,104,.35), transparent 60%)' }}
-                        />
+                        <div className="gn-radial-gold absolute inset-0 opacity-50" />
                       )}
                       <div className="absolute inset-0 bg-black/25" />
                       <div className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full border border-gn-gold/50 bg-gn-cream/10 backdrop-blur-sm">
@@ -197,9 +198,9 @@ export default async function HomePage() {
       {/* Nos départements */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <div className="mb-11 max-w-xl">
-            <p className="mb-2.5 font-serif text-[15px] italic font-medium text-gn-gold-dark">Servir</p>
-            <h2 className="mb-3 font-serif text-[28px] font-semibold text-gn-ink sm:text-[30px]">Nos départements</h2>
+          <div className="mb-11 max-w-lg">
+            <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
+            <h2 className="mb-3 font-serif text-3xl font-semibold text-gn-ink">Nos départements</h2>
             <p className="text-sm leading-relaxed text-gn-ink/60">
               Chaque membre trouve sa place pour servir selon ses dons, au sein d&apos;un département de
               l&apos;église.
@@ -230,7 +231,7 @@ export default async function HomePage() {
                   </div>
                   <div className="flex flex-1 flex-col gap-2 p-6">
                     <p className="font-serif text-base font-semibold text-gn-ink">{dept.name}</p>
-                    <p className="line-clamp-2 text-[12.5px] leading-relaxed text-gn-ink/60">{dept.description}</p>
+                    <p className="line-clamp-2 text-xs leading-relaxed text-gn-ink/60">{dept.description}</p>
                   </div>
                 </Link>
               </Reveal>
@@ -239,7 +240,7 @@ export default async function HomePage() {
           <div className="mt-8 text-center">
             <Link
               href="/departements"
-              className="text-[13px] font-semibold text-gn-gold-line hover:underline"
+              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
             >
               Voir tous les départements
             </Link>
@@ -250,14 +251,13 @@ export default async function HomePage() {
       {/* Devenir membre */}
       <section className="relative overflow-hidden bg-gn-black">
         <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse at 10% 100%, rgba(168,142,86,.14), transparent 55%)' }}
+          className="gn-radial-gold-soft pointer-events-none absolute inset-0"
         />
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
           <Reveal>
             <div>
-              <p className="mb-3.5 font-serif text-[15px] italic font-medium text-gn-gold">Rejoindre la famille</p>
-              <h2 className="mb-4 font-serif text-[28px] font-semibold leading-snug text-gn-cream sm:text-[30px]">
+              <p className="mb-3.5 font-serif text-base italic font-medium text-gn-gold">Rejoindre la famille</p>
+              <h2 className="mb-4 font-serif text-3xl font-semibold leading-snug text-gn-cream">
                 Devenez membre de Gospel Nation
               </h2>
               <p className="mb-6 max-w-md text-sm leading-relaxed text-gn-muted">
@@ -274,13 +274,13 @@ export default async function HomePage() {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    <span className="text-[13px] text-gn-cream">{item}</span>
+                    <span className="text-sm text-gn-cream">{item}</span>
                   </div>
                 ))}
               </div>
               <Link
                 href="/inscription"
-                className="inline-flex rounded bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-[12.5px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                className="inline-flex rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
               >
                 Devenir membre
               </Link>
@@ -288,24 +288,24 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="flex items-center justify-center">
-              <div className="relative h-[220px] w-[300px] overflow-hidden rounded-2xl bg-gradient-to-br from-gn-black-soft to-gn-black shadow-2xl sm:w-[340px]">
-                <div className="absolute inset-1.5 rounded-xl border border-gn-gold/35" />
+              <div className="relative aspect-[85/55] w-full max-w-[360px] overflow-hidden rounded-2xl bg-gradient-to-br from-gn-black-soft to-gn-black shadow-2xl">
+                <div className="absolute inset-1.5 rounded-lg border border-gn-gold/35" />
                 <div className="flex flex-col items-center gap-1 px-5 pt-4">
-                  <Image src="/logo-gospel-nation.png" alt="" width={30} height={30} className="h-[30px] w-[30px] object-contain" />
-                  <span className="mt-1.5 rounded-full border border-gn-gold/40 px-2.5 py-0.5 text-[8px] uppercase tracking-[0.14em] text-gn-gold">
+                  <Image src="/logo-gospel-nation.png" alt="" width={34} height={34} className="h-[34px] w-[34px] object-contain" />
+                  <span className="mt-1.5 rounded-full border border-gn-gold/40 px-2.5 py-0.5 text-xs uppercase tracking-[0.14em] text-gn-gold">
                     Carte de membre
                   </span>
                 </div>
                 <div className="flex gap-3 px-5 py-4">
-                  <div className="h-16 w-[52px] rounded-md border-[1.5px] border-gn-gold bg-[#241f19]" />
+                  <div className="h-16 w-[52px] rounded-lg border-[1.5px] border-gn-gold bg-gn-card-slot" />
                   <div>
-                    <p className="mb-1.5 font-serif text-[13px] font-bold text-gn-cream">Prénom Nom</p>
-                    <p className="text-[8px] text-gn-muted">N° MEMBRE</p>
-                    <p className="text-[9px] font-semibold text-gn-cream">GN-2026-000123</p>
+                    <p className="mb-1.5 font-serif text-base font-bold text-gn-cream">Prénom Nom</p>
+                    <p className="text-xs text-gn-muted">N° MEMBRE</p>
+                    <p className="text-xs font-semibold text-gn-cream">GN-2026-000123</p>
                   </div>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 flex h-11 items-center justify-end bg-gradient-to-r from-gn-gold via-gn-gold-light to-gn-gold px-4">
-                  <span className="text-[9px] font-bold uppercase tracking-wide text-[#2a2013]">Gospel Nation</span>
+                  <span className="text-xs font-bold uppercase tracking-wide text-gn-on-gold">Gospel Nation</span>
                 </div>
               </div>
             </div>

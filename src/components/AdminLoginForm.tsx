@@ -44,7 +44,7 @@ export default function AdminLoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoFocus
-          className="w-full rounded-xl border border-black/15 bg-white px-4 py-2.5 text-gn-ink shadow-sm transition-colors focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
+          className="w-full rounded-lg border border-black/15 bg-white px-4 py-2.5 text-gn-ink shadow-sm transition-colors focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
         />
       </label>
       {error && <p className="text-sm text-red-600">{error}</p>}

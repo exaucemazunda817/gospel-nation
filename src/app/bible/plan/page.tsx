@@ -4,7 +4,9 @@ import PageHero from '@/components/PageHero';
 import ReadingPlan from '@/components/ReadingPlan';
 
 export const metadata: Metadata = {
-  title: 'Plan de lecture'
+  title: 'Plan de lecture',
+  description:
+    'Un plan pour parcourir toute la Bible en 365 jours, avec le suivi de votre progression.'
 };
 
 export default function ReadingPlanPage() {
@@ -13,11 +15,11 @@ export default function ReadingPlanPage() {
       <PageHero eyebrow="Bible" title="Plan de lecture en 365 jours" subtitle="365 jours pour parcourir toute la Parole de Dieu." />
 
       <div className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
-        <Link href="/bible" className="text-[12.5px] font-semibold text-gn-gold-line hover:underline">
+        <Link href="/bible" className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline">
           ← Retour à la Bible
         </Link>
 
-        <div className="mt-6 flex flex-col gap-4 text-[14.5px] leading-relaxed text-gn-ink/80">
+        <div className="mt-6 flex flex-col gap-4 text-sm leading-relaxed text-gn-ink/80">
           <p>
             Ce plan te propose de lire toute la Bible en 365 jours, à ton propre rythme : les jours ne sont pas
             datés, tu peux donc commencer n&apos;importe quand dans l&apos;année.
@@ -28,7 +30,7 @@ export default function ReadingPlanPage() {
               fidèlement selon tout ce qui y est écrit ; car c&apos;est alors que tu réussiras dans tes
               entreprises, c&apos;est alors que tu prospéreras. »
             </p>
-            <cite className="mt-1.5 block text-[11px] font-semibold uppercase tracking-wide text-gn-gold-dark not-italic">
+            <cite className="mt-1.5 block text-xs font-semibold uppercase tracking-wide text-gn-gold-dark not-italic">
               Josué 1:8
             </cite>
           </div>

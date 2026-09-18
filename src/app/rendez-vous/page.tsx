@@ -5,7 +5,9 @@ import { church } from '@/lib/content';
 import AppointmentForm from './AppointmentForm';
 
 export const metadata: Metadata = {
-  title: 'Rendez-vous pastoral'
+  title: 'Rendez-vous pastoral',
+  description:
+    'Demandez un rendez-vous avec le pasteur ou le secrétariat de Gospel Nation.'
 };
 
 const infoItems = [
@@ -35,15 +37,15 @@ export default function RendezVousPage() {
   return (
     <div className="bg-gn-black">
       <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/rendez-vous.jpg" alt="" fill className="object-cover object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gn-black/40" />
+        <Image src="/hero/rendez-vous.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
-          <p className="mb-3.5 text-xs text-gn-muted">
-            <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">Prendre rendez-vous</span>
+          <p className="mb-1 text-xs text-gn-cream/80">
+            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Prendre rendez-vous</span>
           </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-[38px]">Prendre rendez-vous</h1>
-          <p className="mt-3.5 max-w-md text-sm text-gn-muted">
+          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Prendre rendez-vous</h1>
+          <p className="mt-3.5 max-w-md text-sm text-gn-cream/90">
             Un besoin de prière, de conseil pastoral ou d&apos;accompagnement ? Prenez rendez-vous avec le
             pasteur.
           </p>
@@ -65,16 +67,16 @@ export default function RendezVousPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="mb-1 text-[11px] uppercase tracking-wide text-gn-muted">{item.label}</p>
-                  <p className="font-serif text-[15px] font-semibold text-gn-cream">{item.value}</p>
+                  <p className="mb-1 text-xs uppercase tracking-wide text-gn-muted">{item.label}</p>
+                  <p className="font-serif text-base font-semibold text-gn-cream">{item.value}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="rounded-xl bg-gn-cream-bg p-7 sm:p-11">
+          <div className="rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
             <p className="mb-1 font-serif text-xl font-semibold text-gn-ink">Demande de rendez-vous</p>
-            <p className="mb-6 text-xs text-gn-muted">
+            <p className="mb-6 text-xs text-gn-muted-strong">
               Précisez le motif et le créneau qui vous conviennent, le pasteur confirmera votre rendez-vous.
             </p>
             <AppointmentForm />

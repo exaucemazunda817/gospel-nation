@@ -92,13 +92,13 @@ export default function BibleReader({
     <div>
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-gn-line pb-5">
         <div className="flex items-center gap-1.5">
-          <span className="mr-1.5 text-[11px] font-semibold uppercase tracking-wide text-gn-muted">Taille</span>
+          <span className="mr-1.5 text-xs font-semibold uppercase tracking-wide text-gn-muted-strong">Taille</span>
           <button
             type="button"
             onClick={() => changeFontIndex(fontIndex - 1)}
             disabled={fontIndex === 0}
             aria-label="Réduire le texte"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gn-line text-gn-ink transition-colors hover:border-gn-gold-line disabled:opacity-30"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-line text-gn-ink transition-colors hover:border-gn-gold-line disabled:opacity-30"
           >
             A-
           </button>
@@ -107,7 +107,7 @@ export default function BibleReader({
             onClick={() => changeFontIndex(fontIndex + 1)}
             disabled={fontIndex === FONT_SIZES.length - 1}
             aria-label="Agrandir le texte"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-gn-line text-gn-ink transition-colors hover:border-gn-gold-line disabled:opacity-30"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-line text-gn-ink transition-colors hover:border-gn-gold-line disabled:opacity-30"
           >
             A+
           </button>
@@ -117,7 +117,7 @@ export default function BibleReader({
           <button
             type="button"
             onClick={toggleSpeech}
-            className="flex items-center gap-2 rounded-full border border-gn-gold/40 px-4 py-2 text-[12.5px] font-semibold text-gn-gold-line transition-colors hover:bg-gn-gold/10"
+            className="flex items-center gap-2 rounded-full border border-gn-gold/40 px-4 py-2 text-xs font-semibold text-gn-gold-line transition-colors hover:bg-gn-gold/10"
           >
             {speaking ? (
               <>

@@ -42,7 +42,7 @@ export default function BibleSearch({
           if (error) setError(false);
         }}
         placeholder={placeholder}
-        className={`min-w-0 flex-1 rounded-full border px-4 py-2.5 text-[13.5px] focus:outline-none ${
+        className={`min-w-0 flex-1 rounded-full border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gn-gold/30 ${
           dark
             ? 'border-gn-gold/30 bg-gn-black-soft text-gn-cream placeholder:text-gn-cream/40 focus:border-gn-gold'
             : 'border-gn-line bg-white text-gn-ink placeholder:text-gn-ink/40 focus:border-gn-gold-line'
@@ -50,12 +50,12 @@ export default function BibleSearch({
       />
       <button
         type="submit"
-        className="shrink-0 rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-5 py-2.5 text-[12px] font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+        className="shrink-0 rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
       >
         Aller
       </button>
       {error && (
-        <p className="w-full text-[12.5px] text-red-400">
+        <p className="w-full text-xs text-red-400">
           Référence introuvable — essayez par ex. « Jean 3:16 » ou « Psaumes 23 ».
         </p>
       )}

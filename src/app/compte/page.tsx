@@ -31,12 +31,12 @@ export default async function ComptePage() {
       <div className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
         <div className="mb-8 flex items-center justify-between rounded-2xl border border-gn-line bg-white p-5">
           <div className="flex items-center gap-3">
-            <UserButton afterSignOutUrl="/" />
+            <UserButton />
             <div>
               <p className="font-serif text-base font-bold text-gn-ink">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-[12.5px] text-gn-ink/60">
+              <p className="text-xs text-gn-ink/60">
                 {user?.primaryEmailAddress?.emailAddress}
               </p>
             </div>
@@ -48,12 +48,12 @@ export default async function ComptePage() {
           className="gn-card-lift flex items-center justify-between gap-4 rounded-2xl border border-gn-gold/30 bg-gn-black-soft px-6 py-5 text-gn-cream"
         >
           <div>
-            <p className="font-serif text-[15px] italic font-medium text-gn-gold">Plan de lecture</p>
+            <p className="font-serif text-base italic font-medium text-gn-gold">Plan de lecture</p>
             <p className="mt-1 font-serif text-lg font-bold">
               {progress.length === 0 ? 'Commencer la lecture en 365 jours' : `${pct}% de la Bible parcourue`}
             </p>
           </div>
-          <span className="text-[12.5px] font-semibold text-gn-gold-line">
+          <span className="text-xs font-semibold text-gn-gold-line">
             {progress.length === 0 ? 'Commencer' : 'Continuer'}
           </span>
         </Link>

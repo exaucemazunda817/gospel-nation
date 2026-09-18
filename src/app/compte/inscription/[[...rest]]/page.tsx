@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { SignUp } from '@clerk/nextjs';
 import { isClerkConfigured } from '@/lib/clerk-configured';
+import { brandColors } from '@/lib/brand';
 
 export const metadata: Metadata = {
   title: 'Créer un compte'
@@ -19,9 +20,8 @@ export default function CompteInscriptionPage() {
         forceRedirectUrl="/compte"
         appearance={{
           variables: {
-            colorPrimary: '#d28943',
-            colorBackground: '#ffffff',
-            colorText: '#221c13',
+            colorPrimary: brandColors.gold,
+            colorBackground: brandColors.white,
             borderRadius: '0.75rem'
           }
         }}

@@ -26,12 +26,12 @@ export default function BibleFavoritesPage() {
       />
 
       <div className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
-        <Link href="/bible" className="text-[12.5px] font-semibold text-gn-gold-line hover:underline">
+        <Link href="/bible" className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline">
           ← Retour à la Bible
         </Link>
 
         {favorites === null ? null : favorites.length === 0 ? (
-          <p className="mt-8 text-[14px] text-gn-ink/60">
+          <p className="mt-8 text-sm text-gn-ink/60">
             Aucun favori pour l&apos;instant. En lisant un chapitre, cliquez sur l&apos;étoile à côté d&apos;un
             verset pour l&apos;ajouter ici.
           </p>
@@ -45,12 +45,12 @@ export default function BibleFavoritesPage() {
                       href={`/bible/${f.bookSlug}/${f.chapter}${
                         f.versionCode && f.versionCode !== 'lsg1910' ? `?version=${f.versionCode}` : ''
                       }#verset-${f.verse}`}
-                      className="text-[12.5px] font-bold uppercase tracking-wide text-gn-gold-line hover:underline"
+                      className="text-xs font-bold uppercase tracking-wide text-gn-gold-line hover:underline"
                     >
                       {f.bookName} {f.chapter}:{f.verse}
                     </Link>
                     {f.versionName && (
-                      <span className="ml-2 text-[11px] font-medium text-gn-ink/40">{f.versionName}</span>
+                      <span className="ml-2 text-xs font-medium text-gn-ink/40">{f.versionName}</span>
                     )}
                   </div>
                   <button
@@ -64,7 +64,7 @@ export default function BibleFavoritesPage() {
                     </svg>
                   </button>
                 </div>
-                <p className="mt-2 text-[15px] leading-relaxed text-gn-ink">{f.text}</p>
+                <p className="mt-2 text-base leading-relaxed text-gn-ink">{f.text}</p>
               </div>
             ))}
           </div>

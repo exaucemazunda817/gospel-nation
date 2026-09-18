@@ -153,7 +153,7 @@ export const departmentSeeds = [
     slug: 'gospel-cafe',
     description:
       "Ministère convivial et évangélique de Gospel Nation : un espace souvent gratuit où l'on se réunit pour des moments de joie, des prestations musicales et des activités variées (battles, soirées à thème, karaoké...), lieu de partage et d'évangélisation. Il organise aussi chaque année un Comedy Club. Coordonné par Nader, Kanda et Tim.",
-    imageUrl: '/departments/gospel-cafe-hq.png'
+    imageUrl: '/departments/gospel-cafe-hq.jpg'
   },
   {
     name: 'Gospel Prod',
@@ -286,25 +286,25 @@ export const nationClasseManuels = [
     parcours: 'Les Appelés',
     module: 'Module 2 — Qui est Dieu',
     fileUrl: '/nation-classe/module-2-qui-est-dieu.pdf',
-    coverUrl: '/nation-classe/covers/module-2-qui-est-dieu.png'
+    coverUrl: '/nation-classe/covers/module-2-qui-est-dieu.jpg'
   },
   {
     parcours: 'Les Ouvriers',
     module: "Module 2 — Le fruit de l'Esprit",
     fileUrl: '/nation-classe/ouvriers-module-2-fruit-de-lesprit.pdf',
-    coverUrl: '/nation-classe/covers/ouvriers-module-2-fruit-de-lesprit.png'
+    coverUrl: '/nation-classe/covers/ouvriers-module-2-fruit-de-lesprit.jpg'
   },
   {
     parcours: 'Les Ouvriers',
     module: 'Module 3 — Le caractère',
     fileUrl: '/nation-classe/ouvriers-module-3-le-caractere.pdf',
-    coverUrl: '/nation-classe/covers/ouvriers-module-3-le-caractere.png'
+    coverUrl: '/nation-classe/covers/ouvriers-module-3-le-caractere.jpg'
   },
   {
     parcours: 'Les Appelés',
     module: 'Le suiveur — De la foule à suiveur, de suiveur à disciple',
     fileUrl: '/nation-classe/le-suiveur.pdf',
-    coverUrl: '/nation-classe/covers/le-suiveur.png'
+    coverUrl: '/nation-classe/covers/le-suiveur.jpg'
   }
 ] as const;
 

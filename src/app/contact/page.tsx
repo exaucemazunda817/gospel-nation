@@ -5,7 +5,9 @@ import { church } from '@/lib/content';
 import ContactForm from './ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact'
+  title: 'Contact',
+  description:
+    'Une question, une demande de prière ou l\'envie d\'en savoir plus ? Écrivez à Gospel Nation, Ma Campagne, Kinshasa.'
 };
 
 export default function ContactPage() {
@@ -47,14 +49,14 @@ export default function ContactPage() {
   return (
     <div className="bg-gn-black">
       <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/contact.jpg" alt="" fill className="object-cover object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gn-black/40" />
+        <Image src="/hero/contact.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
-          <p className="mb-3.5 text-xs text-gn-muted">
-            <Link href="/" className="hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold">Contact</span>
+          <p className="mb-1 text-xs text-gn-cream/80">
+            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Contact</span>
           </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-[38px]">Contactez-nous</h1>
+          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Contactez-nous</h1>
         </div>
       </section>
 
@@ -73,8 +75,8 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="mb-1 text-[11px] uppercase tracking-wide text-gn-muted">{item.label}</p>
-                  <p className="font-serif text-[15px] font-semibold text-gn-cream">{item.value}</p>
+                  <p className="mb-1 text-xs uppercase tracking-wide text-gn-muted">{item.label}</p>
+                  <p className="font-serif text-base font-semibold text-gn-cream">{item.value}</p>
                 </div>
               </div>
             ))}
@@ -83,7 +85,7 @@ export default function ContactPage() {
                 href={church.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
                 aria-label="YouTube"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -94,7 +96,7 @@ export default function ContactPage() {
                 href={church.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
                 aria-label="Instagram"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
@@ -107,7 +109,7 @@ export default function ContactPage() {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="rounded-xl bg-gn-cream-bg p-7 sm:p-11">
+            <div className="rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
               <p className="mb-6 font-serif text-xl font-semibold text-gn-ink">Envoyez-nous un message</p>
               <ContactForm />
             </div>

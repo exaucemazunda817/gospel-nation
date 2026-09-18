@@ -3,7 +3,7 @@
 import { useId } from 'react';
 
 const inputClass =
-  'w-full rounded-xl border border-white/15 bg-[#2a231b] px-4 py-2.5 text-gn-cream shadow-sm transition-colors placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30';
+  'min-h-[44px] w-full rounded-lg border border-white/15 bg-gn-field px-4 py-2.5 text-gn-cream shadow-sm transition-colors placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30';
 
 export function Field({
   label,
@@ -96,7 +96,7 @@ export function FileField({
         accept={accept}
         aria-describedby={hint ? hintId : undefined}
         onChange={(e) => onChange?.(e.currentTarget.files?.[0] ?? null)}
-        className="block w-full rounded-xl border border-white/15 bg-[#2a231b] px-4 py-2.5 text-sm text-gn-cream/80 shadow-sm transition-colors file:mr-3 file:rounded-full file:border-0 file:bg-gn-gold file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-gn-black focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
+        className="block min-h-[44px] w-full rounded-lg border border-white/15 bg-gn-field px-4 py-2.5 text-sm text-gn-cream/80 shadow-sm transition-colors file:mr-3 file:rounded-full file:border-0 file:bg-gn-gold file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-gn-black focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       />
       {hint && (
         <span id={hintId} className="mt-1 block text-xs text-gn-ink/50">

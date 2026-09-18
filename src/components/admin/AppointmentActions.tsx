@@ -51,7 +51,7 @@ export default function AppointmentActions({
         onChange={(e) => setNote(e.target.value)}
         placeholder="Note pastorale (optionnel, visible admin uniquement)"
         rows={2}
-        className="w-full rounded-lg border border-gn-cream/20 bg-transparent px-3 py-2 text-sm text-gn-cream placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none"
+        className="w-full rounded-lg border border-gn-cream/20 bg-transparent px-3 py-2 text-sm text-gn-cream placeholder:text-gn-cream/40 focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       />
       <div className="flex flex-wrap gap-2">
         <button

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import type { AppointmentStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
-const VALID_STATUSES = ["PENDING", "CONFIRMED", "DECLINED", "DONE"];
+const VALID_STATUSES: readonly AppointmentStatus[] = ["PENDING", "CONFIRMED", "DECLINED", "DONE"];
+
+function isAppointmentStatus(value: unknown): value is AppointmentStatus {
+  return typeof value === "string" && (VALID_STATUSES as readonly string[]).includes(value);
+}
 
 export async function POST(
   request: NextRequest,
@@ -10,7 +15,7 @@ export async function POST(
   const { id } = await params;
   const { status, pastorNote } = await request.json();
 
-  if (typeof status !== "string" || !VALID_STATUSES.includes(status)) {
+  if (!isAppointmentStatus(status)) {
     return NextResponse.json({ error: "Statut invalide." }, { status: 400 });
   }
 

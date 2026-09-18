@@ -7,7 +7,9 @@ import { bibleBooks } from '@/lib/bible';
 import { bibleVersions } from '@/lib/bible/versions';
 
 export const metadata: Metadata = {
-  title: 'Bible'
+  title: 'Bible',
+  description:
+    'Lisez la Bible en ligne en quatre versions du domaine public — Louis Segond, Martin, Ostervald et Darby — avec recherche par référence.'
 };
 
 export default function BiblePage() {
@@ -31,10 +33,10 @@ export default function BiblePage() {
           className="gn-card-lift mb-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gn-gold/30 bg-gn-black-soft px-6 py-5 text-gn-cream"
         >
           <div>
-            <p className="font-serif text-[15px] italic font-medium text-gn-gold">Plan de lecture</p>
+            <p className="font-serif text-base italic font-medium text-gn-gold">Plan de lecture</p>
             <p className="mt-1 font-serif text-lg font-bold">Lire toute la Bible en 365 jours</p>
           </div>
-          <span className="text-[12.5px] font-semibold text-gn-gold-line">Commencer</span>
+          <span className="text-xs font-semibold text-gn-gold">Commencer</span>
         </Link>
 
         <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
@@ -42,7 +44,7 @@ export default function BiblePage() {
             {bibleVersions.map((v) => (
               <span
                 key={v.code}
-                className="rounded-full border border-gn-line bg-white px-3.5 py-1.5 text-[12px] font-semibold text-gn-ink/70"
+                className="rounded-full border border-gn-line bg-white px-3.5 py-1.5 text-xs font-semibold text-gn-ink/70"
               >
                 {v.name} ({v.year})
               </span>
@@ -74,7 +76,7 @@ function BookSection({
           <Link
             key={book.slug}
             href={`/bible/${book.slug}/1`}
-            className="gn-card-lift rounded-lg border border-gn-line bg-white px-4 py-3 text-[13.5px] font-medium text-gn-ink transition-colors hover:border-gn-gold hover:text-gn-gold-line"
+            className="gn-card-lift rounded-lg border border-gn-line bg-white px-4 py-3 text-sm font-medium text-gn-ink transition-colors hover:border-gn-gold hover:text-gn-gold-line"
           >
             {book.name}
           </Link>

@@ -42,15 +42,15 @@ export default async function BibleChapterPage({ params, searchParams }: PagePro
       <section className="gn-glow relative overflow-hidden border-b border-gn-gold/20 bg-gn-black text-gn-cream">
         <div className="mx-auto max-w-3xl px-5 py-10 sm:px-10 sm:py-12">
           <div className="flex items-center justify-between gap-4">
-            <Link href="/bible" className="text-[12px] font-semibold text-gn-gold-line hover:underline">
+            <Link href="/bible" className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline">
               ← Tous les livres
             </Link>
             <BibleFavoritesLink />
           </div>
-          <h1 className="mt-3 font-serif text-3xl font-bold sm:text-[40px]">
+          <h1 className="mt-3 font-serif text-3xl font-bold sm:text-hero">
             {book.name} {chapter}
           </h1>
-          <p className="mt-2 text-[12.5px] text-gn-muted">
+          <p className="mt-2 text-xs text-gn-muted">
             Version {version.name} ({version.year})
           </p>
           <div className="mt-5 flex flex-col gap-3">
@@ -79,7 +79,7 @@ export default async function BibleChapterPage({ params, searchParams }: PagePro
           {prev ? (
             <Link
               href={`/bible/${prev.book.slug}/${prev.chapter}${versionQuery}`}
-              className="flex items-center gap-2 text-[13px] font-semibold text-gn-gold-line hover:underline"
+              className="flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold-line hover:underline"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12" />
@@ -93,7 +93,7 @@ export default async function BibleChapterPage({ params, searchParams }: PagePro
           {next ? (
             <Link
               href={`/bible/${next.book.slug}/${next.chapter}${versionQuery}`}
-              className="flex items-center gap-2 text-[13px] font-semibold text-gn-gold-line hover:underline"
+              className="flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold-line hover:underline"
             >
               {next.book.slug === book.slug ? `Chapitre ${next.chapter}` : `${next.book.name} ${next.chapter}`}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">

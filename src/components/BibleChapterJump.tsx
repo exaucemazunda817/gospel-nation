@@ -25,7 +25,7 @@ export default function BibleChapterJump({
       <select
         value={currentBook.slug}
         onChange={(e) => router.push(`/bible/${e.target.value}/1${versionQuery}`)}
-        className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-[12.5px] font-medium text-gn-cream focus:border-gn-gold focus:outline-none"
+        className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-xs font-medium text-gn-cream focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       >
         {books.map((book) => (
           <option key={book.slug} value={book.slug}>
@@ -36,7 +36,7 @@ export default function BibleChapterJump({
       <select
         value={currentChapter}
         onChange={(e) => router.push(`/bible/${currentBook.slug}/${e.target.value}${versionQuery}`)}
-        className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-[12.5px] font-medium text-gn-cream focus:border-gn-gold focus:outline-none"
+        className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-xs font-medium text-gn-cream focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       >
         {Array.from({ length: currentBook.chapterCount }, (_, i) => i + 1).map((ch) => (
           <option key={ch} value={ch}>
@@ -52,7 +52,7 @@ export default function BibleChapterJump({
             const q = v !== 'lsg1910' ? `?version=${v}` : '';
             router.push(`/bible/${currentBook.slug}/${currentChapter}${q}`);
           }}
-          className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-[12.5px] font-medium text-gn-cream focus:border-gn-gold focus:outline-none"
+          className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-xs font-medium text-gn-cream focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
         >
           {versions.map((v) => (
             <option key={v.code} value={v.code}>
