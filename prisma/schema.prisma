@@ -49,6 +49,9 @@ model User {
   lastName    String
   phone       String?
   address     String?
+  // Sexe et commune : imprimés sur la carte de membre (modèle 2023).
+  sex         String?
+  commune     String?
   // Nom du fichier de la photo dans le stockage privé (storage/photos), PAS
   // une URL publique — la photo n'est jamais servie par une route publique.
   photoUrl    String?
@@ -133,6 +136,10 @@ model Testimony {
   authorName String
   content    String
   videoUrl   String?
+  /// Choix de la personne à la soumission : si elle accepte que son
+  /// témoignage soit rendu public une fois approuvé, ou si elle voulait
+  /// seulement en informer l'église (suivi pastoral, jamais publié).
+  wantsPublished Boolean       @default(true)
   status     ModerationStatus  @default(PENDING)
   createdAt  DateTime          @default(now())
 
@@ -288,4 +295,24 @@ model ContactMessage {
 
   @@index([isRead])
   @@map("contact_messages")
+}
+
+/// Cartes de membre déjà imprimées (lot 2023), lues par OCR. Stockées en base
+/// (jamais dans public/) : contiennent photo, nom et téléphone de vrais membres.
+/// Une carte n'est remise que si nom ET téléphone correspondent (voir
+/// src/lib/existing-cards.ts) — les numéros sont parfois partagés en famille.
+model ExistingCard {
+  id               String   @id @default(cuid())
+  carteNumber      Int      @unique
+  fullName         String
+  normalizedName   String
+  phone            String
+  sex              String?
+  commune          String?
+  image            Bytes
+  claimedByUserId  String?
+  createdAt        DateTime @default(now())
+
+  @@index([phone])
+  @@map("existing_cards")
 }

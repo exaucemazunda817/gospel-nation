@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isAllowedPhotoType, MAX_PHOTO_SIZE_BYTES, savePhoto } from '@/lib/photo-storage';
 
-const REQUIRED_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'birthDate', 'address', 'memberSinceYear'] as const;
+const REQUIRED_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'birthDate', 'address', 'commune', 'sex', 'memberSinceYear'] as const;
 const CURRENT_YEAR = new Date().getFullYear();
 
 function str(formData: FormData, key: string): string {
@@ -22,6 +22,11 @@ export async function POST(request: NextRequest) {
   const email = str(formData, 'email').toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'Adresse e-mail invalide.' }, { status: 400 });
+  }
+
+  const sex = str(formData, 'sex');
+  if (sex !== 'M' && sex !== 'F') {
+    return NextResponse.json({ error: 'Sexe invalide.' }, { status: 400 });
   }
 
   const birthDate = new Date(str(formData, 'birthDate'));
@@ -75,6 +80,8 @@ export async function POST(request: NextRequest) {
         lastName: str(formData, 'lastName'),
         phone: str(formData, 'phone'),
         address: str(formData, 'address'),
+        commune: str(formData, 'commune'),
+        sex,
         birthDate,
         memberSinceYear,
         departmentId,

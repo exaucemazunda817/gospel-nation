@@ -79,7 +79,15 @@ export default function InscriptionForm({
         <Field label="E-mail" name="email" type="email" required />
       </div>
       <Field label="Date de naissance" name="birthDate" type="date" required />
-      <Field label="Adresse" name="address" required placeholder="Avenue, quartier, commune" />
+      <div className="grid gap-6 sm:grid-cols-2">
+        <SelectField label="Sexe" name="sex" required>
+          <option value="">Choisir</option>
+          <option value="M">Masculin</option>
+          <option value="F">Féminin</option>
+        </SelectField>
+        <Field label="Commune" name="commune" required placeholder="Ex. Ngaliema" />
+      </div>
+      <Field label="Adresse" name="address" required placeholder="Avenue, quartier" />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <SelectField label="Membre depuis quelle année ?" name="memberSinceYear" required>
