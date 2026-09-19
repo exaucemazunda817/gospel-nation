@@ -6,12 +6,18 @@ import { get, put } from '@vercel/blob';
 // jamais dans `public/` ni renvoyées telles quelles au navigateur. Seule la
 // carte de membre (avec le bon accessToken) et l'espace admin authentifié les
 // relisent, côté serveur.
-// - En production (BLOB_READ_WRITE_TOKEN défini) : Vercel Blob, le disque de
-//   Vercel étant temporaire. Le store est PRIVÉ : même avec l'URL, la photo
-//   n'est lisible qu'avec le jeton, donc uniquement côté serveur. L'URL est
-//   stockée dans User.photoUrl.
-// - Sans jeton (développement local) : dossier storage/photos.
+// - En production : Vercel Blob, le disque de Vercel étant en lecture seule.
+//   Le store est PRIVÉ : même avec l'URL, la photo n'est lisible qu'avec le
+//   jeton, donc uniquement côté serveur. L'URL est stockée dans User.photoUrl.
+// - Sans store configuré (développement local) : dossier storage/photos.
 const STORAGE_DIR = path.join(process.cwd(), 'storage', 'photos');
+
+// Sur Vercel, le store relié au projet ne fournit que BLOB_STORE_ID : le SDK
+// s'authentifie alors seul par jeton OIDC, sans BLOB_READ_WRITE_TOKEN. En
+// local, c'est le jeton collé dans .env.local qui sert.
+function blobConfigured(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+}
 
 const ALLOWED_TYPES: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -31,7 +37,7 @@ export async function savePhoto(userId: string, file: File): Promise<string> {
     throw new Error('Type de fichier non autorisé pour la photo.');
   }
   const buffer = Buffer.from(await file.arrayBuffer());
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (blobConfigured()) {
     const blob = await put(`membres/${userId}.${extension}`, buffer, {
       access: 'private',
       addRandomSuffix: true,

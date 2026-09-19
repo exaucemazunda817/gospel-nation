@@ -12,8 +12,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   if (!user || !token || user.accessToken !== token) {
     return NextResponse.json({ error: 'Carte introuvable.' }, { status: 404 });
   }
-  // Carte déjà imprimée en 2023 : remise telle quelle si nom ET téléphone
-  // correspondent ; sinon on génère une nouvelle carte au même design.
+  // Carte déjà imprimée en 2023 : remise telle quelle si le nom correspond ;
+  // sinon on génère une nouvelle carte au même design.
   const existingCard = await findExistingCard(user);
   let pdfBytes: Uint8Array;
   if (existingCard) {

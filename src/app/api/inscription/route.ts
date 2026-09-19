@@ -72,7 +72,14 @@ export async function POST(request: NextRequest) {
   // Pas d'étape de validation : le membre reçoit sa carte définitive dès
   // l'inscription, avec un numéro de membre attribué immédiatement.
   const user = await prisma.$transaction(async (tx) => {
-    const existingCount = await tx.user.count({ where: { memberNumber: { not: null } } });
+    // Plus grand numéro + 1, et non le nombre de membres : après la suppression
+    // d'un membre, le compte redonnerait un numéro déjà attribué.
+    const last = await tx.user.findFirst({
+      where: { memberNumber: { not: null } },
+      orderBy: { memberNumber: 'desc' },
+      select: { memberNumber: true }
+    });
+    const nextNumber = (last?.memberNumber ? Number.parseInt(last.memberNumber.slice(-4), 10) : 0) + 1;
     return tx.user.create({
       data: {
         email,
@@ -87,7 +94,7 @@ export async function POST(request: NextRequest) {
         departmentId,
         showBirthdayPublicly: formData.get('showBirthdayPublicly') === 'on',
         status: 'VALIDATED',
-        memberNumber: `GN-${CURRENT_YEAR}-${String(existingCount + 1).padStart(4, '0')}`
+        memberNumber: `GN-${CURRENT_YEAR}-${String(nextNumber).padStart(4, '0')}`
       }
     });
   });
@@ -95,7 +102,19 @@ export async function POST(request: NextRequest) {
   // Créée après coup : la photo est nommée d'après l'id de l'utilisateur, donc
   // on enregistre la photo sous ce nom puis on met à jour la ligne avec le
   // chemin obtenu.
-  const photoUrl = await savePhoto(user.id, photo);
+  let photoUrl: string;
+  try {
+    photoUrl = await savePhoto(user.id, photo);
+  } catch (error) {
+    // Sinon l'inscription reste créée sans photo, et son e-mail bloque toute
+    // nouvelle tentative (« une inscription existe déjà »).
+    console.error("Enregistrement de la photo d'inscription impossible", error);
+    await prisma.user.delete({ where: { id: user.id } });
+    return NextResponse.json(
+      { error: "Votre photo n'a pas pu être enregistrée. Merci de réessayer dans un instant." },
+      { status: 500 }
+    );
+  }
   await prisma.user.update({ where: { id: user.id }, data: { photoUrl } });
 
   return NextResponse.json({ id: user.id, accessToken: user.accessToken, firstName: user.firstName });
