@@ -1,14 +1,15 @@
 import { mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
-import { put } from '@vercel/blob';
+import { get, put } from '@vercel/blob';
 
 // Les photos d'inscription sont des données personnelles : elles ne sont
 // jamais dans `public/` ni renvoyées telles quelles au navigateur. Seule la
 // carte de membre (avec le bon accessToken) et l'espace admin authentifié les
 // relisent, côté serveur.
 // - En production (BLOB_READ_WRITE_TOKEN défini) : Vercel Blob, le disque de
-//   Vercel étant temporaire. L'URL Blob porte un suffixe aléatoire, n'est
-//   jamais exposée au client, et on la stocke dans User.photoUrl.
+//   Vercel étant temporaire. Le store est PRIVÉ : même avec l'URL, la photo
+//   n'est lisible qu'avec le jeton, donc uniquement côté serveur. L'URL est
+//   stockée dans User.photoUrl.
 // - Sans jeton (développement local) : dossier storage/photos.
 const STORAGE_DIR = path.join(process.cwd(), 'storage', 'photos');
 
@@ -32,7 +33,7 @@ export async function savePhoto(userId: string, file: File): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     const blob = await put(`membres/${userId}.${extension}`, buffer, {
-      access: 'public',
+      access: 'private',
       addRandomSuffix: true,
       contentType: file.type
     });
@@ -46,9 +47,9 @@ export async function savePhoto(userId: string, file: File): Promise<string> {
 
 export async function readPhoto(filename: string): Promise<Buffer> {
   if (filename.startsWith('https://')) {
-    const response = await fetch(filename);
-    if (!response.ok) throw new Error('Photo introuvable dans le stockage.');
-    return Buffer.from(await response.arrayBuffer());
+    const result = await get(filename, { access: 'private' });
+    if (!result || result.statusCode !== 200) throw new Error('Photo introuvable dans le stockage.');
+    return Buffer.from(await new Response(result.stream).arrayBuffer());
   }
   return readFile(path.join(STORAGE_DIR, filename));
 }
