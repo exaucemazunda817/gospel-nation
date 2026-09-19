@@ -27,7 +27,11 @@ const description = `${church.name} — ${church.tagline}. Cultes, prédications
 // metadataBase rend absolue l'URL de l'image d'aperçu (opengraph-image.jpg).
 // Sans elle, aucun aperçu ne s'affiche quand le lien est partagé sur WhatsApp
 // ou Facebook. À définir sur l'hébergeur une fois le domaine choisi.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+// `||` et non `??` : une variable Vercel créée mais laissée vide vaut ''
+// (chaîne vide), pas undefined — `??` ne l'aurait pas remplacée et
+// `new URL('')` fait planter le build (piège déjà rencontré sur d'autres
+// projets : une variable d'environnement créée vide sur Vercel).
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
