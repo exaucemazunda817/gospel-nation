@@ -3,6 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const EMAIL_MESSAGES: Record<string, string> = {
+  sent: "E-mail de confirmation envoyé.",
+  "already-sent": "E-mail de confirmation déjà envoyé précédemment.",
+  "no-address": "Aucun e-mail envoyé : la personne n'a pas donné d'adresse.",
+  "not-configured": "Rendez-vous confirmé, mais l'envoi d'e-mails n'est pas encore configuré : aucun e-mail envoyé.",
+  failed: "Rendez-vous confirmé, mais l'e-mail n'a pas pu partir. Cliquez à nouveau sur Confirmer pour réessayer.",
+};
+
 const STATUS_LABELS: Record<string, string> = {
   PENDING: "En attente",
   CONFIRMED: "Confirmé",
@@ -23,10 +31,12 @@ export default function AppointmentActions({
   const [note, setNote] = useState(pastorNote ?? "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailInfo, setEmailInfo] = useState<string | null>(null);
 
   async function updateStatus(nextStatus: string) {
     setLoading(true);
     setError(null);
+    setEmailInfo(null);
     try {
       const res = await fetch(`/api/admin/rendez-vous/${id}`, {
         method: "POST",
@@ -34,6 +44,8 @@ export default function AppointmentActions({
         body: JSON.stringify({ status: nextStatus, pastorNote: note }),
       });
       if (!res.ok) throw new Error();
+      const data = await res.json();
+      setEmailInfo(EMAIL_MESSAGES[data.email] ?? null);
       router.refresh();
     } catch {
       setError("Échec — réessayez.");
@@ -46,6 +58,7 @@ export default function AppointmentActions({
     <div className="space-y-3">
       <p className="text-sm font-medium text-gn-gold">{STATUS_LABELS[status] ?? status}</p>
       {error && <p className="text-sm text-red-600">{error}</p>}
+      {emailInfo && <p className="text-sm text-gn-cream/80">{emailInfo}</p>}
       <textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}

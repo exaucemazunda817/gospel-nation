@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { isValidEmail } from '@/lib/email';
 
 function str(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
@@ -19,6 +20,10 @@ export async function POST(request: NextRequest) {
       { error: 'Le nom, le téléphone, le motif et la date souhaitée sont obligatoires.' },
       { status: 400 }
     );
+  }
+
+  if (requesterEmail && !isValidEmail(requesterEmail)) {
+    return NextResponse.json({ error: 'Adresse e-mail invalide.' }, { status: 400 });
   }
 
   const preferredDate = new Date(preferredDateRaw);

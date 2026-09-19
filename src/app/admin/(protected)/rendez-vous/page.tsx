@@ -31,6 +31,15 @@ export default async function AdminAppointmentsPage() {
           <p className="mt-1 text-xs text-gn-cream/40">
             Soumis le {a.createdAt.toLocaleString("fr-FR")}
           </p>
+          {a.status === "CONFIRMED" && (
+            <p className="mt-1 text-xs text-gn-cream/60">
+              {a.confirmationEmailSentAt
+                ? `E-mail de confirmation envoyé le ${a.confirmationEmailSentAt.toLocaleString("fr-FR")}`
+                : a.requesterEmail
+                  ? "E-mail de confirmation non envoyé"
+                  : "Pas d'adresse e-mail : personne à prévenir par e-mail"}
+            </p>
+          )}
           <div className="mt-4">
             <AppointmentActions id={a.id} status={a.status} pastorNote={a.pastorNote} />
           </div>
