@@ -60,7 +60,7 @@ async function OffersList() {
               </div>
               <div>
                 <p className="font-serif text-base font-semibold text-gn-ink">
-                  {offer.user.firstName} {offer.user.lastName}
+                  {offer.user ? `${offer.user.firstName} ${offer.user.lastName}` : (offer.authorName ?? 'Membre')}
                 </p>
                 {offer.category && (
                   <span className="mt-0.5 inline-block rounded-full bg-gn-gold/10 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-gn-gold-line">
@@ -73,7 +73,7 @@ async function OffersList() {
               <p className="mb-1.5 font-serif text-sm font-semibold text-gn-ink">{offer.title}</p>
               <p className="text-xs leading-relaxed text-gn-ink/60">{offer.description}</p>
             </div>
-            {(offer.contactPhone || offer.externalUrl) && (
+            {(offer.contactPhone || offer.contactEmail || offer.externalUrl) && (
               <div className="mt-auto flex flex-wrap gap-4 border-t border-gn-line pt-3.5">
                 {offer.contactPhone && (
                   <a
@@ -86,6 +86,14 @@ async function OffersList() {
                       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.4z" />
                     </svg>
                     Contacter le membre
+                  </a>
+                )}
+                {offer.contactEmail && (
+                  <a
+                    href={`mailto:${offer.contactEmail}`}
+                    className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline"
+                  >
+                    Écrire un e-mail
                   </a>
                 )}
                 {offer.externalUrl && (
@@ -128,9 +136,16 @@ export default function ServicesPage() {
       <section className="border-b border-gn-line bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-9 sm:px-10">
           <p className="max-w-xl text-sm leading-relaxed text-gn-ink/60">
-            Chaque membre a un talent, un métier ou un service à offrir à la communauté. Cet espace accueillera
-            bientôt aussi les offres d&apos;emploi, une fois les comptes membres actifs.
+            Chaque membre a un talent, un métier ou un service à offrir à la communauté. Vous aussi, vous pouvez
+            publier votre produit, votre service ou une offre d&apos;emploi : votre annonce apparaît ici après
+            vérification par un administrateur.
           </p>
+          <Link
+            href="/services/proposer"
+            className="inline-flex min-h-[44px] items-center rounded-full bg-gn-gold px-6 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
+          >
+            Proposer une offre
+          </Link>
         </div>
       </section>
 
@@ -139,12 +154,6 @@ export default function ServicesPage() {
           <Suspense fallback={<OffersSkeleton />}>
             <OffersList />
           </Suspense>
-          <div className="mt-10">
-            <PlaceholderNote>
-              Vous êtes membre et proposez un produit ou un service ? Cet espace accueillera bientôt un
-              formulaire de publication en libre-service, une fois les comptes membres actifs.
-            </PlaceholderNote>
-          </div>
         </div>
       </section>
     </div>

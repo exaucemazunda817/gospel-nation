@@ -17,7 +17,7 @@ export default function CompteInscriptionPage() {
       <SignUp
         path="/compte/inscription"
         signInUrl="/connexion"
-        forceRedirectUrl="/compte"
+        fallbackRedirectUrl="/compte"
         appearance={{
           variables: {
             colorPrimary: brandColors.gold,

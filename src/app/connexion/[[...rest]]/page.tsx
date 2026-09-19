@@ -17,7 +17,7 @@ export default function ConnexionPage() {
       <SignIn
         path="/connexion"
         signUpUrl="/compte/inscription"
-        forceRedirectUrl="/compte"
+        fallbackRedirectUrl="/compte"
         appearance={{
           variables: {
             colorPrimary: brandColors.gold,

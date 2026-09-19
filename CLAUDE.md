@@ -37,7 +37,15 @@ Infos confirmées :
 Nouvelle section ajoutée le 10/09 : affiche des événements à venir avec poster. Premier événement réel : **Valorous — 26 septembre 2026** (`public/events/valorous-2026-09-26.jpeg`). La page d'accueil affiche automatiquement le prochain événement (`Event.findFirst` trié par date).
 
 ## Services des membres (`/services`, modèle `MemberOffer`)
-Le modèle `MemberOffer` existait déjà dans le schéma (pensé dès le départ comme "coin des offres et services") mais n'avait jamais été exposé — branché le 10/09 avec 3 vrais services tirés de la revue Gospel News Vol. 3 : Delights by K (traiteur), Bouillie Nutrimix (lien vers nutrimix-store.vercel.app), SISI CRÉA (audiovisuel). Chaque service est rattaché à un `User` placeholder (`clerkUserId` du type `seed-...`, même pattern que `gestion-scolaire` pour les profils pré-créés avant Clerk). **Reste à faire** : formulaire public de soumission (nécessite Clerk actif) + accueil des offres d'emploi, annoncé sur la page mais pas encore construit.
+Deux origines d'offres, distinguées par les colonnes de `MemberOffer` :
+- **Saisies à la main par l'admin** (les 3 d'origine : Delights by K, Bouillie Nutrimix, SISI CRÉA) : `userId` rempli, rattachées à un `User` placeholder (`clerkUserId` du type `seed-...`).
+- **Publiées en libre-service** (depuis le 19/09/2026) via `/services/proposer` : `userId` vide, `clerkUserId` + `authorName` remplis. Un compte Clerk n'est pas un membre de l'église, donc aucune ligne `User` n'est créée. Le formulaire exige un compte Clerk (connexion ou création, retour automatique au formulaire grâce à `redirect_url` et `fallbackRedirectUrl`), toute offre naît `PENDING`, un compte ne peut pas avoir plus de 3 offres en attente. Règles de validation dans `src/lib/offers.ts` (catégories fermées, lien limité à http/https car il est affiché tel quel, téléphone normalisé en `+243…` pour `wa.me`).
+- **Modération** : onglet `/admin/offres` (Publier, Rejeter, Retirer, Republier), API `/api/admin/offres/[id]`.
+- Les coordonnées saisies (téléphone, e-mail, lien) sont **publiques** ; le formulaire le dit. Rappel : l'e-mail d'une offre n'était pas affiché avant le 19/09, il l'est maintenant.
+- **Reste à faire** : les offres d'emploi n'ont pas de section à part (simple catégorie « Offre d'emploi »).
+
+## E-mails (`src/lib/email.ts`)
+Envoi via Resend par simple appel HTTP (aucune dépendance). **Inactif tant que `RESEND_API_KEY` et `EMAIL_FROM` ne sont pas définis** : le site fonctionne, l'admin voit « aucun e-mail envoyé ». Seul e-mail actuel : confirmation d'un rendez-vous, envoyé quand l'admin clique sur « Confirmer » et que le visiteur a donné son adresse (facultative dans le formulaire). Un envoi par rendez-vous grâce à `Appointment.confirmationEmailSentAt` (réservation atomique, libérée si l'envoi échoue). **La note pastorale est privée et n'est jamais envoyée.** Piège Resend : sans domaine vérifié, il ne livre qu'à l'adresse du compte Resend lui-même.
 
 ## Design — refonte du 10/09 (retour de Mazunda)
 Mazunda a jugé le rendu initial (calqué sur `abg-rdc`) trop sombre/plat, ne reflétant pas l'aspect "chaleureux, moderne" des publications Instagram de l'église — demande explicite de rester dans les couleurs du logo mais d'ajouter plus de vie (couleurs, animations, effets). Changements faits :
@@ -74,7 +82,7 @@ Le projet Neon `gospel-nation` (plan gratuit) a `suspend_timeout_seconds: 0` et 
 
 ## Reste à faire (suivi de session)
 - Mission/vision et histoire de l'église (`missionPlaceholder`, `histoirePlaceholder`) — textes à valider avec le pasteur.
-- Photos/logos manquants pour Media, Welcome, Nation United, One Nation, Valorous, École Nation Classe (fallback initiale colorée en attendant) — Worship, Intercession, Gospel Kids et One Love ont déjà une vraie photo depuis le 10-11/09.
-- Formulaire de soumission de service membre + offres d'emploi sur `/services`.
-- Clerk (authentification réelle) toujours pas branché.
-- Voir les commits pour l'avancement module par module.
+- Photos/logos manquants pour Media, Welcome, Nation United, One Nation, Valorous, École Nation Classe (fallback initiale colorée en attendant).
+- Activer les e-mails : compte Resend + nom de domaine vérifié, puis `RESEND_API_KEY` et `EMAIL_FROM` sur Vercel.
+- Nom de domaine : à choisir, puis remplacer `NEXT_PUBLIC_SITE_URL` (type Configuration, jamais Sensible) et déclarer `sitemap.xml` sur Google Search Console.
+- Clerk est branché (comptes visiteurs : plan de lecture, offres). Voir les commits pour l'avancement module par module.

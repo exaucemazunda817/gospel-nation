@@ -8,9 +8,10 @@ import AdminLogoutButton from "@/components/AdminLogoutButton";
 export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [pendingTemoignages, pendingRendezVous, totalMembres, unreadMessages] = await Promise.all([
+  const [pendingTemoignages, pendingRendezVous, pendingOffres, totalMembres, unreadMessages] = await Promise.all([
     prisma.testimony.count({ where: { status: "PENDING" } }),
     prisma.appointment.count({ where: { status: "PENDING" } }),
+    prisma.memberOffer.count({ where: { status: "PENDING" } }),
     prisma.user.count({ where: { role: "MEMBER" } }),
     prisma.contactMessage.count({ where: { isRead: false } }),
   ]);
@@ -37,6 +38,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <SectionTab
           href="/admin/rendez-vous"
           label={`Rendez-vous${pendingRendezVous ? ` (${pendingRendezVous})` : ""}`}
+        />
+        <SectionTab
+          href="/admin/offres"
+          label={`Offres${pendingOffres ? ` (${pendingOffres})` : ""}`}
         />
         <SectionTab
           href="/admin/membres"

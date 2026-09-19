@@ -228,8 +228,14 @@ model DonationMethod {
 /// ("coin des offres et services") — modérée avant publication.
 model MemberOffer {
   id            String            @id @default(cuid())
-  userId        String
-  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Offres saisies à la main par l'admin (services d'origine) : `userId` rempli.
+  // Offres publiées en libre-service via un compte Clerk : `userId` vide,
+  // `clerkUserId` + `authorName` remplis (un compte Clerk n'est pas un membre
+  // de l'église, donc aucune ligne User n'est créée pour lui).
+  userId        String?
+  user          User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clerkUserId   String?
+  authorName    String?
   title         String
   description   String
   category      String?
@@ -240,6 +246,7 @@ model MemberOffer {
   createdAt     DateTime          @default(now())
 
   @@index([status])
+  @@index([clerkUserId])
   @@map("member_offers")
 }
 
@@ -255,6 +262,9 @@ model Appointment {
   preferredDate DateTime
   status        AppointmentStatus  @default(PENDING)
   pastorNote    String?
+  // Renseigné quand l'e-mail de confirmation est parti : évite un doublon si
+  // l'admin recoche « Confirmer » et permet d'afficher l'état dans l'admin.
+  confirmationEmailSentAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
