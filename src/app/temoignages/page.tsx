@@ -36,8 +36,11 @@ function TestimoniesSkeleton() {
 }
 
 async function TestimoniesList() {
+  // wantsPublished en plus du statut APPROVED : sécurité en double, même si
+  // un administrateur approuvait par erreur un témoignage dont l'auteur
+  // n'avait pas coché l'accord de publication.
   const testimonies = await prisma.testimony.findMany({
-    where: { status: 'APPROVED' },
+    where: { status: 'APPROVED', wantsPublished: true },
     orderBy: { createdAt: 'desc' }
   });
 

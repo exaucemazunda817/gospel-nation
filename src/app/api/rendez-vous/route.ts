@@ -25,6 +25,15 @@ export async function POST(request: NextRequest) {
   if (Number.isNaN(preferredDate.getTime())) {
     return NextResponse.json({ error: 'Date invalide.' }, { status: 400 });
   }
+  // Le formulaire ne propose que des mardis, mais on revérifie côté serveur
+  // (le pasteur ne reçoit que ce jour-là) plutôt que de faire confiance au
+  // seul <select> du client.
+  if (preferredDate.getUTCDay() !== 2) {
+    return NextResponse.json(
+      { error: 'Le pasteur ne reçoit que le mardi — merci de choisir un mardi.' },
+      { status: 400 }
+    );
+  }
 
   const appointment = await prisma.appointment.create({
     data: { requesterName, requesterPhone, requesterEmail, reason, preferredDate }

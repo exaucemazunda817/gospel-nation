@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
-import { Field, TextAreaField } from '@/components/form/Field';
+import { CheckboxField, Field, TextAreaField } from '@/components/form/Field';
 
 export default function TestimonyForm() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [publishedChoice, setPublishedChoice] = useState(true);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,8 +19,10 @@ export default function TestimonyForm() {
     const payload = {
       authorName: formData.get('authorName'),
       content: formData.get('content'),
-      videoUrl: formData.get('videoUrl')
+      videoUrl: formData.get('videoUrl'),
+      wantsPublished: formData.get('wantsPublished') === 'on'
     };
+    setPublishedChoice(payload.wantsPublished);
 
     try {
       const res = await fetch('/api/temoignages', {
@@ -46,7 +49,9 @@ export default function TestimonyForm() {
         <AnimatedCheckmark />
         <p className="mt-4 font-semibold text-gn-gold">Merci pour votre témoignage !</p>
         <p className="mt-1 text-sm text-gn-ink/70">
-          Il sera publié sur cette page après vérification par un administrateur.
+          {publishedChoice
+            ? 'Il sera publié sur cette page après vérification par un administrateur.'
+            : "Il est bien enregistré auprès de l'église et ne sera pas publié sur le site, comme vous l'avez demandé."}
         </p>
       </div>
     );
@@ -61,6 +66,11 @@ export default function TestimonyForm() {
         name="videoUrl"
         type="url"
         placeholder="https://youtube.com/..."
+      />
+      <CheckboxField
+        label="Je suis d'accord pour que mon témoignage soit publié sur le site après vérification."
+        name="wantsPublished"
+        defaultChecked
       />
 
       {error && <p className="text-sm text-red-400">{error}</p>}

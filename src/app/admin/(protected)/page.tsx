@@ -23,6 +23,13 @@ export default async function AdminTestimoniesPage() {
               {t.createdAt.toLocaleString("fr-FR")}
             </p>
           </div>
+          <p
+            className={`mt-1 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+              t.wantsPublished ? "bg-emerald-500/15 text-emerald-400" : "bg-red-500/15 text-red-400"
+            }`}
+          >
+            {t.wantsPublished ? "Accepte la publication" : "Ne veut pas être publié"}
+          </p>
           <p className="mt-2 whitespace-pre-wrap text-sm text-gn-cream/80">{t.content}</p>
           {t.videoUrl && (
             <a

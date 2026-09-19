@@ -1,10 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
-import { Field, TextAreaField } from '@/components/form/Field';
+import { Field, SelectField, TextAreaField } from '@/components/form/Field';
+
+// Le pasteur ne reçoit que le mardi : plutôt qu'un sélecteur de date libre
+// (qui laissait choisir n'importe quel jour, et débordait du formulaire sur
+// certains mobiles), on propose directement les prochains mardis.
+//
+// toISOString() convertit en UTC avant de découper la date : sur un fuseau
+// en avance sur UTC (ex. Kinshasa, UTC+1), minuit local devient la veille en
+// UTC — la valeur envoyée au serveur se retrouvait décalée d'un jour par
+// rapport à l'étiquette affichée (et donc rejetée par la vérification
+// « mardi uniquement » côté API). On construit donc la valeur à partir des
+// composants de date locaux, jamais via toISOString().
+function toLocalDateValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function nextTuesdays(count: number): { value: string; label: string }[] {
+  const out: { value: string; label: string }[] = [];
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  // 2 = mardi (0 = dimanche)
+  d.setDate(d.getDate() + ((2 - d.getDay() + 7) % 7 || 7));
+  for (let i = 0; i < count; i++) {
+    const date = new Date(d);
+    date.setDate(d.getDate() + i * 7);
+    out.push({
+      value: toLocalDateValue(date),
+      label: date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+    });
+  }
+  return out;
+}
 
 export default function AppointmentForm() {
+  const tuesdays = useMemo(() => nextTuesdays(8), []);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -61,7 +96,14 @@ export default function AppointmentForm() {
         <Field label="Téléphone" name="requesterPhone" type="tel" required />
       </div>
       <Field label="E-mail (optionnel)" name="requesterEmail" type="email" />
-      <Field label="Date souhaitée" name="preferredDate" type="date" required />
+      <SelectField label="Mardi souhaité — le pasteur reçoit uniquement ce jour-là" name="preferredDate" required>
+        <option value="">Choisir une date</option>
+        {tuesdays.map((t) => (
+          <option key={t.value} value={t.value}>
+            {t.label}
+          </option>
+        ))}
+      </SelectField>
       <TextAreaField label="Motif du rendez-vous" name="reason" required rows={4} />
 
       {error && <p className="text-sm text-red-400">{error}</p>}

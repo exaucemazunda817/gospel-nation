@@ -14,13 +14,14 @@ export async function POST(request: NextRequest) {
   const authorName = str(body.authorName);
   const content = str(body.content);
   const videoUrl = str(body.videoUrl) || null;
+  const wantsPublished = body.wantsPublished !== false;
 
   if (!authorName || !content) {
     return NextResponse.json({ error: 'Le nom et le témoignage sont obligatoires.' }, { status: 400 });
   }
 
   const testimony = await prisma.testimony.create({
-    data: { authorName, content, videoUrl }
+    data: { authorName, content, videoUrl, wantsPublished }
   });
 
   return NextResponse.json({ id: testimony.id });
