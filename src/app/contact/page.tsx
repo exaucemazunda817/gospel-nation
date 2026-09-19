@@ -30,8 +30,18 @@ export default function ContactPage() {
       value: church.instagram.replace('https://www.instagram.com/', '@'),
       path: (
         <>
-          <rect x="2" y="4" width="20" height="16" rx="2" />
-          <path d="m2 7 10 6 10-6" />
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+        </>
+      )
+    },
+    {
+      label: 'Facebook',
+      value: church.facebook.replace('https://www.facebook.com/', 'facebook.com/'),
+      path: (
+        <>
+          <path d="M14 8.5V11h2.8l-.4 3H14v7.5h-3V14H8.5v-3H11V8.2C11 5.9 12.4 4.5 14.5 4.5c1 0 2 .1 2 .1V7h-1.1c-1 0-1.4.6-1.4 1.5z" />
         </>
       )
     },
@@ -116,6 +126,17 @@ export default function ContactPage() {
                   <rect x="3" y="3" width="18" height="18" rx="5" />
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+              <a
+                href={church.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/40 text-gn-gold transition-colors hover:bg-gn-gold/10"
+                aria-label="Facebook"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14 8.5V11h2.8l-.4 3H14v7.5h-3V14H8.5v-3H11V8.2C11 5.9 12.4 4.5 14.5 4.5c1 0 2 .1 2 .1V7h-1.1c-1 0-1.4.6-1.4 1.5z" />
                 </svg>
               </a>
             </div>

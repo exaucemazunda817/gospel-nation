@@ -26,7 +26,10 @@ export const church = {
     'Av. Pembe Didace, Ma Campagne — à 100 m de la place commerciale en montant l\'avenue Joli-Parc',
   city: 'Kinshasa, RDC',
   youtube: 'https://m.youtube.com/@gospel.nation',
-  instagram: 'https://www.instagram.com/gospel.nation'
+  instagram: 'https://www.instagram.com/gospel.nation',
+  // Adresse propre de la page (les liens de partage facebook.com/share/…
+  // contiennent des paramètres de suivi), transmise par Mazunda le 19/09/2026.
+  facebook: 'https://www.facebook.com/eglise.gospelnation'
 } as const;
 
 export const linkedAccounts = [
