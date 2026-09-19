@@ -1,6 +1,7 @@
-// Garde-fou TEMP : tant que Mazunda n'a pas créé l'application Clerk dédiée
-// à gospel-nation et ajouté les clés dans .env.local, on désactive Clerk
-// proprement plutôt que de faire planter tout le site (même schéma que sur
-// gestion-scolaire). À supprimer une fois les clés en place — voir
-// .env.example pour la marche à suivre.
-export const isClerkConfigured = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+// Vrai seulement si les deux clés Clerk (publique ET secrète) étaient présentes
+// à la construction du site : le drapeau est calculé dans next.config.ts.
+// Sinon les comptes sont désactivés proprement (connexion et espace membre
+// renvoient à l'accueil, l'API des offres répond 503) au lieu de faire tomber
+// tout le site. Ne pas tester CLERK_SECRET_KEY ici : elle n'existe pas côté
+// navigateur, serveur et navigateur ne seraient plus d'accord.
+export const isClerkConfigured = process.env.NEXT_PUBLIC_CLERK_ENABLED === 'true';
