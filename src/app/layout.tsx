@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Montserrat, Playfair_Display } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import { frFR } from '@clerk/localizations';
@@ -52,6 +52,14 @@ export const metadata: Metadata = {
     title: `${church.name} — ${church.tagline}`,
     description
   }
+};
+
+// viewportFit: 'cover' est nécessaire pour que env(safe-area-inset-top)
+// renvoie une vraie valeur sur iPhone (encoche/Dynamic Island) — sans ça,
+// le header sticky (voir Header.tsx) peut se retrouver partiellement caché
+// sous l'encoche sur certains iPhone.
+export const viewport: Viewport = {
+  viewportFit: 'cover'
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

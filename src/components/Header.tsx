@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import type { TouchEvent as ReactTouchEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { TouchEvent as ReactTouchEvent, UIEvent as ReactUIEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -33,9 +33,26 @@ export default function Header() {
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [glassHref, setGlassHref] = useState<string | null>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
+  // Signale par un chevron animé qu'il reste des liens à voir plus bas dans
+  // le menu mobile (devenu défilable) — sans ça, rien n'indique qu'il faut
+  // faire glisser le doigt pour atteindre "Contact" ou "Devenir membre".
+  const [showScrollHint, setShowScrollHint] = useState(false);
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
   const isResourceActive = resourceLinks.some((link) => isActive(link.href));
+
+  useEffect(() => {
+    const el = mobileNavRef.current;
+    if (!mobileOpen || !el) return;
+    setShowScrollHint(el.scrollHeight - el.clientHeight > 8);
+  }, [mobileOpen]);
+
+  const handleMobileNavScroll = (e: ReactUIEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 8;
+    setShowScrollHint(el.scrollHeight - el.clientHeight > 8 && !nearBottom);
+  };
 
   // Fait glisser le reflet "verre liquide" (façon iOS 26) sous le titre que
   // le doigt survole en glissant dans le menu, sans attendre qu'il relâche.
@@ -48,7 +65,13 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-4 z-50 mx-4 mt-4 mb-4 sm:mx-8 sm:top-6 sm:mt-6 sm:mb-6 lg:mx-8 xl:mx-16">
+    <header
+      // max(1rem, env(safe-area-inset-top)) : sur un iPhone à encoche/Dynamic
+      // Island, un simple top-4 fixe peut laisser le bandeau caché sous
+      // l'encoche — on ajoute la zone sûre du système tout en gardant le
+      // même espacement qu'avant (1rem / 1.5rem à partir de sm) ailleurs.
+      className="sticky top-[max(1rem,env(safe-area-inset-top))] z-50 mx-4 mt-[max(1rem,env(safe-area-inset-top))] mb-4 sm:mx-8 sm:top-[max(1.5rem,env(safe-area-inset-top))] sm:mt-[max(1.5rem,env(safe-area-inset-top))] sm:mb-6 lg:mx-8 xl:mx-16"
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-gn-gold/20 bg-gn-black/55 px-5 py-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md sm:px-6 sm:py-3.5 xl:px-7">
         <Link href="/" aria-label="Accueil Gospel Nation" className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-3">
           <Image
@@ -185,9 +208,12 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
+        <div className="relative mx-auto mt-2 max-w-6xl xl:hidden">
         <nav
+          ref={mobileNavRef}
           data-lenis-prevent
-          className="mx-auto mt-2 flex max-h-[calc(100dvh-8rem)] max-w-6xl flex-col gap-1 overflow-y-auto overscroll-contain rounded-2xl border border-gn-gold/20 bg-gn-black/70 p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md xl:hidden"
+          className="flex max-h-[calc(100dvh-8rem)] flex-col gap-1 overflow-y-auto overscroll-contain rounded-2xl border border-gn-gold/20 bg-gn-black/70 p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md"
+          onScroll={handleMobileNavScroll}
           onTouchMove={handleGlassTouchMove}
           onTouchEnd={() => setGlassHref(null)}
           onTouchCancel={() => setGlassHref(null)}
@@ -259,6 +285,16 @@ export default function Header() {
             </Link>
           </div>
         </nav>
+        {showScrollHint && (
+          <div className="pointer-events-none absolute inset-x-3 bottom-2 flex justify-center">
+            <div className="flex h-6 w-6 animate-bounce items-center justify-center rounded-full bg-gn-gold/90 text-gn-black shadow-lg">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
+          </div>
+        )}
+        </div>
       )}
     </header>
   );

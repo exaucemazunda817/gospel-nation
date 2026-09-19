@@ -2,16 +2,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { church } from '@/lib/content';
 
+// Colonnes équilibrées à 6 liens chacune (Bible et Départements ajoutés,
+// manquants jusqu'ici) : avant, Communauté comptait 7 liens contre 4 pour
+// Explorer, ce qui laissait un grand vide sous "Explorer" dans le pied de
+// page. Les liens n'utilisent plus min-h-[44px] : sur une colonne dense de
+// texte, ça créait un grand vide entre chaque ligne (44px + gap-3, pour un
+// texte de 16px) — repéré visuellement par Mazunda le 19/09. Des liens de
+// navigation secondaire en liste peuvent s'appuyer sur l'exception
+// d'espacement du WCAG 2.5.8 plutôt que sur la cible pleine de 44px.
 const explore = [
   { href: '/', label: 'Accueil' },
   { href: '/eglise', label: 'À propos' },
   { href: '/predications', label: 'Prédications' },
-  { href: '/evenements', label: 'Événements' }
+  { href: '/evenements', label: 'Événements' },
+  { href: '/departements', label: 'Départements' },
+  { href: '/bible', label: 'Bible' }
 ];
 
 const community = [
   { href: '/inscription', label: 'Devenir membre' },
-  { href: '/bible', label: 'Bible' },
   { href: '/blog', label: 'Bibliothèque' },
   { href: '/temoignages', label: 'Témoignages' },
   { href: '/services', label: 'Offres et services' },
@@ -67,37 +76,37 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           <p className="font-serif text-sm italic font-medium text-gn-gold">Explorer</p>
           {explore.map((l) => (
-            <Link key={l.href} href={l.href} className="inline-flex min-h-[44px] items-center text-xs text-gn-cream/60 hover:text-gn-gold">
+            <Link key={l.href} href={l.href} className="inline-flex items-center py-0.5 text-xs text-gn-cream/60 hover:text-gn-gold">
               {l.label}
             </Link>
           ))}
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           <p className="font-serif text-sm italic font-medium text-gn-gold">Communauté</p>
           {community.map((l) => (
-            <Link key={l.href} href={l.href} className="inline-flex min-h-[44px] items-center text-xs text-gn-cream/60 hover:text-gn-gold">
+            <Link key={l.href} href={l.href} className="inline-flex items-center py-0.5 text-xs text-gn-cream/60 hover:text-gn-gold">
               {l.label}
             </Link>
           ))}
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           <p className="font-serif text-sm italic font-medium text-gn-gold">Contact</p>
           <p className="text-xs leading-relaxed text-gn-cream/60">
             {church.address}
             {church.addressIsPlaceholder && <span className="ml-1 text-gn-gold/70">(à confirmer)</span>}
           </p>
           <p className="text-xs text-gn-cream/60">{church.city}</p>
-          <Link href="/contact" className="inline-flex min-h-[44px] items-center text-xs text-gn-gold hover:text-gn-gold-light">
+          <Link href="/contact" className="inline-flex items-center py-0.5 text-xs text-gn-gold hover:text-gn-gold-light">
             Nous contacter
           </Link>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           <p className="font-serif text-sm italic font-medium text-gn-gold">Cultes</p>
           <p className="text-xs leading-relaxed text-gn-cream/60">
             {schedule.day}, {schedule.time}

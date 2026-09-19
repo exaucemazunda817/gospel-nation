@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const schedule = church.schedule[0];
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(church.address)}`;
 
   const infoItems = [
     {
@@ -80,6 +81,18 @@ export default function ContactPage() {
                 </div>
               </div>
             ))}
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1.5 inline-flex min-h-[44px] w-fit items-center gap-2 rounded-full bg-gn-gold px-5 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Itinéraire
+            </a>
             <div className="mt-1.5 flex gap-2.5">
               <a
                 href={church.youtube}
