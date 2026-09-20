@@ -96,3 +96,6 @@ Le projet Neon `gospel-nation` (plan gratuit) a `suspend_timeout_seconds: 0` et 
 
 ## Effet d'apparition au défilement (`Reveal.tsx`)
 Corrigé le 20/09/2026 : l'ancien « filet de sécurité » révélait TOUS les blocs 2,5 s après l'ouverture, donc le temps de défiler l'effet n'existait plus. Désormais un bloc n'est révélé que lorsqu'il approche de l'écran (défilement, observateur, ou déjà dépassé) ; le filet ne concerne que les blocs déjà visibles. Décalage de 32 px, 0,7 s. Respecte « réduire les animations » du système (aucun effet dans ce cas). Vérifié : 19 blocs restent cachés 6 s après l'ouverture, et après un défilement très rapide jusqu'en bas aucun ne reste invisible.
+
+## Défilement : Lenis retiré (20/09/2026)
+Lenis (défilement « amorti ») a été **retiré entièrement** : il donnait une sensation de ralenti (1,1 s d'inertie à chaque cran de molette, boucle d'animation permanente, observateur sur tout le DOM) et avait déjà causé deux bugs le 18/09. Décision de Mazunda : au prochain problème de défilement, on le retire plutôt que de le rafistoler. **Ne pas le réintroduire.** Le site utilise le défilement natif du navigateur.

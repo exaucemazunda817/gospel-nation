@@ -5,7 +5,6 @@ import { frFR } from '@clerk/localizations';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import SmoothScroll from '@/components/SmoothScroll';
 import { church } from '@/lib/content';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 
@@ -66,7 +65,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   const body = (
     <html lang="fr" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-gn-black text-gn-cream">
-        <SmoothScroll />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
