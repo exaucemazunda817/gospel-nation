@@ -82,7 +82,7 @@ function BibleVerseRow({
   };
 
   return (
-    <p id={`verset-${verse}`} className="group scroll-mt-28 leading-[1.8] text-gn-ink">
+    <p id={`verset-${verse}`} className="group scroll-mt-28 leading-relaxed text-gn-ink">
       <span className="mr-1.5 align-super text-xs font-bold text-gn-gold-line">{verse}</span>
       {text}
       <span className="ml-2 inline-flex items-center gap-1.5 align-middle opacity-40 transition-opacity group-hover:opacity-100">

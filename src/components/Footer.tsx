@@ -89,20 +89,26 @@ export default function Footer() {
 
         <div className="flex flex-col gap-2.5">
           <p className="font-serif text-sm italic font-medium text-gn-gold">Explorer</p>
-          {explore.map((l) => (
-            <Link key={l.href} href={l.href} className="inline-flex items-center py-0.5 text-xs text-gn-cream/60 hover:text-gn-gold">
-              {l.label}
-            </Link>
-          ))}
+          {/* Sans marge entre les liens : même interligne (leading-relaxed) que les lignes de texte des colonnes Contact et Cultes. */}
+          <div className="flex flex-col">
+            {explore.map((l) => (
+              <Link key={l.href} href={l.href} className="block text-xs leading-relaxed text-gn-cream/60 hover:text-gn-gold">
+                {l.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-2.5">
           <p className="font-serif text-sm italic font-medium text-gn-gold">Communauté</p>
-          {community.map((l) => (
-            <Link key={l.href} href={l.href} className="inline-flex items-center py-0.5 text-xs text-gn-cream/60 hover:text-gn-gold">
-              {l.label}
-            </Link>
-          ))}
+          {/* Sans marge entre les liens : même interligne (leading-relaxed) que les lignes de texte des colonnes Contact et Cultes. */}
+          <div className="flex flex-col">
+            {community.map((l) => (
+              <Link key={l.href} href={l.href} className="block text-xs leading-relaxed text-gn-cream/60 hover:text-gn-gold">
+                {l.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-2.5">

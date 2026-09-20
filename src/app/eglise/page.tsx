@@ -87,7 +87,7 @@ export default function EglisePage() {
               <h2 className="mb-[18px] font-serif text-3xl font-semibold leading-snug text-gn-ink">
                 Une famille bâtie sur la foi
               </h2>
-              <p className="mb-3 max-w-measure text-sm leading-[1.8] text-gn-ink/60">{histoirePlaceholder}</p>
+              <p className="mb-3 max-w-measure text-sm leading-relaxed text-gn-ink/60">{histoirePlaceholder}</p>
               <div className="mt-5">
                 <PlaceholderNote>
                   L&apos;histoire complète de la fondation de l&apos;église (année, lieu, vision initiale) sera
