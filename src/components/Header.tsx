@@ -13,11 +13,12 @@ import { isClerkConfigured } from '@/lib/clerk-configured';
 const primaryLinks = [
   { href: '/', label: 'Accueil' },
   { href: '/predications', label: 'Prédications' },
-  { href: '/evenements', label: 'Événements' },
+  { href: '/departements/gospel-news', label: 'Gospel News' },
   { href: '/departements', label: 'Départements' }
 ];
 
 const resourceLinks = [
+  { href: '/evenements', label: 'Événements' },
   { href: '/bible', label: 'Bible' },
   { href: '/blog', label: 'Bibliothèque' },
   { href: '/temoignages', label: 'Témoignages' },
@@ -42,7 +43,13 @@ export default function Header() {
   // faire glisser le doigt pour atteindre "Contact" ou "Devenir membre".
   const [showScrollHint, setShowScrollHint] = useState(false);
 
-  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+  // Gospel News est un département : sur sa page, seul « Gospel News » est souligné,
+  // pas « Départements ».
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/';
+    if (href === '/departements') return pathname.startsWith(href) && !pathname.startsWith('/departements/gospel-news');
+    return pathname.startsWith(href);
+  };
   const isResourceActive = resourceLinks.some((link) => isActive(link.href));
 
   useEffect(() => {
@@ -82,6 +89,7 @@ export default function Header() {
             alt={`Logo ${church.name}`}
             width={566}
             height={429}
+            sizes="44px"
             className="h-9 w-9 object-contain sm:h-11 sm:w-11"
             priority
           />
@@ -217,7 +225,6 @@ export default function Header() {
         <div className="relative mx-auto mt-2 max-w-6xl xl:hidden">
         <nav
           ref={mobileNavRef}
-          data-lenis-prevent
           className="flex max-h-[calc(100dvh-8rem)] flex-col gap-1 overflow-y-auto overscroll-contain rounded-2xl border border-gn-gold/20 bg-gn-black/70 p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md"
           onScroll={handleMobileNavScroll}
           onTouchMove={handleGlassTouchMove}
