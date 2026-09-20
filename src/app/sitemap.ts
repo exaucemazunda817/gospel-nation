@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
+import { gospelNewsArticles } from '@/lib/gospel-news';
 
 // Même repli que dans layout.tsx : une variable créée mais vide sur Vercel
 // vaut '' et non undefined, donc `||` et pas `??`.
@@ -65,6 +66,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: department.updatedAt,
       changeFrequency: 'monthly' as const,
       priority: 0.7
+    })),
+    ...gospelNewsArticles.map((article) => ({
+      url: `${siteUrl}/departements/gospel-news/${article.slug}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.5
     })),
     ...sermons.map((sermon) => ({
       url: `${siteUrl}/predications/${sermon.id}`,

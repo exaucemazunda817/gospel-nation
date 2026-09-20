@@ -6,7 +6,7 @@ import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
 import { nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
 import Reveal from '@/components/Reveal';
-import GospelNewsArticles from '@/components/GospelNewsArticles';
+import { GospelNewsList } from '@/components/GospelNewsArticles';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -31,7 +31,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
     return (
       <div className="bg-gn-cream-bg">
         <PageHero eyebrow="Département" title={dept.name} />
-        <GospelNewsArticles />
+        <GospelNewsList />
         <div className="mx-auto max-w-3xl px-5 pb-12 sm:px-6">
           <Link href="/departements" className="inline-flex min-h-[44px] items-center text-sm text-gn-gold-line hover:underline">
             ← Retour aux départements

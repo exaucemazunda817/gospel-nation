@@ -166,45 +166,6 @@ export const gospelNewsArticles: GospelNewsArticle[] = [
       p('Appelés, Ouvriers et Ministères : trois étapes, une seule mission, impacter le monde pour la gloire de Dieu.')
     ]
   },
-  {
-    slug: 'produits-et-services-de-nos-membres',
-    volume: 3,
-    date: '31 mai 2026',
-    title: 'Produits et services de nos membres',
-    author: 'Stone Mugisho',
-    blocks: [
-      h('Delights by K'),
-      img('delights', 'Affiche Delights by K', 'poster'),
-      p('Une nouvelle aventure culinaire voit le jour à Kinshasa avec le lancement de « Delights by K », une initiative portée par Kenaya, jeune entrepreneure passionnée par la gastronomie et les saveurs faites maison.'),
-      p('À travers cette activité, Delights by K propose une variété de gourmandises préparées avec soin afin d’offrir aux consommateurs des produits savoureux et adaptés à différents types d’événements et de moments de convivialité.'),
-      h('Bouillie Nutrimix'),
-      img('nutrimix', 'Affiche Bouillie Nutrimix', 'poster'),
-      p('Quatre jeunes entrepreneurs : Exauce Mazunda, Sept Ngiene, Pasteur Moise et Archange Kazimoto, se lancent dans le domaine de l’alimentation nutritionnelle avec une bouillie naturelle conçue pour répondre aux besoins énergétiques et nutritionnels de plusieurs catégories de consommateurs.'),
-      p('Préparée sans ajout de produits chimiques, cette bouillie est élaborée à partir d’un mélange de six céréales et légumineuses soigneusement sélectionnées : le soja, le blé, le millet, le maïs jaune, l’arachide et le riz.'),
-      h('SISI CRÉA'),
-      img('sisi-crea', 'Affiche SISI CRÉA', 'poster'),
-      p('Dans un monde où l’image et la visibilité occupent une place essentielle dans le développement des projets et des entreprises, SISI_CRÉA se positionne comme une structure innovante spécialisée dans la création de contenus audiovisuels et digitaux à Kinshasa.'),
-      p('Avec une approche axée sur l’impact visuel et la communication moderne, SISI_CRÉA accompagne les particuliers, les entrepreneurs ainsi que les marques dans la valorisation de leurs activités à travers des contenus adaptés aux réseaux sociaux tels qu’Instagram et TikTok.'),
-      p('La structure intervient dans plusieurs domaines, notamment : la couverture d’événements, les mariages et anniversaires, la promotion des boutiques et marques de vêtements, la valorisation des maisons de beauté et salons de coiffure, les animations MC ainsi que la réalisation de clips vidéo.')
-    ]
-  },
-  {
-    slug: 'annonces-vol-3',
-    volume: 3,
-    date: '31 mai 2026',
-    title: 'Annonces',
-    blocks: [
-      h('La fête de la musique'),
-      img('fete-musique', 'Affiche de la fête de la musique', 'poster'),
-      p('Cette journée ne sera pas seulement un événement musical, mais une occasion de toucher des cœurs et de parler de Jésus d’une manière différente, simple et accessible. Beaucoup de personnes aiment la musique, mais ne connaissent pas encore Celui qui donne un sens, une mélodie, à notre vie. Alors invitons-les.'),
-      p('Lieu : Gospel Nation, Joli Parc. Date : 21 juin, à 16h00.'),
-      h('Grand Sokola'),
-      img('grand-sokola', 'Affiche du Grand Sokola', 'poster'),
-      p('L’équipe Welcome a le réel plaisir de vous confirmer que le GRAND SOKOLA aura bel et bien lieu le samedi 6 juin 2026, à partir de 8h30 !'),
-      p('Au programme :'),
-      list('Petit déjeuner', 'Prière', 'Jeux', 'Nettoyage', 'Barbecue')
-    ]
-  },
 
   // ─────────────── Vol. 2 — 30 mars 2025 ───────────────
   {
@@ -277,28 +238,15 @@ export const gospelNewsArticles: GospelNewsArticle[] = [
       p('Il a poursuivi en disant que l’homme est le héros de son enfant, tel un berger qui protège sa famille, son travail, son cercle d’amis : « Ce dernier doit protéger, écouter, diriger comme étant un donneur d’exemple ou d’expériences », dit-il.'),
       p('En conclusion, l’homme est invité à équilibrer ces rôles pour une vie épanouie. Il pose un cadre de règles et s’y tient, parce qu’il a bien appris de ses expériences, afin d’avoir des bases dans sa famille ainsi que dans son entourage. L’homme est un bâtisseur, il construit son foyer.')
     ]
-  },
-  {
-    slug: 'annonces-vol-2',
-    volume: 2,
-    date: '30 mars 2025',
-    title: 'Annonces : les activités à venir',
-    blocks: [
-      p('Vivez une année spirituelle inoubliable !'),
-      h('Gospel Café Comedy Club, nouvelle édition surprise'),
-      p('Le 15 juin 2025, préparez-vous à une soirée pleine de surprises ! Après le succès retentissant de l’édition du 18 juin 2023, le Gospel Café Comedy Club revient avec un concept inédit mêlant humour et spiritualité.'),
-      p('Les invités restent pour l’instant mystérieux… Oserez-vous deviner qui se joindra à nous pour vous faire rire et vous inspirer ? Restez branchés pour découvrir quelques indices.'),
-      h('Worship Night, une soirée d’adoration intense'),
-      p('Le 23 mai 2025, rejoignez-nous autour d’un feu pour la prochaine édition de Worship Night, organisée par Gospel Nation Music. Venez vivre un moment d’adoration intense où nos voix s’uniront pour louer Dieu et partager une communion spirituelle forte.'),
-      h('Séminaire « Crois Seulement », un appel à la foi'),
-      p('Du 5 au 7 mai 2025, l’Église Gospel Nation vous invite à participer au séminaire « Crois Seulement ». Ce séminaire est un moment privilégié de formation et de réflexion spirituelle, destiné à renforcer votre engagement et à vous offrir des enseignements inspirants pour avancer dans votre cheminement de foi.'),
-      h('Valorous, le département des hommes'),
-      p('Alors que le lieu reste encore à confirmer, le 26 avril est la date choisie pour le 2e rendez-vous des hommes valeureux. Les inscriptions à ce département sont déjà ouvertes jusqu’au 26 avril, qui est également la date limite. Une deadline est imposée pour s’assurer d’avoir un effectif précis, afin que mentor et mentoré s’assurent d’accomplir leur mission pendant une année.'),
-      h('Jesus Camp, retraite de jeunes'),
-      p('Nation United, le département de la jeunesse de l’Église Gospel Nation, organise prochainement le « Jesus Camp », une retraite spécialement conçue pour les jeunes. Bien que la date et le lieu soient à venir, préparez-vous à vivre une expérience inoubliable, placée sous le signe de la foi et de la communion.'),
-      h('Le programme de l’église Gospel Nation'),
-      img('semaine', 'Programme de la semaine à Gospel Nation', 'poster'),
-      p('Notez bien ces dates et préparez-vous à vivre un mois plein d’émotions et d’inspiration !')
-    ]
   }
 ];
+
+export function getArticle(slug: string) {
+  return gospelNewsArticles.find((article) => article.slug === slug);
+}
+
+// Vignette de la liste : première image de l'article, sinon la couverture de la revue.
+export function articleThumbnail(article: GospelNewsArticle): string {
+  const first = article.blocks.find((block) => block.type === 'image');
+  return first && first.type === 'image' ? first.image.src : `/bibliotheque/covers/revue-gospel-news-vol-${article.volume}.jpg`;
+}
