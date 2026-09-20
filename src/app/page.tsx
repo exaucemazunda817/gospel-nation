@@ -149,8 +149,8 @@ export default async function HomePage() {
 
       {/* Dernières prédications */}
       <section className="bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-8">
+        <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
+          <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
             <div>
               <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Écouter</p>
               <h2 className="font-serif text-3xl font-semibold text-gn-ink">
@@ -167,11 +167,11 @@ export default async function HomePage() {
           {sermons.length === 0 ? (
             <p className="text-sm text-gn-ink/60">Aucune prédication publiée pour le moment.</p>
           ) : (
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="gn-scroll-x -mx-5 flex scroll-pl-5 snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
               {sermons.map((sermon, index) => (
-                <Reveal key={sermon.id} delay={index * 0.06}>
+                <Reveal key={sermon.id} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-auto">
                   <Link href={`/predications/${sermon.id}`} className="flex flex-col gap-3.5">
-                    <div className="relative flex h-[170px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gn-black-soft to-gn-black">
+                    <div className="relative flex h-[170px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gn-black-soft to-gn-black lg:h-[200px]">
                       {sermon.coverImageUrl ? (
                         <Image
                           src={sermon.coverImageUrl}
@@ -204,45 +204,50 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Dernières parutions (revues Gospel News) */}
+      {/* Dernières parutions (revues Gospel News) : bande sombre pour rompre le rythme */}
       {issues.length > 0 && (
-        <section className="bg-white">
-          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-            <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-8">
+        <section className="bg-gn-black-soft">
+          <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
+            <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
               <div>
-                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Lire</p>
-                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
+                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold">Lire</p>
+                <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernières parutions</h2>
               </div>
               <Link
                 href="/departements/gospel-news"
-                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
+                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold hover:underline"
               >
-                Voir toutes les revues
+                Voir tous les articles
               </Link>
             </Reveal>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="gn-scroll-x -mx-5 flex scroll-pl-5 snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0">
               {issues.map((issue, index) => (
-                <Reveal key={issue.fileUrl} delay={index * 0.06}>
-                  <a href={issue.fileUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-3.5">
-                    <div className="relative h-[170px] overflow-hidden rounded-lg bg-gn-black">
+                <Reveal key={issue.fileUrl} delay={index * 0.06} className="w-[86%] shrink-0 snap-start sm:w-auto">
+                  <a
+                    href={issue.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gn-card-lift flex h-full items-center gap-5 rounded-lg border border-gn-gold/20 bg-gn-black p-4"
+                  >
+                    <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
                       <Image
                         src={issue.coverUrl}
                         alt={`Couverture de Gospel News, volume ${issue.volume}`}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes="112px"
                         className="object-cover object-top"
                       />
+                    </div>
+                    <div>
                       {index === 0 && (
-                        <span className="absolute left-3 top-3 rounded-full bg-gn-black px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                        <span className="mb-2 inline-block rounded-full bg-gn-gold px-3 py-1 text-xs font-bold uppercase tracking-wide text-gn-on-gold">
                           Dernière parution
                         </span>
                       )}
-                    </div>
-                    <div>
-                      <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">
+                      <p className="mb-1.5 font-serif text-lg font-semibold text-gn-cream">
                         Gospel News, volume {issue.volume}
                       </p>
-                      <p className="text-xs text-gn-muted-strong">{issue.date} · Télécharger le PDF</p>
+                      <p className="text-xs text-gn-muted">{issue.date} · Télécharger le PDF</p>
                     </div>
                   </a>
                 </Reveal>
@@ -255,8 +260,8 @@ export default async function HomePage() {
       {/* Événement à venir : le prochain rendez-vous, ou celui d'aujourd'hui */}
       {upcomingEvent && (
         <section className="bg-gn-cream-bg">
-          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-            <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-8">
+          <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
+            <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
               <div>
                 <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Agenda</p>
                 <h2 className="font-serif text-3xl font-semibold text-gn-ink">Événement à venir</h2>
@@ -269,13 +274,13 @@ export default async function HomePage() {
               </Link>
             </Reveal>
             <Reveal>
-              <div className="grid gap-8 md:grid-cols-[minmax(0,280px)_1fr] md:items-center md:gap-12">
-                <Link href="/evenements" className="relative block aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg">
+              <div className="grid gap-6 rounded-2xl border border-gn-line bg-white p-5 sm:p-7 md:grid-cols-[minmax(0,240px)_1fr] md:items-center md:gap-10">
+                <Link href="/evenements" className="relative block aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-lg">
                   <Image
                     src={upcomingEvent.posterImageUrl}
                     alt={upcomingEvent.title}
                     fill
-                    sizes="(max-width: 768px) 280px, 280px"
+                    sizes="240px"
                     className="object-cover"
                   />
                 </Link>
@@ -321,8 +326,8 @@ export default async function HomePage() {
 
       {/* Nos départements */}
       <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <Reveal className="mb-11 max-w-lg">
+        <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
+          <Reveal className="mb-6 max-w-lg sm:mb-7">
             <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
             <h2 className="mb-3 font-serif text-3xl font-semibold text-gn-ink">Nos départements</h2>
             <p className="text-sm leading-relaxed text-gn-ink/60">
@@ -330,7 +335,7 @@ export default async function HomePage() {
               l&apos;église.
             </p>
           </Reveal>
-          <HorizontalScroller className="gn-scroll-x -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 sm:-mx-10 sm:px-10">
+          <HorizontalScroller className="gn-scroll-x -mx-5 flex scroll-pl-5 snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 sm:-mx-10 sm:scroll-pl-10 sm:px-10">
             {departments.map((dept, index) => (
               <Reveal key={dept.slug} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-[320px]">
                 <Link
@@ -362,7 +367,7 @@ export default async function HomePage() {
               </Reveal>
             ))}
           </HorizontalScroller>
-          <Reveal className="mt-8 text-center">
+          <Reveal className="mt-4 text-center">
             <Link
               href="/departements"
               className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
@@ -378,7 +383,7 @@ export default async function HomePage() {
         <div
           className="gn-radial-gold-soft pointer-events-none absolute inset-0"
         />
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
+        <div className="relative mx-auto grid max-w-6xl gap-8 px-5 py-11 sm:px-10 sm:py-14 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
           <Reveal>
             <div>
               <p className="mb-3.5 font-serif text-base italic font-medium text-gn-gold">Rejoindre la famille</p>

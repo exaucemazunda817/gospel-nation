@@ -6,14 +6,14 @@ import { articleThumbnail, gospelNewsArticles, type ArticleBlock, type ArticleIm
 // Liste façon fil d'actualité : titre à gauche, vignette à droite, un clic ouvre l'article.
 export function GospelNewsList() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-10 sm:px-6 sm:py-14">
+    <div className="mx-auto max-w-2xl px-5 py-4 sm:px-6 sm:py-6">
       <ul className="divide-y divide-gn-line">
         {gospelNewsArticles.map((article, index) => (
           <li key={article.slug}>
             <Reveal delay={index * 0.05}>
               <Link
                 href={`/departements/gospel-news/${article.slug}`}
-                className="flex items-start gap-4 py-5 sm:gap-6 sm:py-6"
+                className="flex items-center gap-4 py-4 sm:gap-6 sm:py-5"
               >
                 <div className="min-w-0 flex-1">
                   <h2 className="line-clamp-4 font-serif text-lg font-semibold leading-snug text-gn-ink sm:text-xl">
@@ -24,7 +24,7 @@ export function GospelNewsList() {
                     {article.author ? ` · ${article.author}` : ''}
                   </p>
                 </div>
-                <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-lg bg-gn-black sm:h-28 sm:w-40">
+                <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black sm:h-24 sm:w-36">
                   <Image
                     src={articleThumbnail(article)}
                     alt=""
@@ -103,7 +103,7 @@ export function ArticleContent({ article }: { article: GospelNewsArticle }) {
   // Premier paragraphe : chapô, un peu plus grand.
   const leadIndex = article.blocks.findIndex((block) => block.type === 'p');
   return (
-    <article className="pb-12 pt-10 sm:pb-16 sm:pt-14">
+    <article className="pb-10 pt-6 sm:pb-12 sm:pt-8">
       <Reveal className="mx-auto max-w-3xl px-5 sm:px-6">
         <p className="text-xs font-bold uppercase tracking-wide text-gn-gold-dark">
           Vol. {article.volume} · {article.date}
