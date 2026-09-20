@@ -82,7 +82,7 @@ export default async function HomePage() {
             il est aligné à gauche) sans assombrir toute la vidéo. */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/55 via-gn-black/10 to-transparent sm:bg-gradient-to-r sm:from-gn-black/65 sm:via-gn-black/15 sm:to-transparent" />
         <div className="gn-glow absolute inset-0" />
-        <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-10 sm:py-28 lg:py-32">
+        <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-36 sm:px-10 sm:pb-28 sm:pt-44 lg:pb-32 lg:pt-48">
           <Reveal>
             <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center sm:mx-0 sm:items-start sm:gap-6 sm:text-left">
               <p className="font-serif text-base italic font-medium text-gn-gold">{church.name}</p>
@@ -147,6 +147,12 @@ export default async function HomePage() {
           </a>
         </Reveal>
       </section>
+
+      {/* Bande défilante : événement à venir, cultes, services, départements */}
+      <EventsMarquee
+        event={upcomingEvent ? { title: upcomingEvent.title, when: upcomingEvent.eventDate ? formatEventDateTime(upcomingEvent.eventDate) : '' } : null}
+        departments={departments.map((department) => ({ name: department.name, slug: department.slug, imageUrl: department.imageUrl }))}
+      />
 
       {/* Dernières parutions (revues Gospel News) : bande sombre pour rompre le rythme */}
       {issues.length > 0 && (
@@ -258,14 +264,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Bande défilante : événement à venir, cultes, services, départements */}
-      <EventsMarquee
-        event={upcomingEvent ? { title: upcomingEvent.title, when: upcomingEvent.eventDate ? formatEventDateTime(upcomingEvent.eventDate) : '' } : null}
-        departments={departments.map((department) => ({ name: department.name, slug: department.slug }))}
-      />
-
       {/* Nos départements */}
-      <section className="bg-gn-cream-bg">
+      <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
           <Reveal className="mb-6 max-w-lg sm:mb-7">
             <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
@@ -280,7 +280,7 @@ export default async function HomePage() {
               <Reveal key={dept.slug} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-[320px]">
                 <Link
                   href={`/departements/${dept.slug}`}
-                  className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white"
+                  className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-gn-cream-bg"
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-gn-black">
                     {dept.imageUrl ? (
