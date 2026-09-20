@@ -72,7 +72,7 @@ export default async function HomePage() {
   return (
     <div className="bg-gn-black">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gn-black">
+      <section data-home-hero className="relative overflow-hidden bg-gn-black">
         <HeroVideo src="/video/hero-accueil.mp4" poster="/video/hero-accueil-poster.jpg" />
         <div className="pointer-events-none absolute inset-0 bg-gn-black/70" />
         {/* Voile supplémentaire côté texte : la vidéo contient son propre

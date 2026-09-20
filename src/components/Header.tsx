@@ -34,7 +34,6 @@ const trailingLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const isHome = pathname === '/';
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [glassHref, setGlassHref] = useState<string | null>(null);
@@ -81,13 +80,7 @@ export default function Header() {
       // Island, un simple top-4 fixe peut laisser le bandeau caché sous
       // l'encoche — on ajoute la zone sûre du système tout en gardant le
       // même espacement qu'avant (1rem / 1.5rem à partir de sm) ailleurs.
-      className={
-        isHome
-          ? // Accueil : le bandeau flotte par-dessus la vidéo du hero, sans réserver
-            // de bande noire au-dessus d'elle.
-            'fixed inset-x-0 top-[max(1rem,env(safe-area-inset-top))] z-50 mx-4 sm:mx-8 sm:top-[max(1.5rem,env(safe-area-inset-top))] lg:mx-8 xl:mx-16'
-          : 'sticky top-[max(1rem,env(safe-area-inset-top))] z-50 mx-4 mt-[max(1rem,env(safe-area-inset-top))] mb-4 sm:mx-8 sm:top-[max(1.5rem,env(safe-area-inset-top))] sm:mt-[max(1.5rem,env(safe-area-inset-top))] sm:mb-6 lg:mx-8 xl:mx-16'
-      }
+      className="sticky top-[max(1rem,env(safe-area-inset-top))] z-50 mx-4 mt-[max(1rem,env(safe-area-inset-top))] mb-4 sm:mx-8 sm:top-[max(1.5rem,env(safe-area-inset-top))] sm:mt-[max(1.5rem,env(safe-area-inset-top))] sm:mb-6 lg:mx-8 xl:mx-16"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-gn-gold/20 bg-gn-black/55 px-5 py-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] backdrop-blur-md sm:px-6 sm:py-3.5 xl:px-7">
         <Link href="/" aria-label="Accueil Gospel Nation" className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center gap-3">

@@ -323,3 +323,20 @@ input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='h
     animation: none;
   }
 }
+
+/* Accueil : le bandeau de navigation flotte par-dessus la vidéo du hero au lieu
+   de réserver une bande noire au-dessus. Fait en CSS (:has) plutôt qu'en JS pour
+   être correct dès le premier affichage, avant l'hydratation. */
+body:has([data-home-hero]) > header {
+  position: fixed;
+  inset-inline: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  top: max(1rem, env(safe-area-inset-top));
+}
+
+@media (min-width: 640px) {
+  body:has([data-home-hero]) > header {
+    top: max(1.5rem, env(safe-area-inset-top));
+  }
+}
