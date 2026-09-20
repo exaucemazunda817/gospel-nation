@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
-import { gospelNewsIssues, nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
+import { nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
 import Reveal from '@/components/Reveal';
+import GospelNewsArticles from '@/components/GospelNewsArticles';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -24,6 +25,21 @@ export default async function DepartementDetailPage({ params }: PageProps) {
   const isNationClasse = slug === 'ecole-nation-classe';
   const isOneLove = slug === 'one-love';
   const isGospelNews = slug === 'gospel-news';
+
+  // Gospel News : uniquement les articles des revues, images sur toute la largeur.
+  if (isGospelNews) {
+    return (
+      <div className="bg-gn-cream-bg">
+        <PageHero eyebrow="Département" title={dept.name} />
+        <GospelNewsArticles />
+        <div className="mx-auto max-w-3xl px-5 pb-12 sm:px-6">
+          <Link href="/departements" className="inline-flex min-h-[44px] items-center text-sm text-gn-gold-line hover:underline">
+            ← Retour aux départements
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gn-cream-bg">
@@ -169,48 +185,6 @@ export default async function DepartementDetailPage({ params }: PageProps) {
                     <p className="font-serif text-base font-semibold leading-snug text-gn-ink">{manuel.module}</p>
                     <a
                       href={manuel.fileUrl}
-                      download
-                      className="mt-auto inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-gn-gold px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-                        <path d="M12 3v12" />
-                        <path d="m7 10 5 5 5-5" />
-                        <path d="M5 21h14" />
-                      </svg>
-                      Télécharger le PDF
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {isGospelNews && gospelNewsIssues.length > 0 && (
-          <div className="mt-8">
-            <h2 className="font-serif text-lg font-bold text-gn-ink">Revues publiées</h2>
-            <p className="mt-1 max-w-measure text-sm text-gn-ink/60">
-              Le journal trimestriel de Gospel Nation, téléchargeable au format PDF — à retrouver aussi dans la
-              Bibliothèque.
-            </p>
-            <div className="mt-4 grid gap-5 sm:grid-cols-2">
-              {gospelNewsIssues.map((issue) => (
-                <div key={issue.fileUrl} className="flex flex-col overflow-hidden rounded-lg border border-gn-line bg-white">
-                  {issue.coverUrl && (
-                    <Image
-                      src={issue.coverUrl}
-                      alt={`Gospel News Vol. ${issue.volume}`}
-                      width={400}
-                      height={230}
-                      className="h-[190px] w-full object-cover object-top"
-                    />
-                  )}
-                  <div className="flex flex-1 flex-col gap-3 p-5">
-                    <p className="font-serif text-base font-semibold text-gn-ink">
-                      Vol. {issue.volume} — {issue.date}
-                    </p>
-                    <a
-                      href={issue.fileUrl}
                       download
                       className="mt-auto inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-gn-gold px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
                     >
