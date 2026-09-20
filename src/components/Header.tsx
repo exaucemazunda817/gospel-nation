@@ -12,7 +12,6 @@ import { isClerkConfigured } from '@/lib/clerk-configured';
 
 const primaryLinks = [
   { href: '/', label: 'Accueil' },
-  { href: '/eglise', label: 'À propos' },
   { href: '/predications', label: 'Prédications' },
   { href: '/evenements', label: 'Événements' },
   { href: '/departements', label: 'Départements' }
@@ -26,7 +25,11 @@ const resourceLinks = [
   { href: '/rendez-vous', label: 'Prendre rendez-vous' }
 ];
 
-const contactLink = { href: '/contact', label: 'Contact' };
+// Placés après « Ressources », dans cet ordre (demande de Mazunda, 20/09/2026).
+const trailingLinks = [
+  { href: '/eglise', label: 'À propos' },
+  { href: '/contact', label: 'Contact' }
+];
 
 export default function Header() {
   const pathname = usePathname();
@@ -144,21 +147,24 @@ export default function Header() {
               </div>
             )}
           </div>
-          <Link
-            href={contactLink.href}
-            className={`relative whitespace-nowrap pb-1 text-xs font-semibold tracking-wide transition-colors ${
-              isActive(contactLink.href) ? 'text-gn-gold' : 'text-gn-cream hover:text-gn-gold'
-            }`}
-          >
-            {contactLink.label}
-            {isActive(contactLink.href) && (
-              <motion.span
-                layoutId="nav-underline"
-                className="absolute inset-x-0 -bottom-0.5 h-[2px] rounded-full bg-gn-gold"
-                transition={{ type: 'spring', stiffness: 500, damping: 34 }}
-              />
-            )}
-          </Link>
+          {trailingLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`relative whitespace-nowrap pb-1 text-xs font-semibold tracking-wide transition-colors ${
+                isActive(link.href) ? 'text-gn-gold' : 'text-gn-cream hover:text-gn-gold'
+              }`}
+            >
+              {link.label}
+              {isActive(link.href) && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute inset-x-0 -bottom-0.5 h-[2px] rounded-full bg-gn-gold"
+                  transition={{ type: 'spring', stiffness: 500, damping: 34 }}
+                />
+              )}
+            </Link>
+          ))}
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 xl:flex xl:gap-3">
@@ -219,7 +225,7 @@ export default function Header() {
           onTouchCancel={() => setGlassHref(null)}
           onMouseLeave={() => setGlassHref(null)}
         >
-          {[...primaryLinks, ...resourceLinks, contactLink].map((link) => (
+          {[...primaryLinks, ...resourceLinks, ...trailingLinks].map((link) => (
             <Link
               key={link.href}
               href={link.href}
