@@ -27,7 +27,7 @@ export default async function DepartementsPage() {
       />
 
       <div className="bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {departments.map((dept, index) => (
               <Reveal key={dept.id} delay={index * 0.06}>
@@ -64,7 +64,7 @@ export default async function DepartementsPage() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

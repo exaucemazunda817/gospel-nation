@@ -59,17 +59,17 @@ export default function EglisePage() {
         <Image src="/hero/eglise-v2.jpg" alt="" fill className="gn-kenburns object-cover object-center" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">À propos</span>
           </p>
           <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Qui sommes-nous</h1>
-        </div>
+        </Reveal>
       </section>
 
       {/* Notre histoire */}
       <section className="bg-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+        <Reveal className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <Reveal>
             <div className="relative h-[280px] overflow-hidden rounded-lg bg-black sm:h-[360px]">
               <Image
@@ -96,12 +96,12 @@ export default function EglisePage() {
               </div>
             </div>
           </Reveal>
-        </div>
+        </Reveal>
       </section>
 
       {/* Nos valeurs */}
       <section className="border-y border-gn-line bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Ce que nous croyons</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Nos valeurs</h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -119,12 +119,12 @@ export default function EglisePage() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Pasteur */}
       <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Direction</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Notre pasteur</h2>
           <div className="max-w-xs">
@@ -154,12 +154,12 @@ export default function EglisePage() {
               </div>
             </Reveal>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Horaires */}
       <section className="border-t border-gn-line bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Nous rejoindre</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Horaires des cultes</h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -173,12 +173,12 @@ export default function EglisePage() {
             ))}
           </div>
           <p className="mt-8 max-w-measure text-sm text-gn-ink/60">{church.address}</p>
-        </div>
+        </Reveal>
       </section>
 
       {/* CTA */}
       <section className="gn-glow relative overflow-hidden bg-gn-black">
-        <div className="relative mx-auto max-w-6xl px-5 py-16 text-center sm:px-10 sm:py-20">
+        <Reveal className="relative mx-auto max-w-6xl px-5 py-16 text-center sm:px-10 sm:py-20">
           <h2 className="mb-4 font-serif text-3xl font-semibold text-gn-cream">Rejoignez-nous ce dimanche</h2>
           <p className="mx-auto mb-7 max-w-md text-sm text-gn-muted">
             Toute la famille Gospel Nation vous attend pour ce temps de culte, de partage et de communion.
@@ -189,7 +189,7 @@ export default function EglisePage() {
           >
             Devenir membre
           </Link>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

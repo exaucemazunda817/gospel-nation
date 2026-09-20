@@ -7,6 +7,7 @@ import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
 import { TOTAL_DAYS } from '@/lib/reading-plan';
 import { isClerkConfigured } from '@/lib/clerk-configured';
+import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
   title: 'Mon compte'
@@ -28,7 +29,7 @@ export default async function ComptePage() {
     <div className="bg-gn-cream-bg">
       <PageHero eyebrow="Compte" title={`Bonjour, ${user?.firstName ?? 'ami'}`} subtitle="Votre espace personnel Gospel Nation." />
 
-      <div className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
+      <Reveal className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
         <div className="mb-8 flex items-center justify-between rounded-2xl border border-gn-line bg-white p-5">
           <div className="flex items-center gap-3">
             <UserButton />
@@ -57,7 +58,7 @@ export default async function ComptePage() {
             {progress.length === 0 ? 'Commencer' : 'Continuer'}
           </span>
         </Link>
-      </div>
+      </Reveal>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 function EventsSkeleton() {
   return (
     <section className="border-b border-gn-line bg-white">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-10 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-12">
+      <Reveal className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-10 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-12">
         <Skeleton className="aspect-[4/5] w-full rounded-lg" />
         <div className="flex flex-col gap-3.5">
           <Skeleton className="h-4 w-40" />
@@ -28,7 +28,7 @@ function EventsSkeleton() {
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="mt-2 h-4 w-1/2" />
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -39,9 +39,9 @@ async function EventsContent() {
 
   if (events.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+      <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         <PlaceholderNote>Aucun événement à venir pour le moment. Revenez bientôt !</PlaceholderNote>
-      </div>
+      </Reveal>
     );
   }
 
@@ -142,7 +142,7 @@ export default function EvenementsPage() {
         <Image src="/hero/evenements-v2.jpg" alt="" fill className="gn-kenburns object-cover object-[center_90%]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Événements</span>
           </p>
@@ -150,7 +150,7 @@ export default function EvenementsPage() {
           <p className="mt-3.5 max-w-md text-sm text-gn-cream/90">
             Conférences, retraites, formations et temps forts de la vie de Gospel Nation.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       <Suspense fallback={<EventsSkeleton />}>

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import InscriptionForm from './InscriptionForm';
+import Reveal from '@/components/Reveal';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -56,18 +57,18 @@ export default async function InscriptionPage() {
         <Image src="/hero/inscription.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Devenir membre</span>
           </p>
           <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">
             Devenir membre de Gospel Nation
           </h1>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-gn-black">
-        <div className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
+        <Reveal className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex flex-col gap-7">
             <div>
               <p className="mb-3 font-serif text-base italic font-medium text-gn-gold">Pourquoi devenir membre</p>
@@ -120,7 +121,7 @@ export default async function InscriptionPage() {
             </p>
             <InscriptionForm departments={departments} />
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

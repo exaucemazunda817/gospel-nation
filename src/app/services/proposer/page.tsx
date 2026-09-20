@@ -5,6 +5,7 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import PageHero from '@/components/PageHero';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import OfferForm from './OfferForm';
+import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
   title: 'Proposer une offre',
@@ -25,7 +26,7 @@ export default async function ProposerOffrePage() {
         image="/hero/services.jpg"
       />
 
-      <div className="mx-auto max-w-2xl px-5 py-14 sm:px-10 sm:py-16">
+      <Reveal className="mx-auto max-w-2xl px-5 py-14 sm:px-10 sm:py-16">
         {userId ? (
           <SignedInContent />
         ) : (
@@ -51,7 +52,7 @@ export default async function ProposerOffrePage() {
             </div>
           </div>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }

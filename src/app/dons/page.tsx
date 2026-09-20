@@ -49,7 +49,7 @@ export default async function DonsPage() {
         <Image src="/hero/dons.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Dons</span>
           </p>
@@ -60,11 +60,11 @@ export default async function DonsPage() {
             Vos dons soutiennent la vie de l&apos;église et nos œuvres sociales, dont le ministère One Love
             auprès des enfants de la rue.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Comment donner</p>
           <h2 className="mb-9 font-serif text-3xl font-semibold text-gn-ink">Choisissez un moyen de don</h2>
           {methods.length === 0 ? (
@@ -91,11 +91,11 @@ export default async function DonsPage() {
               ))}
             </div>
           )}
-        </div>
+        </Reveal>
       </section>
 
       <section className="gn-glow relative overflow-hidden bg-gn-black">
-        <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+        <Reveal className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold">Pourquoi donner</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-cream">L&apos;impact de votre générosité</h2>
           <div className="grid gap-9 sm:grid-cols-3">
@@ -113,7 +113,7 @@ export default async function DonsPage() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

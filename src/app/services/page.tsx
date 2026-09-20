@@ -122,7 +122,7 @@ export default function ServicesPage() {
         <Image src="/hero/services.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Offres et services</span>
           </p>
@@ -130,11 +130,11 @@ export default function ServicesPage() {
           <p className="mt-3.5 max-w-lg text-sm text-gn-cream/90">
             Découvrez ce que les membres de Gospel Nation proposent — et soutenez-vous les uns les autres.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       <section className="border-b border-gn-line bg-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-9 sm:px-10">
+        <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-9 sm:px-10">
           <p className="max-w-xl text-sm leading-relaxed text-gn-ink/60">
             Chaque membre a un talent, un métier ou un service à offrir à la communauté. Vous aussi, vous pouvez
             publier votre produit, votre service ou une offre d&apos;emploi : votre annonce apparaît ici après
@@ -146,15 +146,15 @@ export default function ServicesPage() {
           >
             Proposer une offre
           </Link>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+        <Reveal className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
           <Suspense fallback={<OffersSkeleton />}>
             <OffersList />
           </Suspense>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

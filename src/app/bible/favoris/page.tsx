@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import { getFavorites, removeFavorite, type BibleFavorite } from '@/lib/bible/favorites';
+import Reveal from '@/components/Reveal';
 
 export default function BibleFavoritesPage() {
   const [favorites, setFavorites] = useState<BibleFavorite[] | null>(null);
@@ -25,7 +26,7 @@ export default function BibleFavoritesPage() {
         subtitle="Enregistrés dans ce navigateur uniquement — ils ne sont visibles que sur cet appareil."
       />
 
-      <div className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
+      <Reveal className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
         <Link href="/bible" className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline">
           ← Retour à la Bible
         </Link>
@@ -69,7 +70,7 @@ export default function BibleFavoritesPage() {
             ))}
           </div>
         )}
-      </div>
+      </Reveal>
     </div>
   );
 }

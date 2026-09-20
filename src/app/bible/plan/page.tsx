@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import ReadingPlan from '@/components/ReadingPlan';
+import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
   title: 'Plan de lecture',
@@ -14,7 +15,7 @@ export default function ReadingPlanPage() {
     <div className="bg-gn-cream-bg">
       <PageHero eyebrow="Bible" title="Plan de lecture en 365 jours" subtitle="365 jours pour parcourir toute la Parole de Dieu." />
 
-      <div className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
+      <Reveal className="mx-auto max-w-3xl px-5 py-14 sm:px-10 sm:py-16">
         <Link href="/bible" className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline">
           ← Retour à la Bible
         </Link>
@@ -54,7 +55,7 @@ export default function ReadingPlanPage() {
         <div className="mt-10">
           <ReadingPlan />
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { prisma } from '@/lib/prisma';
 import { predicationsPlaceholder } from '@/lib/content';
 import { toSummary } from '@/lib/sermons';
 import SermonCatalogue from './SermonCatalogue';
+import Reveal from '@/components/Reveal';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -45,11 +46,11 @@ export default function CataloguePage() {
         subtitle="Recherchez un message ou parcourez-les par thème."
         crumb={{ label: 'Catalogue', parent: true }}
       />
-      <div className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-16">
+      <Reveal className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-16">
         <Suspense fallback={<CatalogueSkeleton />}>
           <Catalogue />
         </Suspense>
-      </div>
+      </Reveal>
     </div>
   );
 }

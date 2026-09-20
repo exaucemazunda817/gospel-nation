@@ -5,6 +5,7 @@ import BibleSearch from '@/components/BibleSearch';
 import BibleFavoritesLink from '@/components/BibleFavoritesLink';
 import { bibleBooks } from '@/lib/bible';
 import { bibleVersions } from '@/lib/bible/versions';
+import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
   title: 'Bible',
@@ -27,7 +28,7 @@ export default function BiblePage() {
         <BibleSearch variant="dark" />
       </PageHero>
 
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+      <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         <Link
           href="/bible/plan"
           className="gn-card-lift mb-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gn-gold/30 bg-gn-black-soft px-6 py-5 text-gn-cream"
@@ -54,7 +55,7 @@ export default function BiblePage() {
         </div>
         <BookSection title="Ancien Testament" books={ancien} />
         <BookSection title="Nouveau Testament" books={nouveau} className="mt-14" />
-      </div>
+      </Reveal>
     </div>
   );
 }

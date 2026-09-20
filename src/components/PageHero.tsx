@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Reveal from '@/components/Reveal';
 
 export default function PageHero({
   eyebrow,
@@ -22,7 +23,7 @@ export default function PageHero({
         </>
       )}
       <div className="gn-glow pointer-events-none absolute inset-0" />
-      <div className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+      <Reveal className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         {eyebrow && (
           <p className="font-serif text-base italic font-medium text-gn-gold">{eyebrow}</p>
         )}
@@ -33,7 +34,7 @@ export default function PageHero({
           </p>
         )}
         {children && <div className="mt-6 max-w-xl">{children}</div>}
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -6,6 +6,7 @@ import SermonView from '@/components/SermonView';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
 import { predicationsPlaceholder } from '@/lib/content';
+import Reveal from '@/components/Reveal';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -32,9 +33,9 @@ async function LatestSermon() {
   const all = await prisma.sermon.findMany({ orderBy: { date: 'desc' } });
   if (all.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+      <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         <PlaceholderNote>{predicationsPlaceholder}</PlaceholderNote>
-      </div>
+      </Reveal>
     );
   }
   return <SermonView featured={all[0]} all={all} />;

@@ -89,7 +89,7 @@ export default function TemoignagesPage() {
         <Image src="/hero/temoignages.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Témoignages</span>
           </p>
@@ -98,19 +98,19 @@ export default function TemoignagesPage() {
             Ce que Dieu accomplit dans la vie des membres de Gospel Nation — et si c&apos;était votre tour de
             partager le vôtre ?
           </p>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 pb-6 pt-14 sm:px-10 sm:pt-16">
+        <Reveal className="mx-auto max-w-6xl px-5 pb-6 pt-14 sm:px-10 sm:pt-16">
           <Suspense fallback={<TestimoniesSkeleton />}>
             <TestimoniesList />
           </Suspense>
-        </div>
+        </Reveal>
       </section>
 
       <section className="gn-glow relative overflow-hidden bg-gn-black">
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <Reveal className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <Reveal>
             <div className="flex flex-col gap-4">
               <p className="font-serif text-base italic font-medium text-gn-gold">Votre histoire compte</p>
@@ -130,7 +130,7 @@ export default function TemoignagesPage() {
               <TestimonyForm />
             </div>
           </Reveal>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

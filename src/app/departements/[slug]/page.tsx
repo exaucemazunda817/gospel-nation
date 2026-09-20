@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
 import { gospelNewsIssues, nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
+import Reveal from '@/components/Reveal';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -28,7 +29,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
     <div className="bg-gn-cream-bg">
       <PageHero eyebrow={isNationClasse ? nationClasseProgram.tagline : 'Département'} title={dept.name} />
 
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <Reveal className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         {dept.imageUrl && (
           <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl">
             <Image src={dept.imageUrl} alt={dept.name} fill className="object-cover" />
@@ -251,7 +252,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
         <Link href="/departements" className="mt-8 inline-flex min-h-[44px] items-center text-sm text-gn-gold-line hover:underline">
           ← Retour aux départements
         </Link>
-      </div>
+      </Reveal>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { church } from '@/lib/content';
 import ContactForm from './ContactForm';
+import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -63,16 +64,16 @@ export default function ContactPage() {
         <Image src="/hero/contact.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Contact</span>
           </p>
           <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Contactez-nous</h1>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-gn-black">
-        <div className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
+        <Reveal className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex flex-col gap-7">
             <p className="text-sm leading-relaxed text-gn-muted">
               Une question, une demande de prière ou envie d&apos;en savoir plus sur Gospel Nation ? Écrivez-nous,
@@ -148,7 +149,7 @@ export default function ContactPage() {
               <ContactForm />
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

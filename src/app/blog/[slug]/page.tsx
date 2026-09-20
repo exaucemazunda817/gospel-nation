@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
+import Reveal from '@/components/Reveal';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -32,7 +33,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       />
 
       <div className="gn-section-light">
-        <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+        <Reveal className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
           {post.coverImageUrl && (
             <Image
               src={post.coverImageUrl}
@@ -65,7 +66,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               ← Retour à la Bibliothèque
             </Link>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   );
