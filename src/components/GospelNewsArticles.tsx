@@ -6,17 +6,17 @@ import { articleThumbnail, gospelNewsArticles, type ArticleBlock, type ArticleIm
 // Liste façon fil d'actualité : titre à gauche, vignette à droite, un clic ouvre l'article.
 export function GospelNewsList() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-4 sm:px-6 sm:py-6">
-      <ul className="divide-y divide-gn-line">
+    <div className="mx-auto max-w-6xl px-5 py-4 sm:px-10 sm:py-8">
+      <ul className="grid gap-x-14 lg:grid-cols-2">
         {gospelNewsArticles.map((article, index) => (
-          <li key={article.slug}>
+          <li key={article.slug} className="border-b border-gn-line">
             <Reveal delay={index * 0.05}>
               <Link
                 href={`/departements/gospel-news/${article.slug}`}
                 className="flex items-center gap-4 py-4 sm:gap-6 sm:py-5"
               >
                 <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-4 font-serif text-lg font-semibold leading-snug text-gn-ink sm:text-xl">
+                  <h2 className="line-clamp-4 font-serif text-lg font-semibold leading-snug text-gn-ink sm:text-2xl">
                     {article.title}
                   </h2>
                   <p className="mt-2.5 text-xs text-gn-muted-strong">
@@ -24,12 +24,12 @@ export function GospelNewsList() {
                     {article.author ? ` · ${article.author}` : ''}
                   </p>
                 </div>
-                <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black sm:h-24 sm:w-36">
+                <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black sm:h-28 sm:w-44">
                   <Image
                     src={articleThumbnail(article)}
                     alt=""
                     fill
-                    sizes="160px"
+                    sizes="176px"
                     className="object-cover object-top"
                   />
                 </div>
