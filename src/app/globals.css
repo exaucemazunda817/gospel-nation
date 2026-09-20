@@ -297,3 +297,29 @@ input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='h
     display: none;
   }
 }
+
+/* Bande défilante de l'accueil (événement à venir, cultes, services). Le
+   contenu est dupliqué : à -50 % la boucle recolle sans saut. S'arrête au
+   survol ; sans animation (mouvement réduit) la bande se fait défiler à la main. */
+.gn-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: gn-marquee 60s linear infinite;
+}
+
+.gn-marquee:hover .gn-marquee-track,
+.gn-marquee:focus-within .gn-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes gn-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-marquee-track {
+    animation: none;
+  }
+}

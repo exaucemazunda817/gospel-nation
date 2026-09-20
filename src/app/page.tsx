@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import HeroVideo from '@/components/HeroVideo';
 import HorizontalScroller from '@/components/HorizontalScroller';
+import EventsMarquee from '@/components/EventsMarquee';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
 import { formatEventDateTime } from '@/lib/dates';
@@ -147,6 +148,59 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
+      {/* Dernières parutions (revues Gospel News) : bande sombre pour rompre le rythme */}
+      {issues.length > 0 && (
+        <section className="bg-gn-black-soft">
+          <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
+            <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
+              <div>
+                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold">Lire</p>
+                <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernières parutions</h2>
+              </div>
+              <Link
+                href="/departements/gospel-news"
+                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold hover:underline"
+              >
+                Voir tous les articles
+              </Link>
+            </Reveal>
+            <div className="gn-scroll-x -mx-5 flex scroll-pl-5 snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0">
+              {issues.map((issue, index) => (
+                <Reveal key={issue.fileUrl} delay={index * 0.06} className="w-[86%] shrink-0 snap-start sm:w-auto">
+                  <a
+                    href={issue.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gn-card-lift flex h-full items-center gap-5 rounded-lg border border-gn-gold/20 bg-gn-black p-4"
+                  >
+                    <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
+                      <Image
+                        src={issue.coverUrl}
+                        alt={`Couverture de Gospel News, volume ${issue.volume}`}
+                        fill
+                        sizes="112px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                    <div>
+                      {index === 0 && (
+                        <span className="mb-2 inline-block rounded-full bg-gn-gold px-3 py-1 text-xs font-bold uppercase tracking-wide text-gn-on-gold">
+                          Dernière parution
+                        </span>
+                      )}
+                      <p className="mb-1.5 font-serif text-lg font-semibold text-gn-cream">
+                        Gospel News, volume {issue.volume}
+                      </p>
+                      <p className="text-xs text-gn-muted">{issue.date} · Télécharger le PDF</p>
+                    </div>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Dernières prédications */}
       <section className="bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
@@ -204,128 +258,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Dernières parutions (revues Gospel News) : bande sombre pour rompre le rythme */}
-      {issues.length > 0 && (
-        <section className="bg-gn-black-soft">
-          <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
-            <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
-              <div>
-                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold">Lire</p>
-                <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernières parutions</h2>
-              </div>
-              <Link
-                href="/departements/gospel-news"
-                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold hover:underline"
-              >
-                Voir tous les articles
-              </Link>
-            </Reveal>
-            <div className="gn-scroll-x -mx-5 flex scroll-pl-5 snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0">
-              {issues.map((issue, index) => (
-                <Reveal key={issue.fileUrl} delay={index * 0.06} className="w-[86%] shrink-0 snap-start sm:w-auto">
-                  <a
-                    href={issue.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gn-card-lift flex h-full items-center gap-5 rounded-lg border border-gn-gold/20 bg-gn-black p-4"
-                  >
-                    <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
-                      <Image
-                        src={issue.coverUrl}
-                        alt={`Couverture de Gospel News, volume ${issue.volume}`}
-                        fill
-                        sizes="112px"
-                        className="object-cover object-top"
-                      />
-                    </div>
-                    <div>
-                      {index === 0 && (
-                        <span className="mb-2 inline-block rounded-full bg-gn-gold px-3 py-1 text-xs font-bold uppercase tracking-wide text-gn-on-gold">
-                          Dernière parution
-                        </span>
-                      )}
-                      <p className="mb-1.5 font-serif text-lg font-semibold text-gn-cream">
-                        Gospel News, volume {issue.volume}
-                      </p>
-                      <p className="text-xs text-gn-muted">{issue.date} · Télécharger le PDF</p>
-                    </div>
-                  </a>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Événement à venir : le prochain rendez-vous, ou celui d'aujourd'hui */}
-      {upcomingEvent && (
-        <section className="bg-gn-cream-bg">
-          <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
-            <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
-              <div>
-                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Agenda</p>
-                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Événement à venir</h2>
-              </div>
-              <Link
-                href="/evenements"
-                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
-              >
-                Voir tous les événements
-              </Link>
-            </Reveal>
-            <Reveal>
-              <div className="grid gap-6 rounded-2xl border border-gn-line bg-white p-5 sm:p-7 md:grid-cols-[minmax(0,240px)_1fr] md:items-center md:gap-10">
-                <Link href="/evenements" className="relative block aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-lg">
-                  <Image
-                    src={upcomingEvent.posterImageUrl}
-                    alt={upcomingEvent.title}
-                    fill
-                    sizes="240px"
-                    className="object-cover"
-                  />
-                </Link>
-                <div>
-                  <h3 className="font-serif text-2xl font-semibold leading-snug text-gn-ink">{upcomingEvent.title}</h3>
-                  {upcomingEvent.description && (
-                    <p className="mt-3 max-w-measure text-sm leading-relaxed text-gn-muted-strong">
-                      {upcomingEvent.description}
-                    </p>
-                  )}
-                  <div className="mt-5 flex flex-col gap-3">
-                    {upcomingEvent.eventDate && (
-                      <div className="flex items-center gap-2.5">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="9" />
-                          <polyline points="12 7 12 12 16 14" />
-                        </svg>
-                        <span className="text-sm text-gn-muted-strong">{formatEventDateTime(upcomingEvent.eventDate)}</span>
-                      </div>
-                    )}
-                    {upcomingEvent.location && (
-                      <div className="flex items-center gap-2.5">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                          <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span className="text-sm text-gn-muted-strong">{upcomingEvent.location}</span>
-                      </div>
-                    )}
-                  </div>
-                  <Link
-                    href="/evenements"
-                    className="mt-6 inline-flex min-h-[44px] items-center rounded-full bg-gn-gold px-6 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
-                  >
-                    Voir les détails
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-      )}
+      {/* Bande défilante : événement à venir, cultes, services, départements */}
+      <EventsMarquee
+        event={upcomingEvent ? { title: upcomingEvent.title, when: upcomingEvent.eventDate ? formatEventDateTime(upcomingEvent.eventDate) : '' } : null}
+        departments={departments.map((department) => ({ name: department.name, slug: department.slug }))}
+      />
 
       {/* Nos départements */}
-      <section className="bg-white">
+      <section className="bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
           <Reveal className="mb-6 max-w-lg sm:mb-7">
             <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
@@ -340,7 +280,7 @@ export default async function HomePage() {
               <Reveal key={dept.slug} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-[320px]">
                 <Link
                   href={`/departements/${dept.slug}`}
-                  className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-gn-cream-bg"
+                  className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white"
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-gn-black">
                     {dept.imageUrl ? (
