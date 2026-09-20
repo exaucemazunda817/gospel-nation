@@ -3,8 +3,9 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import HeroVideo from '@/components/HeroVideo';
 import HorizontalScroller from '@/components/HorizontalScroller';
-import { church } from '@/lib/content';
+import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
+import { formatEventDateTime } from '@/lib/dates';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -51,10 +52,18 @@ const DEPARTMENT_ICONS: Record<string, React.ReactNode> = {
 };
 
 export default async function HomePage() {
-  const [departments, sermons] = await Promise.all([
+  // Début de la journée (UTC) : un événement d'aujourd'hui est encore « en cours ».
+  const now = new Date();
+  const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+
+  const [departments, sermons, upcomingEvent] = await Promise.all([
     prisma.department.findMany({ orderBy: { order: 'asc' }, take: 6 }),
-    prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 3 })
+    prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 3 }),
+    prisma.event.findFirst({ where: { eventDate: { gte: startOfToday } }, orderBy: { eventDate: 'asc' } })
   ]);
+
+  // Numéros les plus récents d'abord.
+  const issues = [...gospelNewsIssues].sort((a, b) => b.volume - a.volume);
 
   const schedule = church.schedule[1];
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(church.address)}`;
@@ -79,16 +88,16 @@ export default async function HomePage() {
               <h1 className="font-serif text-4xl font-bold leading-[1.12] text-gn-cream sm:text-display">
                 {church.tagline}
               </h1>
-              <p className="max-w-md text-base leading-relaxed text-gn-muted">
+              <p className="max-w-md text-sm leading-snug text-gn-muted sm:text-base sm:leading-relaxed">
                 Une famille spirituelle qui accueille, forme et envoie ceux qui cherchent Dieu. Rejoignez-nous
                 pour adorer, apprendre et servir ensemble.
               </p>
               <div className="mt-2 flex flex-wrap justify-center gap-4 sm:justify-start">
                 <Link
-                  href="/eglise"
+                  href="/contact"
                   className="rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
                 >
-                  Rejoindre un culte
+                  Nous contacter
                 </Link>
                 <Link
                   href="/predications"
@@ -194,6 +203,121 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      {/* Dernières parutions (revues Gospel News) */}
+      {issues.length > 0 && (
+        <section className="bg-white">
+          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Lire</p>
+                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
+              </div>
+              <Link
+                href="/departements/gospel-news"
+                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
+              >
+                Voir toutes les revues
+              </Link>
+            </div>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {issues.map((issue, index) => (
+                <Reveal key={issue.fileUrl} delay={index * 0.06}>
+                  <a href={issue.fileUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-3.5">
+                    <div className="relative h-[170px] overflow-hidden rounded-lg bg-gn-black">
+                      <Image
+                        src={issue.coverUrl}
+                        alt={`Couverture de Gospel News, volume ${issue.volume}`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover object-top"
+                      />
+                      {index === 0 && (
+                        <span className="absolute left-3 top-3 rounded-full bg-gn-black px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                          Dernière parution
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">
+                        Gospel News, volume {issue.volume}
+                      </p>
+                      <p className="text-xs text-gn-muted-strong">{issue.date} · Télécharger le PDF</p>
+                    </div>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Événement à venir : le prochain rendez-vous, ou celui d'aujourd'hui */}
+      {upcomingEvent && (
+        <section className="bg-gn-cream-bg">
+          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Agenda</p>
+                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Événement à venir</h2>
+              </div>
+              <Link
+                href="/evenements"
+                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
+              >
+                Voir tous les événements
+              </Link>
+            </div>
+            <Reveal>
+              <div className="grid gap-8 md:grid-cols-[minmax(0,280px)_1fr] md:items-center md:gap-12">
+                <Link href="/evenements" className="relative block aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg">
+                  <Image
+                    src={upcomingEvent.posterImageUrl}
+                    alt={upcomingEvent.title}
+                    fill
+                    sizes="(max-width: 768px) 280px, 280px"
+                    className="object-cover"
+                  />
+                </Link>
+                <div>
+                  <h3 className="font-serif text-2xl font-semibold leading-snug text-gn-ink">{upcomingEvent.title}</h3>
+                  {upcomingEvent.description && (
+                    <p className="mt-3 max-w-measure text-sm leading-relaxed text-gn-muted-strong">
+                      {upcomingEvent.description}
+                    </p>
+                  )}
+                  <div className="mt-5 flex flex-col gap-3">
+                    {upcomingEvent.eventDate && (
+                      <div className="flex items-center gap-2.5">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="9" />
+                          <polyline points="12 7 12 12 16 14" />
+                        </svg>
+                        <span className="text-sm text-gn-muted-strong">{formatEventDateTime(upcomingEvent.eventDate)}</span>
+                      </div>
+                    )}
+                    {upcomingEvent.location && (
+                      <div className="flex items-center gap-2.5">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span className="text-sm text-gn-muted-strong">{upcomingEvent.location}</span>
+                      </div>
+                    )}
+                  </div>
+                  <Link
+                    href="/evenements"
+                    className="mt-6 inline-flex min-h-[44px] items-center rounded-full bg-gn-gold px-6 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
+                  >
+                    Voir les détails
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* Nos départements */}
       <section className="bg-white">

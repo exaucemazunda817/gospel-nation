@@ -6,6 +6,7 @@ import PlaceholderNote from '@/components/PlaceholderNote';
 import Reveal from '@/components/Reveal';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
+import { formatEventDateTime, formatEventDayNumber, formatEventMonthShort, formatEventTime } from '@/lib/dates';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -64,7 +65,7 @@ async function EventsContent() {
                 </p>
                 <h2 className="mb-3.5 font-serif text-3xl font-semibold leading-snug text-gn-ink">{featured.title}</h2>
                 {featured.description && (
-                  <p className="mb-5 text-sm leading-[1.8] text-gn-ink/60">{featured.description}</p>
+                  <p className="mb-5 text-sm leading-relaxed text-gn-ink/60">{featured.description}</p>
                 )}
                 <div className="mb-6 flex flex-col gap-3">
                   {featured.eventDate && (
@@ -74,8 +75,7 @@ async function EventsContent() {
                         <polyline points="12 7 12 12 16 14" />
                       </svg>
                       <span className="text-sm text-gn-ink/60">
-                        {new Date(featured.eventDate).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} —{' '}
-                        {new Date(featured.eventDate).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                        {formatEventDateTime(new Date(featured.eventDate))}
                       </span>
                     </div>
                   )}
@@ -106,10 +106,10 @@ async function EventsContent() {
                       {event.eventDate ? (
                         <>
                           <span className="font-serif text-2xl font-bold leading-none text-gn-gold">
-                            {new Date(event.eventDate).getDate().toString().padStart(2, '0')}
+                            {formatEventDayNumber(new Date(event.eventDate))}
                           </span>
                           <span className="mt-0.5 text-xs uppercase tracking-wide text-gn-muted">
-                            {new Date(event.eventDate).toLocaleDateString('fr-FR', { month: 'short' })}
+                            {formatEventMonthShort(new Date(event.eventDate))}
                           </span>
                         </>
                       ) : (
@@ -119,9 +119,8 @@ async function EventsContent() {
                     <div className="flex-1">
                       <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{event.title}</p>
                       <p className="text-xs text-gn-muted-strong">
-                        {event.eventDate &&
-                          new Date(event.eventDate).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
-                        {event.eventDate && event.location && ' · '}
+                        {event.eventDate && formatEventTime(new Date(event.eventDate))}
+                        {event.eventDate && formatEventTime(new Date(event.eventDate)) && event.location && ' · '}
                         {event.location}
                       </p>
                     </div>
