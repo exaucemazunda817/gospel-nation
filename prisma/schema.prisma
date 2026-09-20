@@ -262,6 +262,10 @@ model Appointment {
   preferredDate DateTime
   status        AppointmentStatus  @default(PENDING)
   pastorNote    String?
+  // Heure précise du rendez-vous (« 16:30 », format HH:MM), fixée par l'admin à
+  // la confirmation : le pasteur reçoit le mardi à partir de 16h, chaque
+  // personne a sa propre heure. Nulle tant que le rendez-vous n'est pas confirmé.
+  confirmedTime String?
   // Renseigné quand l'e-mail de confirmation est parti : évite un doublon si
   // l'admin recoche « Confirmer » et permet d'afficher l'état dans l'admin.
   confirmationEmailSentAt DateTime?

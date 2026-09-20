@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type { AppointmentStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { sendAppointmentConfirmation } from "@/lib/email";
+import { EARLIEST_APPOINTMENT_TIME, formatTimeFr, isValidAppointmentTime } from "@/lib/appointments";
 
 const VALID_STATUSES: readonly AppointmentStatus[] = ["PENDING", "CONFIRMED", "DECLINED", "DONE"];
 
@@ -17,16 +18,31 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const { status, pastorNote } = await request.json();
+  const { status, pastorNote, time } = await request.json();
 
   if (!isAppointmentStatus(status)) {
     return NextResponse.json({ error: "Statut invalide." }, { status: 400 });
+  }
+
+  // Confirmer sans heure n'aurait pas de sens : la personne ne saurait pas quand venir.
+  if (status === "CONFIRMED" && !isValidAppointmentTime(time)) {
+    return NextResponse.json(
+      { error: `Indiquez l'heure du rendez-vous (à partir de ${formatTimeFr(EARLIEST_APPOINTMENT_TIME)}).` },
+      { status: 400 }
+    );
   }
 
   const appointment = await prisma.appointment.findUnique({ where: { id } });
   if (!appointment) {
     return NextResponse.json({ error: "Rendez-vous introuvable." }, { status: 404 });
   }
+
+  // Heure changée après un premier e-mail : la personne doit en être informée,
+  // sinon elle viendrait à l'ancienne heure. On libère donc l'envoi.
+  const timeChanged =
+    status === "CONFIRMED" &&
+    appointment.confirmationEmailSentAt !== null &&
+    appointment.confirmedTime !== time;
 
   // Le statut est enregistré d'abord : un e-mail qui échoue ne doit jamais
   // empêcher de confirmer le rendez-vous.
@@ -35,6 +51,8 @@ export async function POST(
     data: {
       status,
       pastorNote: typeof pastorNote === "string" && pastorNote.trim() ? pastorNote : null,
+      confirmedTime: status === "CONFIRMED" ? time : null,
+      ...(timeChanged ? { confirmationEmailSentAt: null } : {}),
     },
   });
 
@@ -58,6 +76,8 @@ export async function POST(
           requesterName: appointment.requesterName,
           requesterEmail: appointment.requesterEmail,
           preferredDate: appointment.preferredDate,
+          time,
+          updated: timeChanged,
         });
         if (result.ok) {
           email = "sent";

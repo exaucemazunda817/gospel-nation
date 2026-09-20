@@ -1,4 +1,5 @@
 import { church } from '@/lib/content';
+import { formatTimeFr } from '@/lib/appointments';
 
 // Envoi d'e-mails via Resend (https://resend.com), par simple appel HTTP : pas
 // de dépendance à ajouter. Tant que RESEND_API_KEY et EMAIL_FROM ne sont pas
@@ -85,9 +86,16 @@ export async function sendAppointmentConfirmation(appointment: {
   requesterName: string;
   requesterEmail: string;
   preferredDate: Date;
+  // « HH:MM », déjà validée par l'appelant.
+  time: string;
+  // Vrai quand l'heure a changé après un premier e-mail de confirmation.
+  updated?: boolean;
 }): Promise<EmailResult> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
-  const date = formatLongDate(appointment.preferredDate);
+  const date = `${formatLongDate(appointment.preferredDate)} à ${formatTimeFr(appointment.time)}`;
+  const intro = appointment.updated
+    ? "L'heure de votre rendez-vous a changé."
+    : 'Votre demande de rendez-vous est confirmée.';
   // L'adresse du site contient un tiret long : dans un e-mail, une virgule se lit mieux.
   const place = `${church.address.replace(' — ', ', ')}, ${church.city}`;
   const contactLine = siteUrl
@@ -97,7 +105,7 @@ export async function sendAppointmentConfirmation(appointment: {
   const text = [
     `Bonjour ${appointment.requesterName},`,
     '',
-    `Votre demande de rendez-vous est confirmée. Le pasteur vous recevra le ${date}.`,
+    `${intro} Le pasteur vous recevra le ${date}.`,
     '',
     `Lieu : ${place}`,
     '',
@@ -108,7 +116,7 @@ export async function sendAppointmentConfirmation(appointment: {
 
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1f1a14">
 <p>Bonjour ${escapeHtml(appointment.requesterName)},</p>
-<p>Votre demande de rendez-vous est confirmée. Le pasteur vous recevra le <strong>${escapeHtml(date)}</strong>.</p>
+<p>${escapeHtml(intro)} Le pasteur vous recevra le <strong>${escapeHtml(date)}</strong>.</p>
 <p><strong>Lieu :</strong> ${escapeHtml(place)}</p>
 <p>${siteUrl ? `En cas d'empêchement, merci de nous prévenir depuis la <a href="${escapeHtml(siteUrl)}/contact">page contact</a>.` : "En cas d'empêchement, merci de prévenir l'église."}</p>
 <p>${escapeHtml(church.name)}</p>
@@ -116,7 +124,9 @@ export async function sendAppointmentConfirmation(appointment: {
 
   return sendEmail({
     to: appointment.requesterEmail,
-    subject: 'Votre rendez-vous avec le pasteur est confirmé',
+    subject: appointment.updated
+      ? 'Votre rendez-vous avec le pasteur : nouvelle heure'
+      : 'Votre rendez-vous avec le pasteur est confirmé',
     text,
     html
   });

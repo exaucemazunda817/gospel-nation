@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { EARLIEST_APPOINTMENT_TIME, formatTimeFr, isValidAppointmentTime } from "@/lib/appointments";
 
 const EMAIL_MESSAGES: Record<string, string> = {
   sent: "E-mail de confirmation envoyé.",
@@ -22,29 +23,40 @@ export default function AppointmentActions({
   id,
   status,
   pastorNote,
+  confirmedTime,
 }: {
   id: string;
   status: string;
   pastorNote: string | null;
+  confirmedTime: string | null;
 }) {
   const router = useRouter();
   const [note, setNote] = useState(pastorNote ?? "");
+  const [time, setTime] = useState(confirmedTime ?? "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [emailInfo, setEmailInfo] = useState<string | null>(null);
 
   async function updateStatus(nextStatus: string) {
-    setLoading(true);
     setError(null);
     setEmailInfo(null);
+    // Le serveur revérifie, mais on évite un aller-retour pour une heure oubliée.
+    if (nextStatus === "CONFIRMED" && !isValidAppointmentTime(time)) {
+      setError(`Indiquez l'heure du rendez-vous (à partir de ${formatTimeFr(EARLIEST_APPOINTMENT_TIME)}).`);
+      return;
+    }
+    setLoading(true);
     try {
       const res = await fetch(`/api/admin/rendez-vous/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: nextStatus, pastorNote: note }),
+        body: JSON.stringify({ status: nextStatus, pastorNote: note, time }),
       });
-      if (!res.ok) throw new Error();
       const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Échec — réessayez.");
+        return;
+      }
       setEmailInfo(EMAIL_MESSAGES[data.email] ?? null);
       router.refresh();
     } catch {
@@ -59,6 +71,22 @@ export default function AppointmentActions({
       <p className="text-sm font-medium text-gn-gold">{STATUS_LABELS[status] ?? status}</p>
       {error && <p className="text-sm text-red-600">{error}</p>}
       {emailInfo && <p className="text-sm text-gn-cream/80">{emailInfo}</p>}
+      <div className="flex flex-wrap items-center gap-3">
+        <label htmlFor={`time-${id}`} className="text-sm text-gn-cream/80">
+          Heure du rendez-vous
+        </label>
+        <input
+          id={`time-${id}`}
+          type="time"
+          value={time}
+          min={EARLIEST_APPOINTMENT_TIME}
+          onChange={(e) => setTime(e.target.value)}
+          className="min-h-[44px] rounded-lg border border-gn-cream/20 bg-transparent px-3 py-2 text-sm text-gn-cream focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
+        />
+        <span className="text-xs text-gn-cream/60">
+          À partir de {formatTimeFr(EARLIEST_APPOINTMENT_TIME)}, à remplir pour confirmer.
+        </span>
+      </div>
       <textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}

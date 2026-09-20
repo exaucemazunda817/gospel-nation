@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import AppointmentActions from "@/components/admin/AppointmentActions";
+import { formatTimeFr } from "@/lib/appointments";
 
 export default async function AdminAppointmentsPage() {
   const appointments = await prisma.appointment.findMany({
@@ -20,7 +21,8 @@ export default async function AdminAppointmentsPage() {
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <p className="font-semibold text-gn-cream">{a.requesterName}</p>
             <p className="text-xs text-gn-cream/50">
-              Souhaité le {a.preferredDate.toLocaleDateString("fr-FR")}
+              Souhaité le {a.preferredDate.toLocaleDateString("fr-FR", { timeZone: "UTC" })}
+              {a.status === "CONFIRMED" && a.confirmedTime ? ` · confirmé à ${formatTimeFr(a.confirmedTime)}` : ""}
             </p>
           </div>
           <p className="mt-1 text-sm text-gn-cream/60">
@@ -41,7 +43,7 @@ export default async function AdminAppointmentsPage() {
             </p>
           )}
           <div className="mt-4">
-            <AppointmentActions id={a.id} status={a.status} pastorNote={a.pastorNote} />
+            <AppointmentActions id={a.id} status={a.status} pastorNote={a.pastorNote} confirmedTime={a.confirmedTime} />
           </div>
         </div>
       ))}
