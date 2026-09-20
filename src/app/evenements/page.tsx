@@ -139,7 +139,7 @@ export default function EvenementsPage() {
   return (
     <div className="bg-gn-cream-bg">
       <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/evenements-v2.jpg" alt="" fill className="gn-kenburns object-cover object-[center_90%]" />
+        <Image src="/hero/evenements-v2.jpg" alt="" fill sizes="100vw" className="gn-kenburns object-cover object-[center_90%]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
         <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">

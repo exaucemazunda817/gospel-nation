@@ -87,7 +87,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
                 {oneLoveGallery.map((photo) => (
                   <figure key={photo.src} className="overflow-hidden rounded-lg border border-gn-line bg-white">
                     <div className="relative aspect-[4/3] w-full">
-                      <Image src={photo.src} alt={photo.caption} fill className="object-cover" />
+                      <Image src={photo.src} alt={photo.caption} fill sizes="(max-width: 640px) 100vw, 380px" className="object-cover" />
                     </div>
                     <figcaption className="px-3.5 py-3 text-xs leading-relaxed text-gn-ink/65">
                       {photo.caption}

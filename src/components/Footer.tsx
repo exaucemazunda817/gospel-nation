@@ -41,6 +41,7 @@ export default function Footer() {
               alt={`Logo ${church.name}`}
               width={566}
               height={429}
+              sizes="36px"
               className="h-9 w-9 object-contain"
             />
             <span className="font-serif text-base font-bold text-gn-cream">GOSPEL NATION</span>

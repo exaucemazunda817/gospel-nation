@@ -150,16 +150,16 @@ export default async function HomePage() {
       {/* Dernières prédications */}
       <section className="bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-8">
             <div>
-              <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Écouter</p>
+              <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Écouter</p>
               <h2 className="font-serif text-3xl font-semibold text-gn-ink">
                 Dernières prédications
               </h2>
             </div>
             <Link
               href="/predications/catalogue"
-              className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
+              className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
             >
               Voir toutes les prédications
             </Link>
@@ -208,14 +208,14 @@ export default async function HomePage() {
       {issues.length > 0 && (
         <section className="bg-white">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-            <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-8">
               <div>
-                <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Lire</p>
+                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Lire</p>
                 <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
               </div>
               <Link
                 href="/departements/gospel-news"
-                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
+                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
               >
                 Voir toutes les revues
               </Link>
@@ -256,14 +256,14 @@ export default async function HomePage() {
       {upcomingEvent && (
         <section className="bg-gn-cream-bg">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-            <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-8">
               <div>
-                <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Agenda</p>
+                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Agenda</p>
                 <h2 className="font-serif text-3xl font-semibold text-gn-ink">Événement à venir</h2>
               </div>
               <Link
                 href="/evenements"
-                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
+                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
               >
                 Voir tous les événements
               </Link>
@@ -323,7 +323,7 @@ export default async function HomePage() {
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <Reveal className="mb-11 max-w-lg">
-            <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
+            <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
             <h2 className="mb-3 font-serif text-3xl font-semibold text-gn-ink">Nos départements</h2>
             <p className="text-sm leading-relaxed text-gn-ink/60">
               Chaque membre trouve sa place pour servir selon ses dons, au sein d&apos;un département de
@@ -343,6 +343,7 @@ export default async function HomePage() {
                         src={dept.imageUrl}
                         alt={dept.name}
                         fill
+                        sizes="(max-width: 640px) 78vw, 320px"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (

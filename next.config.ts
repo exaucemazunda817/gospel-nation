@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_CLERK_ENABLED: clerkEnabled ? 'true' : ''
   },
   images: {
+    // Le réglage par défaut proposait jusqu'à 3840 px de large : un cadre de 320 px
+    // recevait alors une image géante, fabriquée à la demande (1,3 à 2,4 s chacune).
+    // Plafonné à 1920 px : suffisant même pour un grand écran.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     // Miniatures des prédications : hébergées par YouTube, à autoriser
     // explicitement pour qu'elles passent par l'optimisation d'images de Next.
     remotePatterns: [{ protocol: 'https', hostname: 'img.youtube.com' }]

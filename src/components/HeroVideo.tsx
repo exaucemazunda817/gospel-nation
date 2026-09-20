@@ -22,7 +22,24 @@ export default function HeroVideo({ src, poster }: { src: string; poster: string
     const conn = (navigator as Navigator & { connection?: NetworkInformation }).connection;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const slowOrSaving = Boolean(conn?.saveData) || conn?.effectiveType === 'slow-2g' || conn?.effectiveType === '2g';
-    setCanPlay(!reducedMotion && !slowOrSaving);
+    if (reducedMotion || slowOrSaving) return;
+
+    // La vidéo pèse ~5 Mo, soit l'essentiel de ce que la page télécharge : si elle
+    // démarre tout de suite, elle se dispute la connexion avec les images et tout
+    // s'affiche plus lentement. On attend la fin du chargement de la page, puis un
+    // moment d'inactivité du navigateur.
+    let cancelled = false;
+    const start = () => {
+      if (cancelled) return;
+      const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 600));
+      idle(() => !cancelled && setCanPlay(true));
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    return () => {
+      cancelled = true;
+      window.removeEventListener('load', start);
+    };
   }, []);
 
   // Source unique de vérité : on recalcule .muted à chaque changement de

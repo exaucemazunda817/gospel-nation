@@ -18,7 +18,7 @@ export default function PageHero({
     <section className="relative overflow-hidden border-b border-gn-gold/20 bg-gn-black text-gn-cream">
       {image && (
         <>
-          <Image src={image} alt="" fill className="gn-kenburns object-cover object-top" />
+          <Image src={image} alt="" fill sizes="100vw" className="gn-kenburns object-cover object-top" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         </>
       )}
