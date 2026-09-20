@@ -113,7 +113,7 @@ export default async function HomePage() {
 
       {/* Prochain culte / Lieu */}
       <section className="border-b border-gn-line bg-gn-cream">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-6 sm:px-10">
+        <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-6 sm:px-10">
           <div className="flex items-center gap-3.5">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="9" />
@@ -144,13 +144,13 @@ export default async function HomePage() {
           >
             Itinéraire
           </a>
-        </div>
+        </Reveal>
       </section>
 
       {/* Dernières prédications */}
       <section className="bg-gn-cream-bg">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Écouter</p>
               <h2 className="font-serif text-3xl font-semibold text-gn-ink">
@@ -158,19 +158,19 @@ export default async function HomePage() {
               </h2>
             </div>
             <Link
-              href="/predications"
+              href="/predications/catalogue"
               className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
             >
               Voir toutes les prédications
             </Link>
-          </div>
+          </Reveal>
           {sermons.length === 0 ? (
             <p className="text-sm text-gn-ink/60">Aucune prédication publiée pour le moment.</p>
           ) : (
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {sermons.map((sermon, index) => (
                 <Reveal key={sermon.id} delay={index * 0.06}>
-                  <Link href="/predications" className="flex flex-col gap-3.5">
+                  <Link href={`/predications/${sermon.id}`} className="flex flex-col gap-3.5">
                     <div className="relative flex h-[170px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gn-black-soft to-gn-black">
                       {sermon.coverImageUrl ? (
                         <Image
@@ -208,7 +208,7 @@ export default async function HomePage() {
       {issues.length > 0 && (
         <section className="bg-white">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Lire</p>
                 <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
@@ -219,7 +219,7 @@ export default async function HomePage() {
               >
                 Voir toutes les revues
               </Link>
-            </div>
+            </Reveal>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {issues.map((issue, index) => (
                 <Reveal key={issue.fileUrl} delay={index * 0.06}>
@@ -256,7 +256,7 @@ export default async function HomePage() {
       {upcomingEvent && (
         <section className="bg-gn-cream-bg">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Agenda</p>
                 <h2 className="font-serif text-3xl font-semibold text-gn-ink">Événement à venir</h2>
@@ -267,7 +267,7 @@ export default async function HomePage() {
               >
                 Voir tous les événements
               </Link>
-            </div>
+            </Reveal>
             <Reveal>
               <div className="grid gap-8 md:grid-cols-[minmax(0,280px)_1fr] md:items-center md:gap-12">
                 <Link href="/evenements" className="relative block aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-lg">
@@ -322,14 +322,14 @@ export default async function HomePage() {
       {/* Nos départements */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <div className="mb-11 max-w-lg">
+          <Reveal className="mb-11 max-w-lg">
             <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
             <h2 className="mb-3 font-serif text-3xl font-semibold text-gn-ink">Nos départements</h2>
             <p className="text-sm leading-relaxed text-gn-ink/60">
               Chaque membre trouve sa place pour servir selon ses dons, au sein d&apos;un département de
               l&apos;église.
             </p>
-          </div>
+          </Reveal>
           <HorizontalScroller className="gn-scroll-x -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 sm:-mx-10 sm:px-10">
             {departments.map((dept, index) => (
               <Reveal key={dept.slug} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-[320px]">
@@ -361,14 +361,14 @@ export default async function HomePage() {
               </Reveal>
             ))}
           </HorizontalScroller>
-          <div className="mt-8 text-center">
+          <Reveal className="mt-8 text-center">
             <Link
               href="/departements"
               className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline"
             >
               Voir tous les départements
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
