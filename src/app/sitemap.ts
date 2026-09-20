@@ -15,6 +15,7 @@ const STATIC_PATHS: { path: string; priority: number }[] = [
   { path: '/eglise', priority: 0.8 },
   { path: '/departements', priority: 0.8 },
   { path: '/predications', priority: 0.8 },
+  { path: '/predications/catalogue', priority: 0.7 },
   { path: '/evenements', priority: 0.8 },
   { path: '/blog', priority: 0.7 },
   { path: '/temoignages', priority: 0.6 },
@@ -38,13 +39,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // pages fixes, et la page est régénérée à l'heure suivante (revalidate).
   let departments: { slug: string; updatedAt: Date }[] = [];
   let posts: { slug: string; publishedAt: Date | null }[] = [];
+  let sermons: { id: string; updatedAt: Date }[] = [];
   try {
-    [departments, posts] = await Promise.all([
+    [departments, posts, sermons] = await Promise.all([
       prisma.department.findMany({ select: { slug: true, updatedAt: true } }),
       prisma.blogPost.findMany({
         where: { publishedAt: { not: null } },
         select: { slug: true, publishedAt: true }
-      })
+      }),
+      prisma.sermon.findMany({ select: { id: true, updatedAt: true } })
     ]);
   } catch (error) {
     console.error('Sitemap : base injoignable, pages fixes uniquement', error);
@@ -62,6 +65,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: department.updatedAt,
       changeFrequency: 'monthly' as const,
       priority: 0.7
+    })),
+    ...sermons.map((sermon) => ({
+      url: `${siteUrl}/predications/${sermon.id}`,
+      lastModified: sermon.updatedAt,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6
     })),
     ...posts.map((post) => ({
       url: `${siteUrl}/blog/${post.slug}`,

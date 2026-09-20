@@ -159,6 +159,9 @@ model Sermon {
   // quand l'enseignement en a un — distinct du résumé affiché dans notesContent.
   documentUrl   String?
   series       String?
+  // Un seul thème par prédication, choisi parmi SERMON_THEMES (src/lib/sermons.ts).
+  // Sert au classement du catalogue ; nul = rangée sous « Autres ».
+  theme        String?
   coverImageUrl String?
 
   createdAt DateTime @default(now())
