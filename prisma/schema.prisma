@@ -43,7 +43,7 @@ enum AppointmentStatus {
 model User {
   id          String       @id @default(cuid())
   clerkUserId String?      @unique
-  accessToken String       @unique @default(cuid())
+  accessToken String       @unique @default(uuid())
   email       String       @unique
   firstName   String
   lastName    String
@@ -332,4 +332,15 @@ model ExistingCard {
 
   @@index([phone])
   @@map("existing_cards")
+}
+
+/// Une ligne par tentative sur un formulaire public ou sur la connexion admin.
+/// Sert à limiter le débit par adresse IP (voir src/lib/rate-limit.ts).
+model RateLimitAttempt {
+  id        String   @id @default(cuid())
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+  @@map("rate_limit_attempts")
 }

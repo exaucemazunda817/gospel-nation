@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isAllowedPhotoType, MAX_PHOTO_SIZE_BYTES, savePhoto } from '@/lib/photo-storage';
+import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
+import { tooLong } from '@/lib/validation';
 
 const REQUIRED_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'birthDate', 'address', 'commune', 'sex', 'memberSinceYear'] as const;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -11,12 +13,33 @@ function str(formData: FormData, key: string): string {
 }
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
+  // Limite large (40/heure et par IP) : plusieurs membres peuvent s'inscrire
+  // ensemble depuis le même réseau, par exemple le wifi ou l'antenne mobile de
+  // l'église un dimanche.
+  if (!(await allowRequest('inscription', request, 40, 60 * 60 * 1000))) {
+    return NextResponse.json({ error: TOO_MANY_REQUESTS_MESSAGE }, { status: 429 });
+  }
+
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
+  }
 
   for (const field of REQUIRED_FIELDS) {
     if (!str(formData, field)) {
       return NextResponse.json({ error: `Le champ "${field}" est obligatoire.` }, { status: 400 });
     }
+  }
+
+  for (const field of ['firstName', 'lastName', 'phone', 'commune'] as const) {
+    if (tooLong(str(formData, field), 100)) {
+      return NextResponse.json({ error: `Le champ "${field}" est trop long.` }, { status: 400 });
+    }
+  }
+  if (tooLong(str(formData, 'address'), 300) || tooLong(str(formData, 'email'), 200)) {
+    return NextResponse.json({ error: 'Un des champs est trop long.' }, { status: 400 });
   }
 
   const email = str(formData, 'email').toLowerCase();

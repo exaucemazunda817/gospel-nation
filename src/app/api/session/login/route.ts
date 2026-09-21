@@ -5,6 +5,7 @@ import {
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/session";
+import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from "@/lib/rate-limit";
 
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -16,7 +17,19 @@ function timingSafeEqual(a: string, b: string): boolean {
 }
 
 export async function POST(request: NextRequest) {
-  const { password } = await request.json();
+  // 5 essais par tranche de 10 minutes et par adresse IP : le mot de passe
+  // admin est unique et partagé, sans cette limite il pourrait être deviné
+  // par essais successifs.
+  if (!(await allowRequest("admin-login", request, 5, 10 * 60 * 1000))) {
+    return NextResponse.json({ error: TOO_MANY_REQUESTS_MESSAGE }, { status: 429 });
+  }
+
+  let password: unknown;
+  try {
+    ({ password } = await request.json());
+  } catch {
+    return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
+  }
 
   const expected = adminPassword();
   if (!expected || typeof password !== "string" || !timingSafeEqual(password, expected)) {

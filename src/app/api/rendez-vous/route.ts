@@ -1,13 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { isValidEmail } from '@/lib/email';
+import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
+import { tooLong } from '@/lib/validation';
 
 function str(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  if (!(await allowRequest('rendez-vous', request, 15, 60 * 60 * 1000))) {
+    return NextResponse.json({ error: TOO_MANY_REQUESTS_MESSAGE }, { status: 429 });
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
+  }
 
   const requesterName = str(body.requesterName);
   const requesterPhone = str(body.requesterPhone);
@@ -20,6 +31,10 @@ export async function POST(request: NextRequest) {
       { error: 'Le nom, le téléphone, le motif et la date souhaitée sont obligatoires.' },
       { status: 400 }
     );
+  }
+
+  if (tooLong(requesterName, 100) || tooLong(requesterPhone, 30) || tooLong(reason, 2000) || (requesterEmail && tooLong(requesterEmail, 200))) {
+    return NextResponse.json({ error: 'Un des champs est trop long.' }, { status: 400 });
   }
 
   if (requesterEmail && !isValidEmail(requesterEmail)) {

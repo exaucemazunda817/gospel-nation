@@ -14,6 +14,23 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_CLERK_ENABLED: clerkEnabled ? 'true' : ''
   },
+  // En-têtes de sécurité envoyés sur toutes les pages. Pas de Content-Security-
+  // Policy pour l'instant : elle demande d'autoriser précisément YouTube,
+  // Clerk et Vercel, et une règle trop stricte casserait ces intégrations.
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' }
+        ]
+      }
+    ];
+  },
   images: {
     // Le réglage par défaut proposait jusqu'à 3840 px de large : un cadre de 320 px
     // recevait alors une image géante, fabriquée à la demande (1,3 à 2,4 s chacune).

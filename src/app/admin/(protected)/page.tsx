@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import ModerateTestimonyActions from "@/components/admin/ModerateTestimonyActions";
+import { isHttpUrl } from "@/lib/validation";
 
 export default async function AdminTestimoniesPage() {
   const testimonies = await prisma.testimony.findMany({
@@ -31,7 +32,7 @@ export default async function AdminTestimoniesPage() {
             {t.wantsPublished ? "Accepte la publication" : "Ne veut pas être publié"}
           </p>
           <p className="mt-2 whitespace-pre-wrap text-sm text-gn-cream/80">{t.content}</p>
-          {t.videoUrl && (
+          {isHttpUrl(t.videoUrl) && (
             <a
               href={t.videoUrl}
               target="_blank"

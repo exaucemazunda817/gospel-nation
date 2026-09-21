@@ -8,6 +8,7 @@ import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
 import { temoignagesPlaceholder } from '@/lib/content';
 import TestimonyForm from './TestimonyForm';
+import { isHttpUrl } from '@/lib/validation';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -65,7 +66,7 @@ async function TestimoniesList() {
               <p className="font-serif text-sm font-semibold text-gn-ink">{t.authorName}</p>
             </div>
             <p className="text-sm italic leading-relaxed text-gn-ink/60">« {t.content} »</p>
-            {t.videoUrl && (
+            {isHttpUrl(t.videoUrl) && (
               <a
                 href={t.videoUrl}
                 target="_blank"
