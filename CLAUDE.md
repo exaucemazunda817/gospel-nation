@@ -99,3 +99,30 @@ Corrigé le 20/09/2026 : l'ancien « filet de sécurité » révélait TOUS les 
 
 ## Défilement : Lenis retiré (20/09/2026)
 Lenis (défilement « amorti ») a été **retiré entièrement** : il donnait une sensation de ralenti (1,1 s d'inertie à chaque cran de molette, boucle d'animation permanente, observateur sur tout le DOM) et avait déjà causé deux bugs le 18/09. Décision de Mazunda : au prochain problème de défilement, on le retire plutôt que de le rafistoler. **Ne pas le réintroduire.** Le site utilise le défilement natif du navigateur.
+
+## Gospel News : fil d'articles (21/09/2026)
+- **`/departements/gospel-news`** est une liste façon fil d'actualité (titre, volume · date · auteur, vignette à droite ; deux colonnes dès `lg`). Chaque article a sa page `/departements/gospel-news/[article]` : texte dans une colonne de lecture (`max-w-3xl`), **images sur toute la largeur du site**. Le dossier statique `gospel-news/` prend le pas sur `[slug]`, donc pas de conflit de route.
+- **Données dans `src/lib/gospel-news.ts`** (pas en base) : texte repris des PDF des revues, blocs `p`/`h`/`quote`/`list`/`image`. Une image `poster` (affiche verticale) est montrée en entier sur fond flou ; une `photo` remplit la bande. Images optimisées dans `public/gospel-news/` (JPEG q82, ≤ 1600 px, sources de basse résolution). Ajouter un article = un objet dans `gospelNewsArticles` + ses images ; le sitemap le reprend tout seul.
+- **Exclus volontairement (demande de Mazunda)** : les pages « Annonces » et « Produits et services de nos membres ». Ne pas les remettre sans qu'il le demande. Les PDF complets restent dans la Bibliothèque et sur l'accueil.
+- Mise en forme : premier paragraphe en chapô, interligne resserré (`leading-normal`), intertitres avec filet doré, citations encadrées.
+
+## Accueil : structure et pièges (21/09/2026)
+- **Ordre** : hero (vidéo) → Prochain culte/Itinéraire (crème) → **bande défilante dorée** → Dernières parutions (sombre) → Dernières prédications (crème) → Nos départements (blanc) → Devenir membre (sombre). **Alterner les fonds** : deux sections de même couleur ne doivent jamais se toucher.
+- **Bande défilante** (`EventsMarquee.tsx`, animation `.gn-marquee-track` dans `globals.css`) : événement à venir, culte du dimanche, Offres et services, chaque département avec son logo, Rendez-vous pastoral, Devenir membre. Contenu dupliqué (la seconde copie est `aria-hidden` et non focalisable), pause au survol, pas d'animation avec « Réduire les animations ». N'utilise que des données réelles.
+- **Header flottant sur la vidéo** : règle CSS `body:has([data-home-hero]) > header` (position fixe, sans marges) dans `globals.css`, l'attribut `data-home-hero` étant sur le hero de l'accueil. **Volontairement en CSS et pas en JS** (`usePathname`) : le HTML de départ était `sticky`, d'où un éclair de bande noire avant hydratation. Les autres pages gardent le bandeau normal.
+- **Rangées glissantes** (`gn-scroll-x` + `snap-x`) : toujours ajouter `scroll-pl-5` (et `sm:scroll-pl-10` si le padding change), sinon le snap colle la première carte au bord gauche.
+- **Marges de section** : `py-11 sm:py-14` (et `PageHero` en `py-12 sm:py-14`) ; ne pas revenir à 80 px, Mazunda trouvait trop de vide.
+
+## Publier sur Vercel : ce qu'il faut vérifier
+- Après un `git push`, attendre que le **déploiement soit READY** puis tester la page modifiée sur `gospel-nation.vercel.app` (pas une adresse de déploiement figée). Le script de build inclut `prisma generate`.
+- **Neon endormie** : un `next dev` ou un build local qui renvoie 500 avec `P1001` n'est pas un bug de code ; réveiller par `run_sql SELECT 1` puis recharger.
+- **Commits** : ne jamais faire `git add -A src` (les photos brutes de Mazunda y sont volontairement hors Git) ; nommer les fichiers.
+- **Secrets pour le presse-papiers** : toute commande `pbcopy` qui prépare un mot de passe doit retirer le retour à la ligne final (`tr -d '"\n'`), sinon Vercel l'enregistre avec un caractère invisible et la connexion admin échoue.
+
+## Sécurité (audit du 21/09/2026)
+- **Limitation de débit** : `src/lib/rate-limit.ts` (table `rate_limit_attempts`, par IP). Connexion admin 5 essais/10 min ; inscription 40/h ; contact, rendez-vous, témoignages 15/h. Si la base est indisponible, la requête passe (jamais de panne du site à cause du frein). La table a été créée à la main sur Neon avant le déploiement (voir « Neon » ci-dessus).
+- **Liens saisis par les visiteurs** : passer par `safeHttpUrl` / `isHttpUrl` (`src/lib/validation.ts`) avant d'en faire un `href`. Un lien `javascript:` dans un témoignage s'exécutait au clic de l'admin.
+- **Plafonds de longueur** sur tous les champs des formulaires publics ; en-têtes de sécurité dans `next.config.ts` (pas de CSP : elle casserait YouTube/Clerk sans réglage précis).
+- **Connu et accepté** : mot de passe admin unique et partagé, session de 7 jours non révocable individuellement (changer `SESSION_SECRET` les invalide toutes) ; membre validé dès l'inscription ; le formulaire indique si un e-mail est déjà inscrit.
+- **Pages légales** : `/mentions-legales` et `/confidentialite` (composant `LegalPage`). Ni statut juridique ni numéro d'enregistrement de l'église n'y figurent (non fournis) ; à compléter si Mazunda les transmet.
+- **Sauvegarde** : branche Neon `sauvegarde-2026-09-21-avant-lancement` (copie de `main` avant le lancement).

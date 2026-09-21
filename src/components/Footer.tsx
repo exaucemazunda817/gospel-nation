@@ -138,6 +138,10 @@ export default function Footer() {
         <span className="text-xs text-gn-cream/50">
           © {new Date().getFullYear()} {church.name}. Tous droits réservés.
         </span>
+        <span className="flex gap-4 text-xs text-gn-cream/50">
+          <Link href="/mentions-legales" className="hover:text-gn-gold">Mentions légales</Link>
+          <Link href="/confidentialite" className="hover:text-gn-gold">Confidentialité</Link>
+        </span>
         <span className="text-xs tracking-wide text-gn-gold">{church.tagline}</span>
       </div>
     </footer>
