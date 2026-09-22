@@ -126,3 +126,20 @@ Lenis (défilement « amorti ») a été **retiré entièrement** : il donnait u
 - **Connu et accepté** : mot de passe admin unique et partagé, session de 7 jours non révocable individuellement (changer `SESSION_SECRET` les invalide toutes) ; membre validé dès l'inscription ; le formulaire indique si un e-mail est déjà inscrit.
 - **Pages légales** : `/mentions-legales` et `/confidentialite` (composant `LegalPage`). Ni statut juridique ni numéro d'enregistrement de l'église n'y figurent (non fournis) ; à compléter si Mazunda les transmet.
 - **Sauvegarde** : branche Neon `sauvegarde-2026-09-21-avant-lancement` (copie de `main` avant le lancement).
+
+## Quand le nom de domaine sera acheté (rappel du 21/09/2026)
+Dès que Mazunda annonce qu'il a le domaine (prévu : `.com` chez LWS, e-mail pro inclus), dérouler dans l'ordre :
+1. Ajouter le domaine dans Vercel et saisir les enregistrements A/CNAME dans la zone DNS de LWS. **Ne pas changer les serveurs de noms** (les MX de l'e-mail pro seraient perdus).
+2. Activer l'e-mail professionnel chez LWS.
+3. `NEXT_PUBLIC_SITE_URL` sur Vercel : type Configuration, non vide, sans retour à la ligne ; redéployer et vérifier `og:image`, sitemap, robots.txt.
+4. Redirection 301 de `gospel-nation.vercel.app` vers le domaine.
+5. Ajouter balises canonical et JSON-LD (type église) dans le code.
+6. Google Search Console (TXT chez LWS, soumettre le sitemap) et fiche Google Business Profile.
+7. Clerk en production (clés `pk_live`/`sk_live`, webhook, DNS jusqu'à 48 h).
+8. Resend : domaine, SPF/DKIM, `RESEND_API_KEY` et `EMAIL_FROM`, test d'un rendez-vous confirmé.
+9. Après chaque déploiement : Vercel READY puis test sur l'adresse vivante.
+Neon : après le passage en Launch (choisir « Lancement »), régler ce projet en « toujours actif », taille maximale 0,25 CU (≈ 19,35 $/mois au plus).
+
+## Suppression manuelle d'un membre (sans l'outil MCP Neon)
+Si le connecteur MCP Neon n'est pas disponible dans la session, passer par un script Prisma local qui lit `.env.local` (`node --env-file=.env.local script.mjs`). Toujours vérifier avant de supprimer : `prisma.user.findUnique` puis compter les lignes liées (`departmentRegistration`, `memberOffer`, `appointment`, `blogPost`, `testimony`) pour l'`userId`. La photo (`User.photoUrl`, si elle commence par `https://`) doit être supprimée séparément du store Vercel Blob avec `del()` de `@vercel/blob` — elle n'est pas effacée par la cascade Prisma.
+**Piège de connexion rencontré le 22/09/2026** : la connexion directe échouait systématiquement en `P1001` malgré un TCP qui passait (`net.createConnection` réussissait mais la négociation Postgres/TLS échouait, probablement le temps que le compute Neon se réveille). Corrigé en ajoutant `connect_timeout=30` à `DATABASE_URL` dans le `PrismaClient` du script (`new PrismaClient({ datasources: { db: { url } } })`) — sans toucher au `.env.local`. Sans l'outil MCP Neon pour réveiller la base par HTTP avant coup, ce délai de connexion plus long est le recours qui marche.
