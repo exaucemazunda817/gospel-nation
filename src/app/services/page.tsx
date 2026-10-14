@@ -48,7 +48,7 @@ async function OffersList() {
     <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
       {offers.map((offer, index) => (
         <Reveal key={offer.id} delay={index * 0.06}>
-          <div className="gn-card-lift flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
+          <div className="gn-card-lift gn-spot flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
             <div className="flex items-center gap-3">
               <div className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gn-avatar-from to-gn-avatar-to">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gn-avatar-icon)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">

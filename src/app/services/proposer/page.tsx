@@ -6,6 +6,7 @@ import PageHero from '@/components/PageHero';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import OfferForm from './OfferForm';
 import Reveal from '@/components/Reveal';
+import { BackStrip } from '@/components/BackLink';
 
 export const metadata: Metadata = {
   title: 'Proposer une offre',
@@ -25,6 +26,7 @@ export default async function ProposerOffrePage() {
         subtitle="Un produit, un service ou une offre d'emploi à partager avec la communauté."
         image="/hero/services.jpg"
       />
+      <BackStrip href="/services" />
 
       <Reveal className="mx-auto max-w-2xl px-5 py-14 sm:px-10 sm:py-16">
         {userId ? (
@@ -62,7 +64,8 @@ async function SignedInContent() {
   const defaultName = [user?.firstName, user?.lastName].filter(Boolean).join(' ');
 
   return (
-    <div className="rounded-2xl border border-gn-line bg-white p-6 sm:p-8">
+    <div className="relative rounded-2xl border border-gn-line bg-white p-6 sm:p-8">
+      <span className="gn-beam" aria-hidden="true" />
       <p className="mb-6 text-sm leading-relaxed text-gn-ink/70">
         Votre offre sera publiée sur la page{' '}
         <Link href="/services" className="font-semibold text-gn-gold-line hover:underline">

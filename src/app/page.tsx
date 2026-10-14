@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import HeroVideo from '@/components/HeroVideo';
 import HorizontalScroller from '@/components/HorizontalScroller';
+import SwipeDots from '@/components/SwipeDots';
 import EventsMarquee from '@/components/EventsMarquee';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
@@ -177,7 +178,7 @@ export default async function HomePage() {
                     href={issue.fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="gn-card-lift flex h-full items-center gap-5 rounded-lg border border-gn-gold/20 bg-gn-black p-4"
+                    className="gn-card-lift gn-spot flex h-full items-center gap-5 rounded-lg border border-gn-gold/20 bg-gn-black p-4"
                   >
                     <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
                       <Image
@@ -203,6 +204,7 @@ export default async function HomePage() {
                 </Reveal>
               ))}
             </div>
+            <SwipeDots count={issues.length} label="Revues Gospel News" />
           </div>
         </section>
       )}
@@ -227,6 +229,7 @@ export default async function HomePage() {
           {sermons.length === 0 ? (
             <p className="text-sm text-gn-ink/60">Aucune prédication publiée pour le moment.</p>
           ) : (
+            <>
             <div className="gn-scroll-x -mx-5 flex scroll-pl-5 snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
               {sermons.map((sermon, index) => (
                 <Reveal key={sermon.id} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-auto">
@@ -260,6 +263,8 @@ export default async function HomePage() {
                 </Reveal>
               ))}
             </div>
+            <SwipeDots count={sermons.length} label="Dernières prédications" />
+            </>
           )}
         </div>
       </section>
@@ -280,16 +285,16 @@ export default async function HomePage() {
               <Reveal key={dept.slug} delay={index * 0.06} className="w-[78%] shrink-0 snap-start sm:w-[320px]">
                 <Link
                   href={`/departements/${dept.slug}`}
-                  className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-gn-cream-bg"
+                  className="gn-card-lift gn-spot group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-gn-cream-bg"
                 >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-gn-black">
+                  <div className="gn-photo-hover relative aspect-[4/3] w-full overflow-hidden bg-gn-black">
                     {dept.imageUrl ? (
                       <Image
                         src={dept.imageUrl}
                         alt={dept.name}
                         fill
                         sizes="(max-width: 640px) 78vw, 320px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gn-black-soft to-gn-black">
@@ -307,6 +312,7 @@ export default async function HomePage() {
               </Reveal>
             ))}
           </HorizontalScroller>
+          <SwipeDots count={departments.length} label="Départements" />
           <Reveal className="mt-4 text-center">
             <Link
               href="/departements"

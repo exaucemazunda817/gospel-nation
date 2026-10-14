@@ -164,7 +164,7 @@ export default function EglisePage() {
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Horaires des cultes</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {church.schedule.map((s) => (
-              <div key={`${s.day}-${s.time}`} className="gn-card-lift flex items-center justify-between gap-4 rounded-lg border border-gn-line bg-white px-6 py-5">
+              <div key={`${s.day}-${s.time}`} className="gn-card-lift gn-spot flex items-center justify-between gap-4 rounded-lg border border-gn-line bg-white px-6 py-5">
                 <div>
                   <p className="font-serif text-base font-semibold text-gn-ink">{s.label}</p>
                   <p className="mt-1 text-sm text-gn-ink/60">{s.day} — {s.time}</p>

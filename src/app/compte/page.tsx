@@ -46,7 +46,7 @@ export default async function ComptePage() {
 
         <Link
           href="/bible/plan"
-          className="gn-card-lift flex items-center justify-between gap-4 rounded-2xl border border-gn-gold/30 bg-gn-black-soft px-6 py-5 text-gn-cream"
+          className="gn-card-lift gn-spot flex items-center justify-between gap-4 rounded-2xl border border-gn-gold/30 bg-gn-black-soft px-6 py-5 text-gn-cream"
         >
           <div>
             <p className="font-serif text-base italic font-medium text-gn-gold">Plan de lecture</p>

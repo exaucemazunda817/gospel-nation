@@ -53,7 +53,7 @@ async function TestimoniesList() {
     <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
       {testimonies.map((t, index) => (
         <Reveal key={t.id} delay={index * 0.06}>
-          <article className="gn-card-lift flex h-full flex-col gap-4 rounded-lg border border-gn-line bg-white p-6">
+          <article className="gn-card-lift gn-spot flex h-full flex-col gap-4 rounded-lg border border-gn-line bg-white p-6">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gn-avatar-from to-gn-avatar-to">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gn-avatar-icon)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
@@ -125,7 +125,8 @@ export default function TemoignagesPage() {
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <div className="rounded-2xl bg-gn-cream-bg p-7 sm:p-10">
+            <div className="relative rounded-2xl bg-gn-cream-bg p-7 sm:p-10">
+              <span className="gn-beam" aria-hidden="true" />
               <p className="mb-1 font-serif text-xl font-semibold text-gn-ink">Formulaire de témoignage</p>
               <p className="mb-6 text-xs text-gn-muted-strong">Remplissez ce formulaire pour partager ce que Dieu a fait pour vous.</p>
               <TestimonyForm />

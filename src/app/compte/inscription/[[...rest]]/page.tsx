@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { SignUp } from '@clerk/nextjs';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import { brandColors } from '@/lib/brand';
+import { BackStrip } from '@/components/BackLink';
 
 export const metadata: Metadata = {
   title: 'Créer un compte'
@@ -13,7 +14,9 @@ export default function CompteInscriptionPage() {
   if (!isClerkConfigured) redirect('/');
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center bg-gn-cream-bg px-5 py-16">
+    <div className="bg-gn-cream-bg">
+      <BackStrip />
+      <div className="flex min-h-[70vh] items-center justify-center px-5 py-16">
       <SignUp
         path="/compte/inscription"
         signInUrl="/connexion"
@@ -26,6 +29,7 @@ export default function CompteInscriptionPage() {
           }
         }}
       />
+      </div>
     </div>
   );
 }

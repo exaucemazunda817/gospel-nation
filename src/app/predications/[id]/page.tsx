@@ -6,6 +6,7 @@ import SermonView from '@/components/SermonView';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
 import { formatSermonDate } from '@/lib/sermons';
+import { BackStrip } from '@/components/BackLink';
 
 // Régénérée au plus toutes les 60 s ; les pages sont créées à la première visite.
 export const revalidate = 60;
@@ -63,6 +64,7 @@ export default async function SermonPage({ params }: PageProps) {
         subtitle="Réécoutez les messages prêchés à Gospel Nation."
         crumb={{ label: 'Écouter', parent: true }}
       />
+      <BackStrip href="/predications" />
       <Suspense fallback={<SermonSkeleton />}>
         <ChosenSermon id={id} />
       </Suspense>

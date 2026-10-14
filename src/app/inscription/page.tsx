@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import InscriptionForm from './InscriptionForm';
 import Reveal from '@/components/Reveal';
+import { BackStrip } from '@/components/BackLink';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -67,6 +68,8 @@ export default async function InscriptionPage() {
         </Reveal>
       </section>
 
+      <BackStrip tone="dark" />
+
       <section className="bg-gn-black">
         <Reveal className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex flex-col gap-7">
@@ -114,7 +117,8 @@ export default async function InscriptionPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
+          <div className="relative rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
+            <span className="gn-beam" aria-hidden="true" />
             <p className="mb-1 font-serif text-xl font-semibold text-gn-ink">Formulaire d&apos;inscription</p>
             <p className="mb-6 text-xs text-gn-muted-strong">
               Remplissez vos informations pour rejoindre la famille Gospel Nation.

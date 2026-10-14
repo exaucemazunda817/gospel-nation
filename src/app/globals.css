@@ -340,3 +340,188 @@ body:has([data-home-hero]) > header {
     top: max(1.5rem, env(safe-area-inset-top));
   }
 }
+
+/* Menu mobile plein écran (repris de One Love, demande de Mazunda du 14/10/2026) :
+   le menu glisse en fondu depuis le haut, puis les rubriques arrivent l'une
+   après l'autre ; il se referme en fondu. Uniquement transform et opacity
+   (rapide même sur un petit téléphone), rien si « Réduire les animations ». */
+.gn-menu {
+  animation: gn-menu-in 380ms cubic-bezier(0.22, 0.9, 0.24, 1) both;
+  transform-origin: calc(100% - 40px) 32px;
+}
+
+.gn-menu[data-state='closing'] {
+  animation: gn-menu-out 240ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+.gn-menu-item {
+  animation: gn-menu-item 420ms cubic-bezier(0.22, 0.9, 0.24, 1) both;
+  animation-delay: calc(90ms + var(--i, 0) * 35ms);
+}
+
+.gn-menu[data-state='closing'] .gn-menu-item {
+  animation: none;
+}
+
+@keyframes gn-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gn-menu-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
+}
+
+@keyframes gn-menu-item {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-menu,
+  .gn-menu[data-state='closing'],
+  .gn-menu-item {
+    animation: none !important;
+  }
+}
+
+/* Border Beam (repris de One Love) : trait lumineux doré qui fait le tour d'un
+   formulaire ou d'une carte. Le parent doit être en position relative et arrondi. */
+@property --gn-beam-a {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gn-beam {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 2px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--gn-beam-a),
+    transparent 0deg 240deg,
+    color-mix(in srgb, var(--gn-gold) 15%, transparent) 275deg,
+    var(--gn-gold) 315deg,
+    var(--gn-gold-light) 332deg,
+    transparent 350deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  animation: gn-beam 6s linear infinite;
+}
+
+@keyframes gn-beam {
+  to {
+    --gn-beam-a: 360deg;
+  }
+}
+
+/* Spotlight : halo doré qui suit la souris sur les cartes (.gn-spot), à
+   l'ordinateur seulement. La position est posée par SpotlightTracker. */
+.gn-spot {
+  position: relative;
+}
+
+.gn-spot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    360px circle at var(--gn-mx, 50%) var(--gn-my, 50%),
+    color-mix(in srgb, var(--gn-gold-light) 24%, transparent),
+    transparent 55%
+  );
+  box-shadow: inset 0 0 0 1px transparent;
+  opacity: 0;
+  transition:
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms;
+}
+
+@media (hover: hover) {
+  .gn-spot:hover::before {
+    opacity: 1;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gn-gold) 40%, transparent);
+  }
+}
+
+/* Photo qui zoome légèrement au survol, avec un reflet lumineux qui la balaie. */
+/* Pas de `position` ici : une règle hors couche écraserait les classes Tailwind
+   (relative / absolute) posées sur l'élément. Le parent doit être positionné. */
+.gn-photo-hover {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.gn-photo-hover img {
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gn-photo-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.32) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+
+@media (hover: hover) {
+  .gn-photo-hover:hover img {
+    transform: scale(1.06);
+  }
+
+  .gn-photo-hover:hover::after {
+    transform: translateX(120%);
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-beam {
+    animation: none;
+  }
+
+  .gn-photo-hover img,
+  .gn-photo-hover::after {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Bande défilante mise en pause au bouton (WCAG 2.2.2 : tout défilement
+   automatique de plus de 5 secondes doit pouvoir être arrêté). */
+.gn-marquee[data-paused='true'] .gn-marquee-track {
+  animation-play-state: paused;
+}

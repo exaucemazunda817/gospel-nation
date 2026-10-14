@@ -33,15 +33,15 @@ export default async function DepartementsPage() {
               <Reveal key={dept.id} delay={index * 0.06}>
                 <Link
                   href={`/departements/${dept.slug}`}
-                  className="gn-card-lift group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white"
+                  className="gn-card-lift gn-spot group relative flex h-full min-h-[380px] flex-col overflow-hidden rounded-lg border border-gn-line bg-white sm:min-h-0"
                 >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-gn-black">
+                  <div className="gn-photo-hover relative aspect-[4/3] w-full overflow-hidden bg-gn-black max-sm:absolute max-sm:inset-0 max-sm:aspect-auto">
                     {dept.imageUrl ? (
                       <Image
                         src={dept.imageUrl}
                         alt={dept.name}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gn-black-soft to-gn-black">
@@ -49,15 +49,15 @@ export default async function DepartementsPage() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h2 className="font-serif text-base font-semibold text-gn-ink">{dept.name}</h2>
-                    <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-gn-ink/60">{dept.description}</p>
+                  <div className="flex flex-1 flex-col p-6 max-sm:relative max-sm:justify-end max-sm:bg-gradient-to-t max-sm:from-gn-black max-sm:via-gn-black/80 max-sm:to-transparent max-sm:pt-28">
+                    <h2 className="font-serif text-base font-semibold text-gn-ink max-sm:text-xl max-sm:text-gn-cream">{dept.name}</h2>
+                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gn-ink/60 max-sm:flex-none max-sm:text-gn-cream/90 sm:flex-1">{dept.description}</p>
                     {dept.registrationOpen ? (
                       <span className="mt-3 inline-block w-fit rounded-full bg-gn-gold px-3 py-1 text-xs font-semibold text-gn-black">
                         Inscriptions ouvertes
                       </span>
                     ) : (
-                      <span className="mt-3 inline-block text-xs text-gn-muted-strong">Inscriptions fermées</span>
+                      <span className="mt-3 inline-block text-xs text-gn-muted-strong max-sm:text-gn-cream/80">Inscriptions fermées</span>
                     )}
                   </div>
                 </Link>

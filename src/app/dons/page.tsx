@@ -5,6 +5,7 @@ import PlaceholderNote from '@/components/PlaceholderNote';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
 import { donsPlaceholder } from '@/lib/content';
+import { BackStrip } from '@/components/BackLink';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -62,6 +63,8 @@ export default async function DonsPage() {
           </p>
         </Reveal>
       </section>
+
+      <BackStrip />
 
       <section className="bg-gn-cream-bg">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { church } from '@/lib/content';
+import MarqueePause from '@/components/MarqueePause';
 
 type Item = { text: string; href: string; highlight?: boolean; logo?: string | null };
 
@@ -57,12 +58,13 @@ export default function EventsMarquee({
   return (
     <section
       aria-label="À venir à Gospel Nation"
-      className="gn-marquee overflow-hidden bg-gradient-to-r from-gn-gold via-gn-gold-light to-gn-gold motion-reduce:overflow-x-auto"
+      className="gn-marquee relative overflow-hidden bg-gradient-to-r from-gn-gold via-gn-gold-light to-gn-gold motion-reduce:overflow-x-auto"
     >
       <div className="gn-marquee-track py-1.5">
         {group(false)}
         {group(true)}
       </div>
+      <MarqueePause />
     </section>
   );
 }

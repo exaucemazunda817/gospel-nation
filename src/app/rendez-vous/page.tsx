@@ -75,7 +75,8 @@ export default function RendezVousPage() {
             ))}
           </div>
 
-          <div className="rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
+          <div className="relative rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
+            <span className="gn-beam" aria-hidden="true" />
             <p className="mb-1 font-serif text-xl font-semibold text-gn-ink">Demande de rendez-vous</p>
             <p className="mb-6 text-xs text-gn-muted-strong">
               Précisez le motif et le créneau qui vous conviennent, le pasteur confirmera votre rendez-vous.

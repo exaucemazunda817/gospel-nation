@@ -5,6 +5,8 @@ import { frFR } from '@clerk/localizations';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SpotlightTracker from '@/components/SpotlightTracker';
+import { NavTracker } from '@/components/BackLink';
 import { church } from '@/lib/content';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 
@@ -66,6 +68,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang="fr" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-gn-black text-gn-cream">
         <Header />
+        <SpotlightTracker />
+        <NavTracker />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

@@ -113,7 +113,7 @@ export default function SermonCatalogue({ sermons }: { sermons: SermonSummary[] 
               <li key={sermon.id}>
                 <Link
                   href={`/predications/${sermon.id}`}
-                  className="gn-card-lift flex items-center gap-4 rounded-lg border border-gn-line bg-white p-3"
+                  className="gn-card-lift gn-spot flex items-center gap-4 rounded-lg border border-gn-line bg-white p-3"
                 >
                   <div className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-gn-black-soft to-gn-black sm:w-32">
                     {sermon.coverImageUrl && (

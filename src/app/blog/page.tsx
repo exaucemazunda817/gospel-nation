@@ -92,7 +92,7 @@ export default async function BlogPage() {
                   ) : (
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="gn-card-lift flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6"
+                      className="gn-card-lift gn-spot flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6"
                     >
                       {cardImage}
                       {post.category && (

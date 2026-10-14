@@ -101,7 +101,7 @@ async function EventsContent() {
             <div className="flex flex-col gap-4">
               {rest.map((event, index) => (
                 <Reveal key={event.id} delay={index * 0.06}>
-                  <div className="gn-card-lift flex flex-col gap-4 rounded-lg border border-gn-line bg-white p-5 sm:flex-row sm:items-center sm:gap-5">
+                  <div className="gn-card-lift gn-spot flex flex-col gap-4 rounded-lg border border-gn-line bg-white p-5 sm:flex-row sm:items-center sm:gap-5">
                     <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg bg-gn-black">
                       {event.eventDate ? (
                         <>

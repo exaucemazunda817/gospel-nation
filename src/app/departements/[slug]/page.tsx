@@ -168,7 +168,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
             </p>
             <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {nationClasseManuels.map((manuel) => (
-                <div key={manuel.fileUrl} className="gn-card-lift flex flex-col overflow-hidden rounded-lg border border-gn-line bg-white">
+                <div key={manuel.fileUrl} className="gn-card-lift gn-spot flex flex-col overflow-hidden rounded-lg border border-gn-line bg-white">
                   {manuel.coverUrl && (
                     <Image
                       src={manuel.coverUrl}
