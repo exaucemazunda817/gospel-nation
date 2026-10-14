@@ -298,32 +298,6 @@ input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='h
   }
 }
 
-/* Bande défilante de l'accueil (événement à venir, cultes, services). Le
-   contenu est dupliqué : à -50 % la boucle recolle sans saut. S'arrête au
-   survol ; sans animation (mouvement réduit) la bande se fait défiler à la main. */
-.gn-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: gn-marquee 60s linear infinite;
-}
-
-.gn-marquee:hover .gn-marquee-track,
-.gn-marquee:focus-within .gn-marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes gn-marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gn-marquee-track {
-    animation: none;
-  }
-}
-
 /* Accueil : le bandeau de navigation flotte par-dessus la vidéo du hero au lieu
    de réserver une bande noire au-dessus. Fait en CSS (:has) plutôt qu'en JS pour
    être correct dès le premier affichage, avant l'hydratation. */
@@ -518,12 +492,6 @@ body:has([data-home-hero]) > header {
     transition: none !important;
     transform: none !important;
   }
-}
-
-/* Bande défilante mise en pause au bouton (WCAG 2.2.2 : tout défilement
-   automatique de plus de 5 secondes doit pouvoir être arrêté). */
-.gn-marquee[data-paused='true'] .gn-marquee-track {
-  animation-play-state: paused;
 }
 
 /* Bords de la bande à défilement continu (AutoScrollBand) : les cartes

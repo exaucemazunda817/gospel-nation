@@ -21,18 +21,35 @@ import type { ReactNode } from 'react';
 export default function AutoScrollBand({
   children,
   label,
-  speed = 40
+  speed = 40,
+  controls = 'below',
+  inset = true,
+  fade = true,
+  tone = 'light',
+  className = ''
 }: {
   children: ReactNode;
   label: string;
   /** Vitesse de défilement automatique, en pixels par seconde. */
   speed?: number;
+  /** Bouton pause : sous la bande, posé dessus à droite, ou absent. */
+  controls?: 'below' | 'overlay' | 'none';
+  /** Marge à gauche au départ (alignement sur le contenu de la page). */
+  inset?: boolean;
+  /** Fondu sur les bords gauche et droit. */
+  fade?: boolean;
+  /** Fond de la section : `dark` adapte le bouton pause. */
+  tone?: 'light' | 'dark';
+  className?: string;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
   const [paused, setPaused] = useState(false);
+  // Nombre de copies du contenu : assez pour que la bande ne laisse jamais de
+  // vide à droite, même si le contenu est plus étroit que l'écran.
+  const [copies, setCopies] = useState(2);
   const pausedRef = useRef(false);
 
   useEffect(() => {
@@ -110,6 +127,8 @@ export default function AutoScrollBand({
 
     const ro = new ResizeObserver(() => {
       period = copy.offsetWidth;
+      const needed = period > 0 ? Math.max(2, Math.ceil(viewport.clientWidth / period) + 1) : 2;
+      setCopies((c) => (c === needed ? c : needed));
       apply();
     });
     ro.observe(copy);
@@ -229,41 +248,50 @@ export default function AutoScrollBand({
     };
   }, [active, speed]);
 
+  const insetClass = inset ? 'pl-5 sm:pl-10' : '';
+
   return (
-    <section aria-label={label} className="relative">
+    <section aria-label={label} className={`relative ${className}`}>
       <div
         ref={viewportRef}
         onDragStart={(e) => e.preventDefault()}
         style={active ? { touchAction: 'pan-y' } : undefined}
         className={
           active
-            ? 'gn-band-fade cursor-grab select-none overflow-hidden pl-5 active:cursor-grabbing sm:pl-10'
-            : 'gn-scroll-x overflow-x-auto pl-5 sm:pl-10'
+            ? `${fade ? 'gn-band-fade ' : ''}cursor-grab select-none overflow-hidden active:cursor-grabbing ${insetClass}`
+            : `gn-scroll-x overflow-x-auto ${insetClass}`
         }
       >
         <div ref={trackRef} className="flex w-max will-change-transform">
           <div ref={copyRef} className="flex items-stretch gap-5 pr-5">
             {children}
           </div>
-          {active && (
-            <div className="flex items-stretch gap-5 pr-5" aria-hidden="true" inert>
-              {children}
-            </div>
-          )}
+          {active &&
+            Array.from({ length: copies - 1 }, (_, i) => (
+              <div key={i} className="flex items-stretch gap-5 pr-5" aria-hidden="true" inert>
+                {children}
+              </div>
+            ))}
         </div>
       </div>
-      {active && (
+      {active && controls !== 'none' && (
         <button
           type="button"
           aria-pressed={paused}
           aria-label={paused ? 'Reprendre le défilement' : 'Mettre en pause le défilement'}
           onClick={() => setPaused((p) => !p)}
-          className="mx-auto mt-5 flex h-11 items-center gap-2 rounded-full border border-gn-line bg-white px-4 text-sm font-semibold text-gn-ink transition-colors hover:border-gn-gold-line hover:text-gn-gold-line"
+          className={
+            controls === 'overlay'
+              ? 'absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-gn-black text-gn-gold shadow-md transition-opacity hover:opacity-90'
+              : tone === 'dark'
+                ? 'mx-auto mt-4 flex h-11 items-center gap-2 rounded-full border border-gn-gold/40 px-4 text-sm font-semibold text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold'
+                : 'mx-auto mt-4 flex h-11 items-center gap-2 rounded-full border border-gn-line bg-white px-4 text-sm font-semibold text-gn-ink transition-colors hover:border-gn-gold-line hover:text-gn-gold-line'
+          }
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             {paused ? <path d="M8 5v14l11-7z" /> : <path d="M7 5h4v14H7zM13 5h4v14h-4z" />}
           </svg>
-          {paused ? 'Reprendre' : 'Pause'}
+          {controls === 'below' && (paused ? 'Reprendre' : 'Pause')}
         </button>
       )}
     </section>

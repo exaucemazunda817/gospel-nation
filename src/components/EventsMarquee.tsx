@@ -1,13 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { church } from '@/lib/content';
-import MarqueePause from '@/components/MarqueePause';
+import AutoScrollBand from '@/components/AutoScrollBand';
 
 type Item = { text: string; href: string; highlight?: boolean; logo?: string | null };
 
 // Bande défilante dorée (elle se distingue du bandeau crème au-dessus et de la
 // section sombre en dessous) : le prochain événement en tête, puis le culte, les
-// services et les départements avec chacun son logo.
+// services et les départements avec chacun son logo. Même défilement que les
+// autres bandes du site (AutoScrollBand) : continu, arrêté par la souris ou le
+// doigt, puis glissable à la main.
 export default function EventsMarquee({
   event,
   departments
@@ -29,42 +31,31 @@ export default function EventsMarquee({
     { text: 'Devenir membre', href: '/inscription' }
   ];
 
-  const group = (hidden: boolean) => (
-    <div className="flex shrink-0 items-center" aria-hidden={hidden || undefined}>
-      {items.map((item, index) => (
-        <div key={index} className="flex items-center">
-          <Link
-            href={item.href}
-            tabIndex={hidden ? -1 : undefined}
-            className={
-              item.highlight
-                ? 'mx-2 inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full bg-gn-black px-5 text-sm font-bold uppercase tracking-wide text-gn-gold transition-opacity hover:opacity-90'
-                : 'inline-flex min-h-[44px] items-center gap-2.5 whitespace-nowrap px-4 text-sm font-bold uppercase tracking-wide text-gn-on-gold transition-opacity hover:opacity-70'
-            }
-          >
-            {item.logo && (
-              <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gn-black">
-                <Image src={item.logo} alt="" fill sizes="32px" className="object-cover" />
-              </span>
-            )}
-            {item.text}
-          </Link>
-          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rotate-45 bg-gn-on-gold/50" />
-        </div>
-      ))}
-    </div>
-  );
-
   return (
-    <section
-      aria-label="À venir à Gospel Nation"
-      className="gn-marquee relative overflow-hidden bg-gradient-to-r from-gn-gold via-gn-gold-light to-gn-gold motion-reduce:overflow-x-auto"
-    >
-      <div className="gn-marquee-track py-1.5">
-        {group(false)}
-        {group(true)}
-      </div>
-      <MarqueePause />
-    </section>
+    <div className="bg-gradient-to-r from-gn-gold via-gn-gold-light to-gn-gold">
+      <AutoScrollBand label="À venir à Gospel Nation" speed={50} controls="overlay" inset={false} fade={false} className="py-1.5">
+        {items.map((item, index) => (
+          <div key={index} className="flex items-center">
+            <Link
+              href={item.href}
+              draggable={false}
+              className={
+                item.highlight
+                  ? 'mx-2 inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full bg-gn-black px-5 text-sm font-bold uppercase tracking-wide text-gn-gold transition-opacity hover:opacity-90'
+                  : 'inline-flex min-h-[44px] items-center gap-2.5 whitespace-nowrap px-4 text-sm font-bold uppercase tracking-wide text-gn-on-gold transition-opacity hover:opacity-70'
+              }
+            >
+              {item.logo && (
+                <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-gn-black">
+                  <Image src={item.logo} alt="" fill sizes="32px" draggable={false} className="object-cover" />
+                </span>
+              )}
+              {item.text}
+            </Link>
+            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rotate-45 bg-gn-on-gold/50" />
+          </div>
+        ))}
+      </AutoScrollBand>
+    </div>
   );
 }
