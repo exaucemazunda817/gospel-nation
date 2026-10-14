@@ -44,9 +44,18 @@ export default function Header() {
   // Lien actuellement en « verre » dans le menu mobile (touché ou survolé).
   const [glassHref, setGlassHref] = useState<string | null>(null);
 
+  // Le lien actif n'est calculé qu'après le premier affichage : le serveur ne
+  // connaît pas toujours la page courante, et un soulignement présent côté
+  // navigateur mais absent du HTML du serveur provoquait l'erreur React #418
+  // (« hydratation échouée ») : React jetait alors toute la page et la refaisait,
+  // ce qui effaçait au passage l'état de l'écran d'ouverture (html[data-intro]).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   // Gospel News est un département : sur sa page, seul « Gospel News » est souligné,
   // pas « Départements ».
   const isActive = (href: string) => {
+    if (!mounted) return false;
     if (href === '/') return pathname === '/';
     if (href === '/departements') return pathname.startsWith(href) && !pathname.startsWith('/departements/gospel-news');
     return pathname.startsWith(href);
