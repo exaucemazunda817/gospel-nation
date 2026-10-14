@@ -6,6 +6,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SpotlightTracker from '@/components/SpotlightTracker';
+import IntroOverlay from '@/components/IntroOverlay';
 import { NavTracker } from '@/components/BackLink';
 import { church } from '@/lib/content';
 import { isClerkConfigured } from '@/lib/clerk-configured';
@@ -63,10 +64,22 @@ export const viewport: Viewport = {
   viewportFit: 'cover'
 };
 
+// Écran d'ouverture : posé avant le premier affichage à chaque chargement complet
+// de page (pas à chaque navigation interne), retiré au plus tard à 3,6 s. Jamais
+// pour l'espace admin ou l'API, ni si « Réduire les animations » est activé.
+const INTRO_SCRIPT =
+  "(function(){var h=document.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;" +
+  "if(/^\\/(admin|api)(\\/|$)/.test(location.pathname))return}catch(e){}" +
+  "h.setAttribute('data-intro','');setTimeout(function(){h.removeAttribute('data-intro')},3600)})()";
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   const body = (
-    <html lang="fr" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}>
+    <html lang="fr" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col bg-gn-black text-gn-cream">
+        <IntroOverlay />
         <Header />
         <SpotlightTracker />
         <NavTracker />

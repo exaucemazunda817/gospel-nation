@@ -16,50 +16,38 @@ import type { ReactNode } from 'react';
 // ordinaires et donnerait un défilement saccadé. La molette verticale n'est
 // JAMAIS détournée : elle continue de faire défiler la page. Le contenu est
 // affiché deux fois pour la boucle ; la copie est masquée aux lecteurs d'écran
-// et inaccessible au clavier. Bouton pause fourni (WCAG 2.2.2). Avec « Réduire
+// et inaccessible au clavier. Pas de bouton pause (retiré à la demande de Mazunda : l'arrêt au survol, au toucher et au clavier suffit). Avec « Réduire
 // les animations », ou sans JavaScript, c'est une simple rangée à défilement natif.
 export default function AutoScrollBand({
   children,
   label,
   speed = 40,
-  controls = 'below',
   inset = true,
   fade = true,
-  tone = 'light',
   className = ''
 }: {
   children: ReactNode;
   label: string;
   /** Vitesse de défilement automatique, en pixels par seconde. */
   speed?: number;
-  /** Bouton pause : sous la bande, posé dessus à droite, ou absent. */
-  controls?: 'below' | 'overlay' | 'none';
   /** Marge à gauche au départ (alignement sur le contenu de la page). */
   inset?: boolean;
   /** Fondu sur les bords gauche et droit. */
   fade?: boolean;
-  /** Fond de la section : `dark` adapte le bouton pause. */
-  tone?: 'light' | 'dark';
   className?: string;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
-  const [paused, setPaused] = useState(false);
   // Nombre de copies du contenu : assez pour que la bande ne laisse jamais de
   // vide à droite, même si le contenu est plus étroit que l'écran.
   const [copies, setCopies] = useState(2);
-  const pausedRef = useRef(false);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     setActive(true);
   }, []);
-
-  useEffect(() => {
-    pausedRef.current = paused;
-  }, [paused]);
 
   useEffect(() => {
     if (!active) return;
@@ -98,7 +86,7 @@ export default function AutoScrollBand({
         } else {
           momentum = 0;
         }
-        const holding = hover || focusWithin || pausedRef.current || t - lastInteraction < 1600 || momentum !== 0;
+        const holding = hover || focusWithin || t - lastInteraction < 1600 || momentum !== 0;
         const target = holding ? 0 : speed;
         curSpeed += (target - curSpeed) * (1 - Math.exp(-dt / 0.25));
         x += curSpeed * dt;
@@ -274,26 +262,6 @@ export default function AutoScrollBand({
             ))}
         </div>
       </div>
-      {active && controls !== 'none' && (
-        <button
-          type="button"
-          aria-pressed={paused}
-          aria-label={paused ? 'Reprendre le défilement' : 'Mettre en pause le défilement'}
-          onClick={() => setPaused((p) => !p)}
-          className={
-            controls === 'overlay'
-              ? 'absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-gn-black text-gn-gold shadow-md transition-opacity hover:opacity-90'
-              : tone === 'dark'
-                ? 'mx-auto mt-4 flex h-11 items-center gap-2 rounded-full border border-gn-gold/40 px-4 text-sm font-semibold text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold'
-                : 'mx-auto mt-4 flex h-11 items-center gap-2 rounded-full border border-gn-line bg-white px-4 text-sm font-semibold text-gn-ink transition-colors hover:border-gn-gold-line hover:text-gn-gold-line'
-          }
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            {paused ? <path d="M8 5v14l11-7z" /> : <path d="M7 5h4v14H7zM13 5h4v14h-4z" />}
-          </svg>
-          {controls === 'below' && (paused ? 'Reprendre' : 'Pause')}
-        </button>
-      )}
     </section>
   );
 }

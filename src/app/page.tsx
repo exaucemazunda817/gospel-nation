@@ -261,7 +261,7 @@ export default async function HomePage() {
             </Reveal>
             {/* Téléphone : bande qui défile ; dès sm : grille de deux colonnes */}
             <div className="-mx-5 sm:hidden">
-              <AutoScrollBand label="Dernières parutions" tone="dark">
+              <AutoScrollBand label="Dernières parutions">
                 {issues.map((issue, index) => (
                   <div key={issue.fileUrl} className="flex w-[86vw] shrink-0">
                     {issueCard(issue, index)}

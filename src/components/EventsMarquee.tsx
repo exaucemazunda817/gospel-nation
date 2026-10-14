@@ -33,7 +33,7 @@ export default function EventsMarquee({
 
   return (
     <div className="bg-gradient-to-r from-gn-gold via-gn-gold-light to-gn-gold">
-      <AutoScrollBand label="À venir à Gospel Nation" speed={50} controls="overlay" inset={false} fade={false} className="py-1.5">
+      <AutoScrollBand label="À venir à Gospel Nation" speed={50} inset={false} fade={false} className="py-1.5">
         {items.map((item, index) => (
           <div key={index} className="flex items-center">
             <Link

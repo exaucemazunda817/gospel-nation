@@ -11,6 +11,10 @@ export default function HeroVideo({ src, poster }: { src: string; poster: string
   // reclique pas), et visibilité réelle de la vidéo à l'écran.
   const [soundOn, setSoundOn] = useState(false);
   const [inView, setInView] = useState(true);
+  // Vrai dès que le visiteur a lui-même touché le bouton de son : ses choix
+  // priment alors sur l'activation automatique du son.
+  const userChose = useRef(false);
+  const [showHint, setShowHint] = useState(false);
   // La vidéo pèse ~5 Mo : on ne la charge pas pour un visiteur en mode
   // économie de données, en 2G, ou qui a demandé moins d'animations — il voit
   // l'image fixe à la place. Décidé côté client, donc image seule au 1er rendu.
@@ -42,6 +46,49 @@ export default function HeroVideo({ src, poster }: { src: string; poster: string
     };
   }, []);
 
+  // Son dès l'entrée sur le site (demande de Mazunda, 14/10/2026). Les navigateurs
+  // (Chrome, Safari, iPhone, Firefox) interdisent tout son avant un premier geste du
+  // visiteur : la vidéo démarre donc muette, et le son s'active au premier clic,
+  // toucher ou touche du clavier, n'importe où sur la page (le bouton « Passer
+  // l'intro » compte aussi). Si le navigateur autorise déjà le son (visiteur
+  // habitué du site, sous Chrome), il s'active tout de suite.
+  useEffect(() => {
+    const policy = (navigator as Navigator & { getAutoplayPolicy?: (type: string) => string }).getAutoplayPolicy?.('mediaelement');
+    if (policy === 'allowed' && !userChose.current) setSoundOn(true);
+  }, []);
+
+  useEffect(() => {
+    if (soundOn) return;
+    const onGesture = () => {
+      if (userChose.current) return;
+      const video = videoRef.current;
+      if (video) {
+        // Dans le geste lui-même : c'est ce qui autorise le son sur iPhone.
+        video.muted = false;
+        void video.play().catch(() => {
+          video.muted = true;
+          void video.play().catch(() => {});
+          setSoundOn(false);
+        });
+      }
+      setSoundOn(true);
+    };
+    const events = ['click', 'keydown', 'touchend'] as const;
+    events.forEach((name) => document.addEventListener(name, onGesture));
+    return () => events.forEach((name) => document.removeEventListener(name, onGesture));
+  }, [soundOn]);
+
+  // Petite indication près du bouton tant que le son attend un geste.
+  useEffect(() => {
+    if (!canPlay || userChose.current) return;
+    setShowHint(true);
+    const t = window.setTimeout(() => setShowHint(false), 9000);
+    return () => window.clearTimeout(t);
+  }, [canPlay]);
+  useEffect(() => {
+    if (soundOn) setShowHint(false);
+  }, [soundOn]);
+
   // Source unique de vérité : on recalcule .muted à chaque changement de
   // préférence OU de visibilité, plutôt que de le modifier seulement au clic —
   // ça coupe le son dès qu'on quitte la vidéo et le remet automatiquement
@@ -51,7 +98,12 @@ export default function HeroVideo({ src, poster }: { src: string; poster: string
     if (!video) return;
     video.muted = muted;
     if (!muted) {
-      video.play().catch(() => {});
+      // Si le navigateur refuse le son, on repasse en muet et on attend un geste.
+      video.play().catch(() => {
+        video.muted = true;
+        void video.play().catch(() => {});
+        setSoundOn(false);
+      });
     }
   }, [muted, canPlay]);
 
@@ -82,26 +134,36 @@ export default function HeroVideo({ src, poster }: { src: string; poster: string
         />
       )}
       {canPlay && (
-        <button
-          type="button"
-          onClick={() => setSoundOn((v) => !v)}
-          aria-label={muted ? 'Activer le son' : 'Couper le son'}
-          className="absolute bottom-6 right-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/30 bg-gn-black/55 text-gn-cream backdrop-blur-md transition-colors hover:border-gn-gold hover:text-gn-gold sm:bottom-8 sm:right-10"
-        >
-          {muted ? (
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              <line x1="23" y1="9" x2="17" y2="15" />
-              <line x1="17" y1="9" x2="23" y2="15" />
-            </svg>
-          ) : (
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
-              <path d="M18.5 6a9 9 0 0 1 0 12" />
-            </svg>
+        <div className="absolute bottom-6 right-5 z-10 flex items-center gap-3 sm:bottom-8 sm:right-10">
+          {showHint && muted && (
+            <span className="pointer-events-none rounded-full bg-gn-black/60 px-3.5 py-2 text-xs font-medium text-gn-cream backdrop-blur-md">
+              Touchez l’écran pour activer le son
+            </span>
           )}
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              userChose.current = true;
+              setSoundOn((v) => !v);
+            }}
+            aria-label={muted ? 'Activer le son' : 'Couper le son'}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gn-gold/30 bg-gn-black/55 text-gn-cream backdrop-blur-md transition-colors hover:border-gn-gold hover:text-gn-gold"
+          >
+            {muted ? (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <line x1="23" y1="9" x2="17" y2="15" />
+                <line x1="17" y1="9" x2="23" y2="15" />
+              </svg>
+            ) : (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                <path d="M18.5 6a9 9 0 0 1 0 12" />
+              </svg>
+            )}
+          </button>
+        </div>
       )}
     </>
   );

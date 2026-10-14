@@ -500,3 +500,192 @@ body:has([data-home-hero]) > header {
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
 }
+
+/* ── Écran d'ouverture (14/10/2026, repris de One Love, avec le logo de l'église) ──
+   Posé à chaque chargement complet de page par le script du <head> (html[data-intro]),
+   retiré au plus tard à 3,6 s. Le volet se retire tout seul en CSS à 2,7 s, sans
+   jamais bloquer la page. Rien avec « Réduire les animations ». */
+.gn-intro {
+  display: none;
+}
+
+html[data-intro] .gn-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 28px);
+  background: radial-gradient(circle at 50% 45%, var(--gn-black-soft) 0%, var(--gn-black) 70%);
+  animation: gn-intro-out 900ms cubic-bezier(0.65, 0, 0.35, 1) 2700ms forwards;
+}
+
+/* Lueur ambre derrière le logo, comme le halo du logo d'origine. */
+.gn-intro-halo {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: min(100vw, 700px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gn-gold) 26%, transparent), transparent 62%);
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  animation: gn-intro-halo 1800ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
+}
+
+.gn-intro-logo {
+  position: relative;
+  width: min(72vw, 420px);
+  aspect-ratio: 566 / 429;
+}
+
+/* Trois bandes du même logo : chacune ne montre que sa tranche (clip-path fixe
+   sur le conteneur) et son image porte l'animation. */
+.gn-intro-part {
+  position: absolute;
+  inset: 0;
+}
+
+.gn-intro-part img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gn-intro-part-globe {
+  clip-path: inset(0 0 62.7% 0);
+}
+
+.gn-intro-part-gospel {
+  clip-path: inset(37.3% 0 34% 0);
+}
+
+.gn-intro-part-nation {
+  clip-path: inset(66% 0 10.3% 0);
+}
+
+.gn-intro-part-globe img {
+  opacity: 0;
+  transform: scale(0.88);
+  transform-origin: 50% 100%;
+  filter: blur(8px);
+  animation: gn-intro-globe 1200ms cubic-bezier(0.22, 1, 0.36, 1) 250ms forwards;
+}
+
+.gn-intro-part-gospel img {
+  clip-path: inset(0 100% 0 0);
+  animation: gn-intro-write 900ms cubic-bezier(0.65, 0, 0.35, 1) 800ms forwards;
+}
+
+.gn-intro-part-nation img {
+  clip-path: inset(0 100% 0 0);
+  animation: gn-intro-write 800ms cubic-bezier(0.65, 0, 0.35, 1) 1300ms forwards;
+}
+
+/* La croix du mot NATION s'illumine puis pulse deux fois. */
+.gn-intro-cross {
+  position: absolute;
+  left: 45.9%;
+  top: 76.6%;
+  width: 22%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gn-gold-light) 70%, transparent), transparent 65%);
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  animation:
+    gn-intro-cross 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 1850ms forwards,
+    gn-intro-beat 600ms ease-in-out 2500ms 1;
+}
+
+.gn-intro-tag {
+  position: relative;
+  margin: 0;
+  padding: 0 20px;
+  text-align: center;
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(16px, 2.2vw, 21px);
+  font-style: italic;
+  color: color-mix(in srgb, var(--gn-cream) 86%, transparent);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: gn-intro-tag 700ms cubic-bezier(0.22, 1, 0.36, 1) 1700ms forwards;
+}
+
+.gn-intro-skip {
+  position: absolute;
+  right: clamp(16px, 4vw, 40px);
+  bottom: clamp(16px, 4vw, 40px);
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1.5px solid color-mix(in srgb, var(--gn-cream) 40%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gn-cream);
+  font: 600 14px/1 var(--font-montserrat), sans-serif;
+  cursor: pointer;
+}
+
+@keyframes gn-intro-globe {
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes gn-intro-write {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes gn-intro-cross {
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes gn-intro-beat {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+@keyframes gn-intro-halo {
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes gn-intro-tag {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gn-intro-out {
+  from {
+    clip-path: circle(150% at 50% 45%);
+  }
+  to {
+    clip-path: circle(0% at 50% 45%);
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-intro] .gn-intro {
+    display: none;
+  }
+}
