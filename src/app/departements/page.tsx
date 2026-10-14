@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import AutoScrollBand from '@/components/AutoScrollBand';
 import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
@@ -26,14 +27,15 @@ export default async function DepartementsPage() {
         image="/hero/departements.jpg"
       />
 
-      <div className="bg-gn-cream-bg">
-        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {departments.map((dept, index) => (
-              <Reveal key={dept.id} delay={index * 0.06}>
+      <div className="bg-gn-cream-bg py-12 sm:py-16">
+        <Reveal>
+          <AutoScrollBand label="Nos départements">
+            {departments.map((dept) => (
+              <div key={dept.id} className="flex w-[78vw] max-w-[340px] shrink-0 sm:w-[320px]">
                 <Link
                   href={`/departements/${dept.slug}`}
-                  className="gn-card-lift gn-spot group relative flex h-full min-h-[380px] flex-col overflow-hidden rounded-lg border border-gn-line bg-white sm:min-h-0"
+                  draggable={false}
+                  className="gn-card-lift gn-spot group relative flex min-h-[380px] w-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white sm:min-h-0"
                 >
                   <div className="gn-photo-hover relative aspect-[4/3] w-full overflow-hidden bg-gn-black max-sm:absolute max-sm:inset-0 max-sm:aspect-auto">
                     {dept.imageUrl ? (
@@ -41,6 +43,8 @@ export default async function DepartementsPage() {
                         src={dept.imageUrl}
                         alt={dept.name}
                         fill
+                        sizes="(max-width: 640px) 78vw, 320px"
+                        draggable={false}
                         className="object-cover"
                       />
                     ) : (
@@ -61,9 +65,12 @@ export default async function DepartementsPage() {
                     )}
                   </div>
                 </Link>
-              </Reveal>
+              </div>
             ))}
-          </div>
+          </AutoScrollBand>
+          <p className="mx-auto mt-3 max-w-md px-5 text-center text-xs text-gn-muted-strong">
+            La bande s&apos;arrête quand vous la touchez ou posez la souris dessus : faites-la alors glisser pour parcourir les départements.
+          </p>
         </Reveal>
       </div>
     </div>

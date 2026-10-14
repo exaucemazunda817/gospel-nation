@@ -525,3 +525,10 @@ body:has([data-home-hero]) > header {
 .gn-marquee[data-paused='true'] .gn-marquee-track {
   animation-play-state: paused;
 }
+
+/* Bords de la bande à défilement continu (AutoScrollBand) : les cartes
+   apparaissent et disparaissent en fondu sur les côtés au lieu d'être coupées. */
+.gn-band-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+}
