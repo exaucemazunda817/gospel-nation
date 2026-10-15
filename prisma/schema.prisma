@@ -186,6 +186,9 @@ model BlogPost {
   // Lien vers le PDF téléchargeable (stocké dans public/bibliotheque),
   // quand l'article de la Bibliothèque en propose un.
   documentUrl String?
+  // Poids du PDF en octets, affiché sur le bouton de téléchargement (les
+  // fichiers de public/ ne sont pas lisibles par le serveur sur Vercel).
+  documentBytes Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
+import LibraryGrid from './LibraryGrid';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -13,6 +14,22 @@ export const metadata: Metadata = {
   description:
     'Revues Gospel News, manuels de l\'École Nation Classe et ressources de l\'église à télécharger en PDF.'
 };
+
+// « 2,1 Mo », « 109 Ko » : le poids s'affiche sur le bouton, pour qui télécharge
+// avec un forfait mobile.
+function formatBytes(bytes: number | null): string | null {
+  if (!bytes) return null;
+  if (bytes < 1_000_000) return `${Math.max(1, Math.round(bytes / 1000))} Ko`;
+  return `${(bytes / 1_000_000).toFixed(1).replace('.', ',')} Mo`;
+}
+
+// « École Nation Classe — Les Appelés, Module 1 : … » devient « Les Appelés,
+// Module 1 : … » (la catégorie est déjà affichée) ; les autres tirets longs
+// deviennent deux-points.
+function displayTitle(title: string, category: string | null): string {
+  const withoutCategory = category && title.startsWith(`${category} — `) ? title.slice(category.length + 3) : title;
+  return withoutCategory.replace(/ — /g, ' : ');
+}
 
 export default async function BlogPage() {
   const posts = await prisma.blogPost.findMany({
@@ -32,7 +49,7 @@ export default async function BlogPage() {
           </p>
           <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Bibliothèque</h1>
           <p className="mt-3.5 max-w-md text-sm text-gn-cream/90">
-            Communiqués, réflexions et actualités de la vie de Gospel Nation.
+            Manuels, revues et enseignements de Gospel Nation à télécharger.
           </p>
         </Reveal>
       </section>
@@ -41,78 +58,21 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <EmptyState title="Aucun article pour le moment" text="Les communiqués, réflexions et supports de l'église seront publiés ici." />
         ) : (
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, index) => {
-              const cardImage = post.coverImageUrl ? (
-                <Image
-                  src={post.coverImageUrl}
-                  alt={post.title}
-                  width={420}
-                  height={190}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="-mx-6 -mt-6 h-[190px] w-[calc(100%+3rem)] rounded-t-lg object-cover object-top"
-                />
-              ) : (
-                <div className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-gn-black">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
-                    <path d="M4 5.5v15.5" />
-                  </svg>
-                </div>
-              );
-
-              return (
-                <Reveal key={post.id} delay={index * 0.06}>
-                  {post.documentUrl ? (
-                    <div className="flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
-                      {cardImage}
-                      {post.category && (
-                        <span className="w-fit rounded-full bg-gn-gold/10 px-3 py-1 text-xs font-semibold text-gn-gold-line">
-                          {post.category}
-                        </span>
-                      )}
-                      <div>
-                        <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
-                        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{post.excerpt}</p>
-                      </div>
-                      <a
-                        href={post.documentUrl}
-                        download
-                        className="mt-auto flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-gn-gold-line px-4 text-sm font-semibold text-gn-gold-line transition-colors hover:bg-gn-gold hover:text-gn-on-gold"
-                      >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
-                          <path d="M12 3v12" />
-                          <path d="m7 10 5 5 5-5" />
-                          <path d="M5 21h14" />
-                        </svg>
-                        Télécharger le PDF
-                      </a>
-                    </div>
-                  ) : (
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="gn-card-lift gn-spot flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6"
-                    >
-                      {cardImage}
-                      {post.category && (
-                        <span className="w-fit rounded-full bg-gn-gold/10 px-3 py-1 text-xs font-semibold text-gn-gold-line">
-                          {post.category}
-                        </span>
-                      )}
-                      <div>
-                        <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
-                        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{post.excerpt}</p>
-                      </div>
-                      <span className="mt-auto border-t border-gn-line pt-3.5 text-xs text-gn-muted-strong">
-                        {post.publishedAt &&
-                          new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </span>
-                    </Link>
-                  )}
-                </Reveal>
-              );
-            })}
-          </div>
+          <LibraryGrid
+            items={posts.map((post) => ({
+              id: post.id,
+              slug: post.slug,
+              title: displayTitle(post.title, post.category),
+              excerpt: post.excerpt,
+              category: post.category,
+              cover: post.coverImageUrl,
+              documentUrl: post.documentUrl,
+              size: formatBytes(post.documentBytes),
+              date: post.publishedAt
+                ? new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Africa/Kinshasa' })
+                : null
+            }))}
+          />
         )}
       </Reveal>
     </div>

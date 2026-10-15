@@ -282,7 +282,7 @@ export const nationClasseManuels = [
   {
     parcours: 'Les Appelés',
     module: "Module 1 — Qu'est-ce que l'homme",
-    fileUrl: '/nation-classe/module-1-quest-ce-que-lhomme.pdf',
+    fileUrl: '/nation-classe/module-1-quest-ce-que-lhomme-v2.pdf',
     coverUrl: '/nation-classe/covers/module-1-quest-ce-que-lhomme.png'
   },
   {
@@ -294,13 +294,13 @@ export const nationClasseManuels = [
   {
     parcours: 'Les Ouvriers',
     module: "Module 2 — Le fruit de l'Esprit",
-    fileUrl: '/nation-classe/ouvriers-module-2-fruit-de-lesprit.pdf',
+    fileUrl: '/nation-classe/ouvriers-module-2-fruit-de-lesprit-v2.pdf',
     coverUrl: '/nation-classe/covers/ouvriers-module-2-fruit-de-lesprit.jpg'
   },
   {
     parcours: 'Les Ouvriers',
     module: 'Module 3 — Le caractère',
-    fileUrl: '/nation-classe/ouvriers-module-3-le-caractere.pdf',
+    fileUrl: '/nation-classe/ouvriers-module-3-le-caractere-v2.pdf',
     coverUrl: '/nation-classe/covers/ouvriers-module-3-le-caractere.jpg'
   },
   {
