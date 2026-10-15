@@ -5,6 +5,8 @@ import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
 import { BackStrip } from '@/components/BackLink';
+import CopyButton from '@/components/CopyButton';
+import { fr } from '@/lib/typo';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -13,28 +15,10 @@ export const metadata: Metadata = {
   title: 'Dons'
 };
 
-const impact = [
-  {
-    title: 'Impact communautaire',
-    description: "Vos dons financent l'aide aux familles, la jeunesse et les œuvres sociales de l'église.",
-    path: <path d="M12 21s-7.5-4.9-10-9.4C.4 8 2 4.5 5.6 4A5.6 5.6 0 0 1 12 7.5 5.6 5.6 0 0 1 18.4 4C22 4.5 23.6 8 22 11.6 19.5 16.1 12 21 12 21z" />
-  },
-  {
-    title: 'Transparence',
-    description: "Chaque don est utilisé avec rigueur, dans le respect de la vision de l'église.",
-    path: <polyline points="20 6 9 17 4 12" />
-  },
-  {
-    title: 'Missions',
-    description: "Une part de vos dons soutient l'évangélisation au-delà de nos frontières.",
-    path: (
-      <>
-        <circle cx="12" cy="12" r="9" />
-        <ellipse cx="12" cy="12" rx="4" ry="9" />
-        <line x1="3" y1="12" x2="21" y2="12" />
-      </>
-    )
-  }
+const steps = [
+  { title: 'Choisissez un moyen', text: 'Mobile Money ou virement, selon ce qui vous est le plus simple.' },
+  { title: 'Envoyez votre don', text: 'Utilisez les coordonnées affichées ci-dessus. Le montant est libre.' },
+  { title: 'Écrivez-nous si vous le souhaitez', text: 'Pour une confirmation ou une question, un message suffit.' }
 ];
 
 export default async function DonsPage() {
@@ -66,31 +50,48 @@ export default async function DonsPage() {
       <BackStrip />
 
       <section className="bg-gn-cream-bg">
-        <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <h2 className="mb-9 font-serif text-3xl font-semibold text-gn-ink">Choisissez un moyen de don</h2>
+        <Reveal className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+          <figure className="mx-auto mb-12 max-w-2xl border-l-2 border-gn-gold pl-5">
+            <blockquote className="font-serif text-lg italic leading-relaxed text-gn-ink sm:text-xl">
+              {fr("« Que chacun donne comme il l'a résolu en son cœur, sans tristesse ni contrainte ; car Dieu aime celui qui donne avec joie. »")}
+            </blockquote>
+            <figcaption className="mt-2 text-sm font-semibold text-gn-gold-dark">2 Corinthiens 9:7, Louis Segond</figcaption>
+          </figure>
+
+          <h2 className="mb-8 font-serif text-3xl font-semibold text-gn-ink">Choisissez un moyen de don</h2>
           {methods.length === 0 ? (
             <EmptyState
               title="Les moyens de don arrivent bientôt"
               text="Les coordonnées pour donner (Mobile Money, virement) seront publiées ici dès que l'église les aura confirmées. Pour toute question sur un don, écrivez-nous."
-              action={{ href: '/contact', label: 'Nous contacter' }}
+              action={{ href: `/contact?sujet=${encodeURIComponent('Question sur un don')}`, label: 'Nous contacter' }}
             />
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {methods.map((method, index) => (
-                <Reveal key={method.id} delay={index * 0.06}>
-                  <div className="flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gn-black">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.4z" />
-                      </svg>
+                <Reveal key={method.id} className="h-full" delay={index * 0.06}>
+                  <div className="gn-card-lift gn-spot flex h-full flex-col gap-4 rounded-lg border border-gn-line bg-white p-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gn-black">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.4z" />
+                        </svg>
+                      </div>
+                      <h3 className="font-serif text-lg font-semibold text-gn-ink">{method.label}</h3>
                     </div>
-                    <p className="font-serif text-base font-semibold text-gn-ink">{method.label}</p>
-                    <p className="text-sm font-semibold text-gn-gold-line">
-                      {method.accountName} — {method.accountValue}
-                    </p>
-                    {method.instructions && (
-                      <p className="text-sm leading-relaxed text-gn-muted-strong">{method.instructions}</p>
-                    )}
+                    <dl className="space-y-3 text-sm">
+                      <div>
+                        <dt className="text-xs font-semibold uppercase tracking-wide text-gn-muted-strong">Titulaire</dt>
+                        <dd className="mt-0.5 font-semibold text-gn-ink">{method.accountName}</dd>
+                      </div>
+                      <div>
+                        <dt className="text-xs font-semibold uppercase tracking-wide text-gn-muted-strong">Numéro</dt>
+                        <dd className="mt-0.5 break-all font-serif text-xl font-semibold tabular-nums text-gn-gold-dark">{method.accountValue}</dd>
+                      </div>
+                    </dl>
+                    {method.instructions && <p className="text-sm leading-relaxed text-gn-muted-strong">{method.instructions}</p>}
+                    <div className="mt-auto pt-1">
+                      <CopyButton text={method.accountValue} label="Copier le numéro" />
+                    </div>
                   </div>
                 </Reveal>
               ))}
@@ -99,23 +100,50 @@ export default async function DonsPage() {
         </Reveal>
       </section>
 
-      <section className="gn-glow relative overflow-hidden bg-gn-black">
-        <Reveal className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-cream">L&apos;impact de votre générosité</h2>
-          <div className="grid gap-9 sm:grid-cols-3">
-            {impact.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.06}>
-                <div className="flex flex-col gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full border border-gn-gold/40 bg-gn-gold/10">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                      {item.path}
-                    </svg>
+      <section className="bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+          <Reveal>
+            <h2 className="mb-8 font-serif text-3xl font-semibold text-gn-ink">Comment donner</h2>
+          </Reveal>
+          <ol className="grid gap-6 sm:grid-cols-3">
+            {steps.map((step, index) => (
+              <li key={step.title}>
+                <Reveal className="h-full" delay={index * 0.06}>
+                  <div className="flex h-full gap-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gn-black font-serif text-lg font-bold text-gn-gold" aria-hidden="true">
+                      {index + 1}
+                    </span>
+                    <div>
+                      <p className="font-serif text-base font-semibold text-gn-ink">{step.title}</p>
+                      <p className="mt-1.5 text-sm leading-relaxed text-gn-ink/70">{step.text}</p>
+                    </div>
                   </div>
-                  <p className="font-serif text-base font-semibold text-gn-cream">{item.title}</p>
-                  <p className="text-sm leading-relaxed text-gn-cream/75">{item.description}</p>
-                </div>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="gn-glow relative overflow-hidden bg-gn-black">
+        <Reveal className="relative mx-auto max-w-3xl px-5 py-14 text-center sm:px-10 sm:py-16">
+          <h2 className="mb-4 font-serif text-3xl font-semibold text-gn-cream">Votre générosité à l&apos;œuvre</h2>
+          <p className="mx-auto max-w-xl text-base leading-relaxed text-gn-cream/80">
+            Vos dons soutiennent la vie de l&apos;église et ses œuvres sociales, dont le ministère One Love auprès des enfants de la rue.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/departements/one-love"
+              className="inline-flex min-h-[44px] items-center rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+            >
+              Découvrir One Love
+            </Link>
+            <Link
+              href={`/contact?sujet=${encodeURIComponent('Question sur un don')}`}
+              className="inline-flex min-h-[44px] items-center rounded-full border border-gn-cream/35 px-7 text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
+            >
+              Une question sur un don ?
+            </Link>
           </div>
         </Reveal>
       </section>

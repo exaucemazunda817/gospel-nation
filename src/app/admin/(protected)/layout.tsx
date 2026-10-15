@@ -40,6 +40,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           label={`Rendez-vous${pendingRendezVous ? ` (${pendingRendezVous})` : ""}`}
         />
         <SectionTab href="/admin/communiques" label="Communiqués" />
+        <SectionTab href="/admin/dons" label="Dons" />
         <SectionTab
           href="/admin/offres"
           label={`Offres${pendingOffres ? ` (${pendingOffres})` : ""}`}
