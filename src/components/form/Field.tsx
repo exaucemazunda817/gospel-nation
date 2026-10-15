@@ -206,12 +206,14 @@ export function TextAreaField({
   label,
   name,
   required,
-  rows = 5
+  rows = 5,
+  hint
 }: {
   label: string;
   name: string;
   required?: boolean;
   rows?: number;
+  hint?: string;
 }) {
   const id = useId();
   const { error, errorId, controlProps: { clear, ...fieldProps } } = useFieldError();
@@ -222,6 +224,7 @@ export function TextAreaField({
         {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
       <textarea id={id} name={name} required={required} rows={rows} className={inputClass} {...fieldProps} onChange={clear} />
+      {hint && <p className="mt-1.5 text-xs leading-relaxed text-gn-muted-strong">{hint}</p>}
       <FieldError id={errorId} message={error} />
     </div>
   );

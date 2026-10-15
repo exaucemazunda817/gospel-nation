@@ -59,8 +59,14 @@ export default function TestimonyForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <Field label="Votre nom" name="authorName" required />
-      <TextAreaField label="Votre témoignage" name="content" required rows={6} />
+      <Field label="Votre nom (le prénom seul suffit)" name="authorName" required />
+      <TextAreaField
+        label="Votre témoignage"
+        name="content"
+        required
+        rows={6}
+        hint="Par exemple : une prière exaucée, une guérison, un emploi, une délivrance, un changement dans votre vie ou votre famille."
+      />
       <Field
         label="Lien vidéo (optionnel)"
         name="videoUrl"
@@ -68,9 +74,8 @@ export default function TestimonyForm() {
         placeholder="https://youtube.com/..."
       />
       <CheckboxField
-        label="Je suis d'accord pour que mon témoignage soit publié sur le site après vérification."
+        label="Je suis d'accord pour que mon témoignage soit publié sur le site après relecture."
         name="wantsPublished"
-        defaultChecked
       />
 
       {error && <p className="text-sm text-red-400">{error}</p>}

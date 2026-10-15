@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
   const authorName = str(body.authorName);
   const content = str(body.content);
   const videoUrlRaw = str(body.videoUrl);
-  const wantsPublished = body.wantsPublished !== false;
+  // Accord de publication explicite : sans case cochée, jamais publié.
+  const wantsPublished = body.wantsPublished === true;
 
   if (!authorName || !content) {
     return NextResponse.json({ error: 'Le nom et le témoignage sont obligatoires.' }, { status: 400 });
