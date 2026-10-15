@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import DepartmentLogo from '@/components/DepartmentLogo';
 import Link from 'next/link';
 import AutoScrollBand from '@/components/AutoScrollBand';
 import PageHero from '@/components/PageHero';
@@ -39,14 +39,7 @@ export default async function DepartementsPage() {
                 >
                   <div className="gn-photo-hover relative aspect-[4/3] w-full overflow-hidden bg-gn-black max-sm:absolute max-sm:inset-0 max-sm:aspect-auto">
                     {dept.imageUrl ? (
-                      <Image
-                        src={dept.imageUrl}
-                        alt={dept.name}
-                        fill
-                        sizes="(max-width: 640px) 78vw, 320px"
-                        draggable={false}
-                        className="object-cover"
-                      />
+                      <DepartmentLogo slug={dept.slug} name={dept.name} sizes="(max-width: 640px) 40vw, 240px" cover />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gn-black-soft to-gn-black">
                         <span className="font-serif text-3xl font-bold text-gn-gold">{dept.name.charAt(0)}</span>

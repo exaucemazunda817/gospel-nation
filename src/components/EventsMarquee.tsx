@@ -25,7 +25,7 @@ export default function EventsMarquee({
     ...departments.map((department) => ({
       text: department.name,
       href: `/departements/${department.slug}`,
-      logo: department.imageUrl
+      logo: department.imageUrl ? `/departments/logo/${department.slug}.webp` : null
     })),
     { text: 'Rendez-vous pastoral', href: '/rendez-vous' },
     { text: 'Devenir membre', href: '/inscription' }

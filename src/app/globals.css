@@ -461,6 +461,14 @@ body:has([data-home-hero]) > header {
   transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.gn-dept-logo {
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gn-photo-hover .gn-dept-logo img {
+  transform: none !important;
+}
+
 .gn-photo-hover::after {
   content: '';
   position: absolute;
@@ -476,6 +484,10 @@ body:has([data-home-hero]) > header {
     transform: scale(1.06);
   }
 
+  .gn-photo-hover:hover .gn-dept-logo {
+    transform: scale(1.05);
+  }
+
   .gn-photo-hover:hover::after {
     transform: translateX(120%);
     transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -487,6 +499,7 @@ body:has([data-home-hero]) > header {
     animation: none;
   }
 
+  .gn-dept-logo,
   .gn-photo-hover img,
   .gn-photo-hover::after {
     transition: none !important;

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import HeroVideo from '@/components/HeroVideo';
 import AutoScrollBand from '@/components/AutoScrollBand';
+import DepartmentLogo from '@/components/DepartmentLogo';
 import EventsMarquee from '@/components/EventsMarquee';
 import FeaturedSermon from '@/components/FeaturedSermon';
 import { church, gospelNewsIssues } from '@/lib/content';
@@ -109,13 +110,7 @@ export default async function HomePage() {
     >
       <div className="gn-photo-hover relative aspect-[4/3] w-full overflow-hidden bg-gn-black">
         {dept.imageUrl ? (
-          <Image
-            src={dept.imageUrl}
-            alt={dept.name}
-            fill
-            sizes="(max-width: 640px) 78vw, 320px"
-            className="object-cover"
-          />
+          <DepartmentLogo slug={dept.slug} name={dept.name} sizes="(max-width: 640px) 40vw, 240px" />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gn-black-soft to-gn-black">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">

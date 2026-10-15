@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlaceholderNote from '@/components/PlaceholderNote';
 import Reveal from '@/components/Reveal';
-import { church, histoirePlaceholder } from '@/lib/content';
+import { church } from '@/lib/content';
+import { fr } from '@/lib/typo';
 
 export const metadata: Metadata = {
   title: 'À propos'
@@ -51,6 +51,18 @@ const values = [
   }
 ];
 
+// Cultes regroupés par jour, dans l'ordre de la semaine ; les plages « 8h30 – 9h30 »
+// s'écrivent « 8h30 à 9h30 » pour éviter tout tiret long à l'écran.
+const scheduleByDay = church.schedule.reduce<{ day: string; items: { label: string; time: string }[] }[]>((acc, s) => {
+  const time = s.time.replace(' – ', ' à ');
+  const group = acc.find((g) => g.day === s.day);
+  if (group) group.items.push({ label: s.label, time });
+  else acc.push({ day: s.day, items: [{ label: s.label, time }] });
+  return acc;
+}, []);
+const address = church.address.replace(' — ', ', ');
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(church.address)}`;
+
 export default function EglisePage() {
   return (
     <div className="bg-white">
@@ -86,12 +98,22 @@ export default function EglisePage() {
               <h2 className="mb-[18px] font-serif text-3xl font-semibold leading-snug text-gn-ink">
                 Une famille bâtie sur la foi
               </h2>
-              <p className="mb-3 max-w-measure text-sm leading-relaxed text-gn-ink/60">{histoirePlaceholder}</p>
-              <div className="mt-5">
-                <PlaceholderNote>
-                  L&apos;histoire complète de la fondation de l&apos;église (année, lieu, vision initiale) sera
-                  ajoutée dès validation par le pasteur principal.
-                </PlaceholderNote>
+              <p className="max-w-measure text-base leading-relaxed text-gn-ink/75">
+                {fr(`${church.name} est une église de ${church.city.replace(', RDC', '')} conduite par le pasteur ${church.mainPastor.name}. Sa devise : « ${church.tagline} ». Elle se retrouve chaque semaine autour de ${church.schedule.length} temps de culte, de prière et d'enseignement.`)}
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  href="/inscription"
+                  className="inline-flex min-h-[44px] items-center rounded-full bg-gn-gold px-6 text-sm font-semibold text-gn-on-gold transition-colors hover:bg-gn-gold-light"
+                >
+                  Devenir membre
+                </Link>
+                <Link
+                  href="#horaires"
+                  className="inline-flex min-h-[44px] items-center rounded-full border border-gn-line px-6 text-sm font-semibold text-gn-ink transition-colors hover:border-gn-gold"
+                >
+                  Voir les horaires
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -124,30 +146,36 @@ export default function EglisePage() {
       <section className="bg-white">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Notre pasteur</h2>
-          <div className="max-w-xs">
+          <div className="grid gap-8 sm:grid-cols-[minmax(0,360px)_1fr] sm:items-center sm:gap-12">
             <Reveal>
-              <div className="flex flex-col gap-3.5">
-                <div className="relative h-[220px] overflow-hidden rounded-lg bg-gradient-to-br from-gn-avatar-from to-gn-avatar-to">
-                  <Image
-                    src={church.mainPastor.photoUrl}
-                    alt={church.mainPastor.name}
-                    fill
-                    sizes="(min-width: 640px) 320px, 100vw"
-                    className="object-cover object-top"
-                  />
-                </div>
-                <div>
-                  <p className="mb-1 font-serif text-base font-semibold text-gn-ink">{church.mainPastor.name}</p>
-                  <p className="text-sm font-semibold text-gn-gold-line">{church.mainPastor.title}</p>
-                  <a
-                    href={`https://www.instagram.com/${church.mainPastor.instagram.replace('@', '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-1 inline-flex min-h-[44px] items-center text-xs text-gn-gold-dark hover:underline"
-                  >
-                    {church.mainPastor.instagram}
-                  </a>
-                </div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gradient-to-br from-gn-avatar-from to-gn-avatar-to sm:aspect-[5/4]">
+                <Image
+                  src={church.mainPastor.photoUrl}
+                  alt={church.mainPastor.name}
+                  fill
+                  sizes="(min-width: 640px) 360px, 100vw"
+                  className="object-cover object-top"
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="font-serif text-2xl font-semibold text-gn-ink">{church.mainPastor.name}</p>
+              <p className="mt-1 text-sm font-semibold text-gn-gold-line">{church.mainPastor.title}</p>
+              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+                <Link
+                  href="/rendez-vous"
+                  className="inline-flex min-h-[44px] items-center rounded-full bg-gn-gold px-6 text-sm font-semibold text-gn-on-gold transition-colors hover:bg-gn-gold-light"
+                >
+                  Prendre rendez-vous
+                </Link>
+                <a
+                  href={`https://www.instagram.com/${church.mainPastor.instagram.replace('@', '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-[44px] items-center text-sm text-gn-gold-dark hover:underline"
+                >
+                  {church.mainPastor.instagram}
+                </a>
               </div>
             </Reveal>
           </div>
@@ -155,20 +183,25 @@ export default function EglisePage() {
       </section>
 
       {/* Horaires */}
-      <section className="border-t border-gn-line bg-gn-cream-bg">
+      <section id="horaires" className="scroll-mt-28 border-t border-gn-line bg-gn-cream-bg">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Horaires des cultes</h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            {church.schedule.map((s) => (
-              <div key={`${s.day}-${s.time}`} className="gn-card-lift gn-spot flex items-center justify-between gap-4 rounded-lg border border-gn-line bg-white px-6 py-5">
-                <div>
-                  <p className="font-serif text-base font-semibold text-gn-ink">{s.label}</p>
-                  <p className="mt-1 text-sm text-gn-ink/60">{s.day} — {s.time}</p>
-                </div>
+            {scheduleByDay.map((group) => (
+              <div key={group.day} className="gn-card-lift gn-spot rounded-lg border border-gn-line bg-white p-6">
+                <p className="text-xs font-bold uppercase tracking-wide text-gn-gold-line">{group.day}</p>
+                <ul className="mt-3 divide-y divide-gn-line">
+                  {group.items.map((item) => (
+                    <li key={item.label} className="flex items-baseline justify-between gap-4 py-3 first:pt-0 last:pb-0">
+                      <span className="font-serif text-base font-semibold text-gn-ink">{fr(item.label)}</span>
+                      <span className="shrink-0 text-sm font-semibold text-gn-ink/70">{item.time}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-          <p className="mt-8 max-w-measure text-sm text-gn-ink/60">{church.address}</p>
+          <p className="mt-8 max-w-measure text-sm text-gn-ink/60">{address}</p>
         </Reveal>
       </section>
 
@@ -179,12 +212,23 @@ export default function EglisePage() {
           <p className="mx-auto mb-7 max-w-md text-sm text-gn-muted">
             Toute la famille Gospel Nation vous attend pour ce temps de culte, de partage et de communion.
           </p>
-          <Link
-            href="/inscription"
-            className="inline-block rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-8 py-[15px] text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
-          >
-            Devenir membre
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/inscription"
+              className="inline-flex min-h-[44px] items-center rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-8 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+            >
+              Devenir membre
+            </Link>
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-gn-gold/50 px-8 text-xs font-bold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold"
+            >
+              Itinéraire
+            </a>
+          </div>
+          <p className="mx-auto mt-6 max-w-md text-xs text-gn-muted">{address}</p>
         </Reveal>
       </section>
     </div>

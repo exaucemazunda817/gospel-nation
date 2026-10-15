@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import DepartmentLogo from '@/components/DepartmentLogo';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
 import { nationClasseManuels, nationClasseProgram, oneLoveGallery, oneLoveOrg, oneLoveProject } from '@/lib/content';
@@ -48,7 +49,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
       <Reveal className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         {dept.imageUrl && (
           <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl">
-            <Image src={dept.imageUrl} alt={dept.name} fill className="object-cover" />
+            <DepartmentLogo slug={dept.slug} name={dept.name} sizes="320px" />
           </div>
         )}
         <p className="max-w-measure text-base leading-relaxed text-gn-ink/75">
