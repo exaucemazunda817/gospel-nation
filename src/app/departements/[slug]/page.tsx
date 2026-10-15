@@ -62,7 +62,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
             </p>
             <ul className="mt-5 space-y-2">
               {oneLoveOrg.objectifs.map((objectif) => (
-                <li key={objectif} className="flex gap-2.5 text-sm leading-relaxed text-gn-ink/70">
+                <li key={objectif} className="flex max-w-measure gap-2.5 text-sm leading-relaxed text-gn-ink/70">
                   <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gn-gold" />
                   {objectif}
                 </li>

@@ -82,7 +82,7 @@ export function Field({
     <div className="text-sm">
       <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
-        {required && <span className="text-gn-gold"> *</span>}
+        {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
       <input
         id={id}
@@ -117,7 +117,7 @@ export function SelectField({
     <div className="text-sm">
       <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
-        {required && <span className="text-gn-gold"> *</span>}
+        {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
       <select id={id} name={name} required={required} className={inputClass} {...fieldProps} onChange={clear}>
         {children}
@@ -150,7 +150,7 @@ export function FileField({
     <div className="text-sm">
       <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
-        {required && <span className="text-gn-gold"> *</span>}
+        {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
       <input
         id={id}
@@ -187,15 +187,17 @@ export function CheckboxField({
 }) {
   const id = useId();
   return (
-    <div className="flex items-start gap-2.5 text-sm text-gn-ink/80">
+    <div className="flex items-start gap-3 text-sm text-gn-ink/80">
       <input
         id={id}
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="mt-0.5 h-4 w-4 rounded border-white/30 text-gn-gold focus:ring-gn-gold/40"
+        className="mt-2.5 h-5 w-5 shrink-0 cursor-pointer rounded border-white/30 text-gn-gold focus:ring-gn-gold/40"
       />
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className="flex min-h-[44px] cursor-pointer items-center">
+        {label}
+      </label>
     </div>
   );
 }
@@ -217,7 +219,7 @@ export function TextAreaField({
     <div className="text-sm">
       <label htmlFor={id} className="mb-1.5 block font-medium text-gn-ink/80">
         {label}
-        {required && <span className="text-gn-gold"> *</span>}
+        {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
       <textarea id={id} name={name} required={required} rows={rows} className={inputClass} {...fieldProps} onChange={clear} />
       <FieldError id={errorId} message={error} />

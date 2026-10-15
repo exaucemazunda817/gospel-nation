@@ -19,10 +19,12 @@ export const metadata: Metadata = {
 
 function SermonSkeleton() {
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-16">
-      <Skeleton className="aspect-video w-full" />
-      <Skeleton className="mt-8 h-8 w-3/4" />
-      <Skeleton className="mt-4 h-4 w-1/3" />
+    <div className="bg-gn-black min-h-[130vh] pb-16 pt-8 sm:pt-12">
+      <Skeleton className="aspect-video max-h-[75vh] w-full !rounded-none !bg-white/10" />
+      <div className="mx-auto max-w-4xl px-5 pt-10 sm:px-10">
+        <Skeleton className="h-4 w-1/3 !bg-white/10" />
+        <Skeleton className="mt-5 h-10 w-3/4 !bg-white/10" />
+      </div>
     </div>
   );
 }

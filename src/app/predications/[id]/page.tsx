@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import { cache, Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import PredicationsHero from '@/components/PredicationsHero';
 import SermonView from '@/components/SermonView';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
 import { formatSermonDate } from '@/lib/sermons';
-import { BackStrip } from '@/components/BackLink';
 
 // Régénérée au plus toutes les 60 s ; les pages sont créées à la première visite.
 export const revalidate = 60;
@@ -35,10 +33,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 function SermonSkeleton() {
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12 sm:px-10 sm:py-16">
-      <Skeleton className="aspect-video w-full" />
-      <Skeleton className="mt-8 h-8 w-3/4" />
-      <Skeleton className="mt-4 h-4 w-1/3" />
+    <div className="bg-gn-black min-h-[130vh] pb-16">
+      <div className="px-5 pb-5 pt-2 sm:px-10">
+        <Skeleton className="h-11 w-28 !bg-white/10" />
+      </div>
+      <Skeleton className="aspect-video max-h-[75vh] w-full !rounded-none !bg-white/10" />
+      <div className="mx-auto max-w-4xl px-5 pt-10 sm:px-10">
+        <Skeleton className="h-4 w-1/3 !bg-white/10" />
+        <Skeleton className="mt-5 h-10 w-3/4 !bg-white/10" />
+      </div>
     </div>
   );
 }
@@ -49,7 +52,7 @@ async function ChosenSermon({ id }: { id: string }) {
   // Cas rare : supprimée entre-temps. La vérification qui compte pour le code
   // HTTP 404 est faite plus haut, avant que la page commence à s'afficher.
   if (!featured) return null;
-  return <SermonView featured={featured} all={all} />;
+  return <SermonView featured={featured} all={all} titleAs="h1" />;
 }
 
 export default async function SermonPage({ params }: PageProps) {
@@ -58,13 +61,7 @@ export default async function SermonPage({ params }: PageProps) {
   if (!(await getSermon(id))) notFound();
 
   return (
-    <div className="bg-gn-cream-bg">
-      <PredicationsHero
-        title="Prédications"
-        subtitle="Réécoutez les messages prêchés à Gospel Nation."
-        crumb={{ label: 'Écouter', parent: true }}
-      />
-      <BackStrip href="/predications" />
+    <div className="bg-gn-black">
       <Suspense fallback={<SermonSkeleton />}>
         <ChosenSermon id={id} />
       </Suspense>

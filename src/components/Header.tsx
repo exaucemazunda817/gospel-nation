@@ -154,7 +154,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`relative whitespace-nowrap pb-1 text-xs font-semibold tracking-wide transition-colors ${
+              className={`relative inline-flex h-11 items-center whitespace-nowrap text-xs font-semibold tracking-wide transition-colors ${
                 isActive(link.href) ? 'text-gn-gold' : 'text-gn-cream hover:text-gn-gold'
               }`}
             >
@@ -162,7 +162,7 @@ export default function Header() {
               {isActive(link.href) && (
                 <motion.span
                   layoutId="nav-underline"
-                  className="absolute inset-x-0 -bottom-0.5 h-[2px] rounded-full bg-gn-gold"
+                  className="absolute inset-x-0 bottom-2 h-[2px] rounded-full bg-gn-gold"
                   transition={{ type: 'spring', stiffness: 500, damping: 34 }}
                 />
               )}
@@ -175,7 +175,7 @@ export default function Header() {
           >
             <button
               type="button"
-              className={`relative flex min-h-0 items-center gap-1.5 whitespace-nowrap pb-1 text-xs font-semibold tracking-wide transition-colors ${
+              className={`relative flex h-11 min-h-0 items-center gap-1.5 whitespace-nowrap text-xs font-semibold tracking-wide transition-colors ${
                 isResourceActive ? 'text-gn-gold' : 'text-gn-cream hover:text-gn-gold'
               }`}
             >
@@ -183,7 +183,7 @@ export default function Header() {
               {isResourceActive && (
                 <motion.span
                   layoutId="nav-underline"
-                  className="absolute inset-x-0 -bottom-0.5 h-[2px] rounded-full bg-gn-gold"
+                  className="absolute inset-x-0 bottom-2 h-[2px] rounded-full bg-gn-gold"
                   transition={{ type: 'spring', stiffness: 500, damping: 34 }}
                 />
               )}
@@ -213,7 +213,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`relative whitespace-nowrap pb-1 text-xs font-semibold tracking-wide transition-colors ${
+              className={`relative inline-flex h-11 items-center whitespace-nowrap text-xs font-semibold tracking-wide transition-colors ${
                 isActive(link.href) ? 'text-gn-gold' : 'text-gn-cream hover:text-gn-gold'
               }`}
             >
@@ -221,7 +221,7 @@ export default function Header() {
               {isActive(link.href) && (
                 <motion.span
                   layoutId="nav-underline"
-                  className="absolute inset-x-0 -bottom-0.5 h-[2px] rounded-full bg-gn-gold"
+                  className="absolute inset-x-0 bottom-2 h-[2px] rounded-full bg-gn-gold"
                   transition={{ type: 'spring', stiffness: 500, damping: 34 }}
                 />
               )}
@@ -251,13 +251,13 @@ export default function Header() {
           )}
           <Link
             href="/dons"
-            className="rounded-full whitespace-nowrap border border-gn-cream/35 px-3.5 py-[11px] text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold xl:px-[18px]"
+            className="rounded-full whitespace-nowrap border border-gn-cream/35 inline-flex min-h-[44px] items-center px-3.5 text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold xl:px-[18px]"
           >
             Faire un don
           </Link>
           <Link
             href="/inscription"
-            className="rounded-full whitespace-nowrap bg-gradient-to-br from-gn-gold-light to-gn-gold px-4 py-3 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90 xl:px-5"
+            className="inline-flex min-h-[44px] items-center rounded-full whitespace-nowrap bg-gradient-to-br from-gn-gold-light to-gn-gold px-4 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90 xl:px-5"
           >
             Devenir membre
           </Link>

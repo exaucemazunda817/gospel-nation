@@ -56,12 +56,14 @@ export default function YoutubePlayer({
               onError={() => {
                 if (cover !== coverUrl) setCover(coverUrl);
               }}
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover"
             />
           )}
-          <span className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/40" />
-          <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-gn-gold/60 bg-gn-black/60 backdrop-blur-sm transition-transform group-hover:scale-105">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="var(--gn-gold)" aria-hidden="true">
+          <span className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-black/20 transition-colors group-hover:from-black/55" />
+          {/* Anneau qui pulse doucement : il désigne l'action principale de la page et
+              s'arrête au survol. */}
+          <span className="gn-play-ring relative flex h-20 w-20 items-center justify-center rounded-full border border-gn-gold/70 bg-gn-black/65 backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="var(--gn-gold)" aria-hidden="true">
               <path d="M8 5v14l11-7z" />
             </svg>
           </span>

@@ -689,3 +689,60 @@ html[data-intro] .gn-intro {
     display: none;
   }
 }
+
+/* Page prédication (14/10/2026) : lueur de la couleur de la miniature sous le
+   lecteur (la miniature réduite à 96 px, agrandie et floutée : léger à charger)
+   et anneau pulsant autour du bouton de lecture. */
+.gn-ambient {
+  filter: blur(70px) saturate(1.35);
+  transform: scale(1.4);
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+.gn-play-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--gn-gold) 75%, transparent);
+  animation: gn-ring 2.6s ease-out infinite;
+}
+
+.group:hover .gn-play-ring::before {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+@keyframes gn-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gn-play-ring::before {
+    animation: none;
+    display: none;
+  }
+}
+
+/* Coupures de lignes plus soignées (14/10/2026) : titres équilibrés, et pas de
+   dernière ligne réduite à un seul mot dans les paragraphes. Sans effet (repli
+   normal) sur les navigateurs qui ne le connaissent pas. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}

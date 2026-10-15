@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import { prisma } from '@/lib/prisma';
 import Reveal from '@/components/Reveal';
+import ShareButtons from '@/components/ShareButtons';
+import { SITE_URL } from '@/lib/site';
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -50,7 +52,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <a
               href={post.documentUrl}
               download
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-gn-gold px-5 py-3 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+              className="mt-8 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-gn-gold px-5 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                 <path d="M12 3v12" />
@@ -60,6 +62,11 @@ export default async function BlogPostPage({ params }: PageProps) {
               Télécharger le PDF
             </a>
           )}
+
+          <div className="mt-10 border-t border-gn-line pt-8">
+            <p className="mb-3 text-sm font-semibold text-gn-ink">Partager cet article</p>
+            <ShareButtons title={post.title} path={`/blog/${post.slug}`} fallbackUrl={`${SITE_URL}/blog/${post.slug}`} tone="light" />
+          </div>
 
           <div>
             <Link href="/blog" className="mt-10 inline-flex min-h-[44px] items-center text-sm text-gn-gold-dark hover:underline">
