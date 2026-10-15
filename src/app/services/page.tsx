@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
-import Skeleton from '@/components/Skeleton';
+import { fr } from '@/lib/typo';
 import { prisma } from '@/lib/prisma';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
@@ -16,112 +15,59 @@ export const metadata: Metadata = {
     'Les produits et services proposés par les membres de Gospel Nation.'
 };
 
-function OffersSkeleton() {
-  return (
-    <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 3 }).map((_, index) => (
-        <div key={index} className="flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
-          <div className="flex items-center gap-3">
-            <Skeleton className="h-[46px] w-[46px] shrink-0 rounded-full" />
-            <Skeleton className="h-4 w-32" />
-          </div>
-          <Skeleton className="h-4 w-3/4" />
-          <Skeleton className="h-3 w-full" />
-        </div>
-      ))}
-    </div>
-  );
-}
+const LINK = 'inline-flex min-h-[44px] items-center gap-2 rounded-full border border-gn-gold-line/50 px-4 text-sm font-semibold text-gn-gold-dark transition-colors hover:border-gn-gold hover:bg-gn-gold/10';
 
-async function OffersList() {
-  const offers = await prisma.memberOffer.findMany({
+type Offer = Awaited<ReturnType<typeof loadOffers>>[number];
+
+function loadOffers() {
+  return prisma.memberOffer.findMany({
     where: { status: 'APPROVED' },
     include: { user: true },
     orderBy: { createdAt: 'desc' }
   });
+}
 
-  if (offers.length === 0) {
-    return (
-      <EmptyState
-        title="Aucune offre publiée pour le moment"
-        text="Un produit, un service ou une offre d'emploi à partager avec la communauté ? Proposez-le, il sera publié après vérification."
-        action={{ href: '/services/proposer', label: 'Proposer une offre' }}
-      />
-    );
-  }
-
+function OfferCard({ offer }: { offer: Offer }) {
+  const author = offer.user ? `${offer.user.firstName} ${offer.user.lastName}` : offer.authorName;
+  const hasContact = Boolean(offer.contactPhone || offer.contactEmail || offer.externalUrl);
   return (
-    <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-      {offers.map((offer, index) => (
-        <Reveal key={offer.id} delay={index * 0.06}>
-          <div className="gn-card-lift gn-spot flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gn-avatar-from to-gn-avatar-to">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gn-avatar-icon)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="9" cy="8" r="3.2" />
-                  <path d="M2.5 19c.6-3 3.2-5 6.5-5s5.9 2 6.5 5" />
-                  <circle cx="17.5" cy="9" r="2.6" />
-                  <path d="M15.8 14.2c2.6.4 4.6 2.1 5.1 4.4" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-serif text-base font-semibold text-gn-ink">
-                  {offer.user ? `${offer.user.firstName} ${offer.user.lastName}` : (offer.authorName ?? 'Membre')}
-                </p>
-                {offer.category && (
-                  <span className="mt-0.5 inline-block rounded-full bg-gn-gold/10 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide text-gn-gold-line">
-                    {offer.category}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div>
-              <p className="mb-1.5 font-serif text-sm font-semibold text-gn-ink">{offer.title}</p>
-              <p className="text-sm leading-relaxed text-gn-ink/70">{offer.description}</p>
-            </div>
-            {(offer.contactPhone || offer.contactEmail || offer.externalUrl) && (
-              <div className="mt-auto flex flex-wrap gap-4 border-t border-gn-line pt-3.5">
-                {offer.contactPhone && (
-                  <a
-                    href={`https://wa.me/${offer.contactPhone.replace(/[^0-9]/g, '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex min-h-[44px] items-center gap-1.5 text-xs font-semibold text-gn-gold-line hover:underline"
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.4z" />
-                    </svg>
-                    Contacter le membre
-                  </a>
-                )}
-                {offer.contactEmail && (
-                  <a
-                    href={`mailto:${offer.contactEmail}`}
-                    className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline"
-                  >
-                    Écrire un e-mail
-                  </a>
-                )}
-                {offer.externalUrl && (
-                  <a
-                    href={offer.externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center text-xs font-semibold text-gn-gold-line hover:underline"
-                  >
-                    Voir le site
-                  </a>
-                )}
-              </div>
-            )}
-          </div>
-        </Reveal>
-      ))}
-    </div>
+    <article className="gn-card-lift gn-spot flex h-full flex-col rounded-lg border border-gn-line bg-white p-6">
+      {offer.category && <p className="text-xs font-bold uppercase tracking-wide text-gn-gold-line">{offer.category}</p>}
+      <h2 className="mt-2 font-serif text-xl font-semibold leading-snug text-gn-ink">{fr(offer.title)}</h2>
+      {author && <p className="mt-1 text-sm text-gn-muted-strong">Proposé par {author}</p>}
+      <p className="mt-4 text-sm leading-relaxed text-gn-ink/75">{offer.description}</p>
+      <div className="mt-auto flex flex-wrap gap-2 pt-5">
+        {offer.contactPhone && (
+          <a href={`https://wa.me/${offer.contactPhone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className={LINK}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.2 1.3 15.2.1 12 .1 5.4.1.1 5.4.1 12c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.3z" />
+            </svg>
+            WhatsApp
+          </a>
+        )}
+        {offer.contactEmail && (
+          <a href={`mailto:${offer.contactEmail}`} className={LINK}>
+            E-mail
+          </a>
+        )}
+        {offer.externalUrl && (
+          <a href={offer.externalUrl} target="_blank" rel="noopener noreferrer" className={LINK}>
+            Site web
+          </a>
+        )}
+        {!hasContact && (
+          <Link href={`/contact?sujet=${encodeURIComponent(`Offre : ${offer.title}`)}`} className={LINK}>
+            Contacter via l&apos;église
+          </Link>
+        )}
+      </div>
+    </article>
   );
 }
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const offers = await loadOffers();
+
   return (
     <div className="bg-gn-cream-bg">
       <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
@@ -134,7 +80,7 @@ export default function ServicesPage() {
           </p>
           <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Offres et services</h1>
           <p className="mt-3.5 max-w-lg text-sm text-gn-cream/90">
-            Découvrez ce que les membres de Gospel Nation proposent — et soutenez-vous les uns les autres.
+            {fr("Découvrez ce que les membres de Gospel Nation proposent, et soutenez-vous les uns les autres.")}
           </p>
         </Reveal>
       </section>
@@ -142,9 +88,9 @@ export default function ServicesPage() {
       <section className="border-b border-gn-line bg-white">
         <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-9 sm:px-10">
           <p className="max-w-xl text-sm leading-relaxed text-gn-ink/60">
-            Chaque membre a un talent, un métier ou un service à offrir à la communauté. Vous aussi, vous pouvez
-            publier votre produit, votre service ou une offre d&apos;emploi : votre annonce apparaît ici après
-            vérification par un administrateur.
+            Chaque membre a un talent, un métier ou un service à offrir à la communauté. Créez un compte et
+            proposez votre produit, votre service ou une offre d&apos;emploi : votre annonce apparaît ici après
+            vérification par l&apos;équipe.
           </p>
           <Link
             href="/services/proposer"
@@ -156,12 +102,45 @@ export default function ServicesPage() {
       </section>
 
       <section className="bg-gn-cream-bg">
-        <Reveal className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
-          <Suspense fallback={<OffersSkeleton />}>
-            <OffersList />
-          </Suspense>
-        </Reveal>
+        <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+          {offers.length === 0 ? (
+            <Reveal>
+              <EmptyState
+                title="Aucune offre publiée pour le moment"
+                text="Un produit, un service ou une offre d'emploi à partager avec la communauté ? Proposez-le, il sera publié après vérification."
+                action={{ href: '/services/proposer', label: 'Proposer une offre' }}
+              />
+            </Reveal>
+          ) : (
+            <ul className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+              {offers.map((offer, index) => (
+                <li key={offer.id}>
+                  <Reveal className="h-full" delay={(index % 3) * 0.06}>
+                    <OfferCard offer={offer} />
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </section>
+
+      {offers.length > 0 && (
+        <section className="gn-glow relative overflow-hidden bg-gn-black">
+          <Reveal className="relative mx-auto max-w-3xl px-5 py-14 text-center sm:px-10 sm:py-16">
+            <h2 className="mb-4 font-serif text-3xl font-semibold text-gn-cream">Vous avez un talent ou un commerce ?</h2>
+            <p className="mx-auto mb-7 max-w-md text-sm leading-relaxed text-gn-muted">
+              Faites-le connaître à la communauté : créez un compte et proposez votre offre, elle sera publiée après vérification.
+            </p>
+            <Link
+              href="/services/proposer"
+              className="inline-flex min-h-[44px] items-center rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-8 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+            >
+              Proposer une offre
+            </Link>
+          </Reveal>
+        </section>
+      )}
     </div>
   );
 }
