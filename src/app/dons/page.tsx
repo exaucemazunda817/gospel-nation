@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlaceholderNote from '@/components/PlaceholderNote';
+import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
-import { donsPlaceholder } from '@/lib/content';
 import { BackStrip } from '@/components/BackLink';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
@@ -68,10 +67,13 @@ export default async function DonsPage() {
 
       <section className="bg-gn-cream-bg">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Comment donner</p>
           <h2 className="mb-9 font-serif text-3xl font-semibold text-gn-ink">Choisissez un moyen de don</h2>
           {methods.length === 0 ? (
-            <PlaceholderNote>{donsPlaceholder}</PlaceholderNote>
+            <EmptyState
+              title="Les moyens de don arrivent bientôt"
+              text="Les coordonnées pour donner (Mobile Money, virement) seront publiées ici dès que l'église les aura confirmées. Pour toute question sur un don, écrivez-nous."
+              action={{ href: '/contact', label: 'Nous contacter' }}
+            />
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {methods.map((method, index) => (
@@ -87,7 +89,7 @@ export default async function DonsPage() {
                       {method.accountName} — {method.accountValue}
                     </p>
                     {method.instructions && (
-                      <p className="text-xs leading-relaxed text-gn-muted">{method.instructions}</p>
+                      <p className="text-sm leading-relaxed text-gn-muted-strong">{method.instructions}</p>
                     )}
                   </div>
                 </Reveal>
@@ -99,7 +101,6 @@ export default async function DonsPage() {
 
       <section className="gn-glow relative overflow-hidden bg-gn-black">
         <Reveal className="relative mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold">Pourquoi donner</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-cream">L&apos;impact de votre générosité</h2>
           <div className="grid gap-9 sm:grid-cols-3">
             {impact.map((item, index) => (
@@ -111,7 +112,7 @@ export default async function DonsPage() {
                     </svg>
                   </div>
                   <p className="font-serif text-base font-semibold text-gn-cream">{item.title}</p>
-                  <p className="text-xs leading-relaxed text-gn-muted">{item.description}</p>
+                  <p className="text-sm leading-relaxed text-gn-cream/75">{item.description}</p>
                 </div>
               </Reveal>
             ))}

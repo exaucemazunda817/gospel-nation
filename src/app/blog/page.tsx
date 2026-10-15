@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlaceholderNote from '@/components/PlaceholderNote';
+import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
-import { blogPlaceholder } from '@/lib/content';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -40,7 +39,7 @@ export default async function BlogPage() {
 
       <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
         {posts.length === 0 ? (
-          <PlaceholderNote>{blogPlaceholder}</PlaceholderNote>
+          <EmptyState title="Aucun article pour le moment" text="Les communiqués, réflexions et supports de l'église seront publiés ici." />
         ) : (
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => {
@@ -68,18 +67,18 @@ export default async function BlogPage() {
                     <div className="flex h-full flex-col gap-3.5 rounded-lg border border-gn-line bg-white p-6">
                       {cardImage}
                       {post.category && (
-                        <span className="w-fit rounded-full bg-gn-gold/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-gn-gold-line">
+                        <span className="w-fit rounded-full bg-gn-gold/10 px-3 py-1 text-xs font-semibold text-gn-gold-line">
                           {post.category}
                         </span>
                       )}
                       <div>
                         <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
-                        <p className="line-clamp-3 text-xs leading-relaxed text-gn-ink/60">{post.excerpt}</p>
+                        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{post.excerpt}</p>
                       </div>
                       <a
                         href={post.documentUrl}
                         download
-                        className="mt-auto flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-gn-gold px-4 py-3 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+                        className="mt-auto flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-gn-gold-line px-4 text-sm font-semibold text-gn-gold-line transition-colors hover:bg-gn-gold hover:text-gn-on-gold"
                       >
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
                           <path d="M12 3v12" />
@@ -96,13 +95,13 @@ export default async function BlogPage() {
                     >
                       {cardImage}
                       {post.category && (
-                        <span className="w-fit rounded-full bg-gn-gold/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-gn-gold-line">
+                        <span className="w-fit rounded-full bg-gn-gold/10 px-3 py-1 text-xs font-semibold text-gn-gold-line">
                           {post.category}
                         </span>
                       )}
                       <div>
                         <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{post.title}</p>
-                        <p className="line-clamp-3 text-xs leading-relaxed text-gn-ink/60">{post.excerpt}</p>
+                        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{post.excerpt}</p>
                       </div>
                       <span className="mt-auto border-t border-gn-line pt-3.5 text-xs text-gn-muted-strong">
                         {post.publishedAt &&

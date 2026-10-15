@@ -2,11 +2,10 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlaceholderNote from '@/components/PlaceholderNote';
+import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
-import { temoignagesPlaceholder } from '@/lib/content';
 import TestimonyForm from './TestimonyForm';
 import { isHttpUrl } from '@/lib/validation';
 
@@ -46,7 +45,13 @@ async function TestimoniesList() {
   });
 
   if (testimonies.length === 0) {
-    return <PlaceholderNote>{temoignagesPlaceholder}</PlaceholderNote>;
+    return (
+      <EmptyState
+        title="Aucun témoignage publié pour le moment"
+        text="Ce que Dieu a fait dans votre vie peut encourager toute l'église. Soyez le premier à partager le vôtre."
+        action={{ href: '#temoigner', label: 'Partager mon témoignage' }}
+      />
+    );
   }
 
   return (
@@ -110,11 +115,10 @@ export default function TemoignagesPage() {
         </Reveal>
       </section>
 
-      <section className="gn-glow relative overflow-hidden bg-gn-black">
+      <section id="temoigner" className="gn-glow relative scroll-mt-24 overflow-hidden bg-gn-black">
         <Reveal className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <Reveal>
             <div className="flex flex-col gap-4">
-              <p className="font-serif text-base italic font-medium text-gn-gold">Votre histoire compte</p>
               <h2 className="font-serif text-3xl font-semibold leading-snug text-gn-cream">
                 Partagez votre témoignage
               </h2>

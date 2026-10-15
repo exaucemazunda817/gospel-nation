@@ -144,7 +144,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
                   <span className="font-semibold text-gn-ink">Objectif : </span>
                   {parcours.objective}
                 </p>
-                <p className="mt-4 text-xs font-bold uppercase tracking-wide text-gn-muted-strong">
+                <p className="mt-4 text-sm font-semibold text-gn-muted-strong">
                   Modules ({parcours.modules.length})
                 </p>
                 <ol className="mt-2 grid gap-x-6 gap-y-1.5 text-sm text-gn-ink/80 sm:grid-cols-2">

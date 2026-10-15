@@ -89,7 +89,7 @@ export default async function InscriptionPage() {
                 </div>
                 <div>
                   <p className="mb-1 font-serif text-base font-semibold text-gn-cream">{b.title}</p>
-                  <p className="text-xs leading-relaxed text-gn-muted">{b.description}</p>
+                  <p className="text-sm leading-relaxed text-gn-cream/75">{b.description}</p>
                 </div>
               </div>
             ))}

@@ -10,13 +10,16 @@ export default function ShareButtons({
   title,
   path,
   fallbackUrl,
-  tone = 'dark'
+  tone = 'dark',
+  copy: withCopy = true
 }: {
   title: string;
   path: string;
   fallbackUrl: string;
   /** `dark` : sur fond sombre ; `light` : sur fond clair. */
   tone?: 'dark' | 'light';
+  /** Affiche aussi « Copier le lien » (vrai par défaut). */
+  copy?: boolean;
 }) {
   const [url, setUrl] = useState(fallbackUrl);
   const [copied, setCopied] = useState(false);
@@ -30,7 +33,7 @@ export default function ShareButtons({
   const message = `${title} — Gospel Nation\n${url}`;
   const whatsapp = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
-  async function copy() {
+  async function copyLink() {
     let done = false;
     try {
       await navigator.clipboard.writeText(url);
@@ -69,9 +72,10 @@ export default function ShareButtons({
         </svg>
         Partager sur WhatsApp
       </a>
+      {withCopy && (
       <button
         type="button"
-        onClick={copy}
+        onClick={copyLink}
         className={`inline-flex min-h-[44px] items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-colors ${
             tone === 'dark'
               ? 'border-gn-cream/35 text-gn-cream hover:border-gn-gold hover:text-gn-gold'
@@ -92,6 +96,7 @@ export default function ShareButtons({
           {copied ? 'Lien copié' : 'Copier le lien'}
         </span>
       </button>
+      )}
     </div>
   );
 }

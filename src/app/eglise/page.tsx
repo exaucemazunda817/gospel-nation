@@ -83,7 +83,6 @@ export default function EglisePage() {
           </Reveal>
           <Reveal delay={0.08}>
             <div>
-              <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Notre histoire</p>
               <h2 className="mb-[18px] font-serif text-3xl font-semibold leading-snug text-gn-ink">
                 Une famille bâtie sur la foi
               </h2>
@@ -102,7 +101,6 @@ export default function EglisePage() {
       {/* Nos valeurs */}
       <section className="border-y border-gn-line bg-gn-cream-bg">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Ce que nous croyons</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Nos valeurs</h2>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value, index) => (
@@ -114,7 +112,7 @@ export default function EglisePage() {
                     </svg>
                   </div>
                   <p className="font-serif text-base font-semibold text-gn-ink">{value.title}</p>
-                  <p className="text-xs leading-relaxed text-gn-ink/60">{value.description}</p>
+                  <p className="text-sm leading-relaxed text-gn-ink/70">{value.description}</p>
                 </div>
               </Reveal>
             ))}
@@ -125,7 +123,6 @@ export default function EglisePage() {
       {/* Pasteur */}
       <section className="bg-white">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Direction</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Notre pasteur</h2>
           <div className="max-w-xs">
             <Reveal>
@@ -141,7 +138,7 @@ export default function EglisePage() {
                 </div>
                 <div>
                   <p className="mb-1 font-serif text-base font-semibold text-gn-ink">{church.mainPastor.name}</p>
-                  <p className="text-xs uppercase tracking-wide text-gn-gold-line">{church.mainPastor.title}</p>
+                  <p className="text-sm font-semibold text-gn-gold-line">{church.mainPastor.title}</p>
                   <a
                     href={`https://www.instagram.com/${church.mainPastor.instagram.replace('@', '')}`}
                     target="_blank"
@@ -160,7 +157,6 @@ export default function EglisePage() {
       {/* Horaires */}
       <section className="border-t border-gn-line bg-gn-cream-bg">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-          <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">Nous rejoindre</p>
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Horaires des cultes</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {church.schedule.map((s) => (

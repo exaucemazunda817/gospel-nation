@@ -2,10 +2,13 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlaceholderNote from '@/components/PlaceholderNote';
+import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
+import ShareButtons from '@/components/ShareButtons';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
+import { SITE_URL } from '@/lib/site';
+import { fr } from '@/lib/typo';
 import { formatEventDateTime, formatEventDayNumber, formatEventMonthShort, formatEventTime } from '@/lib/dates';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
@@ -35,24 +38,46 @@ function EventsSkeleton() {
 
 async function EventsContent() {
   const events = await prisma.event.findMany({ orderBy: { eventDate: 'asc' } });
-  const [featured, ...rest] = events;
+
+  // Début de la journée (UTC) : un événement d'aujourd'hui est encore « à venir ».
+  // Un événement sans date reste dans les événements à venir.
+  const now = new Date();
+  const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const upcoming = events.filter((event) => !event.eventDate || event.eventDate >= startOfToday);
+  const past = events.filter((event) => event.eventDate && event.eventDate < startOfToday).reverse();
+  const [featured, ...rest] = upcoming;
 
   if (events.length === 0) {
     return (
       <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
-        <PlaceholderNote>Aucun événement à venir pour le moment. Revenez bientôt !</PlaceholderNote>
+        <EmptyState
+          title="Aucun événement pour le moment"
+          text="Les conférences, retraites et temps forts de l'église seront annoncés ici."
+        />
       </Reveal>
     );
   }
 
   return (
     <>
+      {!featured && (
+        <section className="border-b border-gn-line bg-white">
+          <Reveal className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+            <EmptyState
+              title="Aucun événement à venir pour le moment"
+              text="Les prochaines dates seront annoncées ici. En attendant, réécoutez les derniers messages de l'église."
+              action={{ href: '/predications', label: 'Écouter les prédications' }}
+            />
+          </Reveal>
+        </section>
+      )}
+
       {featured && (
         <section className="border-b border-gn-line bg-white">
           <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-10 sm:py-16 lg:grid-cols-2 lg:items-center lg:gap-12">
             <Reveal>
               <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
-                <Image src={featured.posterImageUrl} alt={featured.title} fill className="object-cover" />
+                <Image src={featured.posterImageUrl} alt={featured.title} fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
                 <span className="absolute left-4 top-4 rounded-full bg-gn-black px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white">
                   À la une
                 </span>
@@ -63,9 +88,9 @@ async function EventsContent() {
                 <p className="mb-2.5 font-serif text-base italic font-medium text-gn-gold-dark">
                   Prochain grand rendez-vous
                 </p>
-                <h2 className="mb-3.5 font-serif text-3xl font-semibold leading-snug text-gn-ink">{featured.title}</h2>
+                <h2 className="mb-3.5 font-serif text-3xl font-semibold leading-snug text-gn-ink">{fr(featured.title)}</h2>
                 {featured.description && (
-                  <p className="mb-5 text-sm leading-relaxed text-gn-ink/60">{featured.description}</p>
+                  <p className="mb-5 max-w-measure text-sm leading-relaxed text-gn-ink/70">{featured.description}</p>
                 )}
                 <div className="mb-6 flex flex-col gap-3">
                   {featured.eventDate && (
@@ -74,7 +99,7 @@ async function EventsContent() {
                         <circle cx="12" cy="12" r="9" />
                         <polyline points="12 7 12 12 16 14" />
                       </svg>
-                      <span className="text-sm text-gn-ink/60">
+                      <span className="text-sm text-gn-ink/70">
                         {formatEventDateTime(new Date(featured.eventDate))}
                       </span>
                     </div>
@@ -85,10 +110,11 @@ async function EventsContent() {
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                         <circle cx="12" cy="10" r="3" />
                       </svg>
-                      <span className="text-sm text-gn-ink/60">{featured.location}</span>
+                      <span className="text-sm text-gn-ink/70">{featured.location}</span>
                     </div>
                   )}
                 </div>
+                <ShareButtons title={featured.title} path="/evenements" fallbackUrl={`${SITE_URL}/evenements`} tone="light" />
               </div>
             </Reveal>
           </div>
@@ -98,6 +124,7 @@ async function EventsContent() {
       {rest.length > 0 && (
         <section className="bg-gn-cream-bg">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+            <h2 className="mb-6 font-serif text-2xl font-semibold text-gn-ink">Autres événements à venir</h2>
             <div className="flex flex-col gap-4">
               {rest.map((event, index) => (
                 <Reveal key={event.id} delay={index * 0.06}>
@@ -108,7 +135,7 @@ async function EventsContent() {
                           <span className="font-serif text-2xl font-bold leading-none text-gn-gold">
                             {formatEventDayNumber(new Date(event.eventDate))}
                           </span>
-                          <span className="mt-0.5 text-xs uppercase tracking-wide text-gn-muted">
+                          <span className="mt-0.5 text-xs font-semibold text-gn-muted">
                             {formatEventMonthShort(new Date(event.eventDate))}
                           </span>
                         </>
@@ -128,6 +155,31 @@ async function EventsContent() {
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+      )}
+      {past.length > 0 && (
+        <section className="bg-white">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-16">
+            <h2 className="mb-6 font-serif text-2xl font-semibold text-gn-ink">Événements passés</h2>
+            <ul className="grid gap-4 md:grid-cols-2">
+              {past.map((event) => (
+                <li key={event.id} className="flex items-center gap-4 rounded-lg border border-gn-line bg-gn-cream-bg p-4">
+                  <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-lg bg-gn-black">
+                    <span className="font-serif text-xl font-bold leading-none text-gn-gold">
+                      {formatEventDayNumber(new Date(event.eventDate as Date))}
+                    </span>
+                    <span className="mt-0.5 text-xs font-semibold text-gn-muted">
+                      {formatEventMonthShort(new Date(event.eventDate as Date))}
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-serif text-base font-semibold leading-snug text-gn-ink">{fr(event.title)}</p>
+                    {event.location && <p className="mt-1 text-xs text-gn-muted-strong">{event.location}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )}

@@ -87,7 +87,7 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="mb-1 text-xs uppercase tracking-wide text-gn-muted">{item.label}</p>
+                  <p className="mb-1 text-xs font-semibold text-gn-muted">{item.label}</p>
                   <p className="font-serif text-base font-semibold text-gn-cream">{item.value}</p>
                 </div>
               </div>

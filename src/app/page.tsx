@@ -4,6 +4,7 @@ import Reveal from '@/components/Reveal';
 import HeroVideo from '@/components/HeroVideo';
 import AutoScrollBand from '@/components/AutoScrollBand';
 import EventsMarquee from '@/components/EventsMarquee';
+import FeaturedSermon from '@/components/FeaturedSermon';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
 import { formatEventDateTime } from '@/lib/dates';
@@ -57,8 +58,9 @@ export default async function HomePage() {
   const now = new Date();
   const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 
-  const [departments, sermons, upcomingEvent] = await Promise.all([
+  const [departments, departmentCount, sermons, upcomingEvent] = await Promise.all([
     prisma.department.findMany({ orderBy: { order: 'asc' }, take: 6 }),
+    prisma.department.count(),
     prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 3 }),
     prisma.event.findFirst({ where: { eventDate: { gte: startOfToday } }, orderBy: { eventDate: 'asc' } })
   ]);
@@ -75,7 +77,7 @@ export default async function HomePage() {
       href={issue.fileUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="gn-card-lift gn-spot flex h-full w-full items-center gap-5 rounded-lg border border-gn-gold/20 bg-gn-black p-4"
+      className="gn-card-lift gn-spot flex h-full w-full items-center gap-5 rounded-lg border border-gn-line bg-white p-4"
     >
       <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
         <Image
@@ -92,45 +94,16 @@ export default async function HomePage() {
             Dernière parution
           </span>
         )}
-        <p className="mb-1.5 font-serif text-lg font-semibold text-gn-cream">
+        <p className="mb-1.5 font-serif text-lg font-semibold text-gn-ink">
           Gospel News, volume {issue.volume}
         </p>
-        <p className="text-xs text-gn-muted">{issue.date} · Télécharger le PDF</p>
+        <p className="text-xs text-gn-muted-strong">{issue.date}, télécharger le PDF</p>
       </div>
     </a>
   );
-  const sermonCard = (sermon: (typeof sermons)[number]) => (
-    <Link href={`/predications/${sermon.id}`} className="flex w-full flex-col gap-3.5">
-      <div className="relative flex h-[170px] items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-gn-black-soft to-gn-black lg:h-[200px]">
-        {sermon.coverImageUrl ? (
-          <Image
-            src={sermon.coverImageUrl}
-            alt={sermon.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
-          />
-        ) : (
-          <div className="gn-radial-gold absolute inset-0 opacity-50" />
-        )}
-        <div className="absolute inset-0 bg-black/25" />
-        <div className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full border border-gn-gold/50 bg-gn-cream/10 backdrop-blur-sm">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--gn-gold)">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </div>
-      </div>
-      <div>
-        <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{sermon.title}</p>
-        <p className="text-xs text-gn-muted-strong">
-          {sermon.speaker} · {new Date(sermon.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-        </p>
-      </div>
-    </Link>
-  );
   const departmentCard = (dept: (typeof departments)[number]) => (
     <Link
-    draggable={false}
+      draggable={false}
       href={`/departements/${dept.slug}`}
       className="gn-card-lift gn-spot group flex h-full w-full flex-col overflow-hidden rounded-lg border border-gn-line bg-gn-cream-bg"
     >
@@ -153,7 +126,7 @@ export default async function HomePage() {
       </div>
       <div className="flex flex-1 flex-col gap-2 p-6">
         <p className="font-serif text-base font-semibold text-gn-ink">{dept.name}</p>
-        <p className="line-clamp-2 text-xs leading-relaxed text-gn-ink/60">{dept.description}</p>
+        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{dept.description}</p>
       </div>
     </Link>
   );
@@ -169,7 +142,7 @@ export default async function HomePage() {
             titre superposé. On assombrit davantage la zone où le texte
             s'affiche (bas sur mobile où il est centré, gauche sur desktop où
             il est aligné à gauche) sans assombrir toute la vidéo. */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/55 via-gn-black/10 to-transparent sm:bg-gradient-to-r sm:from-gn-black/65 sm:via-gn-black/15 sm:to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/90 via-gn-black/60 to-gn-black/15 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/35 sm:to-transparent" />
         <div className="gn-glow absolute inset-0" />
         <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-36 sm:px-10 sm:pb-28 sm:pt-44 lg:pb-32 lg:pt-48">
           <Reveal>
@@ -178,23 +151,23 @@ export default async function HomePage() {
               <h1 className="font-serif text-4xl font-bold leading-[1.12] text-gn-cream sm:text-display">
                 {church.tagline}
               </h1>
-              <p className="max-w-md text-sm leading-snug text-gn-muted sm:text-base sm:leading-relaxed">
+              <p className="max-w-md text-sm leading-snug text-gn-cream/85 sm:text-base sm:leading-relaxed">
                 Une famille spirituelle qui accueille, forme et envoie ceux qui cherchent Dieu. Rejoignez-nous
                 pour adorer, apprendre et servir ensemble.
               </p>
-              <div className="mt-2 flex flex-wrap justify-center gap-4 sm:justify-start">
-                <Link
-                  href="/contact"
-                  className="rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 py-[15px] text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
-                >
-                  Nous contacter
-                </Link>
+              <div className="mt-2 flex flex-wrap justify-center gap-3 sm:justify-start">
                 <Link
                   href="/predications"
-                  className="rounded-full border border-gn-cream/35 px-[26px] py-[15px] text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
+                  className="inline-flex min-h-[44px] items-center rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-7 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
                 >
-                  Nos prédications
+                  Écouter la dernière prédication
                 </Link>
+                <a
+                  href="#visite"
+                  className="inline-flex min-h-[44px] items-center rounded-full border border-gn-cream/35 px-[26px] text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
+                >
+                  Planifier ma visite
+                </a>
               </div>
             </div>
           </Reveal>
@@ -202,7 +175,7 @@ export default async function HomePage() {
       </section>
 
       {/* Prochain culte / Lieu */}
-      <section className="border-b border-gn-line bg-gn-cream">
+      <section id="visite" className="scroll-mt-28 border-b border-gn-line bg-gn-cream">
         <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-6 sm:px-10">
           <div className="flex items-center gap-3.5">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
@@ -210,7 +183,7 @@ export default async function HomePage() {
               <polyline points="12 7 12 12 16 14" />
             </svg>
             <div>
-              <p className="mb-0.5 text-xs uppercase tracking-wide text-gn-muted-strong">Prochain culte</p>
+              <p className="mb-0.5 text-xs font-semibold text-gn-muted-strong">Prochain culte</p>
               <p className="font-serif text-base font-semibold text-gn-ink">
                 {schedule.day}, {schedule.time}
               </p>
@@ -222,7 +195,7 @@ export default async function HomePage() {
               <circle cx="12" cy="10" r="3" />
             </svg>
             <div>
-              <p className="mb-0.5 text-xs uppercase tracking-wide text-gn-muted-strong">Lieu</p>
+              <p className="mb-0.5 text-xs font-semibold text-gn-muted-strong">Lieu</p>
               <p className="max-w-md font-serif text-base font-semibold text-gn-ink">{church.address}</p>
             </div>
           </div>
@@ -243,18 +216,23 @@ export default async function HomePage() {
         departments={departments.map((department) => ({ name: department.name, slug: department.slug, imageUrl: department.imageUrl }))}
       />
 
-      {/* Dernières parutions (revues Gospel News) : bande sombre pour rompre le rythme */}
+      {/* Vedette : la dernière prédication, puis les deux précédentes */}
+      <FeaturedSermon sermons={sermons} />
+
+      {/* Dernières parutions (revues Gospel News) */}
       {issues.length > 0 && (
-        <section className="bg-gn-black-soft">
+        <section className="bg-gn-cream-bg">
           <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
             <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
               <div>
-                <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold">Lire</p>
-                <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernières parutions</h2>
+                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
+                <p className="mt-2 max-w-measure text-sm text-gn-muted-strong">
+                  {issues.length} revue{issues.length > 1 ? 's' : ''} Gospel News à télécharger, la plus récente date du {issues[0].date}.
+                </p>
               </div>
               <Link
                 href="/departements/gospel-news"
-                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold hover:underline"
+                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
               >
                 Voir tous les articles
               </Link>
@@ -280,58 +258,13 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Dernières prédications */}
-      <section className="bg-gn-cream-bg">
-        <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
-          <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
-            <div>
-              <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Écouter</p>
-              <h2 className="font-serif text-3xl font-semibold text-gn-ink">
-                Dernières prédications
-              </h2>
-            </div>
-            <Link
-              href="/predications/catalogue"
-              className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
-            >
-              Voir toutes les prédications
-            </Link>
-          </Reveal>
-          {sermons.length === 0 ? (
-            <p className="text-sm text-gn-ink/60">Aucune prédication publiée pour le moment.</p>
-          ) : (
-            <>
-              {/* Téléphone : bande qui défile ; dès sm : grille */}
-              <div className="-mx-5 sm:hidden">
-                <AutoScrollBand label="Dernières prédications">
-                  {sermons.map((sermon) => (
-                    <div key={sermon.id} className="flex w-[78vw] shrink-0">
-                      {sermonCard(sermon)}
-                    </div>
-                  ))}
-                </AutoScrollBand>
-              </div>
-              <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
-                {sermons.map((sermon, index) => (
-                  <Reveal key={sermon.id} delay={index * 0.06}>
-                    {sermonCard(sermon)}
-                  </Reveal>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </section>
-
       {/* Nos départements */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
           <Reveal className="mb-6 max-w-lg sm:mb-7">
-            <p className="mb-1.5 font-serif text-base italic font-medium text-gn-gold-dark">Servir</p>
             <h2 className="mb-3 font-serif text-3xl font-semibold text-gn-ink">Nos départements</h2>
-            <p className="text-sm leading-relaxed text-gn-ink/60">
-              Chaque membre trouve sa place pour servir selon ses dons, au sein d&apos;un département de
-              l&apos;église.
+            <p className="text-sm leading-relaxed text-gn-ink/70">
+              {departmentCount} équipes à rejoindre pour servir selon vos dons, au sein de l&apos;église.
             </p>
           </Reveal>
           <div className="-mx-5 sm:-mx-10">
@@ -362,7 +295,6 @@ export default async function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-8 px-5 py-11 sm:px-10 sm:py-14 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
           <Reveal>
             <div>
-              <p className="mb-3.5 font-serif text-base italic font-medium text-gn-gold">Rejoindre la famille</p>
               <h2 className="mb-4 font-serif text-3xl font-semibold leading-snug text-gn-cream">
                 Devenez membre de Gospel Nation
               </h2>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import PlaceholderNote from '@/components/PlaceholderNote';
+import EmptyState from '@/components/EmptyState';
 import Reveal from '@/components/Reveal';
 import Skeleton from '@/components/Skeleton';
 import { prisma } from '@/lib/prisma';
@@ -41,7 +41,13 @@ async function OffersList() {
   });
 
   if (offers.length === 0) {
-    return <PlaceholderNote>Aucun service publié pour le moment.</PlaceholderNote>;
+    return (
+      <EmptyState
+        title="Aucune offre publiée pour le moment"
+        text="Un produit, un service ou une offre d'emploi à partager avec la communauté ? Proposez-le, il sera publié après vérification."
+        action={{ href: '/services/proposer', label: 'Proposer une offre' }}
+      />
+    );
   }
 
   return (
@@ -71,7 +77,7 @@ async function OffersList() {
             </div>
             <div>
               <p className="mb-1.5 font-serif text-sm font-semibold text-gn-ink">{offer.title}</p>
-              <p className="text-xs leading-relaxed text-gn-ink/60">{offer.description}</p>
+              <p className="text-sm leading-relaxed text-gn-ink/70">{offer.description}</p>
             </div>
             {(offer.contactPhone || offer.contactEmail || offer.externalUrl) && (
               <div className="mt-auto flex flex-wrap gap-4 border-t border-gn-line pt-3.5">
