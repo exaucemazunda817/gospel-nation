@@ -8,6 +8,7 @@ import EventsMarquee from '@/components/EventsMarquee';
 import FeaturedSermon from '@/components/FeaturedSermon';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
+import { departmentSummary } from '@/lib/departments';
 import { formatEventDateTime } from '@/lib/dates';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
@@ -121,7 +122,7 @@ export default async function HomePage() {
       </div>
       <div className="flex flex-1 flex-col gap-2 p-6">
         <p className="font-serif text-base font-semibold text-gn-ink">{dept.name}</p>
-        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{dept.description}</p>
+        <p className="line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{departmentSummary(dept)}</p>
       </div>
     </Link>
   );

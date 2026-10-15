@@ -218,9 +218,19 @@ export default async function DepartementDetailPage({ params }: PageProps) {
               </Link>
             </>
           ) : (
-            <p className="text-sm text-gn-cream/60">
-              Les inscriptions à ce département ne sont pas ouvertes pour le moment.
-            </p>
+            <>
+              <h2 className="font-bold text-gn-gold">Pas encore d&apos;inscriptions</h2>
+              <p className="mt-2 text-sm text-gn-cream/70">
+                Les inscriptions à ce département ne sont pas ouvertes pour le moment. Écrivez-nous : nous vous
+                répondrons dès qu&apos;elles ouvrent, ou pour vous renseigner.
+              </p>
+              <Link
+                href={`/contact?sujet=${encodeURIComponent(`Être prévenu de l'ouverture : ${dept.name}`)}`}
+                className="mt-4 inline-flex min-h-[44px] items-center rounded-full bg-gn-gold px-6 py-2.5 text-sm font-semibold text-gn-black transition-colors hover:bg-gn-gold-dark"
+              >
+                Être prévenu de l&apos;ouverture
+              </Link>
+            </>
           )}
         </div>
 

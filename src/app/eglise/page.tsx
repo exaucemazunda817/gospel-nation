@@ -99,7 +99,7 @@ export default function EglisePage() {
                 Une famille bâtie sur la foi
               </h2>
               <p className="max-w-measure text-base leading-relaxed text-gn-ink/75">
-                {fr(`${church.name} est une église de ${church.city.replace(', RDC', '')} conduite par le pasteur ${church.mainPastor.name}. Sa devise : « ${church.tagline} ». Elle se retrouve chaque semaine autour de ${church.schedule.length} temps de culte, de prière et d'enseignement.`)}
+                {fr(`${church.name} est une église de ${church.city.replace(', RDC', '')} conduite par le pasteur ${church.mainPastor.name}. Notre mission : impacter le monde à travers les 7 secteurs d'influence. Nous nous retrouvons chaque semaine autour de ${church.schedule.length} temps de culte, de prière et d'enseignement.`)}
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
