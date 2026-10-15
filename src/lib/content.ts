@@ -23,7 +23,7 @@ export const church = {
   ],
   addressIsPlaceholder: false,
   address:
-    'Av. Pembe Didace, Ma Campagne — à 100 m de la place commerciale en montant l\'avenue Joli-Parc',
+    'Av. Pembe Didace, Ma Campagne, à 100 m de la place commerciale en montant l\'avenue Joli-Parc',
   city: 'Kinshasa, RDC',
   youtube: 'https://m.youtube.com/@gospel.nation',
   instagram: 'https://www.instagram.com/gospel.nation',

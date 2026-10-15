@@ -57,3 +57,17 @@ export function departmentSummary(dept: { slug: string; description: string }): 
   const first = dept.description.split(/(?<=[.!?])\s/)[0] ?? dept.description;
   return first.replace(' — ', ', ');
 }
+
+// Rendez-vous annuels cités dans la description de chaque département. Aucune
+// date n'est connue : la carte affiche « Date à annoncer » jusqu'à ce qu'un
+// événement daté soit publié dans l'espace d'administration.
+export const YEARLY_HIGHLIGHTS: { name: string; slug: string; frequency: string }[] = [
+  { name: 'Jésus Camp', slug: 'nation-united', frequency: 'Retraite annuelle de la jeunesse' },
+  { name: 'Heaven Ciné', slug: 'nation-united', frequency: 'Soirée festive de la jeunesse' },
+  { name: 'Worship Fire', slug: 'gn-music', frequency: 'Trois fois par an' },
+  { name: 'Worship Night', slug: 'gn-music', frequency: 'Une fois par an' },
+  { name: 'Champions of Kingdom', slug: 'one-nation', frequency: 'Compétition annuelle de basketball, sur six mois' },
+  { name: 'Comedy Club', slug: 'gospel-cafe', frequency: 'Chaque année' },
+  { name: 'Rassemblement des hommes', slug: 'valorous', frequency: 'Six fois par an' },
+  { name: 'Rencontre des femmes', slug: 'ladies-nation', frequency: 'Six fois par an' }
+];
