@@ -1,43 +1,63 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
+import { gospelNewsIssues } from '@/lib/content';
 import { articleThumbnail, gospelNewsArticles, type ArticleBlock, type ArticleImage, type GospelNewsArticle } from '@/lib/gospel-news';
 
-// Liste façon fil d'actualité : titre à gauche, vignette à droite, un clic ouvre l'article.
+// Liste façon fil d'actualité, regroupée par revue (la plus récente d'abord) :
+// titre à gauche, vignette à droite, un clic ouvre l'article. Chaque revue se
+// télécharge en entier depuis son en-tête.
 export function GospelNewsList() {
+  const issues = [...gospelNewsIssues].sort((a, b) => b.volume - a.volume);
   return (
-    <div className="mx-auto max-w-6xl px-5 py-4 sm:px-10 sm:py-8">
-      <ul className="grid gap-x-14 lg:grid-cols-2">
-        {gospelNewsArticles.map((article, index) => (
-          <li key={article.slug} className="border-b border-gn-line">
-            <Reveal delay={index * 0.05}>
-              <Link
-                href={`/departements/gospel-news/${article.slug}`}
-                className="flex items-center gap-4 py-4 sm:gap-6 sm:py-5"
+    <div className="mx-auto max-w-6xl px-5 py-8 sm:px-10 sm:py-12">
+      {issues.map((issue) => {
+        const articles = gospelNewsArticles.filter((article) => article.volume === issue.volume);
+        if (articles.length === 0) return null;
+        return (
+          <section key={issue.volume} aria-labelledby={`revue-${issue.volume}`} className="mb-12 last:mb-0">
+            <Reveal className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-gn-gold/60 pb-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wide text-gn-gold-line">Revue</p>
+                <h2 id={`revue-${issue.volume}`} className="mt-1 font-serif text-2xl font-semibold text-gn-ink sm:text-3xl">
+                  Volume {issue.volume}, {issue.date}
+                </h2>
+              </div>
+              <a
+                href={issue.fileUrl}
+                download
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-gn-gold-line px-5 text-sm font-semibold text-gn-gold-dark transition-colors hover:bg-gn-gold hover:text-gn-on-gold"
               >
-                <div className="min-w-0 flex-1">
-                  <h2 className="line-clamp-4 font-serif text-lg font-semibold leading-snug text-gn-ink sm:text-2xl">
-                    {article.title}
-                  </h2>
-                  <p className="mt-2.5 text-xs text-gn-muted-strong">
-                    Vol. {article.volume} · {article.date}
-                    {article.author ? ` · ${article.author}` : ''}
-                  </p>
-                </div>
-                <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black sm:h-28 sm:w-44">
-                  <Image
-                    src={articleThumbnail(article)}
-                    alt=""
-                    fill
-                    sizes="176px"
-                    className="object-cover object-top"
-                  />
-                </div>
-              </Link>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5" aria-hidden="true">
+                  <path d="M12 3v12" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M5 21h14" />
+                </svg>
+                Télécharger la revue (PDF · {issue.size})
+              </a>
             </Reveal>
-          </li>
-        ))}
-      </ul>
+            <ul className="grid gap-x-14 lg:grid-cols-2">
+              {articles.map((article, index) => (
+                <li key={article.slug} className="border-b border-gn-line">
+                  <Reveal delay={(index % 2) * 0.05}>
+                    <Link href={`/departements/gospel-news/${article.slug}`} className="group flex items-center gap-4 py-4 sm:gap-6 sm:py-5">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="line-clamp-4 font-serif text-lg font-semibold leading-snug text-gn-ink transition-colors group-hover:text-gn-gold-dark sm:text-2xl">
+                          {article.title}
+                        </h3>
+                        {article.author && <p className="mt-2.5 text-xs text-gn-muted-strong">Par {article.author}</p>}
+                      </div>
+                      <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black sm:h-28 sm:w-44">
+                        <Image src={articleThumbnail(article)} alt="" fill sizes="176px" className="object-cover object-top" />
+                      </div>
+                    </Link>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
     </div>
   );
 }

@@ -31,9 +31,13 @@ export default async function DepartementDetailPage({ params }: PageProps) {
   if (isGospelNews) {
     return (
       <div className="bg-gn-cream-bg">
-        <PageHero eyebrow="Département" title={dept.name} />
+        <PageHero
+          eyebrow="Département"
+          title={dept.name}
+          subtitle="Le journal de Gospel Nation, publié trois fois par an, en janvier, mai et septembre. Coordonné par Maryse."
+        />
         <GospelNewsList />
-        <div className="mx-auto max-w-3xl px-5 pb-12 sm:px-6">
+        <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-10">
           <Link href="/departements" className="inline-flex min-h-[44px] items-center text-sm text-gn-gold-line hover:underline">
             ← Retour aux départements
           </Link>

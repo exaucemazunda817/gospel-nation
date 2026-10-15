@@ -13,7 +13,7 @@ export default function ConfidentialitePage() {
     <LegalPage
       title="Confidentialité"
       intro="Quelles informations nous recueillons, pourquoi, et comment vous gardez la maîtrise de vos données."
-      updated="21 septembre 2026"
+      updated="15 octobre 2026"
       sections={[
         {
           title: 'Qui est responsable de vos données',
@@ -35,13 +35,16 @@ export default function ConfidentialitePage() {
                 choisissez vous-même si votre anniversaire peut apparaître publiquement.
               </li>
               <li>
-                <strong>Formulaire de contact :</strong> nom, e-mail, sujet et message.
+                <strong>Formulaire de contact :</strong> nom, e-mail, motif (question, demande de prière, rendez-vous,
+                devenir membre ou autre), sujet et message.
               </li>
               <li>
                 <strong>Demande de rendez-vous pastoral :</strong> nom, téléphone, e-mail (facultatif) et motif.
               </li>
               <li>
-                <strong>Témoignage :</strong> nom, texte, lien vidéo éventuel, et votre choix de le publier ou non.
+                <strong>Témoignage :</strong> nom (le prénom seul suffit), texte, lien vidéo éventuel, et votre accord
+                de publication : la case n&apos;est jamais cochée d&apos;avance, et sans elle le témoignage n&apos;est
+                jamais publié.
               </li>
               <li>
                 <strong>Compte visiteur (plan de lecture, offres de services) :</strong> les informations de connexion
@@ -68,7 +71,8 @@ export default function ConfidentialitePage() {
               Votre photo, votre téléphone, votre adresse et votre e-mail ne sont jamais affichés sur le site. Seuls les
               témoignages que vous avez accepté de publier (avec le nom que vous avez saisi) et les offres de services
               validées apparaissent au public. Une offre de service affiche le contact que son auteur a lui-même choisi
-              d&apos;indiquer.
+              d&apos;indiquer. Les communiqués de la page d&apos;accueil sont rédigés par l&apos;église et ne contiennent
+              pas de données sur les visiteurs.
             </p>
           )
         },
@@ -84,7 +88,8 @@ export default function ConfidentialitePage() {
               <p>Pour faire fonctionner le site, nous faisons appel à des prestataires techniques :</p>
               <ul className="list-disc space-y-2 pl-5">
                 <li>
-                  <strong>Vercel</strong> : hébergement du site et stockage privé des photos d&apos;inscription.
+                  <strong>Vercel</strong> : hébergement du site, stockage privé des photos d&apos;inscription et des
+                  affiches des communiqués.
                 </li>
                 <li>
                   <strong>Neon</strong> : base de données où sont enregistrées les informations ci-dessus.

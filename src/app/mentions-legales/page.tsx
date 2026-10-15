@@ -13,7 +13,7 @@ export default function MentionsLegalesPage() {
     <LegalPage
       title="Mentions légales"
       intro="Qui édite ce site, où il est hébergé et à quelles règles il est soumis."
-      updated="21 septembre 2026"
+      updated="15 octobre 2026"
       sections={[
         {
           title: 'Éditeur du site',
@@ -40,8 +40,9 @@ export default function MentionsLegalesPage() {
                 États-Unis.
               </p>
               <p>
-                Les données des membres (base de données) sont conservées chez <strong>Neon</strong>, et les photos
-                d&apos;inscription dans un espace de stockage privé de Vercel. Ces prestataires sont situés hors de la
+                Les données des membres (base de données) sont conservées chez <strong>Neon</strong>. Les photos
+                d&apos;inscription et les affiches des communiqués sont gardées dans un espace de stockage privé de
+                Vercel ; seules les affiches sont ensuite montrées au public, par le site. Ces prestataires sont situés hors de la
                 République démocratique du Congo. Le détail figure dans la{' '}
                 <Link href="/confidentialite" className="text-gn-gold-line underline">politique de confidentialité</Link>.
               </p>
@@ -88,8 +89,8 @@ export default function MentionsLegalesPage() {
           title: 'Dons',
           body: (
             <p>
-              La page « Dons » indique seulement les moyens de faire un don à l&apos;église. Aucun paiement n&apos;est
-              effectué ni enregistré sur ce site.
+              La page « Dons » indique seulement les moyens de faire un don à l&apos;église (Mobile Money, virement),
+              tels que l&apos;église les a renseignés. Aucun paiement n&apos;est effectué ni enregistré sur ce site.
             </p>
           )
         },
