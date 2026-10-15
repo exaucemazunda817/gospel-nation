@@ -344,3 +344,27 @@ model RateLimitAttempt {
   @@index([key, createdAt])
   @@map("rate_limit_attempts")
 }
+
+enum AnnouncementKind {
+  COMMUNIQUE
+  URGENT
+}
+
+/// Communiqué affiché à « la valve » de la page d'accueil : texte, image
+/// (affiche) ou les deux. Disparaît seul après `expiresAt`.
+model Announcement {
+  id          String           @id @default(cuid())
+  title       String
+  body        String?
+  // Affiche : fichier du store Blob privé (ou storage/communiques en local),
+  // relu côté serveur par /communiques/image/[id].
+  imageUrl    String?
+  kind        AnnouncementKind @default(COMMUNIQUE)
+  pinned      Boolean          @default(false)
+  publishedAt DateTime         @default(now())
+  expiresAt   DateTime?
+  createdAt   DateTime         @default(now())
+
+  @@index([pinned, publishedAt])
+  @@map("announcements")
+}

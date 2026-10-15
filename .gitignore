@@ -39,6 +39,7 @@ yarn-error.log*
 
 # photos des membres (données personnelles, jamais versionnées)
 /storage/photos
+/storage/communiques
 
 # exports de données personnelles (ex. liste des membres) — jamais versionnés
 *.xlsx

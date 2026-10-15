@@ -5,6 +5,7 @@ import HeroVideo from '@/components/HeroVideo';
 import AutoScrollBand from '@/components/AutoScrollBand';
 import DepartmentLogo from '@/components/DepartmentLogo';
 import EventsMarquee from '@/components/EventsMarquee';
+import Valve from '@/components/Valve';
 import FeaturedSermon from '@/components/FeaturedSermon';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
@@ -211,6 +212,9 @@ export default async function HomePage() {
         event={upcomingEvent ? { title: upcomingEvent.title, when: upcomingEvent.eventDate ? formatEventDateTime(upcomingEvent.eventDate) : '' } : null}
         departments={departments.map((department) => ({ name: department.name, slug: department.slug, imageUrl: department.imageUrl }))}
       />
+
+      {/* La valve : communiqués et événements à venir (vide = rien d'affiché) */}
+      <Valve />
 
       {/* Vedette : la dernière prédication, puis les deux précédentes */}
       <FeaturedSermon sermons={sermons} />
