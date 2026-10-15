@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
 import { tooLong } from '@/lib/validation';
+import { motifLabel } from '@/lib/contact';
 
 export async function POST(request: NextRequest) {
   if (!(await allowRequest('contact', request, 15, 60 * 60 * 1000))) {
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
   }
-  const { name, email, subject, message } = body;
+  const { name, email, subject, message, motif } = body;
 
   if (typeof name !== 'string' || !name.trim()) {
     return NextResponse.json({ error: 'Le nom est obligatoire.' }, { status: 400 });
@@ -39,7 +40,11 @@ export async function POST(request: NextRequest) {
     data: {
       name: name.trim(),
       email: email.trim().toLowerCase(),
-      subject: typeof subject === 'string' && subject.trim() ? subject.trim() : null,
+      // Motif connu (liste fermée) placé devant le sujet libre : « Demande de prière : … ».
+      subject:
+        [motifLabel(motif), typeof subject === 'string' && subject.trim() ? subject.trim() : null]
+          .filter(Boolean)
+          .join(' : ') || null,
       message: message.trim()
     }
   });
