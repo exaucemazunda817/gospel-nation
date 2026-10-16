@@ -4,7 +4,7 @@ import Reveal from '@/components/Reveal';
 import ValveText from '@/components/ValveText';
 import { getActiveAnnouncements } from '@/lib/announcements';
 import { prisma } from '@/lib/prisma';
-import { formatEventDateTime } from '@/lib/dates';
+import { formatEventWhen } from '@/lib/dates';
 import { fr } from '@/lib/typo';
 
 type Item =
@@ -21,7 +21,11 @@ export default async function Valve() {
   const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   const [announcements, events] = await Promise.all([
     getActiveAnnouncements(MAX_ITEMS),
-    prisma.event.findMany({ where: { eventDate: { gte: startOfToday } }, orderBy: { eventDate: 'asc' }, take: 3 })
+    prisma.event.findMany({
+      where: { OR: [{ eventDate: { gte: startOfToday } }, { endDate: { gte: startOfToday } }] },
+      orderBy: { eventDate: 'asc' },
+      take: 3
+    })
   ]);
 
   const dateLabel = (d: Date) => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', timeZone: 'Africa/Kinshasa' });
@@ -43,7 +47,7 @@ export default async function Valve() {
       type: 'event',
       id: e.id,
       title: e.title.replace(' — ', ' : '),
-      when: e.eventDate ? formatEventDateTime(e.eventDate) : '',
+      when: e.eventDate ? formatEventWhen(e.eventDate, e.endDate) : '',
       poster: e.posterImageUrl
     }))
   ].slice(0, MAX_ITEMS);

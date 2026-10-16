@@ -65,3 +65,39 @@ export function nextWeeklyOccurrence(day: string, time: string, now: Date = new 
 export function formatEventDayLong(date: Date): string {
   return date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: CHURCH_TIME_ZONE });
 }
+
+// Un événement reste « à venir » jusqu'à son dernier jour (date de fin s'il en a une).
+export function eventLastDay(event: { eventDate: Date | null; endDate?: Date | null }): Date | null {
+  return event.endDate ?? event.eventDate;
+}
+
+function sameChurchDay(a: Date, b: Date): boolean {
+  const day = (d: Date) => d.toLocaleDateString('fr-CA', { timeZone: CHURCH_TIME_ZONE });
+  return day(a) === day(b);
+}
+
+// « samedi 26 septembre 2026 à 10h00 », « lundi 19 octobre 2026, de 18h30 à 20h30 »
+// ou, sur plusieurs jours, « du lundi 19 au jeudi 22 octobre 2026, de 18h30 à 20h30 ».
+export function formatEventWhen(start: Date, end?: Date | null): string {
+  if (!end) return formatEventDateTime(start);
+  const startTime = formatEventTime(start);
+  const endTime = formatEventTime(end);
+  const hours = startTime && endTime ? `, de ${startTime} à ${endTime}` : startTime ? ` à ${startTime}` : '';
+  if (sameChurchDay(start, end)) {
+    const day = start.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: CHURCH_TIME_ZONE });
+    return `${day}${hours}`;
+  }
+  const sameMonth =
+    start.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric', timeZone: CHURCH_TIME_ZONE }) ===
+    end.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric', timeZone: CHURCH_TIME_ZONE });
+  const from = start.toLocaleDateString('fr-FR', sameMonth ? { weekday: 'long', day: 'numeric', timeZone: CHURCH_TIME_ZONE } : { weekday: 'long', day: 'numeric', month: 'long', timeZone: CHURCH_TIME_ZONE });
+  const to = end.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: CHURCH_TIME_ZONE });
+  return `du ${from} au ${to}${hours}`;
+}
+
+// Pastille de date : « 26 » ou « 19–22 » si l'événement dure plusieurs jours du même mois.
+export function formatEventDayRange(start: Date, end?: Date | null): string {
+  const first = formatEventDayNumber(start);
+  if (!end || sameChurchDay(start, end)) return first;
+  return `${first}–${formatEventDayNumber(end)}`;
+}

@@ -13,11 +13,12 @@ import { YEARLY_HIGHLIGHTS } from '@/lib/departments';
 import { SITE_URL } from '@/lib/site';
 import { fr } from '@/lib/typo';
 import {
-  formatEventDateTime,
+  eventLastDay,
   formatEventDayLong,
   formatEventDayNumber,
+  formatEventDayRange,
+  formatEventWhen,
   formatEventMonthShort,
-  formatEventTime,
   nextWeeklyOccurrence
 } from '@/lib/dates';
 
@@ -60,8 +61,17 @@ async function EventsContent() {
   // Un événement sans date reste dans les événements à venir.
   const now = new Date();
   const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-  const upcoming = events.filter((event) => !event.eventDate || event.eventDate >= startOfToday);
-  const past = events.filter((event) => event.eventDate && event.eventDate < startOfToday).reverse();
+  // Un événement sur plusieurs soirs reste « à venir » jusqu'à son dernier jour.
+  const upcoming = events.filter((event) => {
+    const last = eventLastDay(event);
+    return !last || last >= startOfToday;
+  });
+  const past = events
+    .filter((event) => {
+      const last = eventLastDay(event);
+      return last && last < startOfToday;
+    })
+    .reverse();
   const [featured, ...rest] = upcoming;
 
   // Prochaine occurrence de chaque culte de la semaine, dans l'ordre du calendrier.
@@ -115,7 +125,7 @@ async function EventsContent() {
                         <polyline points="12 7 12 12 16 14" />
                       </svg>
                       <span className="text-sm text-gn-ink/70">
-                        {formatEventDateTime(new Date(featured.eventDate))}
+                        {formatEventWhen(new Date(featured.eventDate), featured.endDate)}
                       </span>
                     </div>
                   )}
@@ -163,7 +173,7 @@ async function EventsContent() {
                       {event.eventDate ? (
                         <>
                           <span className="font-serif text-2xl font-bold leading-none text-gn-gold">
-                            {formatEventDayNumber(new Date(event.eventDate))}
+                            {formatEventDayRange(new Date(event.eventDate), event.endDate)}
                           </span>
                           <span className="mt-0.5 text-xs font-semibold text-gn-muted">
                             {formatEventMonthShort(new Date(event.eventDate))}
@@ -176,8 +186,8 @@ async function EventsContent() {
                     <div className="flex-1">
                       <p className="mb-1.5 font-serif text-base font-semibold text-gn-ink">{noDash(event.title)}</p>
                       <p className="text-xs text-gn-muted-strong">
-                        {event.eventDate && formatEventTime(new Date(event.eventDate))}
-                        {event.eventDate && formatEventTime(new Date(event.eventDate)) && event.location && ' · '}
+                        {event.eventDate && formatEventWhen(new Date(event.eventDate), event.endDate)}
+                        {event.eventDate && event.location && ' · '}
                         {event.location && noDash(event.location)}
                       </p>
                     </div>
@@ -284,7 +294,7 @@ async function EventsContent() {
                     </div>
                   )}
                   <div className="min-w-0 self-center">
-                    <p className="text-xs font-semibold text-gn-gold-line">{formatEventDateTime(new Date(event.eventDate as Date))}</p>
+                    <p className="text-xs font-semibold text-gn-gold-line">{formatEventWhen(new Date(event.eventDate as Date), event.endDate)}</p>
                     <p className="mt-1 font-serif text-base font-semibold leading-snug text-gn-ink">{fr(noDash(event.title))}</p>
                     {event.description && <p className="mt-1.5 text-sm leading-relaxed text-gn-ink/70">{event.description}</p>}
                     {event.location && <p className="mt-1.5 text-xs text-gn-muted-strong">{noDash(event.location)}</p>}

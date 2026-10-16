@@ -208,6 +208,9 @@ model Event {
   posterImageUrl String
   description    String?
   eventDate      DateTime?
+  // Fin d'un événement sur plusieurs soirs (ex. séminaire du 19 au 22) : il
+  // reste « à venir » jusqu'à ce jour-là, et l'heure de fin vaut pour chaque soir.
+  endDate        DateTime?
   location       String?
   order          Int       @default(0)
 

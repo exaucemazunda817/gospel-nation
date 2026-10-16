@@ -10,7 +10,7 @@ import FeaturedSermon from '@/components/FeaturedSermon';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
 import { departmentSummary } from '@/lib/departments';
-import { formatEventDateTime } from '@/lib/dates';
+import { formatEventWhen } from '@/lib/dates';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -65,7 +65,10 @@ export default async function HomePage() {
     prisma.department.findMany({ orderBy: { order: 'asc' }, take: 6 }),
     prisma.department.count(),
     prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 3 }),
-    prisma.event.findFirst({ where: { eventDate: { gte: startOfToday } }, orderBy: { eventDate: 'asc' } })
+    prisma.event.findFirst({
+      where: { OR: [{ eventDate: { gte: startOfToday } }, { endDate: { gte: startOfToday } }] },
+      orderBy: { eventDate: 'asc' }
+    })
   ]);
 
   // Numéros les plus récents d'abord.
@@ -209,7 +212,7 @@ export default async function HomePage() {
 
       {/* Bande défilante : événement à venir, cultes, services, départements */}
       <EventsMarquee
-        event={upcomingEvent ? { title: upcomingEvent.title, when: upcomingEvent.eventDate ? formatEventDateTime(upcomingEvent.eventDate) : '' } : null}
+        event={upcomingEvent ? { title: upcomingEvent.title, when: upcomingEvent.eventDate ? formatEventWhen(upcomingEvent.eventDate, upcomingEvent.endDate) : '' } : null}
         departments={departments.map((department) => ({ name: department.name, slug: department.slug, imageUrl: department.imageUrl }))}
       />
 

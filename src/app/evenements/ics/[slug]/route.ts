@@ -25,6 +25,19 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
         .toLocaleDateString('fr-CA', { timeZone: CHURCH_TIME_ZONE })
         .replace(/-/g, '')}`;
 
+  // Événement sur plusieurs soirs (ex. du 19 au 22, de 18h30 à 20h30) : un
+  // rendez-vous chaque soir jusqu'au dernier jour, de l'heure de début à l'heure de fin.
+  const timeRule: string[] = [];
+  if (hasTime && event.endDate) {
+    const end = event.endDate;
+    const day = (d: Date) => d.toLocaleDateString('fr-CA', { timeZone: CHURCH_TIME_ZONE });
+    const sameDay = day(end) === day(event.eventDate);
+    const endTimeOfDay = (end.getTime() - Date.parse(`${day(end)}T00:00:00+01:00`)) % 86_400_000;
+    const firstEnd = new Date(Date.parse(`${day(event.eventDate)}T00:00:00+01:00`) + endTimeOfDay);
+    if (firstEnd > event.eventDate) timeRule.push(`DTEND:${utcStamp(firstEnd)}`);
+    if (!sameDay) timeRule.push(`RRULE:FREQ=DAILY;UNTIL=${utcStamp(end)}`);
+  }
+
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -34,6 +47,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
     `UID:${event.id}@gospel-nation`,
     `DTSTAMP:${utcStamp(new Date())}`,
     start,
+    ...timeRule,
     `SUMMARY:${escapeText(event.title.replace(' — ', ' : '))}`,
     ...(event.location ? [`LOCATION:${escapeText(event.location.replace(' — ', ', '))}`] : []),
     ...(event.description ? [`DESCRIPTION:${escapeText(event.description)}`] : []),
