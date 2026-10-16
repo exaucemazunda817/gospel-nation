@@ -61,7 +61,9 @@ export function GospelNewsList() {
                         <path d="m7 10 5 5 5-5" />
                         <path d="M5 21h14" />
                       </svg>
-                      Télécharger <span className="whitespace-nowrap">· {issue.size}</span>
+                      <span>
+                        Télécharger <span className="whitespace-nowrap">· {issue.size}</span>
+                      </span>
                     </a>
                   </div>
                 </div>
