@@ -15,7 +15,7 @@ export default function FeaturedSermon({ sermons }: { sermons: Sermon[] }) {
   const [latest, ...others] = sermons;
 
   return (
-    <section className="relative overflow-hidden bg-gn-black">
+    <section className="relative overflow-hidden border-t border-white/10 bg-gn-black">
       {latest?.coverImageUrl && (
         <div aria-hidden="true" className="gn-ambient pointer-events-none absolute inset-x-0 top-0 h-[460px]">
           <Image src={latest.coverImageUrl} alt="" fill sizes="96px" quality={30} className="object-cover" />

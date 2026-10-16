@@ -83,7 +83,7 @@ export default async function HomePage() {
       href={issue.fileUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="gn-card-lift gn-spot flex h-full w-full items-center gap-5 rounded-lg border border-gn-line bg-white p-4"
+      className="group flex h-full w-full items-center gap-5 rounded-lg border border-white/12 p-4 transition-colors hover:border-gn-gold"
     >
       <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
         <Image
@@ -100,10 +100,10 @@ export default async function HomePage() {
             Dernière parution
           </span>
         )}
-        <p className="mb-1.5 font-serif text-lg font-semibold text-gn-ink">
+        <p className="mb-1.5 font-serif text-lg font-semibold text-gn-cream">
           Gospel News, volume {issue.volume}
         </p>
-        <p className="text-xs text-gn-muted-strong">{issue.date}, télécharger le PDF</p>
+        <p className="text-xs text-gn-muted">{issue.date}, télécharger le PDF</p>
       </div>
     </a>
   );
@@ -224,25 +224,25 @@ export default async function HomePage() {
 
       {/* Dernières parutions (revues Gospel News) */}
       {issues.length > 0 && (
-        <section className="bg-gn-cream-bg">
+        <section className="border-t border-white/10 bg-gn-black">
           <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
-            <Reveal className="mb-4 flex flex-wrap items-end justify-between gap-x-4 gap-y-0 sm:mb-6">
+            <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-1 sm:mb-8">
               <div>
-                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
-                <p className="mt-2 max-w-measure text-sm text-gn-muted-strong">
+                <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernières parutions</h2>
+                <p className="mt-2 max-w-measure text-sm text-gn-cream/75">
                   {issues.length} revue{issues.length > 1 ? 's' : ''} Gospel News à télécharger, la plus récente date du {issues[0].date}.
                 </p>
               </div>
               <Link
                 href="/departements/gospel-news"
-                className="-mb-2 -mt-2 inline-flex min-h-[44px] items-center sm:m-0 text-sm font-semibold text-gn-gold-line hover:underline"
+                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold hover:underline"
               >
                 Voir tous les articles
               </Link>
             </Reveal>
             {/* Téléphone : bande qui défile ; dès sm : grille de deux colonnes */}
             <div className="-mx-5 sm:hidden">
-              <AutoScrollBand label="Dernières parutions">
+              <AutoScrollBand label="Dernières parutions" fade={false}>
                 {issues.map((issue, index) => (
                   <div key={issue.fileUrl} className="flex w-[86vw] shrink-0">
                     {issueCard(issue, index)}
@@ -262,7 +262,7 @@ export default async function HomePage() {
       )}
 
       {/* Nos départements */}
-      <section className="bg-white">
+      <section className="overflow-x-clip bg-white">
         <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
           <Reveal className="mb-6 max-w-lg sm:mb-7">
             <h2 className="mb-3 font-serif text-3xl font-semibold text-gn-ink">Nos départements</h2>
@@ -270,8 +270,10 @@ export default async function HomePage() {
               {departmentCount} équipes à rejoindre pour servir selon vos dons, au sein de l&apos;église.
             </p>
           </Reveal>
-          <div className="-mx-5 sm:-mx-10">
-            <AutoScrollBand label="Nos départements">
+          {/* Bande sur toute la largeur de l'écran : les cartes entrent et sortent par
+              les bords de l'écran, sans voile ni coupure au bord du contenu. */}
+          <div className="mx-[calc(50%-50vw)]">
+            <AutoScrollBand label="Nos départements" fade={false}>
               {departments.map((dept) => (
                 <div key={dept.slug} className="flex w-[78vw] max-w-[340px] shrink-0 sm:w-[320px]">
                   {departmentCard(dept)}
