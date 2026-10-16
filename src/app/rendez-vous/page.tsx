@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { church } from '@/lib/content';
 import AppointmentForm from './AppointmentForm';
+import HeroBackground from '@/components/HeroBackground';
 import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
@@ -37,11 +37,11 @@ const infoItems = [
 export default function RendezVousPage() {
   return (
     <div className="bg-gn-black">
-      <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/rendez-vous.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
+      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
+        <HeroBackground first="/hero/rendez-vous.jpg" position="object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Prendre rendez-vous</span>
           </p>

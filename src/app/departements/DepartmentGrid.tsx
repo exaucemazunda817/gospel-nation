@@ -56,6 +56,7 @@ export default function DepartmentGrid({ departments, families }: { departments:
       <p className="mt-5 text-sm text-gn-muted-strong" role="status" aria-live="polite">
         {visible.length} département{visible.length > 1 ? 's' : ''}
         {family !== 'Tous' ? ` dans « ${family} »` : ''}
+        {visible.length > 1 && <span className="sm:hidden"> · faites glisser pour les voir</span>}
       </p>
 
       <motion.ul
@@ -63,10 +64,12 @@ export default function DepartmentGrid({ departments, families }: { departments:
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        // Téléphone : une rangée à faire glisser du doigt (défilement natif, sans
+        // détourner le défilement vertical) ; dès 640 px, la grille habituelle.
+        className="gn-scroll-x -mx-5 mt-6 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
       >
         {visible.map((dept) => (
-          <li key={dept.slug}>
+          <li key={dept.slug} className="w-[78vw] max-w-[300px] shrink-0 snap-start sm:w-auto sm:max-w-none">
             <Link
               href={`/departements/${dept.slug}`}
               className="gn-card-lift gn-spot group flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white"

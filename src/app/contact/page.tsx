@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { church } from '@/lib/content';
 import ContactForm from './ContactForm';
+import HeroBackground from '@/components/HeroBackground';
 import Reveal from '@/components/Reveal';
 import ContactShortcut from '@/components/ContactShortcut';
 import { formatEventDayLong } from '@/lib/dates';
@@ -57,11 +57,11 @@ export default function ContactPage() {
 
   return (
     <div className="bg-gn-black">
-      <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/contact.jpg" alt="" fill sizes="100vw" className="gn-kenburns object-cover object-top" />
+      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
+        <HeroBackground first="/hero/contact.jpg" position="object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Contact</span>
           </p>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-semibold text-gn-muted">{item.label}</p>
-                  <p className="font-serif text-base font-semibold text-gn-cream">{item.value}</p>
+                  <p className="font-serif text-base font-semibold text-gn-cream [overflow-wrap:anywhere]">{item.value}</p>
                 </div>
               </div>
             ))}

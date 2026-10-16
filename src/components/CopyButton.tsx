@@ -5,7 +5,7 @@ import { useState } from 'react';
 // Copie un texte dans le presse-papiers (numéro de compte, par exemple). Repli
 // par un champ temporaire quand l'API moderne est indisponible (page non
 // sécurisée, vieux navigateur).
-export default function CopyButton({ text, label = 'Copier' }: { text: string; label?: string }) {
+export default function CopyButton({ text, label = 'Copier', tone = 'light' }: { text: string; label?: string; tone?: 'light' | 'dark' }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -33,7 +33,9 @@ export default function CopyButton({ text, label = 'Copier' }: { text: string; l
     <button
       type="button"
       onClick={copy}
-      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-gn-gold-line/60 px-4 text-sm font-semibold text-gn-gold-dark transition-colors hover:border-gn-gold hover:bg-gn-gold/10"
+      className={`inline-flex min-h-[44px] items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors hover:border-gn-gold hover:bg-gn-gold/10 ${
+        tone === 'dark' ? 'border-gn-gold/50 text-gn-gold' : 'border-gn-gold-line/60 text-gn-gold-dark'
+      }`}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         {copied ? <polyline points="20 6 9 17 4 12" /> : (

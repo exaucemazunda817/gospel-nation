@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import EmptyState from '@/components/EmptyState';
+import HeroBackground from '@/components/HeroBackground';
 import Reveal from '@/components/Reveal';
 import { prisma } from '@/lib/prisma';
 import { BackStrip } from '@/components/BackLink';
@@ -29,11 +29,11 @@ export default async function DonsPage() {
 
   return (
     <div className="bg-gn-cream-bg">
-      <section className="relative h-[240px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[300px]">
-        <Image src="/hero/dons.jpg" alt="" fill className="gn-kenburns object-cover object-top" />
+      <section data-page-hero className="relative h-[340px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[410px]">
+        <HeroBackground first="/hero/dons.jpg" position="object-top" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Dons</span>
           </p>

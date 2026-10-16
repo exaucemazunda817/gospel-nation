@@ -66,13 +66,15 @@ export default function LibraryGrid({ items }: { items: LibraryItem[] }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
       >
         {visible.map((item) => {
           const cover = (
-            <div className="relative h-56 w-full bg-gn-cream-bg px-6 pt-6">
+            // Téléphone : couverture en vignette à gauche (liste compacte) ; dès 640 px,
+            // couverture en grand au-dessus de la carte.
+            <div className="relative w-24 shrink-0 bg-gn-cream-bg p-3 sm:h-56 sm:w-full sm:px-6 sm:pb-0 sm:pt-6">
               {item.cover ? (
-                <div className="relative h-full w-full">
+                <div className="relative aspect-[3/4] w-full sm:aspect-auto sm:h-full">
                   <Image
                     src={item.cover}
                     alt={`Couverture : ${item.title}`}
@@ -82,7 +84,7 @@ export default function LibraryGrid({ items }: { items: LibraryItem[] }) {
                   />
                 </div>
               ) : (
-                <div className="flex h-full items-center justify-center">
+                <div className="flex aspect-[3/4] items-center justify-center sm:aspect-auto sm:h-full">
                   <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-gn-black">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" />
@@ -94,18 +96,18 @@ export default function LibraryGrid({ items }: { items: LibraryItem[] }) {
             </div>
           );
           const text = (
-            <div className="flex flex-1 flex-col p-6">
+            <div className="flex min-w-0 flex-1 flex-col p-3 pl-1 sm:p-6">
               {item.category && (
-                <span className="w-fit rounded-full bg-gn-gold/10 px-3 py-1 text-xs font-semibold text-gn-gold-line">{item.category}</span>
+                <span className="w-fit rounded-full bg-gn-gold/10 px-2.5 py-0.5 text-xs font-semibold text-gn-gold-line sm:px-3 sm:py-1">{item.category}</span>
               )}
-              <h2 className="mt-3 font-serif text-lg font-semibold leading-snug text-gn-ink">{fr(item.title)}</h2>
-              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gn-ink/70">{item.excerpt}</p>
+              <h2 className="mt-1.5 line-clamp-3 font-serif text-base font-semibold leading-snug text-gn-ink sm:mt-3 sm:line-clamp-none sm:text-lg">{fr(item.title)}</h2>
+              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gn-ink/70 max-sm:hidden">{item.excerpt}</p>
               {item.documentUrl ? (
-                <div className="mt-auto pt-5">
+                <div className="mt-auto pt-2 sm:pt-5">
                 <a
                   href={item.documentUrl}
                   download
-                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-gn-gold-line px-4 text-sm font-semibold text-gn-gold-dark transition-colors hover:bg-gn-gold hover:text-gn-on-gold"
+                  className="inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold-dark sm:flex sm:justify-center sm:rounded-full sm:border sm:border-gn-gold-line sm:px-4 sm:transition-colors sm:hover:bg-gn-gold sm:hover:text-gn-on-gold"
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5" aria-hidden="true">
                     <path d="M12 3v12" />
@@ -123,12 +125,12 @@ export default function LibraryGrid({ items }: { items: LibraryItem[] }) {
           return (
             <li key={item.id}>
               {item.documentUrl ? (
-                <div className="gn-card-lift flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white">
+                <div className="gn-card-lift flex h-full overflow-hidden rounded-lg border border-gn-line bg-white sm:flex-col">
                   {cover}
                   {text}
                 </div>
               ) : (
-                <Link href={`/blog/${item.slug}`} className="gn-card-lift gn-spot flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white">
+                <Link href={`/blog/${item.slug}`} className="gn-card-lift gn-spot flex h-full overflow-hidden rounded-lg border border-gn-line bg-white sm:flex-col">
                   {cover}
                   {text}
                 </Link>

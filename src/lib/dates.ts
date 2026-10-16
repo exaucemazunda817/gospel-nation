@@ -101,3 +101,36 @@ export function formatEventDayRange(start: Date, end?: Date | null): string {
   if (!end || sameChurchDay(start, end)) return first;
   return `${first}–${formatEventDayNumber(end)}`;
 }
+
+// Lien « Ajouter à Google Agenda » : ouvre Google Agenda avec l'événement déjà
+// rempli (rien à télécharger). Un événement sur plusieurs soirs devient un
+// rendez-vous répété chaque soir jusqu'au dernier jour.
+export function googleCalendarUrl(event: {
+  title: string;
+  eventDate: Date;
+  endDate?: Date | null;
+  location?: string | null;
+  description?: string | null;
+}): string {
+  const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const start = event.eventDate;
+  const dayOf = (d: Date) => d.toLocaleDateString('fr-CA', { timeZone: CHURCH_TIME_ZONE });
+  let end = new Date(start.getTime() + 2 * 3600_000);
+  let recur: string | null = null;
+  if (event.endDate) {
+    const endTimeOfDay = (event.endDate.getTime() - Date.parse(`${dayOf(event.endDate)}T00:00:00+01:00`)) % 86_400_000;
+    const firstEnd = new Date(Date.parse(`${dayOf(start)}T00:00:00+01:00`) + endTimeOfDay);
+    if (firstEnd > start) end = firstEnd;
+    if (dayOf(event.endDate) !== dayOf(start)) recur = `RRULE:FREQ=DAILY;UNTIL=${stamp(event.endDate)}`;
+  }
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.title,
+    dates: `${stamp(start)}/${stamp(end)}`,
+    ctz: CHURCH_TIME_ZONE,
+    ...(event.location ? { location: event.location } : {}),
+    ...(event.description ? { details: event.description } : {})
+  });
+  if (recur) params.set('recur', recur);
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}

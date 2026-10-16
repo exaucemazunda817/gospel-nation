@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import ValveText from '@/components/ValveText';
+import AddToCalendar from '@/components/AddToCalendar';
 import { getActiveAnnouncements } from '@/lib/announcements';
 import { prisma } from '@/lib/prisma';
 import { formatEventWhen } from '@/lib/dates';
@@ -27,6 +28,9 @@ type Item =
       image: string;
       when: string;
       hasDate: boolean;
+      eventDate: Date | null;
+      endDate: Date | null;
+      location: string | null;
     };
 
 const MAX_ITEMS = 5;
@@ -78,7 +82,10 @@ export default async function Valve() {
       body: e.description,
       image: e.posterImageUrl,
       when: e.eventDate ? formatEventWhen(e.eventDate, e.endDate) : '',
-      hasDate: Boolean(e.eventDate)
+      hasDate: Boolean(e.eventDate),
+      eventDate: e.eventDate,
+      endDate: e.endDate,
+      location: e.location
     }))
   ].slice(0, MAX_ITEMS);
 
@@ -150,18 +157,15 @@ export default async function Valve() {
                   >
                     Voir l&apos;événement
                   </Link>
-                  {main.hasDate && (
-                    <a
-                      href={`/evenements/ics/${main.slug}`}
-                      download
-                      className="inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold-dark hover:underline"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <rect x="3" y="5" width="18" height="16" rx="2" />
-                        <path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5" />
-                      </svg>
-                      Ajouter à mon calendrier
-                    </a>
+                  {main.hasDate && main.eventDate && (
+                    <AddToCalendar
+                      slug={main.slug}
+                      title={main.title}
+                      eventDate={main.eventDate}
+                      endDate={main.endDate}
+                      location={main.location}
+                      description={main.body}
+                    />
                   )}
                 </div>
               )}

@@ -38,7 +38,9 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     // Miniatures des prédications : hébergées par YouTube, à autoriser
     // explicitement pour qu'elles passent par l'optimisation d'images de Next.
-    remotePatterns: [{ protocol: 'https', hostname: 'img.youtube.com' }]
+    remotePatterns: [{ protocol: 'https', hostname: 'img.youtube.com' }],
+    // Qualités utilisées par les composants (lueurs floues à 30, fond de la valve à 70).
+    qualities: [30, 45, 60, 70, 75]
   }
 };
 

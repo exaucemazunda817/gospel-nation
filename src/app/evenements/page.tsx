@@ -3,10 +3,12 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import EmptyState from '@/components/EmptyState';
+import HeroBackground from '@/components/HeroBackground';
 import Reveal from '@/components/Reveal';
 import ShareButtons from '@/components/ShareButtons';
 import Skeleton from '@/components/Skeleton';
 import DepartmentLogo from '@/components/DepartmentLogo';
+import AddToCalendar from '@/components/AddToCalendar';
 import { prisma } from '@/lib/prisma';
 import { church } from '@/lib/content';
 import { YEARLY_HIGHLIGHTS } from '@/lib/departments';
@@ -142,17 +144,14 @@ async function EventsContent() {
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                   <ShareButtons title={featured.title} path="/evenements" fallbackUrl={`${SITE_URL}/evenements`} tone="light" />
                   {featured.eventDate && (
-                    <a
-                      href={`/evenements/ics/${featured.slug}`}
-                      download
-                      className="inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold-dark hover:underline"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <rect x="3" y="5" width="18" height="16" rx="2" />
-                        <path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5" />
-                      </svg>
-                      Ajouter à mon calendrier
-                    </a>
+                    <AddToCalendar
+                      slug={featured.slug}
+                      title={noDash(featured.title)}
+                      eventDate={featured.eventDate}
+                      endDate={featured.endDate}
+                      location={featured.location}
+                      description={featured.description}
+                    />
                   )}
                 </div>
               </div>
@@ -192,13 +191,15 @@ async function EventsContent() {
                       </p>
                     </div>
                     {event.eventDate && (
-                      <a
-                        href={`/evenements/ics/${event.slug}`}
-                        download
-                        className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-dark hover:underline"
-                      >
-                        Ajouter à mon calendrier
-                      </a>
+                      <AddToCalendar
+                        slug={event.slug}
+                        title={noDash(event.title)}
+                        eventDate={event.eventDate}
+                        endDate={event.endDate}
+                        location={event.location}
+                        description={event.description}
+                        compact
+                      />
                     )}
                   </div>
                 </Reveal>
@@ -242,11 +243,12 @@ async function EventsContent() {
             <h2 className="mb-2 font-serif text-2xl font-semibold text-gn-ink">Les temps forts de l&apos;année</h2>
             <p className="mb-8 max-w-measure text-sm text-gn-muted-strong">
               Des rendez-vous qui reviennent chaque année dans nos départements. Les dates sont annoncées ici dès qu&apos;elles sont fixées.
+              <span className="sm:hidden"> Faites glisser pour les voir.</span>
             </p>
           </Reveal>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="gn-scroll-x -mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
             {YEARLY_HIGHLIGHTS.map((item, index) => (
-              <li key={item.name}>
+              <li key={item.name} className="w-[72vw] max-w-[280px] shrink-0 snap-start sm:w-auto sm:max-w-none">
                 <Reveal className="h-full" delay={(index % 4) * 0.05}>
                   <Link
                     href={`/departements/${item.slug}`}
@@ -312,11 +314,11 @@ async function EventsContent() {
 export default function EvenementsPage() {
   return (
     <div className="bg-gn-cream-bg">
-      <section className="relative h-[220px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[260px]">
-        <Image src="/hero/evenements-v2.jpg" alt="" fill sizes="100vw" className="gn-kenburns object-cover object-[center_90%]" />
+      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
+        <HeroBackground first="/hero/evenements-v2.jpg" position="object-[center_90%]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
         <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 sm:px-10">
+        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
           <p className="mb-1 text-xs text-gn-cream/80">
             <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Événements</span>
           </p>

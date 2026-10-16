@@ -6,6 +6,8 @@ import AutoScrollBand from '@/components/AutoScrollBand';
 import DepartmentLogo from '@/components/DepartmentLogo';
 import EventsMarquee from '@/components/EventsMarquee';
 import Valve from '@/components/Valve';
+import { LivePlayer, LiveStrip } from '@/components/LiveSection';
+import { getLiveStatus } from '@/lib/youtube-live';
 import FeaturedSermon from '@/components/FeaturedSermon';
 import { church, gospelNewsIssues } from '@/lib/content';
 import { prisma } from '@/lib/prisma';
@@ -61,14 +63,15 @@ export default async function HomePage() {
   const now = new Date();
   const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 
-  const [departments, departmentCount, recentSermons, upcomingEvent] = await Promise.all([
+  const [departments, departmentCount, recentSermons, upcomingEvent, live] = await Promise.all([
     prisma.department.findMany({ orderBy: { order: 'asc' }, take: 6 }),
     prisma.department.count(),
     prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 12 }),
     prisma.event.findFirst({
       where: { OR: [{ eventDate: { gte: startOfToday } }, { endDate: { gte: startOfToday } }] },
       orderBy: { eventDate: 'asc' }
-    })
+    }),
+    getLiveStatus()
   ]);
 
   // « Dernière prédication » : le message du dernier culte du dimanche, même si un
@@ -215,7 +218,12 @@ export default async function HomePage() {
             Itinéraire
           </a>
         </Reveal>
+        {/* Direct des cultes sur YouTube : lien à ouvrir ou à copier */}
+        <LiveStrip live={live} />
       </section>
+
+      {/* Lecteur du direct, seulement pendant un culte diffusé */}
+      <LivePlayer live={live} />
 
       {/* Bande défilante : événement à venir, cultes, services, départements */}
       <EventsMarquee
