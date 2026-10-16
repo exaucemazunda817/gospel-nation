@@ -86,26 +86,34 @@ export default async function Valve() {
   const [main, ...others] = items;
 
   return (
-    <section aria-labelledby="valve-titre" className="relative overflow-hidden bg-gn-cream">
-      {/* Fond beige, avec une photo de l'assemblée à peine visible derrière un voile
-          beige : de la matière sans gêner la lecture, en harmonie avec les parutions. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <Image src="/hero/eglise.jpg" alt="" fill sizes="100vw" quality={45} className="object-cover object-center grayscale" />
-        <div className="absolute inset-0 bg-gradient-to-b from-gn-cream/[0.98] from-20% via-gn-cream/[0.9] via-45% to-gn-cream/[0.88]" />
+    <section aria-labelledby="valve-titre" className="relative overflow-hidden bg-gn-black">
+      {/* Bandeau photo « cinéma » : un dégradé noir en haut porte le titre, puis la
+          photo de l'assemblée se découvre nette et chaude vers le bas. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gn-black">
+        <Image
+          src="/hero/eglise.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          quality={70}
+          className="object-cover object-center [filter:contrast(1.08)_saturate(1.1)_sepia(0.12)]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-gn-black from-[110px] via-gn-black/55 via-[300px] to-transparent to-[70%] max-md:from-[190px] max-md:via-[380px]" />
+        <div className="absolute inset-0 [background:radial-gradient(120%_90%_at_50%_60%,transparent_55%,rgb(0_0_0/0.35)_100%)]" />
       </div>
       <div className="relative mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
         <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-1 sm:mb-8">
           <div>
-            <h2 id="valve-titre" className="font-serif text-3xl font-semibold text-gn-ink">À la valve</h2>
-            <p className="mt-2 max-w-measure text-sm text-gn-ink/75">Les communiqués et les événements à venir de l&apos;église.</p>
+            <h2 id="valve-titre" className="font-serif text-3xl font-semibold text-gn-cream">À la valve</h2>
+            <p className="mt-2 max-w-measure text-sm text-gn-cream/80">Les communiqués et les événements à venir de l&apos;église.</p>
           </div>
-          <Link href="/evenements" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline">
+          <Link href="/evenements" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold hover:underline">
             Voir tous les événements
           </Link>
         </Reveal>
 
         <Reveal delay={0.05}>
-          <article className={`gn-spot grid items-center gap-6 rounded-lg border border-gn-line bg-white p-5 sm:p-6 md:gap-10 ${main.image ? 'md:grid-cols-[minmax(0,280px)_1fr]' : ''}`}>
+          <article className={`gn-spot grid items-center gap-6 rounded-lg border border-white/60 bg-white p-5 shadow-2xl shadow-black/30 sm:p-6 md:gap-10 ${main.image ? 'md:grid-cols-[minmax(0,280px)_1fr]' : ''}`}>
             {main.image && (
               <a
                 href={main.type === 'event' ? '/evenements' : main.image}
