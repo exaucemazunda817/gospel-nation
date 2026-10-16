@@ -15,7 +15,7 @@ export default function FeaturedSermon({ sermons }: { sermons: Sermon[] }) {
   const [latest, ...others] = sermons;
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-gn-black">
+    <section className="relative overflow-hidden bg-gn-black">
       {latest?.coverImageUrl && (
         <div aria-hidden="true" className="gn-ambient pointer-events-none absolute inset-x-0 top-0 h-[460px]">
           <Image src={latest.coverImageUrl} alt="" fill sizes="96px" quality={30} className="object-cover" />
@@ -44,7 +44,7 @@ export default function FeaturedSermon({ sermons }: { sermons: Sermon[] }) {
                 <Link
                   href={`/predications/${latest.id}`}
                   aria-label={`Écouter : ${latest.title}`}
-                  className="group relative block aspect-video overflow-hidden rounded-lg bg-gn-black-soft"
+                  className="gn-spot gn-spot-strong group relative block aspect-video overflow-hidden rounded-lg bg-gn-black-soft"
                 >
                   {latest.coverImageUrl && (
                     <SermonCover src={latest.coverImageUrl} priority sizes="(max-width: 1024px) 100vw, 60vw" />
@@ -95,7 +95,7 @@ export default function FeaturedSermon({ sermons }: { sermons: Sermon[] }) {
                   <Reveal key={sermon.id} delay={0.06 + index * 0.06}>
                     <Link
                       href={`/predications/${sermon.id}`}
-                      className="group flex items-center gap-4 rounded-lg border border-white/12 p-3 transition-colors hover:border-gn-gold"
+                      className="gn-spot gn-spot-strong group flex items-center gap-4 rounded-lg border border-white/12 p-3 transition-colors hover:border-gn-gold"
                     >
                       <div className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft sm:w-32">
                         {sermon.coverImageUrl && (

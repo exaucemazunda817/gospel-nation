@@ -449,6 +449,15 @@ body:has([data-home-hero]) > header {
   }
 }
 
+/* Sur fond sombre, la lumière orange est plus marquée pour rester visible. */
+.gn-spot-strong::before {
+  background: radial-gradient(
+    380px circle at var(--gn-mx, 50%) var(--gn-my, 50%),
+    color-mix(in srgb, var(--gn-gold) 34%, transparent),
+    transparent 60%
+  );
+}
+
 /* Photo qui zoome légèrement au survol, avec un reflet lumineux qui la balaie. */
 /* Pas de `position` ici : une règle hors couche écraserait les classes Tailwind
    (relative / absolute) posées sur l'élément. Le parent doit être positionné. */

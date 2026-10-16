@@ -36,7 +36,7 @@ const badgeClass = (item: Item) =>
     ? 'bg-gn-gold text-gn-on-gold'
     : item.urgent
       ? 'bg-red-600 text-white'
-      : 'bg-gn-cream text-gn-black';
+      : 'bg-gn-black text-gn-gold';
 const badgeLabel = (item: Item) => (item.type === 'event' ? 'Événement' : item.urgent ? 'Urgent' : 'Communiqué');
 
 // « La valve » : le tableau d'affichage de l'accueil, dans le même langage que
@@ -86,26 +86,32 @@ export default async function Valve() {
   const [main, ...others] = items;
 
   return (
-    <section aria-labelledby="valve-titre" className="bg-gn-black">
-      <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
+    <section aria-labelledby="valve-titre" className="relative overflow-hidden bg-gn-cream">
+      {/* Fond beige, avec une photo de l'assemblée à peine visible derrière un voile
+          beige : de la matière sans gêner la lecture, en harmonie avec les parutions. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <Image src="/hero/eglise.jpg" alt="" fill sizes="100vw" quality={45} className="object-cover object-center grayscale" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gn-cream/[0.98] from-20% via-gn-cream/[0.9] via-45% to-gn-cream/[0.88]" />
+      </div>
+      <div className="relative mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
         <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-1 sm:mb-8">
           <div>
-            <h2 id="valve-titre" className="font-serif text-3xl font-semibold text-gn-cream">À la valve</h2>
-            <p className="mt-2 max-w-measure text-sm text-gn-cream/75">Les communiqués et les événements à venir de l&apos;église.</p>
+            <h2 id="valve-titre" className="font-serif text-3xl font-semibold text-gn-ink">À la valve</h2>
+            <p className="mt-2 max-w-measure text-sm text-gn-ink/75">Les communiqués et les événements à venir de l&apos;église.</p>
           </div>
-          <Link href="/evenements" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold hover:underline">
+          <Link href="/evenements" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-line hover:underline">
             Voir tous les événements
           </Link>
         </Reveal>
 
         <Reveal delay={0.05}>
-          <article className={`grid items-center gap-6 md:gap-10 ${main.image ? 'md:grid-cols-[minmax(0,300px)_1fr]' : ''}`}>
+          <article className={`gn-spot grid items-center gap-6 rounded-lg border border-gn-line bg-white p-5 sm:p-6 md:gap-10 ${main.image ? 'md:grid-cols-[minmax(0,280px)_1fr]' : ''}`}>
             {main.image && (
               <a
                 href={main.type === 'event' ? '/evenements' : main.image}
                 {...(main.type === 'event' ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
                 aria-label={main.type === 'event' ? `Voir l'événement : ${main.title}` : `Voir l'affiche en grand : ${main.title}`}
-                className="group relative mx-auto block aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-lg bg-gn-black-soft shadow-2xl shadow-black/50 md:max-w-none"
+                className="group relative mx-auto block aspect-[4/5] w-full max-w-[240px] overflow-hidden rounded-lg bg-gn-black-soft shadow-xl shadow-black/20 md:max-w-none"
               >
                 <Image
                   src={main.image}
@@ -117,15 +123,15 @@ export default async function Valve() {
               </a>
             )}
             <div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-gn-cream/80">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-gn-ink/70">
                 <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${badgeClass(main)}`}>{badgeLabel(main)}</span>
-                {main.type === 'announcement' && main.pinned && <span className="text-xs font-semibold text-gn-gold">Épinglé</span>}
+                {main.type === 'announcement' && main.pinned && <span className="text-xs font-semibold text-gn-gold-dark">Épinglé</span>}
                 {main.when && <span>{main.when}</span>}
               </div>
-              <h3 className="mt-3 font-serif text-3xl font-semibold leading-tight text-gn-cream sm:text-4xl">{fr(main.title)}</h3>
+              <h3 className="mt-3 font-serif text-3xl font-semibold leading-tight text-gn-ink sm:text-4xl">{fr(main.title)}</h3>
               {main.body && (
                 <div className="mt-4 max-w-measure">
-                  <ValveText text={main.body} tone="dark" />
+                  <ValveText text={main.body} />
                 </div>
               )}
               {main.type === 'event' && (
@@ -140,7 +146,7 @@ export default async function Valve() {
                     <a
                       href={`/evenements/ics/${main.slug}`}
                       download
-                      className="inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold hover:underline"
+                      className="inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-gn-gold-dark hover:underline"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <rect x="3" y="5" width="18" height="16" rx="2" />
@@ -162,8 +168,8 @@ export default async function Valve() {
                 <Reveal className="h-full" delay={0.06 + index * 0.06}>
                   {item.type === 'announcement' && !item.image ? (
                     // Communiqué sans affiche : son texte se lit sur place.
-                    <div className="flex h-full gap-4 rounded-lg border border-white/12 p-4">
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gn-black-soft text-gn-gold" aria-hidden="true">
+                    <div className="gn-spot flex h-full gap-4 rounded-lg border border-gn-line bg-white p-4">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gn-black text-gn-gold" aria-hidden="true">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z" />
                           <path d="M16 8a5 5 0 0 1 0 8M19 5a9 9 0 0 1 0 14" />
@@ -171,11 +177,11 @@ export default async function Valve() {
                       </span>
                       <div className="min-w-0">
                         <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide ${badgeClass(item)}`}>{badgeLabel(item)}</span>
-                        <p className="mt-1.5 font-serif text-base font-semibold leading-snug text-gn-cream">{fr(item.title)}</p>
-                        <p className="mt-1 text-xs text-gn-muted">{item.when}</p>
+                        <p className="mt-1.5 font-serif text-base font-semibold leading-snug text-gn-ink">{fr(item.title)}</p>
+                        <p className="mt-1 text-xs text-gn-muted-strong">{item.when}</p>
                         {item.body && (
                           <div className="mt-2">
-                            <ValveText text={item.body} tone="dark" />
+                            <ValveText text={item.body} />
                           </div>
                         )}
                       </div>
@@ -184,15 +190,15 @@ export default async function Valve() {
                     <a
                       href={item.type === 'event' ? '/evenements' : (item.image as string)}
                       {...(item.type === 'announcement' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex h-full items-center gap-4 rounded-lg border border-white/12 p-3 transition-colors hover:border-gn-gold"
+                      className="gn-spot group flex h-full items-center gap-4 rounded-lg border border-gn-line bg-white p-3 transition-colors hover:border-gn-gold"
                     >
                       <div className="relative aspect-[4/5] w-20 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
                         <Image src={item.image as string} alt="" fill sizes="80px" className="object-cover" />
                       </div>
                       <div className="min-w-0">
                         <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide ${badgeClass(item)}`}>{badgeLabel(item)}</span>
-                        <p className="mt-1.5 line-clamp-2 font-serif text-base font-semibold leading-snug text-gn-cream">{fr(item.title)}</p>
-                        {item.when && <p className="mt-1 text-xs text-gn-muted">{item.when}</p>}
+                        <p className="mt-1.5 line-clamp-2 font-serif text-base font-semibold leading-snug text-gn-ink">{fr(item.title)}</p>
+                        {item.when && <p className="mt-1 text-xs text-gn-muted-strong">{item.when}</p>}
                       </div>
                     </a>
                   )}

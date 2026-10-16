@@ -61,15 +61,22 @@ export default async function HomePage() {
   const now = new Date();
   const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 
-  const [departments, departmentCount, sermons, upcomingEvent] = await Promise.all([
+  const [departments, departmentCount, recentSermons, upcomingEvent] = await Promise.all([
     prisma.department.findMany({ orderBy: { order: 'asc' }, take: 6 }),
     prisma.department.count(),
-    prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 3 }),
+    prisma.sermon.findMany({ orderBy: { date: 'desc' }, take: 12 }),
     prisma.event.findFirst({
       where: { OR: [{ eventDate: { gte: startOfToday } }, { endDate: { gte: startOfToday } }] },
       orderBy: { eventDate: 'asc' }
     })
   ]);
+
+  // « Dernière prédication » : le message du dernier culte du dimanche, même si un
+  // culte de semaine a été publié depuis ; puis les deux prédications les plus
+  // récentes parmi les autres.
+  const isSunday = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'Africa/Kinshasa' }) === 'Sun';
+  const sundaySermon = recentSermons.find((s) => isSunday(new Date(s.date))) ?? recentSermons[0];
+  const sermons = sundaySermon ? [sundaySermon, ...recentSermons.filter((s) => s.id !== sundaySermon.id).slice(0, 2)] : [];
 
   // Numéros les plus récents d'abord.
   const issues = [...gospelNewsIssues].sort((a, b) => b.volume - a.volume);
@@ -83,7 +90,7 @@ export default async function HomePage() {
       href={issue.fileUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex h-full w-full items-center gap-5 rounded-lg border border-white/12 p-4 transition-colors hover:border-gn-gold"
+      className="gn-spot group flex h-full w-full items-center gap-5 rounded-lg border border-gn-line bg-white p-4 transition-colors hover:border-gn-gold"
     >
       <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black-soft">
         <Image
@@ -100,10 +107,10 @@ export default async function HomePage() {
             Dernière parution
           </span>
         )}
-        <p className="mb-1.5 font-serif text-lg font-semibold text-gn-cream">
+        <p className="mb-1.5 font-serif text-lg font-semibold text-gn-ink">
           Gospel News, volume {issue.volume}
         </p>
-        <p className="text-xs text-gn-muted">{issue.date}, télécharger le PDF</p>
+        <p className="text-xs text-gn-muted-strong">{issue.date}, télécharger le PDF</p>
       </div>
     </a>
   );
@@ -224,18 +231,18 @@ export default async function HomePage() {
 
       {/* Dernières parutions (revues Gospel News) */}
       {issues.length > 0 && (
-        <section className="border-t border-white/10 bg-gn-black">
+        <section className="bg-gn-cream">
           <div className="mx-auto max-w-6xl px-5 py-11 sm:px-10 sm:py-14">
             <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-1 sm:mb-8">
               <div>
-                <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernières parutions</h2>
-                <p className="mt-2 max-w-measure text-sm text-gn-cream/75">
+                <h2 className="font-serif text-3xl font-semibold text-gn-ink">Dernières parutions</h2>
+                <p className="mt-2 max-w-measure text-sm text-gn-muted-strong">
                   {issues.length} revue{issues.length > 1 ? 's' : ''} Gospel News à télécharger, la plus récente date du {issues[0].date}.
                 </p>
               </div>
               <Link
                 href="/departements/gospel-news"
-                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold hover:underline"
+                className="inline-flex min-h-[44px] items-center text-sm font-semibold text-gn-gold-dark hover:underline"
               >
                 Voir tous les articles
               </Link>
