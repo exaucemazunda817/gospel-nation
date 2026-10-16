@@ -105,6 +105,20 @@ input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='h
   min-height: 44px;
 }
 
+/* Sur téléphone, un champ écrit en moins de 16 px fait zoomer Safari (iPhone)
+   dès qu'on le touche, et le visiteur doit dézoomer à la main. Texte des
+   champs à 16 px sous 640 px et sur tout écran tactile (téléphone tenu à
+   l'horizontale, tablette) ; à la souris, chaque champ garde sa taille. Écrit
+   hors @layer pour passer devant les classes text-sm/text-xs des champs.
+   Audit mobile du 16/10/2026. */
+@media (max-width: 639px), (pointer: coarse) {
+  select,
+  textarea,
+  input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='hidden']) {
+    font-size: 16px;
+  }
+}
+
 /* Focus clavier visible et cohérent sur tout le site. :focus-visible ne se
    déclenche qu'à la navigation au clavier, jamais au clic souris — l'anneau
    n'apparaît donc pas de façon intempestive. */

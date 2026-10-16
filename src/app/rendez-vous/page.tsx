@@ -56,7 +56,7 @@ export default function RendezVousPage() {
       <section className="bg-gn-black">
         <Reveal className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="flex flex-col gap-7">
-            <p className="text-sm leading-relaxed text-gn-muted">
+            <p className="max-w-measure text-sm leading-relaxed text-gn-muted">
               Que ce soit pour un conseil pastoral, un temps de prière ou une visite, le pasteur se rend
               disponible pour vous accompagner.
             </p>
@@ -69,7 +69,7 @@ export default function RendezVousPage() {
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-semibold text-gn-muted">{item.label}</p>
-                  <p className="font-serif text-base font-semibold text-gn-cream">{item.value}</p>
+                  <p className="max-w-measure font-serif text-base font-semibold text-gn-cream">{item.value}</p>
                 </div>
               </div>
             ))}
@@ -78,7 +78,7 @@ export default function RendezVousPage() {
           <div className="relative rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
             <span className="gn-beam" aria-hidden="true" />
             <p className="mb-1 font-serif text-xl font-semibold text-gn-ink">Demande de rendez-vous</p>
-            <p className="mb-6 text-xs text-gn-muted-strong">
+            <p className="mb-6 max-w-measure text-xs text-gn-muted-strong">
               Précisez le motif et le créneau qui vous conviennent, le pasteur confirmera votre rendez-vous.
             </p>
             <AppointmentForm />

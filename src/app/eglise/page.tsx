@@ -202,7 +202,7 @@ export default function EglisePage() {
               </div>
             ))}
           </div>
-          <p className="mt-8 max-w-measure text-sm text-gn-ink/60">{address}</p>
+          <p className="mt-8 max-w-measure text-sm text-gn-ink/75">{address}</p>
         </Reveal>
       </section>
 

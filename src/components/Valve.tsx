@@ -145,7 +145,7 @@ export default async function Valve() {
               </div>
               <h3 className="mt-3 font-serif text-3xl font-semibold leading-tight text-gn-ink sm:text-4xl">{fr(main.title)}</h3>
               {main.body && (
-                <div className="mt-4 max-w-measure">
+                <div className="mt-4 max-w-measure text-sm">
                   <ValveText text={main.body} />
                 </div>
               )}

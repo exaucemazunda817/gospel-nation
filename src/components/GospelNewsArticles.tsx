@@ -27,15 +27,17 @@ export function GospelNewsList() {
             aria-labelledby={`revue-${issue.volume}`}
             className={issueIndex > 0 ? 'mt-14 border-t border-gn-line pt-12 sm:mt-16 sm:pt-14' : ''}
           >
-            <div className="grid gap-8 lg:grid-cols-[240px_1fr] lg:gap-12">
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
               {/* Couverture de la revue */}
               <Reveal>
-                <div className="flex items-center gap-4 lg:sticky lg:top-28 lg:block">
+                {/* Couverture plus petite sous 360 px : sinon, à 280 px, couverture + bouton
+                    « Télécharger » dépassent l'écran de 9 px (audit du 16/10/2026). */}
+                <div className="flex items-center gap-3 min-[360px]:gap-4 lg:sticky lg:top-28 lg:block">
                   <a
                     href={issue.fileUrl}
                     download
                     aria-label={`Télécharger Gospel News, volume ${issue.volume}`}
-                    className="gn-spot group relative block aspect-[3/4] w-28 shrink-0 overflow-hidden rounded-lg bg-gn-black shadow-xl shadow-black/20 sm:w-36 lg:w-full"
+                    className="gn-spot group relative block aspect-[3/4] w-20 shrink-0 overflow-hidden min-[360px]:w-28 rounded-lg bg-gn-black shadow-xl shadow-black/20 sm:w-36 lg:w-full"
                   >
                     <Image src={issue.coverUrl} alt={`Couverture de Gospel News, volume ${issue.volume}`} fill sizes="(max-width: 1024px) 144px, 240px" className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
                   </a>
@@ -59,7 +61,7 @@ export function GospelNewsList() {
                         <path d="m7 10 5 5 5-5" />
                         <path d="M5 21h14" />
                       </svg>
-                      Télécharger · {issue.size}
+                      Télécharger <span className="whitespace-nowrap">· {issue.size}</span>
                     </a>
                   </div>
                 </div>
@@ -176,13 +178,14 @@ function Block({ block, lead }: { block: ArticleBlock; lead?: boolean }) {
   }
 }
 
-// Article complet : texte dans une colonne de lecture, images sur toute la largeur.
+// Article complet : texte dans une colonne de lecture (~75 caractères par
+// ligne, 38rem), images sur toute la largeur.
 export function ArticleContent({ article }: { article: GospelNewsArticle }) {
   // Premier paragraphe : chapô, un peu plus grand.
   const leadIndex = article.blocks.findIndex((block) => block.type === 'p');
   return (
     <article className="pb-10 pt-6 sm:pb-12 sm:pt-8">
-      <Reveal className="mx-auto max-w-3xl px-5 sm:px-6">
+      <Reveal className="mx-auto max-w-[38rem] px-5 sm:px-6">
         <p className="text-xs font-bold uppercase tracking-wide text-gn-gold-dark">
           Vol. {article.volume} · {article.date}
         </p>
@@ -195,7 +198,7 @@ export function ArticleContent({ article }: { article: GospelNewsArticle }) {
             <FullWidthImage image={block.image} />
           </Reveal>
         ) : (
-          <div key={index} className="mx-auto max-w-3xl px-5 sm:px-6">
+          <div key={index} className="mx-auto max-w-[38rem] px-5 sm:px-6">
             <Block block={block} lead={index === leadIndex} />
           </div>
         )

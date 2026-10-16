@@ -161,7 +161,7 @@ export default function ReadingPlan() {
       {isLoaded && !isSignedIn && (
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gn-line bg-white px-5 py-3.5 text-sm text-gn-ink/70">
           <span>Créez un compte pour retrouver votre progression sur tous vos appareils.</span>
-          <Link href="/compte/inscription" className="shrink-0 font-semibold text-gn-gold-line hover:underline">
+          <Link href="/compte/inscription" className="inline-flex min-h-[44px] shrink-0 items-center font-semibold text-gn-gold-line hover:underline">
             Créer un compte
           </Link>
         </div>
@@ -182,7 +182,7 @@ export default function ReadingPlan() {
             />
             <span>
               <span className="mr-1.5 text-gn-muted">AT —</span>
-              <ReadingRefLinks label={today.ot} />
+              <ReadingRefLinks label={today.ot} tone="dark" />
             </span>
           </div>
           <div className="flex items-center gap-2.5">
@@ -194,7 +194,7 @@ export default function ReadingPlan() {
             />
             <span>
               <span className="mr-1.5 text-gn-muted">NT —</span>
-              <ReadingRefLinks label={today.nt} />
+              <ReadingRefLinks label={today.nt} tone="dark" />
               {today.ntPass === 2 && <span className="ml-1 text-xs text-gn-gold">(2e lecture)</span>}
             </span>
           </div>

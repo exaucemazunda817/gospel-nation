@@ -167,7 +167,7 @@ export function FileField({
         className="block min-h-[44px] w-full rounded-lg border border-white/15 bg-gn-field px-4 py-2.5 text-sm text-gn-cream/80 shadow-sm transition-colors file:mr-3 file:rounded-full file:border-0 file:bg-gn-gold file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-gn-black focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       />
       {hint && (
-        <span id={hintId} className="mt-1 block text-xs text-gn-ink/50">
+        <span id={hintId} className="mt-1 block text-xs text-gn-muted-strong">
           {hint}
         </span>
       )}
@@ -224,7 +224,7 @@ export function TextAreaField({
         {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
       <textarea id={id} name={name} required={required} rows={rows} className={inputClass} {...fieldProps} onChange={clear} />
-      {hint && <p className="mt-1.5 text-xs leading-relaxed text-gn-muted-strong">{hint}</p>}
+      {hint && <p className="mt-1.5 max-w-measure text-xs leading-relaxed text-gn-muted-strong">{hint}</p>}
       <FieldError id={errorId} message={error} />
     </div>
   );

@@ -20,13 +20,13 @@ export default function ReadingPlanPage() {
           ← Retour à la Bible
         </Link>
 
-        <div className="mt-6 flex flex-col gap-4 text-sm leading-relaxed text-gn-ink/80">
+        <div className="mt-6 flex max-w-measure flex-col gap-4 text-sm leading-relaxed text-gn-ink/80">
           <p>
             Ce plan te propose de lire toute la Bible en 365 jours, à ton propre rythme : les jours ne sont pas
             datés, tu peux donc commencer n&apos;importe quand dans l&apos;année.
           </p>
           <div className="border-l-2 border-gn-gold bg-white px-5 py-4">
-            <p className="font-serif italic text-gn-ink">
+            <p className="max-w-measure font-serif italic text-gn-ink">
               « Que ce livre de la loi ne s&apos;éloigne point de ta bouche ; médite-le jour et nuit, pour agir
               fidèlement selon tout ce qui y est écrit ; car c&apos;est alors que tu réussiras dans tes
               entreprises, c&apos;est alors que tu prospéreras. »

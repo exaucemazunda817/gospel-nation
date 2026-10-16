@@ -35,7 +35,7 @@ export default async function DepartementsPage() {
           <p className="font-serif text-2xl font-semibold leading-snug text-gn-ink sm:text-3xl">
             {fr(`${departments.length} départements, une seule mission`)}
           </p>
-          <p className="mt-4 text-base leading-relaxed text-gn-ink/70">
+          <p className="mx-auto mt-4 max-w-measure text-base leading-relaxed text-gn-ink/70">
             {fr("Notre mission : impacter le monde à travers les 7 secteurs d'influence. Chacun de ces départements est une façon d'y servir.")}
           </p>
         </Reveal>
@@ -59,7 +59,7 @@ export default async function DepartementsPage() {
                   </div>
                   <div className="flex flex-1 flex-col p-6 max-sm:relative max-sm:justify-end max-sm:bg-gradient-to-t max-sm:from-gn-black max-sm:via-gn-black/80 max-sm:to-transparent max-sm:pt-28">
                     <h2 className="font-serif text-base font-semibold text-gn-ink max-sm:text-xl max-sm:text-gn-cream">{dept.name}</h2>
-                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gn-ink/60 max-sm:flex-none max-sm:text-gn-cream/90 sm:flex-1">{fr(departmentSummary(dept))}</p>
+                    <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-gn-ink/75 max-sm:flex-none max-sm:text-gn-cream/90 sm:flex-1">{fr(departmentSummary(dept))}</p>
                     {dept.registrationOpen ? (
                       <span className="mt-3 inline-block w-fit rounded-full bg-gn-gold px-3 py-1 text-xs font-semibold text-gn-black">
                         Inscriptions ouvertes

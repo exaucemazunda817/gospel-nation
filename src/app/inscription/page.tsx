@@ -76,7 +76,7 @@ export default async function InscriptionPage() {
           <div className="flex flex-col gap-7">
             <div>
               <p className="mb-3 font-serif text-base italic font-medium text-gn-gold">Pourquoi devenir membre</p>
-              <p className="text-sm leading-relaxed text-gn-muted">
+              <p className="max-w-measure text-sm leading-relaxed text-gn-muted">
                 L&apos;inscription vous donne accès à votre carte de membre personnalisée, générée
                 immédiatement.
               </p>

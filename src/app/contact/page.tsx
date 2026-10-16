@@ -127,7 +127,7 @@ export default function ContactPage() {
       <section className="bg-gn-black">
         <Reveal className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex flex-col gap-7">
-            <p className="text-sm leading-relaxed text-gn-muted">
+            <p className="max-w-measure text-sm leading-relaxed text-gn-muted">
               Une question, une demande de prière ou envie d&apos;en savoir plus sur Gospel Nation ? Écrivez-nous,
               nous vous répondrons rapidement.
             </p>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="mb-1 text-xs font-semibold text-gn-muted">{item.label}</p>
-                  <p className="font-serif text-base font-semibold text-gn-cream [overflow-wrap:anywhere]">{item.value}</p>
+                  <p className="max-w-measure font-serif text-base font-semibold text-gn-cream [overflow-wrap:anywhere]">{item.value}</p>
                 </div>
               </div>
             ))}

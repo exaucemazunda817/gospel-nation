@@ -211,7 +211,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
           {dept.registrationOpen ? (
             <>
               <h2 className="font-bold text-gn-gold">Inscriptions ouvertes</h2>
-              <p className="mt-2 text-sm text-gn-cream/70">
+              <p className="mt-2 max-w-measure text-sm text-gn-cream/70">
                 L&apos;inscription à ce département se fait depuis votre espace membre.
               </p>
               <Link
@@ -224,7 +224,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
           ) : (
             <>
               <h2 className="font-bold text-gn-gold">Pas encore d&apos;inscriptions</h2>
-              <p className="mt-2 text-sm text-gn-cream/70">
+              <p className="mt-2 max-w-measure text-sm text-gn-cream/70">
                 Les inscriptions à ce département ne sont pas ouvertes pour le moment. Écrivez-nous : nous vous
                 répondrons dès qu&apos;elles ouvrent, ou pour vous renseigner.
               </p>

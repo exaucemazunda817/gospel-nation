@@ -87,7 +87,7 @@ export default async function ServicesPage() {
 
       <section className="border-b border-gn-line bg-white">
         <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-9 sm:px-10">
-          <p className="max-w-xl text-sm leading-relaxed text-gn-ink/60">
+          <p className="max-w-measure text-sm leading-relaxed text-gn-ink/75">
             Chaque membre a un talent, un métier ou un service à offrir à la communauté. Créez un compte et
             proposez votre produit, votre service ou une offre d&apos;emploi : votre annonce apparaît ici après
             vérification par l&apos;équipe.

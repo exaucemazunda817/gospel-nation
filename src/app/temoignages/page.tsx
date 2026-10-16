@@ -93,10 +93,10 @@ export default async function TemoignagesPage() {
               <h2 className="font-serif text-3xl font-semibold leading-snug text-gn-cream">
                 Partagez votre témoignage
               </h2>
-              <p className="text-sm leading-relaxed text-gn-muted">
+              <p className="max-w-measure text-sm leading-relaxed text-gn-muted">
                 Racontez ce que Dieu a fait dans votre vie : votre histoire peut encourager toute l&apos;église.
               </p>
-              <p className="text-sm leading-relaxed text-gn-muted">
+              <p className="max-w-measure text-sm leading-relaxed text-gn-muted">
                 Votre témoignage n&apos;est publié que si vous cochez l&apos;accord de publication, et après relecture
                 par l&apos;équipe. Vous pouvez signer de votre prénom seulement.
               </p>

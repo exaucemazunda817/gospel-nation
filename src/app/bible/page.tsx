@@ -44,7 +44,7 @@ export default function BiblePage() {
 
         <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm text-gn-ink/70">
+            <p className="max-w-measure text-sm text-gn-ink/70">
               <span className="font-semibold text-gn-ink">Versions disponibles : </span>
               {bibleVersions.map((v) => `${v.name} (${v.year})`).join(', ')}. Vous choisissez la version en lisant un chapitre.
             </p>
