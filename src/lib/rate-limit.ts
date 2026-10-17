@@ -23,15 +23,20 @@ export async function allowRequest(
   bucket: string,
   request: NextRequest,
   max: number,
-  windowMs: number
+  windowMs: number,
+  options?: { failClosed?: boolean }
 ): Promise<boolean> {
   const key = `${bucket}:${clientIp(request)}`;
   try {
+    // La tentative est enregistrée AVANT d'être comptée : dans l'autre ordre,
+    // des requêtes envoyées toutes en même temps comptaient chacune « 0 » et
+    // passaient toutes (audit de sécurité du 17/10/2026, même défaut corrigé
+    // sur One Love).
+    await prisma.rateLimitAttempt.create({ data: { key } });
     const recent = await prisma.rateLimitAttempt.count({
       where: { key, createdAt: { gte: new Date(Date.now() - windowMs) } }
     });
-    if (recent >= max) return false;
-    await prisma.rateLimitAttempt.create({ data: { key } });
+    if (recent > max) return false;
     if (Math.random() < 0.02) {
       await prisma.rateLimitAttempt.deleteMany({
         where: { createdAt: { lt: new Date(Date.now() - CLEANUP_AFTER_MS) } }
@@ -39,8 +44,11 @@ export async function allowRequest(
     }
     return true;
   } catch (error) {
-    console.error('Limitation de débit indisponible, requête autorisée', error);
-    return true;
+    // Par défaut on laisse passer (un frein anti-abus ne doit pas couper le
+    // site), sauf pour la connexion admin (failClosed) : sans limite, le mot
+    // de passe partagé pourrait être deviné par essais successifs.
+    console.error('Limitation de débit indisponible', error);
+    return !options?.failClosed;
   }
 }
 

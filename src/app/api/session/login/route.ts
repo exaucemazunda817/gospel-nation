@@ -1,3 +1,4 @@
+import { createHash, timingSafeEqual as cryptoTimingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import {
   adminPassword,
@@ -7,20 +8,20 @@ import {
 } from "@/lib/session";
 import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from "@/lib/rate-limit";
 
+// On compare les empreintes SHA-256 (toujours 32 octets) et non les textes :
+// l'ancienne version répondait plus vite quand la longueur différait, ce qui
+// révélait la longueur du mot de passe (audit du 17/10/2026).
 function timingSafeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let mismatch = 0;
-  for (let i = 0; i < a.length; i++) {
-    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return mismatch === 0;
+  const da = createHash("sha256").update(a).digest();
+  const db = createHash("sha256").update(b).digest();
+  return cryptoTimingSafeEqual(da, db);
 }
 
 export async function POST(request: NextRequest) {
   // 5 essais par tranche de 10 minutes et par adresse IP : le mot de passe
   // admin est unique et partagé, sans cette limite il pourrait être deviné
   // par essais successifs.
-  if (!(await allowRequest("admin-login", request, 5, 10 * 60 * 1000))) {
+  if (!(await allowRequest("admin-login", request, 5, 10 * 60 * 1000, { failClosed: true }))) {
     return NextResponse.json({ error: TOO_MANY_REQUESTS_MESSAGE }, { status: 429 });
   }
 

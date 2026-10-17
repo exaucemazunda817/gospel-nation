@@ -4,7 +4,10 @@
 // proxy.ts en edge runtime).
 
 export const SESSION_COOKIE_NAME = "gn_admin_session";
-const SESSION_DURATION_MS = 1000 * 60 * 60 * 24 * 7; // 7 jours
+// 24 heures (7 jours avant l'audit du 17/10/2026) : l'espace admin donne accès
+// aux coordonnées des membres et aux numéros de dons, une session volée ne doit
+// pas rester valable une semaine.
+const SESSION_DURATION_MS = 1000 * 60 * 60 * 24;
 
 function getSecret(): string {
   const secret = process.env.SESSION_SECRET;
@@ -45,8 +48,22 @@ async function hmacKey(): Promise<CryptoKey> {
   );
 }
 
+// Empreinte du mot de passe admin, glissée dans le jeton (audit du
+// 17/10/2026) : changer ADMIN_PASSWORD rend aussitôt invalides toutes les
+// sessions ouvertes. Avec un mot de passe partagé, c'est le seul moyen de
+// fermer l'accès d'une personne qui quitte l'équipe ou d'un cookie copié.
+async function passwordFingerprint(): Promise<string | null> {
+  const password = adminPassword();
+  if (!password) return null;
+  const digest = new Uint8Array(
+    await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${getSecret()}:${password}`))
+  );
+  return toBase64Url(digest).slice(0, 22);
+}
+
 export async function createSessionToken(): Promise<string> {
-  const payload = JSON.stringify({ role: "ADMIN", exp: Date.now() + SESSION_DURATION_MS });
+  const pv = await passwordFingerprint();
+  const payload = JSON.stringify({ role: "ADMIN", pv, exp: Date.now() + SESSION_DURATION_MS });
   const payloadBytes = new TextEncoder().encode(payload);
   const key = await hmacKey();
   const signature = new Uint8Array(await crypto.subtle.sign("HMAC", key, payloadBytes));
@@ -67,9 +84,12 @@ export async function verifySessionToken(token: string | undefined): Promise<boo
 
     const payload = JSON.parse(new TextDecoder().decode(payloadBytes)) as {
       role: string;
+      pv?: string | null;
       exp: number;
     };
     if (payload.exp <= Date.now()) return false;
+    const pv = await passwordFingerprint();
+    if (!pv || payload.pv !== pv) return false;
     return payload.role === "ADMIN";
   } catch {
     return false;
