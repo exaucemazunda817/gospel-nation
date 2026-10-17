@@ -194,3 +194,24 @@ Règle de Mazunda : **partout où il y a un défilement horizontal, c'est une ba
 - **Bibliothèque** : étiquettes de catégorie en casse normale, bouton « Télécharger le PDF » en contour (neuf gros boutons dorés se faisaient concurrence).
 - **À faire par l'église (non fait, je n'invente rien)** : coordonnées de don (Mobile Money, virement) : la page Dons n'affiche aucun moyen de donner ; texte « Notre histoire » et mission/vision de `/eglise`. **Logos des départements** : fonds de couleurs différentes (identité de chaque équipe), non touchés.
 - **Audit (production locale, 18 pages)** : 1 h1 par page, 0 contraste en échec (avant : 38), 0 zone tactile < 44 px hors pied de page, CLS ≈ 0, aucun débordement. LCP en local peu fiable (optimiseur d'images à froid) : à mesurer en ligne.
+
+## Inscriptions simultanées (test de charge du 17/10/2026)
+
+Rapport : `~/Documents/Mazunda/08-Divers/Gospel-Nation/test-charge-2026-10-17.md`.
+
+- **Numéro de membre** : attribué par la séquence PostgreSQL
+  `member_number_seq` (`nextval`), jamais par « plus grand numéro + 1 » seul,
+  qui donnait le même numéro à deux inscriptions simultanées. **Ne pas
+  supprimer la séquence** ; si on la recrée, la démarrer au numéro suivant du
+  dernier membre. Une inscription abandonnée laisse un numéro inutilisé (normal).
+- Pas de transaction interactive dans `/api/inscription` : sous charge elle
+  dépassait son délai. La contrainte d'unicité de `memberNumber` suffit.
+- **Carte PDF** : le modèle `public/carte-modele.png` est converti une fois en
+  JPEG en mémoire (`templateJpeg()`), car `embedPng` de pdf-lib bloquait le
+  serveur ~400 ms par carte. Si le modèle change, garder un fond opaque.
+- **Tester en charge** : copie jetable Neon + `next start` local, et neutraliser
+  `BLOB_READ_WRITE_TOKEN`, `BLOB_STORE_ID`, `RESEND_API_KEY`, Clerk dans
+  l'environnement : `.env.local` contient les accès au VRAI stockage de photos.
+- Les fonctions Vercel tournent à Washington (`iad1`), la base Neon est en
+  Oregon : chaque requête traverse les États-Unis. Réglage recommandé : région
+  `pdx1`.
