@@ -233,3 +233,10 @@ Rapport : `~/Documents/Mazunda/08-Divers/Gospel-Nation/audit-securite-2026-10-17
 - L'admin peut modifier les numéros de dons : une prise de contrôle pourrait
   détourner les dons. À terme, comptes nominatifs (Clerk) plutôt qu'un mot de
   passe partagé.
+- **Région des fonctions : Portland (`pdx1`)**, fixée dans `vercel.json`
+  (17/10/2026), à côté de la base Neon (Oregon, `us-west-2`). Avant :
+  Washington (`iad1`), chaque requête à la base traversait les États-Unis. Ce
+  fichier prend le pas sur le réglage du tableau de bord Vercel ; formule
+  gratuite = une seule région. Vérifier avec l'en-tête `x-vercel-id`
+  (`…::pdx1::…`).
+
