@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import DonationMethodEditor from "@/components/admin/DonationMethodEditor";
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminDonationsPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const methods = await prisma.donationMethod.findMany({ orderBy: { order: "asc" } });
   return (
     <div className="space-y-8">

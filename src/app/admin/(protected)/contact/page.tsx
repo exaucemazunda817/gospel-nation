@@ -1,7 +1,10 @@
 import { prisma } from '@/lib/prisma';
 import ContactMessageActions from '@/components/admin/ContactMessageActions';
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminContactPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const messages = await prisma.contactMessage.findMany({
     orderBy: [{ isRead: 'asc' }, { createdAt: 'desc' }]
   });

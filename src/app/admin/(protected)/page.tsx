@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import ModerateTestimonyActions from "@/components/admin/ModerateTestimonyActions";
 import { isHttpUrl } from "@/lib/validation";
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminTestimoniesPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const testimonies = await prisma.testimony.findMany({
     orderBy: [{ status: "asc" }, { createdAt: "desc" }],
   });

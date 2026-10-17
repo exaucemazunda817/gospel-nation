@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import AppointmentActions from "@/components/admin/AppointmentActions";
 import { formatTimeFr } from "@/lib/appointments";
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminAppointmentsPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const appointments = await prisma.appointment.findMany({
     orderBy: [{ status: "asc" }, { preferredDate: "asc" }],
   });

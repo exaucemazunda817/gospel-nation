@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import ModerateOfferActions from "@/components/admin/ModerateOfferActions";
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminOffersPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const offers = await prisma.memberOffer.findMany({
     include: { user: { select: { firstName: true, lastName: true } } },
     orderBy: [{ status: "asc" }, { createdAt: "desc" }],

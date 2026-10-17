@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AdminLogoutButton from "@/components/AdminLogoutButton";
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 // Sans ça, Next prégénère l'espace admin au build : les listes restent figées
 // (nouveaux membres et témoignages invisibles) et les données personnelles des
@@ -8,6 +10,7 @@ import AdminLogoutButton from "@/components/AdminLogoutButton";
 export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  if (!(await isAdmin())) redirect('/admin/login');
   const [pendingTemoignages, pendingRendezVous, pendingOffres, totalMembres, unreadMessages] = await Promise.all([
     prisma.testimony.count({ where: { status: "PENDING" } }),
     prisma.appointment.count({ where: { status: "PENDING" } }),

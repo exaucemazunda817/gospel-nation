@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma';
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminMembersPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const members = await prisma.user.findMany({
     where: { role: 'MEMBER' },
     orderBy: { createdAt: 'desc' },

@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { parseDonationMethod } from '@/lib/donation-methods';
+import { requireAdmin } from '@/lib/admin-auth';
 
 // Protégée par src/proxy.ts (session admin), comme le reste de /api/admin.
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   const parsed = parseDonationMethod(await request.json().catch(() => null));
   if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: 400 });
   const last = await prisma.donationMethod.findFirst({ orderBy: { order: 'desc' }, select: { order: true } });

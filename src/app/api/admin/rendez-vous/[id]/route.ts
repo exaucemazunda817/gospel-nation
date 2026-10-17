@@ -3,6 +3,7 @@ import type { AppointmentStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { sendAppointmentConfirmation } from "@/lib/email";
 import { EARLIEST_APPOINTMENT_TIME, formatTimeFr, isValidAppointmentTime } from "@/lib/appointments";
+import { requireAdmin } from '@/lib/admin-auth';
 
 const VALID_STATUSES: readonly AppointmentStatus[] = ["PENDING", "CONFIRMED", "DECLINED", "DONE"];
 
@@ -17,6 +18,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   const { id } = await params;
   const { status, pastorNote, time } = await request.json();
 

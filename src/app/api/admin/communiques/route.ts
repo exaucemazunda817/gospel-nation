@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { BODY_MAX, MAX_IMAGE_BYTES, TITLE_MAX, isAllowedImageType, saveAnnouncementImage } from '@/lib/announcements';
+import { requireAdmin } from '@/lib/admin-auth';
 
 // Protégée par src/proxy.ts (session admin), comme le reste de /api/admin.
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   const form = await request.formData();
   const title = String(form.get('title') ?? '').trim();
   const body = String(form.get('body') ?? '').trim();

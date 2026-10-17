@@ -2,8 +2,11 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import AnnouncementForm from "@/components/admin/AnnouncementForm";
 import AnnouncementActions from "@/components/admin/AnnouncementActions";
+import { isAdmin } from '@/lib/admin-auth';
+import { redirect } from 'next/navigation';
 
 export default async function AdminAnnouncementsPage() {
+  if (!(await isAdmin())) redirect('/admin/login');
   const now = new Date();
   const announcements = await prisma.announcement.findMany({ orderBy: [{ pinned: "desc" }, { publishedAt: "desc" }] });
 

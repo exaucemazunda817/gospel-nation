@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { photoMimeType, readPhoto } from '@/lib/photo-storage';
+import { requireAdmin } from '@/lib/admin-auth';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   const { id } = await params;
 
   const user = await prisma.user.findUnique({ where: { id } });
