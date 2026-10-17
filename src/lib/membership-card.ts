@@ -40,12 +40,25 @@ function sexLabel(sex: string | null): string {
   return sex === 'F' ? 'FEMININ' : sex === 'M' ? 'MASCULIN' : '';
 }
 
+// Modèle converti une seule fois en JPEG puis gardé en mémoire (test de charge
+// du 17/10/2026) : pdf-lib décode un PNG en JavaScript pur, soit ~400 ms de
+// calcul qui bloquait le serveur à CHAQUE carte, contre ~8 ms pour un JPEG
+// (intégré sans décodage). Le modèle n'a pas de transparence ; qualité 95 et
+// couleurs non sous-échantillonnées pour garder les traits nets.
+let templateJpegPromise: Promise<Buffer> | null = null;
+function templateJpeg(): Promise<Buffer> {
+  templateJpegPromise ??= readFile(TEMPLATE_PATH).then((png) =>
+    sharp(png).jpeg({ quality: 95, chromaSubsampling: '4:4:4' }).toBuffer()
+  );
+  return templateJpegPromise;
+}
+
 export async function generateMembershipCardPdf(user: CardUser, photoBytes: Buffer): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const page = doc.addPage([PAGE_W, PAGE_H]);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
 
-  const template = await doc.embedPng(await readFile(TEMPLATE_PATH));
+  const template = await doc.embedJpg(await templateJpeg());
   page.drawImage(template, { x: 0, y: 0, width: PAGE_W, height: PAGE_H });
 
   // Photo recadrée en carré (orientation EXIF respectée, tout format accepté

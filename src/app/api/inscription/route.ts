@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { isAllowedPhotoType, MAX_PHOTO_SIZE_BYTES, savePhoto } from '@/lib/photo-storage';
 import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
@@ -6,6 +7,61 @@ import { tooLong } from '@/lib/validation';
 
 const REQUIRED_FIELDS = ['firstName', 'lastName', 'phone', 'email', 'birthDate', 'address', 'commune', 'sex', 'memberSinceYear'] as const;
 const CURRENT_YEAR = new Date().getFullYear();
+
+// Numéro de membre (test de charge du 17/10/2026).
+// Quand plusieurs personnes s'inscrivent au même instant, la méthode « plus
+// grand numéro + 1 » leur donnait le même numéro : la base refusait le doublon
+// (memberNumber est unique) et la personne recevait une erreur au lieu de sa
+// carte. Désormais le numéro vient d'une séquence PostgreSQL
+// (member_number_seq), que la base distribue sans jamais donner deux fois le
+// même. Une inscription abandonnée en route laisse un numéro inutilisé : c'est
+// le prix normal d'un compteur sûr.
+// Repli si la séquence n'existe pas encore (base pas encore mise à jour) :
+// l'ancienne méthode, avec nouvel essai en cas de collision.
+// Plus de transaction interactive : elle gardait une connexion pendant
+// l'attente et faisait échouer les inscriptions sous charge (délai dépassé).
+async function nextMemberSequence(): Promise<number | null> {
+  try {
+    const rows = await prisma.$queryRaw<{ n: bigint }[]>`SELECT nextval('member_number_seq') AS n`;
+    return Number(rows[0].n);
+  } catch {
+    return null;
+  }
+}
+
+function formatMemberNumber(n: number): string {
+  return `GN-${CURRENT_YEAR}-${String(n).padStart(4, '0')}`;
+}
+
+async function createWithMemberNumber(data: Omit<Prisma.UserUncheckedCreateInput, 'memberNumber'>) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    let n = await nextMemberSequence();
+    if (n === null) {
+      const last = await prisma.user.findFirst({
+        where: { memberNumber: { not: null } },
+        orderBy: { memberNumber: 'desc' },
+        select: { memberNumber: true }
+      });
+      n = (last?.memberNumber ? Number.parseInt(last.memberNumber.slice(-4), 10) : 0) + 1;
+    }
+    try {
+      return await prisma.user.create({ data: { ...data, memberNumber: formatMemberNumber(n) } });
+    } catch (error) {
+      if (!isUniqueViolation(error, 'memberNumber')) throw error;
+      // Petite attente aléatoire pour ne pas retomber pile en même temps.
+      await new Promise((resolve) => setTimeout(resolve, 20 + Math.random() * 80 * (attempt + 1)));
+    }
+  }
+  throw new Error('Aucun numéro de membre libre après plusieurs essais.');
+}
+
+function isUniqueViolation(error: unknown, field: string): boolean {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === 'P2002' &&
+    JSON.stringify(error.meta?.target ?? '').includes(field)
+  );
+}
 
 function str(formData: FormData, key: string): string {
   const value = formData.get(key);
@@ -94,33 +150,34 @@ export async function POST(request: NextRequest) {
 
   // Pas d'étape de validation : le membre reçoit sa carte définitive dès
   // l'inscription, avec un numéro de membre attribué immédiatement.
-  const user = await prisma.$transaction(async (tx) => {
-    // Plus grand numéro + 1, et non le nombre de membres : après la suppression
-    // d'un membre, le compte redonnerait un numéro déjà attribué.
-    const last = await tx.user.findFirst({
-      where: { memberNumber: { not: null } },
-      orderBy: { memberNumber: 'desc' },
-      select: { memberNumber: true }
-    });
-    const nextNumber = (last?.memberNumber ? Number.parseInt(last.memberNumber.slice(-4), 10) : 0) + 1;
-    return tx.user.create({
-      data: {
-        email,
-        firstName: str(formData, 'firstName'),
-        lastName: str(formData, 'lastName'),
-        phone: str(formData, 'phone'),
-        address: str(formData, 'address'),
-        commune: str(formData, 'commune'),
-        sex,
-        birthDate,
-        memberSinceYear,
-        departmentId,
-        showBirthdayPublicly: formData.get('showBirthdayPublicly') === 'on',
-        status: 'VALIDATED',
-        memberNumber: `GN-${CURRENT_YEAR}-${String(nextNumber).padStart(4, '0')}`
-      }
-    });
-  });
+  const data = {
+    email,
+    firstName: str(formData, 'firstName'),
+    lastName: str(formData, 'lastName'),
+    phone: str(formData, 'phone'),
+    address: str(formData, 'address'),
+    commune: str(formData, 'commune'),
+    sex,
+    birthDate,
+    memberSinceYear,
+    departmentId,
+    showBirthdayPublicly: formData.get('showBirthdayPublicly') === 'on',
+    status: 'VALIDATED' as const
+  };
+
+  let user: Awaited<ReturnType<typeof createWithMemberNumber>>;
+  try {
+    user = await createWithMemberNumber(data);
+  } catch (error) {
+    // Deux envois simultanés avec la même adresse : le second tombe ici.
+    if (isUniqueViolation(error, 'email')) {
+      return NextResponse.json(
+        { error: 'Une inscription existe déjà avec cette adresse e-mail.' },
+        { status: 409 }
+      );
+    }
+    throw error;
+  }
 
   // Créée après coup : la photo est nommée d'après l'id de l'utilisateur, donc
   // on enregistre la photo sous ce nom puis on met à jour la ligne avec le
