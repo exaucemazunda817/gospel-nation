@@ -3,11 +3,18 @@ import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import { MAX_PENDING_OFFERS_PER_ACCOUNT, parseOfferInput } from '@/lib/offers';
+import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   // Sans Clerk, auth() lèverait une erreur : on répond proprement.
   if (!isClerkConfigured) {
     return NextResponse.json({ error: 'Les comptes ne sont pas disponibles pour le moment.' }, { status: 503 });
+  }
+
+  // Limite par adresse (audit du 17/10/2026) : la limite par compte ne freinait
+  // pas quelqu'un qui crée plusieurs comptes pour envoyer des offres en masse.
+  if (!(await allowRequest('offres', request, 10, 60 * 60 * 1000))) {
+    return NextResponse.json({ error: TOO_MANY_REQUESTS_MESSAGE }, { status: 429 });
   }
 
   const { userId } = await auth();

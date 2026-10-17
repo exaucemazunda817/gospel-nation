@@ -11,8 +11,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
   }
 
-  const body = await request.json();
-  const local = body.progress as Record<string, { ot?: boolean; nt?: boolean }>;
+  const body = await request.json().catch(() => null);
+  const local = body?.progress as Record<string, { ot?: boolean; nt?: boolean }>;
   if (!local || typeof local !== 'object') {
     return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
   }

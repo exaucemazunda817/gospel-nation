@@ -26,7 +26,12 @@ const nextConfig: NextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' }
+          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
+          // Politique minimale (audit du 17/10/2026) : interdit les plugins
+          // (object), la réécriture de l'adresse de base des liens, et
+          // l'affichage du site dans un cadre d'un autre site. Ne touche ni aux
+          // scripts ni aux vidéos YouTube, ni à Clerk.
+          { key: 'Content-Security-Policy', value: "object-src 'none'; base-uri 'self'; frame-ancestors 'none'" }
         ]
       }
     ];

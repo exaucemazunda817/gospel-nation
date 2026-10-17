@@ -22,12 +22,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Non authentifié.' }, { status: 401 });
   }
 
-  const body = await request.json();
+  // Corps mal formé : 400 au lieu d'une erreur serveur (audit du 17/10/2026).
+  const body = await request.json().catch(() => null);
+  if (!body || typeof body !== 'object') {
+    return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
+  }
   const day = Number(body.day);
   const part = body.part;
   const value = Boolean(body.value);
 
-  if (!Number.isInteger(day) || day < 1 || (part !== 'ot' && part !== 'nt')) {
+  if (!Number.isInteger(day) || day < 1 || day > 366 || (part !== 'ot' && part !== 'nt')) {
     return NextResponse.json({ error: 'Requête invalide.' }, { status: 400 });
   }
 
