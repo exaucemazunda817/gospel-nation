@@ -215,3 +215,21 @@ Rapport : `~/Documents/Mazunda/08-Divers/Gospel-Nation/test-charge-2026-10-17.md
 - Les fonctions Vercel tournent à Washington (`iad1`), la base Neon est en
   Oregon : chaque requête traverse les États-Unis. Réglage recommandé : région
   `pdx1`.
+
+## Sécurité de l'espace admin (audit du 17/10/2026)
+
+Rapport : `~/Documents/Mazunda/08-Divers/Gospel-Nation/audit-securite-2026-10-17.md`.
+
+- **Deux barrières** : `src/proxy.ts` ET une vérification dans chaque route
+  `/api/admin` (`requireAdmin()`) et chaque page `/admin` (`isAdmin()`), dans
+  `src/lib/admin-auth.ts`. Toute nouvelle route ou page admin doit appeler
+  l'une des deux en première ligne : le filtre du proxy ignore les adresses
+  contenant un point.
+- **Session admin** : 24 h, et le jeton contient une empreinte de
+  `ADMIN_PASSWORD`. Pour couper tous les accès (cookie volé, départ d'un
+  responsable) : changer `ADMIN_PASSWORD` sur Vercel puis redéployer.
+- `allowRequest` enregistre la tentative AVANT de compter ; `failClosed: true`
+  pour la connexion admin.
+- L'admin peut modifier les numéros de dons : une prise de contrôle pourrait
+  détourner les dons. À terme, comptes nominatifs (Clerk) plutôt qu'un mot de
+  passe partagé.
