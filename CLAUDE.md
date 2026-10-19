@@ -240,3 +240,8 @@ Rapport : `~/Documents/Mazunda/08-Divers/Gospel-Nation/audit-securite-2026-10-17
   gratuite = une seule région. Vérifier avec l'en-tête `x-vercel-id`
   (`…::pdx1::…`).
 
+
+## Publication automatique des prédications (19/10/2026)
+- Un agent planifié (tâches « Prédications sur le site ») publie chaque prédication de la chaîne YouTube (onglet **En direct** : `youtube.com/@gospel.nation/streams`, titres « Titre - Past. Nom ») : dimanche 16h, mercredi 22h, et rattrapage les lundi, mardi (prédication du dimanche) et jeudi, vendredi, samedi (prédication du mercredi).
+- Il ajoute une ligne `sermons` (id `sermon-AAAA-MM-JJ-slug`, date à minuit UTC, `coverImageUrl` = `img.youtube.com/vi/<id>/hqdefault.jpg`, thème parmi `SERMON_THEMES`) et, si la note de prédication existe (dossier « Note de prédication » de Mazunda), un résumé dans `notesContent` et le PDF dans `public/sermons/AAAA-MM-JJ-slug.pdf` (`documentUrl` = `/sermons/…`).
+- **Accueil : uniquement les prédications du dimanche** (vedette + deux dimanches précédents), décision de Mazunda du 19/10/2026. Les mercredis restent sur `/predications` et le catalogue.

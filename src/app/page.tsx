@@ -74,12 +74,12 @@ export default async function HomePage() {
     getLiveStatus()
   ]);
 
-  // « Dernière prédication » : le message du dernier culte du dimanche, même si un
-  // culte de semaine a été publié depuis ; puis les deux prédications les plus
-  // récentes parmi les autres.
+  // Accueil : uniquement les prédications du dimanche (décision de Mazunda du
+  // 19/10/2026). « Dernière prédication » = le dernier culte du dimanche, puis les
+  // deux dimanches précédents. Les cultes du mercredi restent sur /predications.
   const isSunday = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'Africa/Kinshasa' }) === 'Sun';
-  const sundaySermon = recentSermons.find((s) => isSunday(new Date(s.date))) ?? recentSermons[0];
-  const sermons = sundaySermon ? [sundaySermon, ...recentSermons.filter((s) => s.id !== sundaySermon.id).slice(0, 2)] : [];
+  const sundaySermons = recentSermons.filter((s) => isSunday(new Date(s.date)));
+  const sermons = (sundaySermons.length ? sundaySermons : recentSermons).slice(0, 3);
 
   // Numéros les plus récents d'abord.
   const issues = [...gospelNewsIssues].sort((a, b) => b.volume - a.volume);
