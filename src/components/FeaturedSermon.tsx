@@ -25,7 +25,7 @@ export default function FeaturedSermon({ sermons }: { sermons: Sermon[] }) {
         <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-1 sm:mb-8">
           <div>
             <h2 className="font-serif text-3xl font-semibold text-gn-cream">Dernière prédication</h2>
-            <p className="mt-2 max-w-measure text-sm text-gn-cream/75">Les messages du dimanche, à réécouter quand vous voulez.</p>
+            <p className="mt-2 max-w-measure text-sm text-gn-cream/75">Les messages du dimanche et des séminaires, à réécouter quand vous voulez.</p>
           </div>
           <Link
             href="/predications/catalogue"

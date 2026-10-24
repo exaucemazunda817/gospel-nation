@@ -77,8 +77,19 @@ export default async function HomePage() {
   // Accueil : uniquement les prédications du dimanche (décision de Mazunda du
   // 19/10/2026). « Dernière prédication » = le dernier culte du dimanche, puis les
   // deux dimanches précédents. Les cultes du mercredi restent sur /predications.
+  // Séminaires (24/10/2026) : seule la DERNIÈRE prédication d'une série « Séminaire … »
+  // rejoint l'accueil (ex. jour 4 de « Séminaire Crois Seulement »), triée par date
+  // avec les dimanches ; le dimanche suivant reprend la vedette tout seul.
   const isSunday = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'Africa/Kinshasa' }) === 'Sun';
-  const sundaySermons = recentSermons.filter((s) => isSunday(new Date(s.date)));
+  const seenSeminars = new Set<string>();
+  const sundaySermons = recentSermons.filter((s) => {
+    if (s.series?.startsWith('Séminaire')) {
+      if (seenSeminars.has(s.series)) return false;
+      seenSeminars.add(s.series);
+      return true;
+    }
+    return isSunday(new Date(s.date));
+  });
   const sermons = (sundaySermons.length ? sundaySermons : recentSermons).slice(0, 3);
 
   // Numéros les plus récents d'abord.
