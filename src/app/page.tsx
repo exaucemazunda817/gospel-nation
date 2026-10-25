@@ -79,11 +79,14 @@ export default async function HomePage() {
   // deux dimanches précédents. Les cultes du mercredi restent sur /predications.
   // Séminaires (24/10/2026) : seule la DERNIÈRE prédication d'une série « Séminaire … »
   // rejoint l'accueil (ex. jour 4 de « Séminaire Crois Seulement »), triée par date
-  // avec les dimanches ; le dimanche suivant reprend la vedette tout seul.
+  // avec les dimanches. Dès qu'un dimanche plus récent est publié, le séminaire
+  // quitte l'accueil (décision de Mazunda du 25/10/2026) : seuls des dimanches restent.
   const isSunday = (d: Date) => d.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'Africa/Kinshasa' }) === 'Sun';
   const seenSeminars = new Set<string>();
+  const latestSunday = recentSermons.find((s) => !s.series?.startsWith('Séminaire') && isSunday(new Date(s.date)));
   const sundaySermons = recentSermons.filter((s) => {
     if (s.series?.startsWith('Séminaire')) {
+      if (latestSunday && s.date <= latestSunday.date) return false;
       if (seenSeminars.has(s.series)) return false;
       seenSeminars.add(s.series);
       return true;
