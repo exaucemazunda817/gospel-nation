@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
-import { CheckboxField, Field, TextAreaField } from '@/components/form/Field';
+import { CheckboxField, Field, TextAreaField, FormError } from '@/components/form/Field';
 
 export default function TestimonyForm() {
   const [submitting, setSubmitting] = useState(false);
@@ -59,7 +59,7 @@ export default function TestimonyForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <Field label="Votre nom (le prénom seul suffit)" name="authorName" required />
+      <Field label="Votre nom (le prénom seul suffit)" name="authorName" required autoComplete="name" />
       <TextAreaField
         label="Votre témoignage"
         name="content"
@@ -78,7 +78,7 @@ export default function TestimonyForm() {
         name="wantsPublished"
       />
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      <FormError message={error} />
 
       <button
         type="submit"

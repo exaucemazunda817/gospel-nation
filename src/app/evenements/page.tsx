@@ -92,6 +92,7 @@ async function EventsContent() {
           <Reveal className="mx-auto max-w-6xl px-5 py-10 sm:px-10 sm:py-12">
             <EmptyState
               title="Aucun événement daté à venir"
+              headingLevel={2}
               text="Les prochaines dates seront annoncées ici. En attendant, retrouvez nos cultes de la semaine et les temps forts de l'année."
               action={{ href: '/predications', label: 'Écouter les prédications' }}
             />

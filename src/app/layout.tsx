@@ -77,13 +77,20 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang="fr" className={`${montserrat.variable} ${playfair.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
+        {/* Sans JavaScript, les blocs à apparition resteraient invisibles. */}
+        <noscript>
+          <style>{'[data-reveal]{opacity:1!important;transform:none!important}'}</style>
+        </noscript>
       </head>
       <body className="flex min-h-full flex-col bg-gn-black text-gn-cream">
+        <a href="#contenu" className="gn-skip">
+          Aller au contenu
+        </a>
         <IntroOverlay />
         <Header />
         <SpotlightTracker />
         <NavTracker />
-        <main className="flex-1">{children}</main>
+        <main id="contenu" tabIndex={-1} className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

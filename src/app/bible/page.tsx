@@ -78,7 +78,7 @@ function BookSection({
   className?: string;
 }) {
   return (
-    <div id={id} className={`scroll-mt-28 ${className}`}>
+    <div id={id} className={className}>
       <h2 className="mb-5 font-serif text-xl font-bold text-gn-ink">{title}</h2>
       <div className="grid grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-2.5 lg:grid-cols-4">
         {books.map((book) => (

@@ -61,13 +61,28 @@ function FieldError({ id, message }: { id: string; message: string | null }) {
   );
 }
 
+// Erreur renvoyée par le serveur après l'envoi (« Une erreur est survenue… ») :
+// même encadré que les erreurs de champ, lisible sur fond clair comme sur fond
+// sombre, et annoncée par les lecteurs d'écran (role="alert"). Avant le
+// 28/10/2026 c'était un simple texte rouge clair, à 2,7:1 sur fond crème et
+// jamais annoncé.
+export function FormError({ message }: { message: string | null }) {
+  if (!message) return null;
+  return (
+    <p role="alert" className="rounded-md border border-red-400/40 bg-red-950 px-3 py-2 text-sm font-medium text-red-100">
+      {message}
+    </p>
+  );
+}
+
 export function Field({
   label,
   name,
   type = 'text',
   required,
   placeholder,
-  defaultValue
+  defaultValue,
+  autoComplete
 }: {
   label: string;
   name: string;
@@ -75,6 +90,8 @@ export function Field({
   required?: boolean;
   placeholder?: string;
   defaultValue?: string;
+  /** Laisse le téléphone proposer le nom, l'e-mail ou le numéro déjà connus (WCAG 1.3.5). */
+  autoComplete?: string;
 }) {
   const id = useId();
   const { error, errorId, controlProps: { clear, ...fieldProps } } = useFieldError();
@@ -91,6 +108,7 @@ export function Field({
         required={required}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        autoComplete={autoComplete}
         className={inputClass}
         {...fieldProps}
         onChange={clear}

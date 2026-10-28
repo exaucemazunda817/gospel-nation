@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
-import { Field, SelectField, TextAreaField } from '@/components/form/Field';
+import { Field, SelectField, TextAreaField, FormError } from '@/components/form/Field';
 
 // Le pasteur ne reçoit que le mardi : plutôt qu'un sélecteur de date libre
 // (qui laissait choisir n'importe quel jour, et débordait du formulaire sur
@@ -39,7 +39,17 @@ function nextTuesdays(count: number): { value: string; label: string }[] {
 }
 
 export default function AppointmentForm() {
-  const tuesdays = useMemo(() => nextTuesdays(8), []);
+  // La page est préparée à l'avance (au déploiement) : calculer les mardis au
+  // rendu serveur figeait des dates déjà passées dans le HTML, différentes de
+  // celles du navigateur, d'où l'erreur React #418 mesurée en ligne le
+  // 28/10/2026. La liste est donc calculée une fois la page affichée.
+  // `mounted` vaut false au rendu serveur et à l'hydratation, true ensuite.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const tuesdays = useMemo(() => (mounted ? nextTuesdays(8) : []), [mounted]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -92,10 +102,10 @@ export default function AppointmentForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Nom" name="requesterName" required />
-        <Field label="Téléphone" name="requesterPhone" type="tel" required />
+        <Field label="Nom" name="requesterName" required autoComplete="name" />
+        <Field label="Téléphone" name="requesterPhone" type="tel" required autoComplete="tel" />
       </div>
-      <Field label="E-mail (optionnel)" name="requesterEmail" type="email" />
+      <Field label="E-mail (optionnel)" name="requesterEmail" type="email" autoComplete="email" />
       <SelectField label="Mardi souhaité — le pasteur reçoit uniquement ce jour-là" name="preferredDate" required>
         <option value="">Choisir une date</option>
         {tuesdays.map((t) => (
@@ -106,7 +116,7 @@ export default function AppointmentForm() {
       </SelectField>
       <TextAreaField label="Motif du rendez-vous" name="reason" required rows={4} />
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      <FormError message={error} />
 
       <button
         type="submit"

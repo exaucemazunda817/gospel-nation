@@ -32,7 +32,7 @@ export default function BibleFavoritesPage() {
         </Link>
 
         {favorites === null ? null : favorites.length === 0 ? (
-          <p className="mt-8 text-sm text-gn-ink/60">
+          <p className="mt-8 text-sm text-gn-ink/70">
             Aucun favori pour l&apos;instant. En lisant un chapitre, cliquez sur l&apos;étoile à côté d&apos;un
             verset pour l&apos;ajouter ici.
           </p>

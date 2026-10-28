@@ -24,8 +24,15 @@ export default function ConnexionPage() {
         appearance={{
           variables: {
             colorPrimary: brandColors.gold,
+            // Texte foncé sur le bouton doré, comme sur tout le site : le blanc
+            // par défaut de Clerk n'y fait que 2,8:1 (mesuré le 28/10/2026).
+            colorPrimaryForeground: brandColors.ink,
             colorBackground: brandColors.white,
             borderRadius: '0.75rem'
+          },
+          elements: {
+            // Lien « S'inscrire » / « Se connecter » : or foncé lisible sur blanc.
+            footerActionLink: { color: brandColors.goldLine }
           }
         }}
       />

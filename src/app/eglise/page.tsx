@@ -184,7 +184,7 @@ export default function EglisePage() {
       </section>
 
       {/* Horaires */}
-      <section id="horaires" className="scroll-mt-28 border-t border-gn-line bg-gn-cream-bg">
+      <section id="horaires" className="border-t border-gn-line bg-gn-cream-bg">
         <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
           <h2 className="mb-10 font-serif text-3xl font-semibold text-gn-ink">Horaires des cultes</h2>
           <div className="grid gap-4 sm:grid-cols-2">

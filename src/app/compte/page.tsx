@@ -37,7 +37,7 @@ export default async function ComptePage() {
               <p className="font-serif text-base font-bold text-gn-ink">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-xs text-gn-ink/60">
+              <p className="text-xs text-gn-ink/70">
                 {user?.primaryEmailAddress?.emailAddress}
               </p>
             </div>

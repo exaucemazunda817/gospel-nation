@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
 import Link from 'next/link';
-import { Field, SelectField, TextAreaField } from '@/components/form/Field';
+import { Field, SelectField, TextAreaField, FormError } from '@/components/form/Field';
 import { CHOOSE_MOTIF_EVENT, CONTACT_MOTIFS } from '@/lib/contact';
 
 export default function ContactForm() {
@@ -94,8 +94,8 @@ export default function ContactForm() {
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="space-y-[18px]">
       <div className="grid gap-[18px] sm:grid-cols-2">
-        <Field label="Nom" name="name" required />
-        <Field label="E-mail" name="email" type="email" required />
+        <Field label="Nom" name="name" required autoComplete="name" />
+        <Field label="E-mail" name="email" type="email" required autoComplete="email" />
       </div>
       <SelectField label="Motif" name="motif">
         {CONTACT_MOTIFS.map((m) => (
@@ -107,7 +107,7 @@ export default function ContactForm() {
       <Field label="Sujet (facultatif)" name="subject" />
       <TextAreaField label="Message" name="message" required rows={5} />
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      <FormError message={error} />
 
       <button
         type="submit"

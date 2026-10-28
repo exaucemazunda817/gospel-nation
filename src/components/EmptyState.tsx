@@ -6,12 +6,16 @@ import Link from 'next/link';
 export default function EmptyState({
   title,
   text,
-  action
+  action,
+  headingLevel = 3
 }: {
   title: string;
   text: string;
   action?: { href: string; label: string };
+  /** 2 quand l'état vide suit directement le titre de la page (pas de niveau sauté). */
+  headingLevel?: 2 | 3;
 }) {
+  const Heading = headingLevel === 2 ? 'h2' : 'h3';
   return (
     <div className="mx-auto max-w-xl rounded-2xl border border-dashed border-gn-gold-line/40 bg-white px-6 py-10 text-center sm:px-10">
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gn-gold/15 text-gn-gold-line" aria-hidden="true">
@@ -21,7 +25,7 @@ export default function EmptyState({
           <path d="M12 16.5h.01" />
         </svg>
       </span>
-      <h3 className="mt-5 font-serif text-xl font-semibold text-gn-ink">{title}</h3>
+      <Heading className="mt-5 font-serif text-xl font-semibold text-gn-ink">{title}</Heading>
       <p className="mx-auto mt-2 max-w-measure text-sm leading-relaxed text-gn-ink/70">{text}</p>
       {action && (
         <Link

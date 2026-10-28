@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
           className="gn-logo-shadow h-16 w-16 object-contain"
         />
         <h1 className="mt-4 text-xl font-extrabold text-gn-ink">Espace admin</h1>
-        <p className="mt-1 text-sm text-gn-ink/60">Accès réservé à l&apos;équipe de l&apos;église</p>
+        <p className="mt-1 text-sm text-gn-ink/70">Accès réservé à l&apos;équipe de l&apos;église</p>
       </div>
       <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
         <AdminLoginForm />

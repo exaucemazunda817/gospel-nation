@@ -86,7 +86,7 @@ export default async function TemoignagesPage() {
         </section>
       )}
 
-      <section id="temoigner" className="gn-glow relative scroll-mt-24 overflow-hidden bg-gn-black">
+      <section id="temoigner" className="gn-glow relative overflow-hidden bg-gn-black">
         <Reveal className="relative mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <Reveal>
             <div className="flex flex-col gap-4">

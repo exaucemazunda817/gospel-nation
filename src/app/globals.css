@@ -128,6 +128,57 @@ input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='h
   border-radius: 4px;
 }
 
+/* Sur les fonds clairs (crème, blanc), l'or vif ne fait que 2,6:1 avec le fond :
+   sous le minimum de 3:1 demandé pour un repère de focus (WCAG 1.4.11). L'or
+   foncé de la charte y fait 5:1 (et encore 3,6:1 sur une carte noire posée sur
+   ces fonds). Sur fond sombre, rien ne change. Audit UX du 28/10/2026. */
+:where(.bg-gn-cream, .bg-gn-cream-bg, .bg-white, .gn-section-light) :focus-visible {
+  outline-color: var(--gn-gold-line);
+}
+
+/* L'en-tête reste collé en haut de l'écran : sans cette marge, un lien ou un
+   champ qui reçoit le focus au clavier (ou une ancre comme #visite) peut se
+   retrouver entièrement caché dessous (mesuré sur /contact à 375 px, le
+   28/10/2026). Remplace les anciens scroll-mt-24/28 posés ancre par ancre. */
+html {
+  scroll-padding-top: 7rem;
+}
+
+/* Lien « Aller au contenu » : invisible tant qu'on ne navigue pas au clavier,
+   il apparaît en premier à la touche Tab et saute le menu. */
+.gn-skip {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 9999px;
+  background: var(--gn-gold);
+  color: var(--gn-black);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-height: 44px;
+  transition: transform 150ms ease-out;
+}
+.gn-skip:focus-visible {
+  transform: none;
+  outline-color: var(--gn-cream);
+}
+#contenu:focus {
+  outline: none;
+}
+
+/* « Réduire les animations » : les blocs à apparition (Reveal) s'affichent tout
+   de suite, avant même le JavaScript. Le !important passe devant le style que
+   motion écrit sur l'élément (opacity: 0 au premier rendu). */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 .placeholder-note {
   border: 1px dashed var(--gn-gold);
   background: #241b0f;

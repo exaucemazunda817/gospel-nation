@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
-import { Field, SelectField, TextAreaField } from '@/components/form/Field';
+import { Field, SelectField, TextAreaField, FormError } from '@/components/form/Field';
 import { OFFER_CATEGORIES, OFFER_LIMITS } from '@/lib/offers';
 
 export default function OfferForm({ defaultName }: { defaultName: string }) {
@@ -70,21 +70,21 @@ export default function OfferForm({ defaultName }: { defaultName: string }) {
       </SelectField>
       <Field label="Titre de l'offre" name="title" required placeholder="Ex. Traiteur pour mariages et anniversaires" />
       <TextAreaField label="Description" name="description" required rows={5} />
-      <p className="-mt-3 text-xs text-gn-ink/60">
+      <p className="-mt-3 text-xs text-gn-ink/70">
         {OFFER_LIMITS.description} caractères au maximum. Décrivez ce que vous proposez, où et à quel public.
       </p>
 
       <fieldset className="space-y-5 rounded-2xl border border-gn-line p-5">
         <legend className="px-2 text-sm font-semibold text-gn-ink">Comment vous contacter</legend>
-        <p className="text-xs text-gn-ink/60">
+        <p className="text-xs text-gn-ink/70">
           Indiquez au moins un moyen. Ces coordonnées seront visibles par tous les visiteurs du site.
         </p>
-        <Field label="Téléphone (WhatsApp)" name="contactPhone" type="tel" placeholder="0812345678" />
-        <Field label="E-mail" name="contactEmail" type="email" />
-        <Field label="Site ou page en ligne" name="externalUrl" placeholder="https://…" />
+        <Field label="Téléphone (WhatsApp)" name="contactPhone" type="tel" placeholder="0812345678" autoComplete="tel" />
+        <Field label="E-mail" name="contactEmail" type="email" autoComplete="email" />
+        <Field label="Site ou page en ligne" name="externalUrl" placeholder="https://…" autoComplete="url" />
       </fieldset>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      <FormError message={error} />
 
       <button
         type="submit"

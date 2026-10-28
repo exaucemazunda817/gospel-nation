@@ -64,7 +64,7 @@ export function LiveStrip({ live }: { live: LiveStatus }) {
 export function LivePlayer({ live }: { live: LiveStatus }) {
   if (live.status !== 'live') return null;
   return (
-    <section id="direct" aria-labelledby="direct-titre" className="scroll-mt-24 bg-gn-black">
+    <section id="direct" aria-labelledby="direct-titre" className="bg-gn-black">
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-10 sm:py-12">
         <Reveal className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>

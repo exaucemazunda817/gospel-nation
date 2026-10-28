@@ -24,6 +24,7 @@ export default function BibleChapterJump({
     <div className="flex flex-wrap items-center gap-2.5">
       <select
         value={currentBook.slug}
+        aria-label="Livre"
         onChange={(e) => router.push(`/bible/${e.target.value}/1${versionQuery}`)}
         className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-xs font-medium text-gn-cream focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       >
@@ -35,6 +36,7 @@ export default function BibleChapterJump({
       </select>
       <select
         value={currentChapter}
+        aria-label="Chapitre"
         onChange={(e) => router.push(`/bible/${currentBook.slug}/${e.target.value}${versionQuery}`)}
         className="rounded-full border border-gn-gold/30 bg-gn-black-soft px-3.5 py-2 text-xs font-medium text-gn-cream focus:border-gn-gold focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
       >
@@ -47,6 +49,7 @@ export default function BibleChapterJump({
       {versions && versions.length > 1 && (
         <select
           value={currentVersion}
+          aria-label="Version de la Bible"
           onChange={(e) => {
             const v = e.target.value;
             const q = v !== 'lsg1910' ? `?version=${v}` : '';

@@ -217,7 +217,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div id="formulaire" className="flex scroll-mt-28 flex-col gap-6">
+          <div id="formulaire" className="flex flex-col gap-6">
             <div className="relative rounded-2xl bg-gn-cream-bg p-7 sm:p-11">
               <span className="gn-beam" aria-hidden="true" />
               <p className="mb-6 font-serif text-xl font-semibold text-gn-ink">Envoyez-nous un message</p>

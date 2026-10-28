@@ -147,9 +147,9 @@ function Block({ block, lead }: { block: ArticleBlock; lead?: boolean }) {
   switch (block.type) {
     case 'h':
       return (
-        <h3 className="mt-8 border-t-2 border-gn-gold/60 pt-3 font-serif text-xl font-bold leading-snug text-gn-ink sm:text-2xl">
+        <h2 className="mt-8 border-t-2 border-gn-gold/60 pt-3 font-serif text-xl font-bold leading-snug text-gn-ink sm:text-2xl">
           {block.text}
-        </h3>
+        </h2>
       );
     case 'p':
       return lead ? (

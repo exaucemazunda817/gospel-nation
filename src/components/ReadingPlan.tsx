@@ -178,6 +178,7 @@ export default function ReadingPlan() {
               type="checkbox"
               checked={Boolean(progress[today.day]?.ot)}
               onChange={() => toggle(today.day, 'ot')}
+              aria-label={`Jour ${today.day} : Ancien Testament lu (${today.ot})`}
               className="h-[18px] w-[18px] accent-gn-gold"
             />
             <span>
@@ -190,6 +191,7 @@ export default function ReadingPlan() {
               type="checkbox"
               checked={Boolean(progress[today.day]?.nt)}
               onChange={() => toggle(today.day, 'nt')}
+              aria-label={`Jour ${today.day} : Nouveau Testament lu (${today.nt})`}
               className="h-[18px] w-[18px] accent-gn-gold"
             />
             <span>
@@ -223,6 +225,7 @@ export default function ReadingPlan() {
           max={TOTAL_DAYS}
           value={jumpValue}
           onChange={(e) => setJumpValue(e.target.value)}
+          aria-label={`Aller au jour n° (1 à ${TOTAL_DAYS})`}
           placeholder={`Aller au jour n° (1–${TOTAL_DAYS})`}
           className="min-w-0 flex-1 rounded-full border border-gn-line bg-white px-4 py-2.5 text-sm text-gn-ink placeholder:text-gn-ink/40 focus:border-gn-gold-line focus:outline-none focus:ring-2 focus:ring-gn-gold/30"
         />
@@ -263,6 +266,7 @@ export default function ReadingPlan() {
                         type="checkbox"
                         checked={Boolean(rec.ot)}
                         onChange={() => toggle(d.day, 'ot')}
+                        aria-label={`Jour ${d.day} : Ancien Testament lu (${d.ot})`}
                         className="h-[17px] w-[17px] accent-gn-gold-dark"
                       />
                       <span className="text-gn-ink/80">
@@ -273,6 +277,7 @@ export default function ReadingPlan() {
                         type="checkbox"
                         checked={Boolean(rec.nt)}
                         onChange={() => toggle(d.day, 'nt')}
+                        aria-label={`Jour ${d.day} : Nouveau Testament lu (${d.nt})`}
                         className="h-[17px] w-[17px] accent-gn-gold-dark"
                       />
                     </div>

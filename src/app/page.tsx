@@ -199,7 +199,7 @@ export default async function HomePage() {
       </section>
 
       {/* Prochain culte / Lieu */}
-      <section id="visite" className="scroll-mt-28 border-b border-gn-line bg-gn-cream">
+      <section id="visite" className="border-b border-gn-line bg-gn-cream">
         <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-6 sm:px-10">
           <div className="flex items-center gap-3.5">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gn-gold-line)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">

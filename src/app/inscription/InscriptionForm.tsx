@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import AnimatedCheckmark from '@/components/AnimatedCheckmark';
-import { Field, FileField, CheckboxField, SelectField } from '@/components/form/Field';
+import { Field, FileField, CheckboxField, SelectField, FormError } from '@/components/form/Field';
 
 type SuccessData = {
   cardUrl: string;
@@ -71,14 +71,14 @@ export default function InscriptionForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Prénom" name="firstName" required />
-        <Field label="Nom" name="lastName" required />
+        <Field label="Prénom" name="firstName" required autoComplete="given-name" />
+        <Field label="Nom" name="lastName" required autoComplete="family-name" />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Téléphone" name="phone" type="tel" required />
-        <Field label="E-mail" name="email" type="email" required />
+        <Field label="Téléphone" name="phone" type="tel" required autoComplete="tel" />
+        <Field label="E-mail" name="email" type="email" required autoComplete="email" />
       </div>
-      <Field label="Date de naissance" name="birthDate" type="date" required />
+      <Field label="Date de naissance" name="birthDate" type="date" required autoComplete="bday" />
       <div className="grid gap-6 sm:grid-cols-2">
         <SelectField label="Sexe" name="sex" required>
           <option value="">Choisir</option>
@@ -87,7 +87,7 @@ export default function InscriptionForm({
         </SelectField>
         <Field label="Commune" name="commune" required placeholder="Ex. Ngaliema" />
       </div>
-      <Field label="Adresse" name="address" required placeholder="Avenue, quartier" />
+      <Field label="Adresse" name="address" required placeholder="Avenue, quartier" autoComplete="street-address" />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <SelectField label="Membre depuis quelle année ?" name="memberSinceYear" required>
@@ -120,7 +120,7 @@ export default function InscriptionForm({
         name="showBirthdayPublicly"
       />
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      <FormError message={error} />
 
       <button
         type="submit"

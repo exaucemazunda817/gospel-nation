@@ -32,7 +32,14 @@ export default function Reveal({
     if (!el) return;
 
     // Respect du réglage « réduire les animations » du téléphone ou de l'ordinateur.
+    // controls.set() seul ne suffisait pas : appelé avant que motion ait branché
+    // ses commandes, il ne faisait rien et le bloc restait invisible pour de bon
+    // (mesuré le 28/10/2026 : 5 blocs cachés sur /contact). Le style est donc
+    // posé directement, et une règle CSS (globals.css, [data-reveal]) affiche
+    // le bloc dès le premier rendu, avant même le JavaScript.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
       controls.set({ opacity: 1, y: 0 });
       return;
     }
@@ -95,7 +102,7 @@ export default function Reveal({
   }, []);
 
   return (
-    <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 32 }} animate={controls}>
+    <motion.div ref={ref} data-reveal="" className={className} initial={{ opacity: 0, y: 32 }} animate={controls}>
       {children}
     </motion.div>
   );

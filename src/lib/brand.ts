@@ -4,6 +4,7 @@
 // globals.css — garder les deux synchronisés.
 export const brandColors = {
   gold: '#d28943',
+  goldLine: '#995b27', // --gn-gold-line : or foncé lisible sur fond clair (5:1)
   white: '#ffffff',
   ink: '#221c13'
 } as const;

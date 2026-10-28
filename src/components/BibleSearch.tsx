@@ -42,6 +42,7 @@ export default function BibleSearch({
           if (error) setError(false);
         }}
         placeholder={placeholder}
+        aria-label="Rechercher un passage de la Bible"
         className={`min-w-0 flex-1 rounded-full border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gn-gold/30 ${
           dark
             ? 'border-gn-gold/30 bg-gn-black-soft text-gn-cream placeholder:text-gn-cream/40 focus:border-gn-gold'
@@ -55,7 +56,7 @@ export default function BibleSearch({
         Aller
       </button>
       {error && (
-        <p className="w-full text-xs text-red-400">
+        <p role="alert" className={`w-full text-xs ${dark ? 'text-red-400' : 'text-red-700'}`}>
           Référence introuvable — essayez par ex. « Jean 3:16 » ou « Psaumes 23 ».
         </p>
       )}

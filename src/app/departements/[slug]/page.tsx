@@ -62,7 +62,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
 
         {isOneLove && (
           <>
-            <p className="mt-4 max-w-measure text-base italic leading-relaxed text-gn-ink/60">
+            <p className="mt-4 max-w-measure text-base italic leading-relaxed text-gn-ink/70">
               « {oneLoveOrg.vision} »
             </p>
             <ul className="mt-5 space-y-2">
@@ -100,7 +100,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
 
             <div className="mt-10">
               <h2 className="font-serif text-lg font-bold text-gn-ink">En images</h2>
-              <p className="mt-1 max-w-measure text-sm text-gn-ink/60">
+              <p className="mt-1 max-w-measure text-sm text-gn-ink/70">
                 Photos du lancement de {oneLoveProject.name} — {oneLoveProject.firstMilestone.label},{' '}
                 {oneLoveProject.firstMilestone.date}.
               </p>
@@ -110,7 +110,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
                     <div className="relative aspect-[4/3] w-full">
                       <Image src={photo.src} alt={photo.caption} fill sizes="(max-width: 640px) 100vw, 380px" className="object-cover" />
                     </div>
-                    <figcaption className="px-3.5 py-3 text-xs leading-relaxed text-gn-ink/65">
+                    <figcaption className="px-3.5 py-3 text-xs leading-relaxed text-gn-ink/70">
                       {photo.caption}
                     </figcaption>
                   </figure>
@@ -120,7 +120,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
 
             <div className="mt-8 rounded-2xl border border-gn-line bg-white p-6">
               <h2 className="font-serif text-lg font-bold text-gn-ink">Vidéos et actualités</h2>
-              <p className="mt-1 max-w-measure text-sm text-gn-ink/60">
+              <p className="mt-1 max-w-measure text-sm text-gn-ink/70">
                 One Love publie régulièrement des vidéos (reels) de ses activités sur Facebook.
               </p>
               <a
@@ -168,7 +168,7 @@ export default async function DepartementDetailPage({ params }: PageProps) {
         {isNationClasse && nationClasseManuels.length > 0 && (
           <div className="mt-8">
             <h2 className="font-serif text-lg font-bold text-gn-ink">Manuels disponibles</h2>
-            <p className="mt-1 max-w-measure text-sm text-gn-ink/60">
+            <p className="mt-1 max-w-measure text-sm text-gn-ink/70">
               Supports de cours des différents parcours de l&apos;École, téléchargeables au format PDF.
             </p>
             <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
