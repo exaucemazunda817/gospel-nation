@@ -7,6 +7,7 @@ import Reveal from '@/components/Reveal';
 import { BackStrip } from '@/components/BackLink';
 import { prisma } from '@/lib/prisma';
 import { isClerkConfigured } from '@/lib/clerk-configured';
+import { isJobsAssistantEnabled } from '@/lib/jobs-enabled';
 import ProfileForm from './ProfileForm';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilPage({ searchParams }: { searchParams: Promise<{ retour?: string }> }) {
-  if (!isClerkConfigured) redirect('/emplois');
+  if (!isClerkConfigured || !isJobsAssistantEnabled()) redirect('/emplois');
   const { userId } = await auth();
   const { retour } = await searchParams;
   // Retour seulement vers une offre du site (jamais une adresse externe).

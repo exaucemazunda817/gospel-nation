@@ -106,7 +106,7 @@ export default function ConfidentialitePage() {
                   <strong>Assistant de rédaction (page Emplois)</strong> : pour préparer votre CV et votre lettre de
                   motivation, un assistant fondé sur l&apos;intelligence artificielle Claude, d&apos;Anthropic, lit
                   votre profil et l&apos;offre choisie. Les documents vous sont envoyés par e-mail (via{' '}
-                  <strong>Resend</strong>) et ne sont pas conservés sur le site.
+                  <strong>Gmail</strong>, Google) et ne sont pas conservés sur le site.
                 </li>
                 <li>
                   <strong>YouTube</strong> : lecture des prédications. Les vignettes proviennent de YouTube ; le lecteur

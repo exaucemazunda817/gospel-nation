@@ -8,6 +8,7 @@ import { BackStrip } from '@/components/BackLink';
 import { prisma } from '@/lib/prisma';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import { slotsLabel } from '@/lib/jobs';
+import { isJobsAssistantEnabled } from '@/lib/jobs-enabled';
 import { fr } from '@/lib/typo';
 import ApplyButton from './ApplyButton';
 
@@ -42,7 +43,9 @@ export default async function OffrePage({ params }: Props) {
 
   const state = closed
     ? 'closed'
-    : !userId
+    : !isJobsAssistantEnabled()
+      ? 'soon'
+      : !userId
       ? 'signedOut'
       : !profile
         ? 'noProfile'
@@ -79,6 +82,11 @@ export default async function OffrePage({ params }: Props) {
           </p>
           <div className="mt-4">
             {state === 'closed' && <p className="text-sm font-medium text-gn-ink">Cette offre est clôturée.</p>}
+            {state === 'soon' && (
+              <p className="text-sm font-medium text-gn-ink">
+                L’aide à la candidature ouvre bientôt. En attendant, contactez directement l’employeur.
+              </p>
+            )}
             {state === 'signedOut' && (
               <Link
                 href={`/connexion?redirect_url=/emplois/${id}`}

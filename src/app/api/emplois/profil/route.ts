@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import { parseProfileInput } from '@/lib/jobs';
 import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
+import { isJobsAssistantEnabled } from '@/lib/jobs-enabled';
 
 async function signedInUser() {
   if (!isClerkConfigured) return null;
@@ -12,6 +13,9 @@ async function signedInUser() {
 }
 
 export async function PUT(request: NextRequest) {
+  if (!isJobsAssistantEnabled()) {
+    return NextResponse.json({ error: 'L’assistant de candidature ouvre bientôt.' }, { status: 503 });
+  }
   if (!(await allowRequest('emplois-profil', request, 20, 60 * 60 * 1000))) {
     return NextResponse.json({ error: TOO_MANY_REQUESTS_MESSAGE }, { status: 429 });
   }

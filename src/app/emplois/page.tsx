@@ -6,6 +6,7 @@ import Reveal from '@/components/Reveal';
 import { fr } from '@/lib/typo';
 import { prisma } from '@/lib/prisma';
 import { slotsLabel } from '@/lib/jobs';
+import { isJobsAssistantEnabled } from '@/lib/jobs-enabled';
 
 // Régénérée au plus toutes les 60 s : sinon figée au build ; ménage aussi la base Neon.
 export const revalidate = 60;
@@ -25,6 +26,7 @@ export default async function EmploisPage() {
     orderBy: { createdAt: 'desc' }
   });
   const dropUrl = process.env.NEXT_PUBLIC_JOBS_DROP_URL;
+  const assistant = isJobsAssistantEnabled();
 
   return (
     <div className="bg-gn-cream-bg">
@@ -36,6 +38,7 @@ export default async function EmploisPage() {
       />
 
       <Reveal className="mx-auto max-w-6xl px-5 py-12 sm:px-10 sm:py-14">
+        {assistant ? (
         <div className="mb-10 rounded-2xl border border-gn-line bg-white p-6 sm:p-8">
           <h2 className="font-serif text-xl font-semibold text-gn-ink">Comment ça marche</h2>
           <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-gn-ink/75">
@@ -63,13 +66,22 @@ export default async function EmploisPage() {
             )}
           </div>
         </div>
+        ) : (
+        <div className="mb-10 rounded-2xl border border-gn-line bg-white p-6 sm:p-8">
+          <h2 className="font-serif text-xl font-semibold text-gn-ink">L’aide à la candidature ouvre bientôt</h2>
+          <p className="mt-2 text-sm leading-relaxed text-gn-ink/75">
+            Bientôt, vous pourrez remplir votre profil et recevoir par e-mail un CV et une lettre de motivation adaptés à
+            chaque offre. En attendant, contactez directement l’employeur indiqué sur chaque offre.
+          </p>
+        </div>
+        )}
 
         {offers.length === 0 ? (
           <EmptyState
             headingLevel={2}
             title="Aucune offre pour le moment"
-            text="Les offres validées apparaissent ici. Remplissez dès maintenant votre profil : il sera prêt quand une offre vous plaira."
-            action={{ href: '/emplois/profil', label: 'Remplir mon profil' }}
+            text="Les offres validées par l’équipe apparaissent ici. Revenez bientôt."
+            action={assistant ? { href: '/emplois/profil', label: 'Remplir mon profil' } : undefined}
           />
         ) : (
           <ul className="grid gap-5 md:grid-cols-2">

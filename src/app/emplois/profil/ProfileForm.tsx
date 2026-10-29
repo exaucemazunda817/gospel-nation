@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Field, TextAreaField, FormError } from '@/components/form/Field';
-import { PROFILE_LIMITS } from '@/lib/jobs';
+
+// Champs du profil (mêmes noms que PROFILE_LIMITS côté serveur, qui reste juge).
+const PROFILE_KEYS = ['fullName', 'phone', 'city', 'headline', 'summary', 'experience', 'education', 'skills', 'languages'];
 
 type Initial = {
   fullName: string;
@@ -31,7 +33,7 @@ export default function ProfileForm({ initial, back }: { initial: Initial | null
     setError(null);
     const f = new FormData(formEl);
     const payload: Record<string, unknown> = { consent };
-    for (const key of Object.keys(PROFILE_LIMITS)) payload[key] = f.get(key);
+    for (const key of PROFILE_KEYS) payload[key] = f.get(key);
 
     try {
       const res = await fetch('/api/emplois/profil', {

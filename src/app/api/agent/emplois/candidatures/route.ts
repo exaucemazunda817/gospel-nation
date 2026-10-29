@@ -3,8 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { isJobsAgent } from '@/lib/jobs';
 
 // Candidatures dont la tranche d'heures est arrivée. L'agent reçoit l'offre et
-// le profil nécessaires à la rédaction, jamais l'adresse e-mail : l'envoi se
-// fait côté site, à l'adresse du profil. Seules les offres publiées sont servies.
+// le profil nécessaires à la rédaction, plus l'adresse e-mail du profil (envoi
+// par Gmail depuis la routine). Seules les offres publiées sont servies.
 export async function GET(request: NextRequest) {
   if (!isJobsAgent(request)) return NextResponse.json({ error: 'Non autorisé.' }, { status: 401 });
 
@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
       return [
         {
           id: a.id,
+          email: p.email,
           offer: {
             title: a.job.title,
             employer: a.job.employer,

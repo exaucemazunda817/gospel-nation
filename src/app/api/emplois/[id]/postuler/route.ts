@@ -3,12 +3,16 @@ import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 import { isClerkConfigured } from '@/lib/clerk-configured';
 import { nextJobSlot, slotsLabel } from '@/lib/jobs';
+import { isJobsAssistantEnabled } from '@/lib/jobs-enabled';
 import { allowRequest, TOO_MANY_REQUESTS_MESSAGE } from '@/lib/rate-limit';
 
 // Frein : au-delà, les candidatures en attente sont déjà nombreuses pour un seul compte.
 const MAX_QUEUED_PER_ACCOUNT = 5;
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!isJobsAssistantEnabled()) {
+    return NextResponse.json({ error: 'L’assistant de candidature ouvre bientôt.' }, { status: 503 });
+  }
   if (!isClerkConfigured) {
     return NextResponse.json({ error: 'Les comptes ne sont pas disponibles pour le moment.' }, { status: 503 });
   }
