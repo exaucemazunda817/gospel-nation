@@ -5,7 +5,7 @@ import { timingSafeEqual } from 'node:crypto';
 
 // Heures (Kinshasa, UTC+1 toute l'année, pas d'heure d'été) auxquelles l'agent
 // rédige les candidatures. À modifier ici ET dans l'horaire de la routine.
-export const JOB_SLOTS_KINSHASA = [12, 19] as const;
+export const JOB_SLOTS_KINSHASA = [9, 12, 15, 18, 21] as const;
 const KINSHASA_OFFSET_HOURS = 1;
 
 /** Prochaine tranche strictement après `now` (renvoyée en UTC). */
@@ -25,7 +25,8 @@ export function nextJobSlot(now: Date = new Date()): Date {
 }
 
 export function slotsLabel(): string {
-  return JOB_SLOTS_KINSHASA.map((h) => `${h} h`).join(' et ');
+  const hours = JOB_SLOTS_KINSHASA.map((h) => `${h} h`);
+  return hours.length > 1 ? `${hours.slice(0, -1).join(', ')} et ${hours[hours.length - 1]}` : hours.join('');
 }
 
 export const PROFILE_LIMITS = {

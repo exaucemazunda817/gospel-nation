@@ -10,8 +10,8 @@ Variables sur Vercel (type Configuration sauf le secret) :
   posés, « Postuler » et le profil affichent « ouvre bientôt » et les API refusent (503).
 - `NEXT_PUBLIC_JOBS_DROP_URL` (facultatif) : lien du document Drive où les autres déposent leurs offres.
 
-Tranches d'heures : `JOB_SLOTS_KINSHASA` dans `src/lib/jobs.ts` (12 h et 19 h, heure de Kinshasa, UTC+1).
-L'horaire de la routine B doit être le MÊME (11:05 et 18:05 UTC, juste après la tranche).
+Tranches d'heures : `JOB_SLOTS_KINSHASA` dans `src/lib/jobs.ts` (9 h, 12 h, 15 h, 18 h et 21 h, heure de Kinshasa, UTC+1).
+L'horaire de la routine B doit être le MÊME (08:05, 11:05, 14:05, 17:05 et 20:05 UTC, juste après chaque tranche).
 
 ## API de l'agent (jeton obligatoire, sinon 401)
 - `POST /api/agent/emplois/offres` : `{ "offers": [{ title, description, source: "NOTION"|"DRIVE", sourceRef,
