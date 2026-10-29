@@ -1,0 +1,39 @@
+DÉPÔT D'OFFRES D'EMPLOI — GOSPEL NATION
+(À coller tel quel dans un document Google Docs partagé « tous ceux qui ont le lien peuvent modifier ».
+Pour Notion : une page « Offres de Mazunda », une fiche par offre, mêmes lignes.)
+
+Comment déposer une offre
+1. Copiez le MODÈLE ci-dessous tout en bas du document, en dessous de la dernière offre.
+2. Remplissez chaque ligne. Laissez vide ce que vous ne savez pas.
+3. Séparez chaque offre de la précédente par une ligne contenant seulement trois tirets : ---
+4. Ne modifiez, ne supprimez et ne déplacez jamais l'offre de quelqu'un d'autre.
+
+Ce qui se passe ensuite
+- Une fois par jour, l'équipe de l'église relève ce document.
+- Chaque offre est relue par un administrateur AVANT d'apparaître sur le site (page Emplois). Une offre peut être refusée sans explication.
+- N'écrivez ici AUCUNE information personnelle sur un candidat, aucun mot de passe, aucune demande d'argent. Une offre qui demande de payer pour postuler sera refusée.
+
+Règles de la fiche
+- Un seul poste par fiche.
+- La référence (REF) doit être unique : la date du jour et vos initiales, par exemple 2026-10-29-JK-1. Ne la changez plus ensuite.
+- Date limite au format AAAA-MM-JJ, ou vide.
+- Pièces demandées : « CV », « lettre » ou « CV et lettre ».
+
+========================================
+MODÈLE À COPIER
+========================================
+REF :
+Titre du poste :
+Employeur :
+Ville :
+Type de contrat (CDI, CDD, stage, temps partiel, mission) :
+Description du poste :
+Profil et exigences :
+Pièces demandées (CV, lettre, CV et lettre) :
+Date limite (AAAA-MM-JJ) :
+Contact de l'employeur (téléphone, e-mail ou lien) :
+---
+
+========================================
+OFFRES DÉPOSÉES (ajoutez la vôtre sous cette ligne)
+========================================
