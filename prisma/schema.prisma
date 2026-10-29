@@ -374,3 +374,81 @@ model Announcement {
   @@index([pinned, publishedAt])
   @@map("announcements")
 }
+
+enum JobSource {
+  NOTION
+  DRIVE
+  ADMIN
+}
+
+enum JobApplicationStatus {
+  QUEUED
+  SENT
+}
+
+/// Offre d'emploi publiée sur /emplois. Les offres de Mazunda (Notion) sont
+/// publiées d'office ; celles déposées par d'autres (Drive) naissent PENDING et
+/// attendent sa validation dans /admin/emplois.
+model JobOffer {
+  id            String           @id @default(cuid())
+  title         String
+  employer      String?
+  location      String?
+  contractType  String?
+  description   String
+  /// Ce que l'offre demande (pièces, qualités) : l'agent s'en sert pour adapter le CV et la lettre.
+  requirements  String?
+  wantsCv       Boolean          @default(true)
+  wantsLetter   Boolean          @default(true)
+  contactPhone  String?
+  contactEmail  String?
+  externalUrl   String?
+  deadline      DateTime?
+  source        JobSource
+  /// Identifiant de l'offre dans sa source (page Notion, ligne du document Drive) : évite les doublons.
+  sourceRef     String?          @unique
+  status        ModerationStatus @default(PENDING)
+  createdAt     DateTime         @default(now())
+  applications  JobApplication[]
+
+  @@index([status])
+  @@map("job_offers")
+}
+
+/// Profil de candidat rempli par le membre. Supprimable par lui à tout moment.
+model JobProfile {
+  id          String   @id @default(cuid())
+  clerkUserId String   @unique
+  email       String
+  fullName    String
+  phone       String?
+  city        String?
+  headline    String?
+  summary     String?
+  experience  String?
+  education   String?
+  skills      String?
+  languages   String?
+  consentAt   DateTime
+  updatedAt   DateTime @updatedAt
+
+  @@map("job_profiles")
+}
+
+/// Candidature en attente de rédaction. Le CV et la lettre ne sont JAMAIS
+/// stockés : ils partent par e-mail au candidat dès qu'ils sont rédigés.
+model JobApplication {
+  id           String               @id @default(cuid())
+  jobId        String
+  job          JobOffer             @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  clerkUserId  String
+  status       JobApplicationStatus @default(QUEUED)
+  /// Prochaine tranche d'heures : l'agent ne traite que les candidatures dont cette heure est passée.
+  processAfter DateTime
+  sentAt       DateTime?
+  createdAt    DateTime             @default(now())
+
+  @@unique([jobId, clerkUserId])
+  @@index([status, processAfter])
+  @@map("job_applications")
+}

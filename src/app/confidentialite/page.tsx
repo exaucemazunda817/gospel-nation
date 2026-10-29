@@ -50,6 +50,11 @@ export default function ConfidentialitePage() {
                 <strong>Compte visiteur (plan de lecture, offres de services) :</strong> les informations de connexion
                 gérées par notre prestataire Clerk, et votre progression de lecture.
               </li>
+              <li>
+                <strong>Profil de candidat (page Emplois) :</strong> nom, téléphone, ville, métier, présentation,
+                expériences, études, compétences et langues, avec votre accord (case jamais cochée d&apos;avance),
+                ainsi que les offres auxquelles vous postulez. Ces informations ne sont jamais publiques.
+              </li>
             </ul>
           )
         },
@@ -98,6 +103,12 @@ export default function ConfidentialitePage() {
                   <strong>Clerk</strong> : création de compte et connexion.
                 </li>
                 <li>
+                  <strong>Assistant de rédaction (page Emplois)</strong> : pour préparer votre CV et votre lettre de
+                  motivation, un assistant fondé sur l&apos;intelligence artificielle Claude, d&apos;Anthropic, lit
+                  votre profil et l&apos;offre choisie. Les documents vous sont envoyés par e-mail (via{' '}
+                  <strong>Resend</strong>) et ne sont pas conservés sur le site.
+                </li>
+                <li>
                   <strong>YouTube</strong> : lecture des prédications. Les vignettes proviennent de YouTube ; le lecteur
                   vidéo ne se charge qu&apos;au moment où vous cliquez.
                 </li>
@@ -115,7 +126,8 @@ export default function ConfidentialitePage() {
             <p>
               Les données d&apos;un membre sont conservées tant qu&apos;il fait partie de l&apos;église ou jusqu&apos;à
               sa demande de suppression. Les messages de contact et les demandes de rendez-vous sont conservés le temps
-              nécessaire à leur traitement.
+              nécessaire à leur traitement. Votre profil de candidat reste enregistré jusqu&apos;à ce que vous le
+              supprimiez vous-même depuis la page Emplois, ce qui efface aussi vos candidatures en attente.
             </p>
           )
         },

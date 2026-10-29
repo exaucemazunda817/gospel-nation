@@ -21,6 +21,7 @@ const STATIC_PATHS: { path: string; priority: number }[] = [
   { path: '/blog', priority: 0.7 },
   { path: '/temoignages', priority: 0.6 },
   { path: '/services', priority: 0.6 },
+  { path: '/emplois', priority: 0.6 },
   { path: '/dons', priority: 0.6 },
   { path: '/rendez-vous', priority: 0.6 },
   { path: '/contact', priority: 0.6 },

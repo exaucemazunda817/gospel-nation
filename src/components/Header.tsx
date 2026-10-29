@@ -23,6 +23,7 @@ const resourceLinks = [
   { href: '/blog', label: 'Bibliothèque' },
   { href: '/temoignages', label: 'Témoignages' },
   { href: '/services', label: 'Offres et services' },
+  { href: '/emplois', label: 'Emplois' },
   { href: '/rendez-vous', label: 'Prendre rendez-vous' }
 ];
 
