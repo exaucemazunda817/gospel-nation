@@ -404,6 +404,8 @@ model JobOffer {
   contactEmail  String?
   externalUrl   String?
   deadline      DateTime?
+  /// Affiche de l'offre : chemin d'un fichier du site (public/emplois/...), jamais un lien externe.
+  imageUrl      String?
   source        JobSource
   /// Identifiant de l'offre dans sa source (page Notion, ligne du document Drive) : évite les doublons.
   sourceRef     String?          @unique

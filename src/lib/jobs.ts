@@ -101,9 +101,49 @@ export type IngestedOffer = {
   contactEmail: string | null;
   externalUrl: string | null;
   deadline: Date | null;
+  imageUrl: string | null;
   source: 'NOTION' | 'DRIVE';
   sourceRef: string;
 };
+
+// Affiche : uniquement un fichier du site (public/emplois/...), jamais un lien externe
+// (pas de pisteur, pas de contenu tiers affiché sur la page).
+const OFFER_IMAGE = /^\/emplois\/[a-z0-9-]{1,120}\.(webp|jpg|jpeg|png)$/;
+
+/**
+ * Corrections à appliquer à une offre DÉJÀ enregistrée quand l'agent la renvoie.
+ * - Contact, lien, date limite, affiche, pièces demandées : mis à jour dès que l'agent les envoie
+ *   (valeur non vide) et qu'ils changent ; jamais effacés par un envoi qui les omet.
+ * - Textes (titre, employeur, lieu, contrat, description, exigences) : seulement si l'agent le demande
+ *   explicitement avec `"update": true`, sinon un résumé reformulé chaque jour réécrirait l'offre.
+ * - Statut et source ne changent jamais ici (un retrait par l'administrateur reste un retrait).
+ */
+export function offerChanges(
+  existing: Record<string, unknown>,
+  data: IngestedOffer,
+  raw: unknown
+): Partial<IngestedOffer> {
+  const sent = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+  const out: Record<string, unknown> = {};
+  const always = ['contactPhone', 'contactEmail', 'externalUrl', 'imageUrl'] as const;
+  const texts = ['title', 'employer', 'location', 'contractType', 'description', 'requirements'] as const;
+  for (const k of always) {
+    const v = data[k];
+    if (v && v !== existing[k]) out[k] = v;
+  }
+  if (sent.update === true) {
+    for (const k of texts) {
+      const v = data[k];
+      if (v && v !== existing[k]) out[k] = v;
+    }
+  }
+  for (const k of ['wantsCv', 'wantsLetter'] as const) {
+    if (typeof sent[k] === 'boolean' && sent[k] !== existing[k]) out[k] = sent[k];
+  }
+  const before = existing.deadline instanceof Date ? existing.deadline.getTime() : null;
+  if (data.deadline && data.deadline.getTime() !== before) out.deadline = data.deadline;
+  return out as Partial<IngestedOffer>;
+}
 
 // Seuls http(s) : le lien est affiché tel quel, un « javascript: » y serait exécuté au clic.
 function safeUrl(raw: string): string | null {
@@ -147,6 +187,8 @@ export function parseIngestedOffer(body: unknown): { ok: true; data: IngestedOff
   const deadlineRaw = str(i.deadline);
   const deadline = deadlineRaw ? new Date(deadlineRaw) : null;
   if (deadline && Number.isNaN(deadline.getTime())) return { ok: false, error: 'Date limite invalide.' };
+  const imageUrl = str(i.imageUrl);
+  if (imageUrl && !OFFER_IMAGE.test(imageUrl)) return { ok: false, error: 'Image invalide.' };
 
   return {
     ok: true,
@@ -163,6 +205,7 @@ export function parseIngestedOffer(body: unknown): { ok: true; data: IngestedOff
       contactEmail: email,
       externalUrl,
       deadline,
+      imageUrl: imageUrl || null,
       source,
       sourceRef
     }

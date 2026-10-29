@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
@@ -65,6 +66,17 @@ export default async function OffrePage({ params }: Props) {
           {[offer.employer, offer.location].filter(Boolean).join(' · ')}
           {offer.deadline && ` · Avant le ${offer.deadline.toLocaleDateString('fr-FR', { timeZone: 'Africa/Kinshasa' })}`}
         </p>
+        {offer.imageUrl && (
+          <Image
+            src={offer.imageUrl}
+            alt={`Affiche de l’offre : ${offer.title}`}
+            width={864}
+            height={1080}
+            sizes="(min-width: 640px) 512px, 100vw"
+            className="mt-6 h-auto w-full max-w-lg rounded-lg border border-gn-line"
+            priority
+          />
+        )}
         <h2 className="mt-6 font-serif text-xl font-semibold text-gn-ink">Description</h2>
         <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-gn-ink/80">{fr(offer.description)}</p>
         {offer.requirements && (

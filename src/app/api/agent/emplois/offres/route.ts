@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { isJobsAgent, parseIngestedOffer } from '@/lib/jobs';
+import { isJobsAgent, offerChanges, parseIngestedOffer } from '@/lib/jobs';
 
 // Réservé à l'agent planifié (jeton JOBS_AGENT_SECRET). Il dépose les offres
 // lues dans Notion (publiées d'office : ce sont celles de Mazunda) et dans le
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Envoyez entre 1 et 50 offres.' }, { status: 400 });
   }
 
-  const results: { sourceRef: string; result: 'created' | 'exists' | 'invalid'; error?: string }[] = [];
+  const results: { sourceRef: string; result: 'created' | 'updated' | 'exists' | 'invalid'; error?: string }[] = [];
   for (const item of list) {
     const parsed = parseIngestedOffer(item);
     if (!parsed.ok) {
@@ -28,9 +28,15 @@ export async function POST(request: NextRequest) {
       results.push({ sourceRef: ref.slice(0, 200), result: 'invalid', error: parsed.error });
       continue;
     }
-    const found = await prisma.jobOffer.findUnique({ where: { sourceRef: parsed.data.sourceRef }, select: { id: true } });
+    const found = await prisma.jobOffer.findUnique({ where: { sourceRef: parsed.data.sourceRef } });
     if (found) {
-      results.push({ sourceRef: parsed.data.sourceRef, result: 'exists' });
+      const changes = offerChanges(found, parsed.data, item);
+      if (Object.keys(changes).length > 0) {
+        await prisma.jobOffer.update({ where: { id: found.id }, data: changes });
+        results.push({ sourceRef: parsed.data.sourceRef, result: 'updated' });
+      } else {
+        results.push({ sourceRef: parsed.data.sourceRef, result: 'exists' });
+      }
       continue;
     }
     await prisma.jobOffer.create({

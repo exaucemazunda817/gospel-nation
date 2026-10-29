@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import EmptyState from '@/components/EmptyState';
 import PageHero from '@/components/PageHero';
@@ -89,17 +90,31 @@ export default async function EmploisPage() {
               <li key={offer.id}>
                 <Link
                   href={`/emplois/${offer.id}`}
-                  className="gn-card-lift gn-spot flex h-full flex-col rounded-lg border border-gn-line bg-white p-6"
+                  className="gn-card-lift gn-spot flex h-full flex-col overflow-hidden rounded-lg border border-gn-line bg-white"
                 >
-                  {offer.contractType && (
-                    <span className="text-xs font-bold uppercase tracking-wide text-gn-gold-line">{offer.contractType}</span>
+                  {offer.imageUrl && (
+                    <div className="relative aspect-[16/10] w-full bg-gn-cream-bg">
+                      {/* Décorative : le titre de l’offre juste dessous dit déjà de quoi il s’agit. */}
+                      <Image
+                        src={offer.imageUrl}
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 50vw, 100vw"
+                        className="object-cover object-top"
+                      />
+                    </div>
                   )}
-                  <h2 className="mt-2 font-serif text-xl font-semibold leading-snug text-gn-ink">{fr(offer.title)}</h2>
-                  <p className="mt-1 text-sm text-gn-muted-strong">
-                    {[offer.employer, offer.location].filter(Boolean).join(' · ')}
-                  </p>
-                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gn-ink/75">{offer.description}</p>
-                  <span className="mt-auto pt-4 text-sm font-semibold text-gn-gold-line">Voir l’offre</span>
+                  <div className="flex flex-1 flex-col p-6">
+                    {offer.contractType && (
+                      <span className="text-xs font-bold uppercase tracking-wide text-gn-gold-line">{offer.contractType}</span>
+                    )}
+                    <h2 className="mt-2 font-serif text-xl font-semibold leading-snug text-gn-ink">{fr(offer.title)}</h2>
+                    <p className="mt-1 text-sm text-gn-muted-strong">
+                      {[offer.employer, offer.location].filter(Boolean).join(' · ')}
+                    </p>
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gn-ink/75">{offer.description}</p>
+                    <span className="mt-auto pt-4 text-sm font-semibold text-gn-gold-line">Voir l’offre</span>
+                  </div>
                 </Link>
               </li>
             ))}

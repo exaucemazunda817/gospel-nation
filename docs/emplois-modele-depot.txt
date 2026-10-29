@@ -17,7 +17,7 @@ Règles de la fiche
 - Un seul poste par fiche.
 - La référence (REF) doit être unique : la date du jour et vos initiales, par exemple 2026-10-29-JK-1. Ne la changez plus ensuite.
 - Date limite au format AAAA-MM-JJ, ou vide.
-- Pièces demandées : « CV », « lettre » ou « CV et lettre ».
+- Pièces demandées : « CV », « lettre » ou « CV et lettre ». Si l'offre demande aussi d'autres pièces (copie du diplôme, attestation, photo, références...), listez-les sur la même ligne : l'agent n'enverra que le CV et/ou la lettre demandés, et préviendra le candidat de préparer lui-même les autres pièces.
 
 ========================================
 MODÈLE À COPIER
@@ -29,7 +29,7 @@ Ville :
 Type de contrat (CDI, CDD, stage, temps partiel, mission) :
 Description du poste :
 Profil et exigences :
-Pièces demandées (CV, lettre, CV et lettre) :
+Pièces demandées (CV, lettre, CV et lettre, et si besoin d'autres pièces : copie du diplôme, attestation, photo, références...) :
 Date limite (AAAA-MM-JJ) :
 Contact de l'employeur (téléphone, e-mail ou lien) :
 ---
