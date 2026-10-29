@@ -24,6 +24,7 @@ const community = [
   { href: '/blog', label: 'Bibliothèque' },
   { href: '/temoignages', label: 'Témoignages' },
   { href: '/services', label: 'Offres et services' },
+  { href: '/emplois', label: 'Emplois' },
   { href: '/dons', label: 'Faire un don' },
   { href: '/rendez-vous', label: 'Prendre rendez-vous' }
 ];

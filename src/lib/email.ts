@@ -131,3 +131,44 @@ export async function sendAppointmentConfirmation(appointment: {
     html
   });
 }
+
+// E-mail de candidature : le CV et la lettre rédigés par l'agent partent au
+// candidat, à l'adresse de SON profil (jamais une adresse fournie par l'agent).
+// Rien n'est conservé sur le site. Les textes sont échappés avant d'entrer dans le HTML.
+export async function sendJobApplicationResult(params: {
+  to: string;
+  fullName: string;
+  jobTitle: string;
+  cv: string | null;
+  letter: string | null;
+  advice: string | null;
+}): Promise<EmailResult> {
+  const sections: { title: string; body: string }[] = [];
+  if (params.cv) sections.push({ title: 'Votre CV adapté', body: params.cv });
+  if (params.letter) sections.push({ title: 'Votre lettre de motivation', body: params.letter });
+  if (params.advice) sections.push({ title: 'Conseils pour cette candidature', body: params.advice });
+
+  const subject = `Votre candidature : ${params.jobTitle}`.slice(0, 150);
+  const text = [
+    `Bonjour ${params.fullName},`,
+    '',
+    `Voici les documents préparés pour l'offre « ${params.jobTitle} ». Relisez-les et corrigez-les avant de les envoyer à l'employeur.`,
+    '',
+    ...sections.flatMap((s) => [`=== ${s.title} ===`, s.body, '']),
+    `${church.name}`
+  ].join('\n');
+
+  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1f1a14">
+<p>Bonjour ${escapeHtml(params.fullName)},</p>
+<p>Voici les documents préparés pour l'offre « ${escapeHtml(params.jobTitle)} ». Relisez-les et corrigez-les avant de les envoyer à l'employeur.</p>
+${sections
+  .map(
+    (s) =>
+      `<h3 style="margin:24px 0 8px">${escapeHtml(s.title)}</h3><div style="white-space:pre-wrap;border-left:3px solid #d99a3d;padding-left:12px">${escapeHtml(s.body)}</div>`
+  )
+  .join('\n')}
+<p style="margin-top:24px">${escapeHtml(church.name)}</p>
+</div>`;
+
+  return sendEmail({ to: params.to, subject, text, html });
+}
