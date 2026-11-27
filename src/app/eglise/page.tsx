@@ -73,7 +73,6 @@ export default function EglisePage() {
         title="Qui sommes-nous"
         image="/hero/eglise-v3.jpg"
         imagePosition="50% 50%"
-        imageShape="landscape"
       />
 
       {/* Notre histoire */}

@@ -319,7 +319,7 @@ export default function EvenementsPage() {
         crumbs={[{ label: "Événements" }]}
         title="Événements"
         subtitle="Conférences, retraites, formations et temps forts de la vie de Gospel Nation."
-        image="/hero/evenements-v2.jpg"
+        image="/hero/evenements-v3.jpg"
         imagePosition="50% 20%"
       />
 
