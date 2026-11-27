@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { church } from '@/lib/content';
 import AppointmentForm from './AppointmentForm';
-import HeroBackground from '@/components/HeroBackground';
+import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
@@ -37,21 +36,13 @@ const infoItems = [
 export default function RendezVousPage() {
   return (
     <div className="bg-gn-black">
-      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
-        <HeroBackground first="/hero/rendez-vous.jpg" position="object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
-        <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
-          <p className="mb-1 text-xs text-gn-cream/80">
-            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Prendre rendez-vous</span>
-          </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Prendre rendez-vous</h1>
-          <p className="mt-3.5 max-w-md text-sm text-gn-cream/90">
-            Un besoin de prière, de conseil pastoral ou d&apos;accompagnement ? Prenez rendez-vous avec le
-            pasteur.
-          </p>
-        </Reveal>
-      </section>
+      <PageHero
+        crumbs={[{ label: "Prendre rendez-vous" }]}
+        title="Prendre rendez-vous"
+        subtitle="Un besoin de prière, de conseil pastoral ou d&apos;accompagnement ? Prenez rendez-vous avec le pasteur."
+        image="/hero/rendez-vous.jpg"
+        imagePosition="50% 10%"
+      />
 
       <section className="bg-gn-black">
         <Reveal className="mx-auto grid max-w-6xl gap-14 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.8fr_1.2fr]">

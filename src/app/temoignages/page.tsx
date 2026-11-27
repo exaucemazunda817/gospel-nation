@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import HeroBackground from '@/components/HeroBackground';
+import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import ValveText from '@/components/ValveText';
 import { fr } from '@/lib/typo';
@@ -59,20 +58,13 @@ export default async function TemoignagesPage() {
 
   return (
     <div className="bg-gn-cream-bg">
-      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
-        <HeroBackground first="/hero/temoignages.jpg" position="object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
-        <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
-          <p className="mb-1 text-xs text-gn-cream/80">
-            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Témoignages</span>
-          </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Témoignages</h1>
-          <p className="mt-3.5 max-w-md text-sm text-gn-cream/90">
-            {fr("Ce que Dieu accomplit dans la vie des membres de Gospel Nation. Et si c'était à votre tour de partager le vôtre ?")}
-          </p>
-        </Reveal>
-      </section>
+      <PageHero
+        crumbs={[{ label: "Témoignages" }]}
+        title="Témoignages"
+        subtitle={fr("Ce que Dieu accomplit dans la vie des membres de Gospel Nation. Et si c'était à votre tour de partager le vôtre ?")}
+        image="/hero/temoignages.jpg"
+        imagePosition="50% 0%"
+      />
 
       {/* Sans témoignage publié, pas de boîte vide : l'invitation à témoigner vient directement. */}
       {testimonies.length > 0 && (

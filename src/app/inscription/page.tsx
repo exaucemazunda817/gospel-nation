@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import InscriptionForm from './InscriptionForm';
-import HeroBackground from '@/components/HeroBackground';
+import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import { BackStrip } from '@/components/BackLink';
 
@@ -55,19 +54,12 @@ export default async function InscriptionPage() {
 
   return (
     <div className="bg-gn-black">
-      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
-        <HeroBackground first="/hero/inscription.jpg" position="object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
-        <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
-          <p className="mb-1 text-xs text-gn-cream/80">
-            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Devenir membre</span>
-          </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">
-            Devenir membre de Gospel Nation
-          </h1>
-        </Reveal>
-      </section>
+      <PageHero
+        crumbs={[{ label: "Devenir membre" }]}
+        title="Devenir membre de Gospel Nation"
+        image="/hero/inscription.jpg"
+        imagePosition="50% 15%"
+      />
 
       <BackStrip tone="dark" />
 

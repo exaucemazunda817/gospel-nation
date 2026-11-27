@@ -25,6 +25,7 @@ export default async function ProposerOffrePage() {
         title="Proposer une offre"
         subtitle="Un produit, un service ou une offre d'emploi à partager avec la communauté."
         image="/hero/services.jpg"
+        imagePosition="50% 10%"
       />
       <BackStrip href="/services" />
 

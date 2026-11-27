@@ -24,6 +24,7 @@ export default function BiblePage() {
         title="La Bible"
         subtitle="Quatre versions dans le domaine public. Cherchez une référence ou choisissez un livre pour commencer votre lecture."
         image="/hero/bible.jpg"
+        imagePosition="50% 0%"
       >
         <BibleSearch variant="dark" />
       </PageHero>

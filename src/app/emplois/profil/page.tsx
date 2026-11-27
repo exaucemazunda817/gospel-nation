@@ -29,7 +29,7 @@ export default async function ProfilPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="bg-gn-cream-bg">
-      <PageHero eyebrow="Emplois" title="Mon profil de candidat" image="/hero/services.jpg" />
+      <PageHero eyebrow="Emplois" title="Mon profil de candidat" image="/hero/services.jpg" imagePosition="50% 10%" />
       <BackStrip href="/emplois" />
       <Reveal className="mx-auto max-w-2xl px-5 py-14 sm:px-10 sm:py-16">
         {userId ? (

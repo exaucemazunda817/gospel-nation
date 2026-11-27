@@ -252,28 +252,6 @@ html {
   display: none;
 }
 
-/* Léger zoom lent en fond des bannières à gros titres (pages intérieures) —
-   donne un peu de vie à une photo par ailleurs statique, sans distraire du
-   texte par-dessus. Désactivé si l'utilisateur préfère moins de mouvement. */
-@keyframes gn-kenburns {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08);
-  }
-}
-
-.gn-kenburns {
-  animation: gn-kenburns 16s ease-out forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gn-kenburns {
-    animation: none;
-  }
-}
-
 /* Bloc de chargement (squelette) affiché le temps qu'une requête à la base
    (souvent ralentie par la reprise du compute Neon, voir CLAUDE.md) résolve —
    évite un écran vide qui laisse croire à une panne. */

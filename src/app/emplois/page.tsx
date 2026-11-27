@@ -36,6 +36,7 @@ export default async function EmploisPage() {
         title="Des offres, et de l’aide pour postuler"
         subtitle="Remplissez votre profil une fois. Quand vous postulez, vos documents adaptés à l’offre vous arrivent par e-mail."
         image="/hero/services.jpg"
+        imagePosition="50% 10%"
       />
 
       <Reveal className="mx-auto max-w-6xl px-5 py-12 sm:px-10 sm:py-14">

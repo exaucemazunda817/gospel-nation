@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import EmptyState from '@/components/EmptyState';
-import HeroBackground from '@/components/HeroBackground';
+import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
 import { fr } from '@/lib/typo';
 import { prisma } from '@/lib/prisma';
@@ -70,20 +70,13 @@ export default async function ServicesPage() {
 
   return (
     <div className="bg-gn-cream-bg">
-      <section data-page-hero className="relative h-[320px] overflow-hidden border-b border-gn-gold/20 bg-gn-black sm:h-[380px]">
-        <HeroBackground first="/hero/services.jpg" position="object-top" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gn-black/85 via-gn-black/55 to-gn-black/30 sm:bg-gradient-to-r sm:from-gn-black/85 sm:via-gn-black/50 sm:to-gn-black/20" />
-        <div className="gn-glow pointer-events-none absolute inset-0" />
-        <Reveal className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-5 pt-[88px] sm:px-10 sm:pt-[104px]">
-          <p className="mb-1 text-xs text-gn-cream/80">
-            <Link href="/" className="inline-flex min-h-[44px] items-center hover:text-gn-gold">Accueil</Link> / <span className="text-gn-gold-light">Offres et services</span>
-          </p>
-          <h1 className="font-serif text-3xl font-bold text-gn-cream sm:text-hero">Offres et services</h1>
-          <p className="mt-3.5 max-w-lg text-sm text-gn-cream/90">
-            {fr("Découvrez ce que les membres de Gospel Nation proposent, et soutenez-vous les uns les autres.")}
-          </p>
-        </Reveal>
-      </section>
+      <PageHero
+        crumbs={[{ label: "Offres et services" }]}
+        title="Offres et services"
+        subtitle={fr("Découvrez ce que les membres de Gospel Nation proposent, et soutenez-vous les uns les autres.")}
+        image="/hero/services.jpg"
+        imagePosition="50% 10%"
+      />
 
       <section className="border-b border-gn-line bg-white">
         <Reveal className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-5 py-9 sm:px-10">
