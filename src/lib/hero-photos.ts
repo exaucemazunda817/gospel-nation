@@ -4,7 +4,8 @@
 //  - Photos de l'église : bande tirée de la photo d'origine, sans rien inventer, SAUF departements-v2
 //    et gospel-news, dont les côtés ont été prolongés par IA (Adobe Firefly, décision de Mazunda du
 //    27/11/2026 ; les personnes et les visages sont ceux de la photo d'origine).
-//  - eglise-v4, bibliotheque, services-v2, emplois, rendez-vous-v2 : photos libres de Pexels
+//  - eglise-v5 (À propos) : photo de l'église IMG_7693, déjà horizontale, simple recadrage.
+//  - eglise-v4 (plus utilisée), bibliotheque, services-v2, emplois, rendez-vous-v2 : photos libres de Pexels
 //    (licence Pexels : usage gratuit, sans mention obligatoire), recadrées en 4:5 et 2,4:1.
 export const HERO_WIDE: Record<string, string> = {
   '/hero/bible.jpg': '/hero/wide/bible.jpg',
@@ -16,6 +17,7 @@ export const HERO_WIDE: Record<string, string> = {
   '/hero/dons.jpg': '/hero/wide/dons.jpg',
   '/hero/eglise-v3.jpg': '/hero/wide/eglise-v3.jpg',
   '/hero/eglise-v4.jpg': '/hero/wide/eglise-v4.jpg',
+  '/hero/eglise-v5.jpg': '/hero/wide/eglise-v5.jpg',
   '/hero/emplois.jpg': '/hero/wide/emplois.jpg',
   '/hero/evenements-v3.jpg': '/hero/wide/evenements.jpg',
   '/hero/gospel-news.jpg': '/hero/wide/gospel-news.jpg',
