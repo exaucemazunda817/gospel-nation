@@ -7,6 +7,9 @@
 //  - eglise-v5 (À propos) : photo de l'église IMG_7693, déjà horizontale, simple recadrage.
 //  - eglise-v4 (plus utilisée), bibliotheque, services-v2, emplois, rendez-vous-v2 : photos libres de Pexels
 //    (licence Pexels : usage gratuit, sans mention obligatoire), recadrées en 4:5 et 2,4:1.
+//  - Depuis le 27/11 (soir) : services-v3 (créatrice de mode, Pexels 5934218, mur et côtés prolongés par
+//    Firefly), emplois-v2 (entretien d'embauche, Pexels 5439137), inscription-v2 (IMG_7663 de l'église,
+//    côtés prolongés par Firefly pour l'ordinateur). services-v2 et emplois (gros plans) ne servent plus.
 export const HERO_WIDE: Record<string, string> = {
   '/hero/bible.jpg': '/hero/wide/bible.jpg',
   '/hero/bibliotheque.jpg': '/hero/wide/bibliotheque.jpg',
@@ -19,13 +22,16 @@ export const HERO_WIDE: Record<string, string> = {
   '/hero/eglise-v4.jpg': '/hero/wide/eglise-v4.jpg',
   '/hero/eglise-v5.jpg': '/hero/wide/eglise-v5.jpg',
   '/hero/emplois.jpg': '/hero/wide/emplois.jpg',
+  '/hero/emplois-v2.jpg': '/hero/wide/emplois-v2.jpg',
   '/hero/evenements-v3.jpg': '/hero/wide/evenements.jpg',
   '/hero/gospel-news.jpg': '/hero/wide/gospel-news.jpg',
   '/hero/inscription.jpg': '/hero/wide/inscription.jpg',
+  '/hero/inscription-v2.jpg': '/hero/wide/inscription-v2.jpg',
   '/hero/predications.jpg': '/hero/wide/predications.jpg',
   '/hero/rendez-vous.jpg': '/hero/wide/rendez-vous.jpg',
   '/hero/rendez-vous-v2.jpg': '/hero/wide/rendez-vous-v2.jpg',
   '/hero/services.jpg': '/hero/wide/services.jpg',
   '/hero/services-v2.jpg': '/hero/wide/services-v2.jpg',
+  '/hero/services-v3.jpg': '/hero/wide/services-v3.jpg',
   '/hero/temoignages.jpg': '/hero/wide/temoignages.jpg'
 };

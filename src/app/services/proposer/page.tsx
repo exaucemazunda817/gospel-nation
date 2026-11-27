@@ -24,8 +24,8 @@ export default async function ProposerOffrePage() {
         eyebrow="Offres et services"
         title="Proposer une offre"
         subtitle="Un produit, un service ou une offre d'emploi à partager avec la communauté."
-        image="/hero/services-v2.jpg"
-        imagePosition="50% 20%"
+        image="/hero/services-v3.jpg"
+        imagePosition="50% 30%"
       />
       <BackStrip href="/services" />
 

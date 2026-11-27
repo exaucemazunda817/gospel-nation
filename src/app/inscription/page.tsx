@@ -57,8 +57,8 @@ export default async function InscriptionPage() {
       <PageHero
         crumbs={[{ label: "Devenir membre" }]}
         title="Devenir membre de Gospel Nation"
-        image="/hero/inscription.jpg"
-        imagePosition="50% 15%"
+        image="/hero/inscription-v2.jpg"
+        imagePosition="50% 20%"
       />
 
       <BackStrip tone="dark" />

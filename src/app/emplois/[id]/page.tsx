@@ -58,7 +58,7 @@ export default async function OffrePage({ params }: Props) {
 
   return (
     <div className="bg-gn-cream-bg">
-      <PageHero eyebrow={offer.contractType ?? 'Offre d’emploi'} title={offer.title} image="/hero/emplois.jpg" imagePosition="50% 20%" />
+      <PageHero eyebrow={offer.contractType ?? 'Offre d’emploi'} title={offer.title} image="/hero/emplois-v2.jpg" imagePosition="50% 30%" />
       <BackStrip href="/emplois" />
 
       <Reveal className="mx-auto max-w-3xl px-5 py-12 sm:px-10 sm:py-14">
