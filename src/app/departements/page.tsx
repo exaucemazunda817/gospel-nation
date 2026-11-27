@@ -27,8 +27,8 @@ export default async function DepartementsPage() {
         eyebrow="Servir ensemble"
         title="Nos départements"
         subtitle="Chaque département est un espace pour servir, grandir et rejoindre une équipe selon votre appel."
-        image="/hero/departements.jpg"
-        imagePosition="50% 0%"
+        image="/hero/departements-v2.jpg"
+        imagePosition="50% 20%"
       />
 
       <div className="bg-white py-12 sm:py-16">

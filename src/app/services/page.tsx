@@ -74,8 +74,8 @@ export default async function ServicesPage() {
         crumbs={[{ label: "Offres et services" }]}
         title="Offres et services"
         subtitle={fr("Découvrez ce que les membres de Gospel Nation proposent, et soutenez-vous les uns les autres.")}
-        image="/hero/services.jpg"
-        imagePosition="50% 10%"
+        image="/hero/services-v2.jpg"
+        imagePosition="50% 20%"
       />
 
       <section className="border-b border-gn-line bg-white">

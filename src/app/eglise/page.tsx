@@ -71,7 +71,7 @@ export default function EglisePage() {
       <PageHero
         crumbs={[{ label: "À propos" }]}
         title="Qui sommes-nous"
-        image="/hero/eglise-v3.jpg"
+        image="/hero/eglise-v4.jpg"
         imagePosition="50% 50%"
       />
 

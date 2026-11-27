@@ -35,6 +35,8 @@ export default async function DepartementDetailPage({ params }: PageProps) {
           eyebrow="Département"
           title={dept.name}
           subtitle="Le journal de Gospel Nation, publié trois fois par an, en janvier, mai et septembre. Coordonné par Maryse."
+          image="/hero/gospel-news.jpg"
+          imagePosition="50% 20%"
         />
         <GospelNewsList />
         <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-10">

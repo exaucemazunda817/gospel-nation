@@ -40,8 +40,8 @@ export default function RendezVousPage() {
         crumbs={[{ label: "Prendre rendez-vous" }]}
         title="Prendre rendez-vous"
         subtitle="Un besoin de prière, de conseil pastoral ou d&apos;accompagnement ? Prenez rendez-vous avec le pasteur."
-        image="/hero/rendez-vous.jpg"
-        imagePosition="50% 10%"
+        image="/hero/rendez-vous-v2.jpg"
+        imagePosition="50% 0%"
       />
 
       <section className="bg-gn-black">

@@ -42,8 +42,8 @@ export default async function BlogPage() {
         crumbs={[{ label: "Bibliothèque" }]}
         title="Bibliothèque"
         subtitle="Manuels, revues et enseignements de Gospel Nation à télécharger."
-        image="/hero/blog.jpg"
-        imagePosition="50% 30%"
+        image="/hero/bibliotheque.jpg"
+        imagePosition="50% 50%"
       />
 
       <Reveal className="mx-auto max-w-6xl px-5 py-16 sm:px-10 sm:py-20">
