@@ -279,7 +279,7 @@ export default async function HomePage() {
                 ))}
               </AutoScrollBand>
             </div>
-            <div className="hidden gap-6 sm:grid sm:grid-cols-2">
+            <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
               {issues.map((issue, index) => (
                 <Reveal key={issue.fileUrl} delay={index * 0.06}>
                   {issueCard(issue, index)}

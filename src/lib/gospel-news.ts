@@ -1,4 +1,4 @@
-// Articles des revues Gospel News (Vol. 2 et Vol. 3), repris des PDF publiés.
+// Articles des revues Gospel News (Vol. 1, 2 et 3), repris des PDF publiés.
 // Le texte est celui des revues (seules les coupures de ligne du PDF ont été rétablies).
 // Images : `poster` = affiche ou visuel vertical (montré en entier, sur un fond flou),
 // `photo` = photo horizontale (remplit toute la largeur).
@@ -164,6 +164,143 @@ export const gospelNewsArticles: GospelNewsArticle[] = [
       p('Ces trois niveaux constituent une progression logique et spirituelle qui accompagne chaque étudiant dans son développement global. L’École Nation Classe n’est pas une simple formation, mais un processus de transformation profonde.'),
       p('Elle vise à susciter une génération enracinée dans la vérité, disciplinée dans le service et influente dans les nations.'),
       p('Appelés, Ouvriers et Ministères : trois étapes, une seule mission, impacter le monde pour la gloire de Dieu.')
+    ]
+  },
+
+  // ─────────────── Vol. 1 — juillet 2024 ───────────────
+  // Premier numéro (« Journal de l'Église », n°01), fourni par Mazunda le 27/11/2026.
+  // Les articles ne sont pas signés dans la revue : pas d'auteur.
+  {
+    slug: 'la-grace',
+    volume: 1,
+    date: 'juillet 2024',
+    title: 'La grâce',
+    blocks: [
+      quote(
+        'Car c’est par la grâce que vous êtes sauvés, par le moyen de la foi. Et cela ne vient pas de vous, c’est le don de Dieu.',
+        'Éphésiens 2:8 · Pensée inspirée et inspirante du trimestre'
+      ),
+      p('La grâce est ce par quoi nous avons été sauvés, et la foi est le moyen par lequel nous accédons à cette grâce.'),
+      p('La grâce est la bienveillance et la faveur de Dieu. C’est un don divin immérité qui nous élève de notre plus bas état à un niveau élevé. Alors que la miséricorde pardonne nos fautes, la grâce les couvre et les fait oublier.'),
+      p('Il est essentiel de connaître la grâce de Dieu pour mener une vie spirituelle épanouie. Résister aux tentations devient plus facile lorsque nous réalisons tout ce que Dieu nous a donné.'),
+      p('Savons-nous réellement ce que nous avons reçu en Jésus-Christ par sa grâce ? Connaissons-nous notre position en lui et ce que nous sommes devenus par la grâce de Dieu ?'),
+      p('Adam et Ève furent tentés par l’envie de ressembler à Dieu en mangeant le fruit défendu, mais Dieu avait déjà dit : « Faisons l’homme à notre image, selon notre ressemblance ». Les tentations sont beaucoup plus fortes quand nous ignorons qui nous sommes en Christ et ce que nous avons reçu par sa grâce.'),
+      p('Compter sur la grâce de Dieu est crucial pour avoir la foi, car la grâce englobe tout ce que Dieu nous a offert, et la foi est le moyen d’y accéder. Si nous ne croyons pas en la bonté de Dieu et en son inépuisable grâce, nous ne réalisons pas tout ce que nous avons reçu, et notre foi est affaiblie.'),
+      quote(
+        'Or, sans la foi il est impossible de lui être agréable ; car il faut que celui qui s’approche de Dieu croie que Dieu existe et qu’il est le rémunérateur de ceux qui le cherchent.',
+        'Hébreux 11:6'
+      ),
+      p('Il est crucial de croire en Dieu en tant que rémunérateur, de croire en sa récompense et en ses bontés pour ceux qui le cherchent, car c’est ainsi que nous sommes remplis de grâce.'),
+      p('Le message actuel de Dieu pour l’humanité est la grâce, apportée par Jésus-Christ, contrairement à la loi qui prescrivait des actions à suivre. La grâce nous invite à croire en ce que Dieu a fait et donné. Jean 1:17 dit : « Car la loi a été donnée par Moïse, la grâce et la vérité sont venues par Jésus-Christ. »'),
+      p('Nous sommes appelés à vivre pleinement dans le tout accompli de notre Seigneur Jésus-Christ par sa grâce, à profiter de toutes les bénédictions reçues et à bénéficier de sa puissance et de son autorité en lui. La grâce nous donne la force nécessaire dans nos faiblesses et nous aide à accomplir l’impossible.'),
+      p('Il est aussi essentiel de nous appuyer sur la grâce de Dieu plutôt que sur nos propres forces, comme le souligne le Psaume 127:2 : « En vain vous levez-vous matin, vous couchez-vous tard, et mangez-vous le pain de douleur ; Il en donne autant à ses bien-aimés pendant leur sommeil. » En restant dans le repos de Dieu, nous recevons toutes ses grâces et bénédictions.'),
+      p('En apprenant à compter sur lui plutôt que sur nous-mêmes, nous rendons les choses beaucoup plus faciles.'),
+      p('Approchons-nous donc avec assurance du trône de la grâce pour obtenir miséricorde et secours dans nos besoins, comme le dit Hébreux 4:16.'),
+      h('Prière'),
+      p('Seigneur,'),
+      p('Je me tiens aujourd’hui devant toi, avec confiance en ton amour infini.'),
+      p('Je viens devant ton trône de grâce pour être secouru dans mes besoins et faiblesses et recevoir tes bienfaits donnés en Jésus-Christ.'),
+      p('Je désire demeurer dans ton repos et ne plus m’appuyer sur mes forces, mes connaissances et mes capacités, mais m’appuyer sur ton amour pour moi manifesté en Jésus-Christ.'),
+      p('J’accepte dès aujourd’hui, et maintenant, l’œuvre du tout accompli de ton fils et je me décharge sur Jésus de tout poids, de tous les fardeaux qui me rendent incapable de quoi que ce soit.'),
+      p('Par Jésus-Christ, maintenant, et par ce qu’il a accompli, je déclare que je suis capable de toutes bonnes œuvres et que j’ai accès à toute grâce excellente venant d’en haut.'),
+      p('Je suis le choix de Dieu, élu de Dieu pour que par ma vie, Dieu démontre son amour, sa force et sa sagesse.'),
+      p('Amen.')
+    ]
+  },
+  {
+    slug: 'ladies-nation-cap-sur-l-univers-des-femmes',
+    volume: 1,
+    date: 'juillet 2024',
+    title: 'Ladies Nation : cap sur l’univers des femmes',
+    blocks: [
+      img('ladies-epouse-1', 'Réunion de Ladies Nation sur le thème « L’épouse »', 'photo'),
+      p('Le département des femmes de Lady’s Nation a organisé, samedi 11 mai 2024, une réunion autour du thème « L’épouse » au sein de son église Gospel Nation, située dans la commune de Ngaliema, précisément sur l’avenue Didace Pembe, dans le quartier Joli Parc.'),
+      p('L’oratrice du jour, Marie-Anne Kemba, a guidé les participantes à travers une exploration profonde des écritures bibliques sur le mariage ainsi que le rôle de l’épouse dans notre société, expliquant le dessein divin du mariage tel que révélé dans le livre de Genèse 2:18-25. « Dieu a créé l’institution du mariage afin d’unir l’homme et la femme en une seule entité harmonieuse », a-t-elle démontré. Lors de la réunion, Madame Kemba a énuméré trois points pertinents qui ont trait à l’épouse.'),
+      h('Primo, Épouse du Christ'),
+      p('En s’appuyant sur 2 Corinthiens 11:2 (« Car je suis jaloux de vous d’une jalousie de Dieu, parce que je vous ai fiancés à un seul époux, pour vous présenter à Christ comme une vierge pure. »), Apocalypse 22:14 et Jean 3:29, elle a souligné l’importance de la relation intime entre l’Église et le Christ, comparant cette union à celle de l’époux et de son épouse.'),
+      h('Secundo, Épouse dans les Proverbes'),
+      p('Faisant référence au livre des Proverbes 14:1 (« La femme sage bâtit sa maison, et la femme insensée la renverse de ses propres mains. »), elle a exposé les qualités et la sagesse d’une femme vertueuse.'),
+      h('Tertio, Épouse dans le Nouveau Testament'),
+      p('En explorant Colossiens 3:18-19 ainsi que Romains 5:5, elle a mis l’accent sur les principes bibliques qui régissent le rôle de l’épouse dans les relations conjugales.'),
+      img('ladies-epouse-2', 'Les participantes de la réunion Ladies Nation', 'photo'),
+      p('Marie-Anne Kemba a partagé une citation inspirante de Derek Prince : « Dieu, le faiseur de mariage et de miracle ». L’oratrice a souligné la vision céleste du mariage comme étant une multiplication plutôt qu’une simple addition, démontrant qu’une fois les deux êtres unis, ils deviennent une seule chair.'),
+      p('Madame Kemba a conclu son discours en rappelant que le premier miracle de Jésus s’est produit pendant les noces de Cana, afin de manifester sa capacité à transformer l’ordinaire en extraordinaire, ainsi que l’amour divin qui unit les époux. Les participantes retiendront que Dieu est un Dieu de miracle et de multiplication.'),
+      p('Ce rassemblement passionnant et enrichissant a permis aux femmes présentes d’approfondir leur compréhension du rôle sacré de l’épouse selon les enseignements bibliques.')
+    ]
+  },
+  {
+    slug: 'one-nation-un-phenomene',
+    volume: 1,
+    date: 'juillet 2024',
+    title: 'One Nation : un phénomène au sein de l’église Gospel Nation',
+    blocks: [
+      img('one-nation', 'L’équipe de basket One Nation sur le terrain', 'photo'),
+      p('Fondée le 14 août 2023, l’équipe de basket One Nation est rapidement devenue un phénomène au sein de l’église Gospel Nation. Dirigée par le pasteur Kanda Kabangu, cette équipe a acquis une renommée grâce à ses performances impressionnantes. Menée par le capitaine Michael Mwaku et le vice-capitaine Kevin Mwepu, One Nation s’efforce de révéler les talents que Dieu a déposés en chaque joueur, en utilisant le basketball pour impacter et évangéliser.'),
+      h('Le parcours de l’équipe'),
+      p('Depuis sa création, One Nation a connu des succès notables, avec un bilan de 3 victoires pour 2 défaites lors de matchs officiels. L’équipe se distingue par sa détermination et son esprit collectif. Les membres apportent chacun leur style unique de jeu, contribuant à la cohésion et à la performance de l’équipe.'),
+      h('Le rôle du pasteur Kanda Kabangu'),
+      p('En tant que coach, le pasteur Kanda Kabangu joue un rôle essentiel dans la réussite de One Nation. Outre ses responsabilités pastorales, il utilise ses compétences d’entraîneur pour guider et motiver les joueurs. Sa passion pour le basketball et sa foi inébranlable font de lui un leader inspirant pour l’équipe.'),
+      h('Impacter et évangéliser par le basketball'),
+      p('L’objectif principal de One Nation est de révéler les dons divins de chaque joueur en utilisant le basketball comme moyen d’expression. Chaque match est l’occasion de démontrer que foi et sport peuvent aller de pair et que les talents sportifs peuvent servir à l’évangélisation. One Nation illustre l’impact positif que le basketball peut avoir sur la vie des joueurs et de ceux qui les entourent.'),
+      h('Conclusion'),
+      p('L’équipe de basket One Nation de l’église Gospel Nation est bien plus qu’une simple équipe sportive. Elle incarne la passion, la foi et la détermination de ses membres, qui ont pour mission d’impacter et d’évangéliser à travers le basketball. Sous la direction du pasteur Kanda Kabangu et menée par le capitaine Michael Mwaku, One Nation continue de briller sur le terrain tout en témoignant de l’amour et de la puissance de Dieu.')
+    ]
+  },
+  {
+    slug: 'nation-united-le-chemin-vers-l-impact',
+    volume: 1,
+    date: 'juillet 2024',
+    title: 'Nation United : le chemin vers l’impact',
+    blocks: [
+      img('nation-united-1', 'Les deux pasteurs invités au talk-show United Youth Session', 'poster'),
+      p('La jeunesse de l’église Gospel Nation a organisé un talk-show dénommé « United Youth Session » le samedi 25 mai 2024, sur le terrain de basket de l’église. Le thème de cette rencontre était « Le jeune, la Chrétienté et la persécution », un sujet pertinent dans le contexte actuel où les jeunes chrétiens font face à diverses épreuves dans leur vie spirituelle.'),
+      p('L’église, composée essentiellement de jeunes désireux de vivre une vie de disciple, est confrontée à la persécution inhérente au processus de ressemblance à Jésus-Christ. Pour cette première édition, le pasteur Louison Tunasi de l’église La Dernière Moisson et le pasteur Kanda Kabangu de Gospel Nation étaient présents pour partager leurs expériences et leur parcours chrétien. Leur objectif était de munir les jeunes des armes nécessaires pour faire face aux défis quotidiens et les préparer à avoir un impact significatif.'),
+      img('nation-united-2', 'L’animateur pendant le talk-show United Youth Session', 'poster'),
+      p('Issus de cultures différentes, les deux invités ont répondu avec sagesse et gaieté aux questions de l’animateur Moïse Kitenge ainsi qu’à celles du public. Ce talk-show spécial a créé un cadre de partage où tous les éléments étaient réunis pour édifier et encourager la jeunesse face aux défis qu’elle rencontre.'),
+      p('En résumé, les jeunes ont été exhortés à profiter de la grâce de leur jeunesse pour manifester les dons et talents que le Seigneur a déposés en eux, au risque de ne plus pouvoir le faire plus tard à cause de la vieillesse. Donner sa vie à Jésus dès le plus jeune âge n’est pas synonyme de vie ratée, mais bien une grâce qui demande de payer le prix de la mort en soi-même pour impacter.'),
+      p('Face à la persécution, l’amour demeure le moyen par lequel la vérité libère les pensées captives du monde. Jésus et ses disciples ont eux aussi vécu la persécution, mais ils ont prié le Père de pardonner par amour et en conscience de la vérité, le chemin et la vie.'),
+      img('nation-united-3', 'Le public du talk-show United Youth Session', 'poster'),
+      p('En fin de compte, cette activité a été une réussite pour le comité de la jeunesse, qui prépare déjà le prochain événement, dénommé « Heaven Ciné ». L’intégralité du talk-show United Youth Session est disponible sur la page YouTube de l’église.')
+    ]
+  },
+  {
+    slug: 'one-love-une-bulle-d-amour',
+    volume: 1,
+    date: 'juillet 2024',
+    title: 'One Love : une bulle d’amour',
+    blocks: [
+      img('one-love-1', 'Des enfants accueillis par One Love', 'poster'),
+      p('Fondée en 2013 et installée en République Démocratique du Congo depuis 2016, l’association One Love se consacre à la cause des enfants abandonnés ainsi qu’à leur éducation.'),
+      p('Depuis 2017, One Love héberge à temps plein 13 enfants, leur fournissant tous les moyens de subsistance nécessaires et créant un environnement sécurisé et chaleureux où ils peuvent s’épanouir.'),
+      h('Les activités et programmes'),
+      p('One Love ne se contente pas d’offrir un abri. Chaque semaine, son centre aéré, le One Love Center, accueille une centaine d’enfants pour deux heures de jeux et de détente. Dans ce cadre, les enfants peuvent se divertir et se développer dans un environnement sécurisé et chaleureux. Chaque mercredi, samedi et dimanche de 14 h à 16 h, l’association accueille des enfants issus de quartiers défavorisés, leur offrant ainsi une échappatoire et une opportunité d’apprentissage et de socialisation.'),
+      img('one-love-2', 'Un enfant du One Love Center avec un ballon', 'poster'),
+      p('En 2013, One Love a fait l’acquisition d’un terrain de 3 hectares à Kasangulu, une petite ville du Kongo Central, avec un rêve ambitieux : construire le One Love Village. Ce village sera un lieu où les enfants abandonnés pourront trouver un foyer, un lieu de vie sécurisé et recevoir la meilleure éducation et formation possible.'),
+      p('En 2024, l’objectif est de construire le premier bloc de ce village : une école maternelle et primaire ouverte à tous les enfants, quels que soient leurs âges, leurs niveaux de vie et leurs besoins.'),
+      h('Événements et collectes de fonds'),
+      p('Le vendredi 8 décembre 2023 a eu lieu un gala de charité au Chapiteau du Pullman Hôtel de Kinshasa. Cet événement a permis de rassembler des fonds essentiels pour la construction de l’école maternelle et primaire du One Love Village, marquant une étape importante vers la réalisation de notre rêve.'),
+      h('La vision'),
+      p('Chez One Love, le rêve est de construire un village accueillant les enfants abandonnés et leur offrant un foyer chaleureux, une éducation de qualité et un environnement où ils peuvent prospérer. Chaque initiative prise, chaque événement organisé et chaque programme mis en place est un pas de plus vers la réalisation de cette vision.'),
+      h('Rejoignez-nous'),
+      p('Si vous partagez la vision de One Love et que vous souhaitez contribuer à la création d’un avenir meilleur pour les enfants de la RDC, n’hésitez pas à rejoindre cette cause. Ensemble, offrons une bulle d’amour et de sécurité à ceux qui en ont le plus besoin.')
+    ]
+  },
+  {
+    slug: 'gospel-prod-impacter-par-nos-voix',
+    volume: 1,
+    date: 'juillet 2024',
+    title: 'Gospel Prod : impacter par nos voix',
+    blocks: [
+      img('gospel-prod', 'Des artistes de Gospel Prod', 'poster'),
+      p('Gospel Prod est la boîte de production audiovisuelle de l’église Gospel Nation. À travers elle, les artistes ont pour mission d’impacter par leurs voix, de répandre l’amour de Christ au travers de leur musique.'),
+      quote(
+        'Il y a diversité de dons, mais le même Esprit ; diversité de ministères, mais le même Seigneur ; diversité d’opérations, mais le même Dieu qui opère tout en tous. Or, à chacun la manifestation de l’Esprit est donnée pour l’utilité commune.',
+        '1 Corinthiens 12:4-7'
+      ),
+      h('(Re)découvrez'),
+      list('Maryse : « Confidence »', 'Maité KC : « Torrent »'),
+      h('Les sorties à venir'),
+      list('Georges ML : « No No »', 'Gospel Nation Music : « Mimonisa »', 'Victor : « Matondo »')
     ]
   },
 

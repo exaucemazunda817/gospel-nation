@@ -315,7 +315,8 @@ export const nationClasseManuels = [
 // et à mesure (le journal trimestriel paraît en janvier, mai et septembre —
 // voir la description du département). Stockées dans public/bibliotheque/
 // (même fichier proposé aussi comme article de la Bibliothèque). À compléter
-// avec les volumes suivants et, si un jour retrouvé, le volume 1.
+// avec les volumes suivants. Le volume 1 (juillet 2024, « Journal de l'Église »
+// n°01) a été fourni par Mazunda le 27/11/2026.
 export const gospelNewsIssues = [
   {
     volume: 3,
@@ -330,6 +331,13 @@ export const gospelNewsIssues = [
     fileUrl: '/bibliotheque/revue-gospel-news-vol-2.pdf',
     coverUrl: '/bibliotheque/covers/revue-gospel-news-vol-2.jpg',
     size: '3,8 Mo'
+  },
+  {
+    volume: 1,
+    date: 'juillet 2024',
+    fileUrl: '/bibliotheque/revue-gospel-news-vol-1.pdf',
+    coverUrl: '/bibliotheque/covers/revue-gospel-news-vol-1.jpg',
+    size: '1,9 Mo'
   }
 ] as const;
 
