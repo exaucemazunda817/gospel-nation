@@ -21,6 +21,7 @@ export default function EventsMarquee({
   const items: Item[] = [
     ...(event ? [{ text: ['À venir', event.title, event.when].filter(Boolean).join(' · '), href: '/evenements', highlight: true }] : []),
     { text: `Culte du ${sunday.day.toLowerCase()} · ${sunday.time}`, href: '/contact' },
+    { text: 'Première visite ? Annoncez votre venue', href: '/visite', highlight: true },
     { text: 'Offres et services', href: '/services' },
     ...departments.map((department) => ({
       text: department.name,

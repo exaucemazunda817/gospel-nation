@@ -36,7 +36,7 @@ function str(value: unknown): string {
 // Numéros saisis à la congolaise (0812345678, 812345678) ou avec indicatif
 // (+243…, 00243…) : on stocke « +243… », la forme attendue par wa.me sur la
 // page publique. Un numéro étranger avec indicatif reste tel quel.
-function normalizePhone(raw: string): string | null {
+export function normalizePhone(raw: string): string | null {
   let digits = raw.replace(/\D/g, '');
   if (digits.startsWith('00')) digits = digits.slice(2);
   else if (digits.length === 10 && digits.startsWith('0')) digits = `243${digits.slice(1)}`;

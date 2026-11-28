@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       // Espace admin, comptes membres et routes techniques : rien à indexer,
       // et les cartes de membre contiennent des données personnelles.
-      disallow: ['/admin', '/api/', '/compte', '/connexion']
+      disallow: ['/admin', '/api/', '/compte', '/connexion', '/equipe-accueil']
     },
     sitemap: `${siteUrl}/sitemap.xml`
   };

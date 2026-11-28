@@ -13,7 +13,7 @@ export default function ConfidentialitePage() {
     <LegalPage
       title="Confidentialité"
       intro="Quelles informations nous recueillons, pourquoi, et comment vous gardez la maîtrise de vos données."
-      updated="15 octobre 2026"
+      updated="28 novembre 2026"
       sections={[
         {
           title: 'Qui est responsable de vos données',
@@ -42,6 +42,11 @@ export default function ConfidentialitePage() {
                 <strong>Demande de rendez-vous pastoral :</strong> nom, téléphone, e-mail (facultatif) et motif.
               </li>
               <li>
+                <strong>Première visite :</strong> prénom, nom, jour de la visite, nombre de personnes qui vous
+                accompagnent (et leurs prénoms si vous les donnez), téléphone et e-mail (facultatifs), la façon dont
+                vous avez connu l&apos;église (facultatif) et une demande de prière (facultative).
+              </li>
+              <li>
                 <strong>Témoignage :</strong> nom (le prénom seul suffit), texte, lien vidéo éventuel, et votre accord
                 de publication : la case n&apos;est jamais cochée d&apos;avance, et sans elle le témoignage n&apos;est
                 jamais publié.
@@ -64,6 +69,11 @@ export default function ConfidentialitePage() {
             <ul className="list-disc space-y-2 pl-5">
               <li>Vous délivrer votre carte de membre et tenir le registre des membres de l&apos;église.</li>
               <li>Répondre à vos messages et organiser les rendez-vous avec le pasteur.</li>
+              <li>
+                Préparer votre accueil : l&apos;équipe d&apos;accueil voit votre nom et le nombre de personnes attendues
+                le jour de votre visite ; une personne de l&apos;équipe peut vous écrire un mot de bienvenue puis un
+                mot de remerciement.
+              </li>
               <li>Publier, avec votre accord, les témoignages et les offres de services, après vérification.</li>
               <li>Vous permettre de suivre le plan de lecture biblique depuis votre compte.</li>
             </ul>
@@ -87,7 +97,10 @@ export default function ConfidentialitePage() {
             <>
               <p>
                 Les données des membres, des messages et des rendez-vous ne sont consultables que par les
-                administrateurs de l&apos;église, depuis un espace protégé par mot de passe. Nous ne vendons pas vos
+                administrateurs de l&apos;église, depuis un espace protégé par mot de passe. Les annonces de première
+                visite sont aussi vues par l&apos;équipe d&apos;accueil (nom et nombre de personnes seulement, jamais
+                votre téléphone, votre e-mail ni votre demande de prière), depuis un accès distinct, lui aussi protégé
+                par mot de passe. Nous ne vendons pas vos
                 données et ne les transmettons pas à des annonceurs.
               </p>
               <p>Pour faire fonctionner le site, nous faisons appel à des prestataires techniques :</p>
@@ -126,7 +139,10 @@ export default function ConfidentialitePage() {
             <p>
               Les données d&apos;un membre sont conservées tant qu&apos;il fait partie de l&apos;église ou jusqu&apos;à
               sa demande de suppression. Les messages de contact et les demandes de rendez-vous sont conservés le temps
-              nécessaire à leur traitement. Votre profil de candidat reste enregistré jusqu&apos;à ce que vous le
+              nécessaire à leur traitement. Les informations d&apos;une première visite (nom, coordonnées, accompagnants,
+              demande de prière, note) sont effacées automatiquement 180 jours après le jour de la visite ; il ne reste
+              alors que des totaux sans nom (jour, nombre de personnes, façon dont la personne a connu l&apos;église)
+              pour les statistiques de l&apos;église. Vous pouvez demander leur suppression avant ce délai. Votre profil de candidat reste enregistré jusqu&apos;à ce que vous le
               supprimiez vous-même depuis la page Emplois, ce qui efface aussi vos candidatures en attente.
             </p>
           )

@@ -122,11 +122,16 @@ export function SelectField({
   label,
   name,
   required,
+  defaultValue,
+  onValueChange,
   children
 }: {
   label: string;
   name: string;
   required?: boolean;
+  defaultValue?: string;
+  /** Pour les champs qui en commandent d'autres (ex. nombre d'accompagnants). */
+  onValueChange?: (value: string) => void;
   children: React.ReactNode;
 }) {
   const id = useId();
@@ -137,7 +142,18 @@ export function SelectField({
         {label}
         {required && <span className="text-gn-gold-line" aria-hidden="true"> *</span>}
       </label>
-      <select id={id} name={name} required={required} className={inputClass} {...fieldProps} onChange={clear}>
+      <select
+        id={id}
+        name={name}
+        required={required}
+        defaultValue={defaultValue}
+        className={inputClass}
+        {...fieldProps}
+        onChange={(e) => {
+          clear();
+          onValueChange?.(e.currentTarget.value);
+        }}
+      >
         {children}
       </select>
       <FieldError id={errorId} message={error} />

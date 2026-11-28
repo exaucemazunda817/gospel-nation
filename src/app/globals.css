@@ -811,3 +811,16 @@ p,
 li {
   text-wrap: pretty;
 }
+
+/* Impression de la feuille d'accueil et de l'affiche QR : on retire l'en-tête, le
+   pied de page et le lien d'accès rapide du site, et on force le fond blanc. */
+@media print {
+  body:has([data-print-sheet]) {
+    background: white;
+  }
+  body:has([data-print-sheet]) > header,
+  body:has([data-print-sheet]) > footer,
+  body:has([data-print-sheet]) .gn-skip {
+    display: none;
+  }
+}

@@ -454,3 +454,46 @@ model JobApplication {
   @@index([status, processAfter])
   @@map("job_applications")
 }
+
+enum VisitStatus {
+  EXPECTED // annoncée sur le site, pas encore venue
+  ARRIVED // accueillie à la porte
+  NO_SHOW // annoncée mais pas venue
+  FOLLOWED_UP // un mot de suivi a été envoyé
+  MEMBER // est devenue membre
+}
+
+/// « Je viens pour la première fois » : annonce de venue d'un visiteur, vue par
+/// l'équipe d'accueil (page /accueil et onglet admin « Visites »). Données
+/// personnelles : supprimées 180 jours après le jour de la visite (voir
+/// src/lib/visits.ts). La demande de prière n'apparaît jamais sur la feuille d'accueil.
+model Visit {
+  id             String      @id @default(cuid())
+  firstName      String
+  lastName       String
+  phone          String?
+  email          String?
+  // Jour du culte, enregistré à minuit UTC (comme Appointment.preferredDate).
+  visitDate      DateTime
+  // Personnes qui viennent AVEC le visiteur (lui-même non compté) dont `childrenCount` enfants.
+  companions     Int         @default(0)
+  companionNames String?
+  childrenCount  Int         @default(0)
+  source         String?
+  prayerRequest  String?
+  status         VisitStatus @default(EXPECTED)
+  arrivedAt      DateTime?
+  followedUpAt   DateTime?
+  // Note de l'équipe, privée.
+  note           String?
+  // E-mails automatiques (Resend), réservés une seule fois chacun.
+  teamEmailSentAt    DateTime?
+  visitorEmailSentAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([visitDate])
+  @@index([status])
+  @@map("visits")
+}

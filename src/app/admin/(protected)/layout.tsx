@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import AdminLogoutButton from "@/components/AdminLogoutButton";
 import { isAdmin } from '@/lib/admin-auth';
 import { redirect } from 'next/navigation';
+import { todayInKinshasa } from '@/lib/visits';
 
 // Sans ça, Next prégénère l'espace admin au build : les listes restent figées
 // (nouveaux membres et témoignages invisibles) et les données personnelles des
@@ -11,17 +12,18 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!(await isAdmin())) redirect('/admin/login');
-  const [pendingTemoignages, pendingRendezVous, pendingOffres, totalMembres, unreadMessages] = await Promise.all([
+  const [pendingTemoignages, pendingRendezVous, pendingOffres, totalMembres, unreadMessages, upcomingVisits] = await Promise.all([
     prisma.testimony.count({ where: { status: "PENDING" } }),
     prisma.appointment.count({ where: { status: "PENDING" } }),
     prisma.memberOffer.count({ where: { status: "PENDING" } }),
     prisma.user.count({ where: { role: "MEMBER" } }),
     prisma.contactMessage.count({ where: { isRead: false } }),
+    prisma.visit.count({ where: { status: "EXPECTED", visitDate: { gte: todayInKinshasa() } } }),
   ]);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 print:hidden">
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-gn-gold">
             Gospel Nation — Admin
@@ -33,7 +35,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <AdminLogoutButton />
       </div>
 
-      <nav className="mt-6 flex flex-wrap gap-2 border-b border-gn-cream/15 pb-px text-sm font-medium">
+      <nav className="mt-6 flex flex-wrap gap-2 border-b border-gn-cream/15 pb-px text-sm font-medium print:hidden">
         <SectionTab
           href="/admin"
           label={`Témoignages${pendingTemoignages ? ` (${pendingTemoignages})` : ""}`}
@@ -41,6 +43,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <SectionTab
           href="/admin/rendez-vous"
           label={`Rendez-vous${pendingRendezVous ? ` (${pendingRendezVous})` : ""}`}
+        />
+        <SectionTab
+          href="/admin/visites"
+          label={`Visites${upcomingVisits ? ` (${upcomingVisits})` : ""}`}
         />
         <SectionTab href="/admin/communiques" label="Communiqués" />
         <SectionTab href="/admin/dons" label="Dons" />

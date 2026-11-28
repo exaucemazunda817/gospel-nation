@@ -48,29 +48,29 @@ async function hmacKey(): Promise<CryptoKey> {
   );
 }
 
-// Empreinte du mot de passe admin, glissée dans le jeton (audit du
-// 17/10/2026) : changer ADMIN_PASSWORD rend aussitôt invalides toutes les
-// sessions ouvertes. Avec un mot de passe partagé, c'est le seul moyen de
-// fermer l'accès d'une personne qui quitte l'équipe ou d'un cookie copié.
-async function passwordFingerprint(): Promise<string | null> {
-  const password = adminPassword();
+// Empreinte du mot de passe, glissée dans le jeton (audit du 17/10/2026) :
+// changer le mot de passe rend aussitôt invalides toutes les sessions ouvertes.
+// Avec un mot de passe partagé, c'est le seul moyen de fermer l'accès d'une
+// personne qui quitte l'équipe ou d'un cookie copié. `scope` vide pour l'admin
+// (empreinte inchangée, les sessions ouvertes restent valables), « welcome »
+// pour l'équipe d'accueil : un jeton ne peut donc jamais servir pour l'autre rôle.
+async function passwordFingerprint(password: string | undefined, scope = ""): Promise<string | null> {
   if (!password) return null;
   const digest = new Uint8Array(
-    await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${getSecret()}:${password}`))
+    await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${getSecret()}:${scope}${password}`))
   );
   return toBase64Url(digest).slice(0, 22);
 }
 
-export async function createSessionToken(): Promise<string> {
-  const pv = await passwordFingerprint();
-  const payload = JSON.stringify({ role: "ADMIN", pv, exp: Date.now() + SESSION_DURATION_MS });
+async function signToken(role: string, pv: string | null): Promise<string> {
+  const payload = JSON.stringify({ role, pv, exp: Date.now() + SESSION_DURATION_MS });
   const payloadBytes = new TextEncoder().encode(payload);
   const key = await hmacKey();
   const signature = new Uint8Array(await crypto.subtle.sign("HMAC", key, payloadBytes));
   return `${toBase64Url(payloadBytes)}.${toBase64Url(signature)}`;
 }
 
-export async function verifySessionToken(token: string | undefined): Promise<boolean> {
+async function verifyToken(token: string | undefined, role: string, pv: string | null): Promise<boolean> {
   if (!token) return false;
   const [payloadPart, signaturePart] = token.split(".");
   if (!payloadPart || !signaturePart) return false;
@@ -88,12 +88,35 @@ export async function verifySessionToken(token: string | undefined): Promise<boo
       exp: number;
     };
     if (payload.exp <= Date.now()) return false;
-    const pv = await passwordFingerprint();
     if (!pv || payload.pv !== pv) return false;
-    return payload.role === "ADMIN";
+    return payload.role === role;
   } catch {
     return false;
   }
+}
+
+export async function createSessionToken(): Promise<string> {
+  return signToken("ADMIN", await passwordFingerprint(adminPassword()));
+}
+
+export async function verifySessionToken(token: string | undefined): Promise<boolean> {
+  return verifyToken(token, "ADMIN", await passwordFingerprint(adminPassword()));
+}
+
+// Équipe d'accueil (page /accueil) : un mot de passe à part (WELCOME_PASSWORD),
+// qui ne donne accès qu'à la feuille d'accueil — ni membres, ni dons, ni messages.
+export const WELCOME_COOKIE_NAME = "gn_welcome_session";
+
+export function welcomePassword(): string | undefined {
+  return process.env.WELCOME_PASSWORD;
+}
+
+export async function createWelcomeToken(): Promise<string> {
+  return signToken("WELCOME", await passwordFingerprint(welcomePassword(), "welcome:"));
+}
+
+export async function verifyWelcomeToken(token: string | undefined): Promise<boolean> {
+  return verifyToken(token, "WELCOME", await passwordFingerprint(welcomePassword(), "welcome:"));
 }
 
 export const SESSION_MAX_AGE_SECONDS = SESSION_DURATION_MS / 1000;

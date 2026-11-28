@@ -1,5 +1,6 @@
 import { church } from '@/lib/content';
 import { formatTimeFr } from '@/lib/appointments';
+import { formatVisitDayWithYear, peopleLabel, visitServiceFor } from '@/lib/visits';
 
 // Envoi d'e-mails via Resend (https://resend.com), par simple appel HTTP : pas
 // de dépendance à ajouter. Tant que RESEND_API_KEY et EMAIL_FROM ne sont pas
@@ -171,4 +172,81 @@ ${sections
 </div>`;
 
   return sendEmail({ to: params.to, subject, text, html });
+}
+
+// Alerte à l'équipe d'accueil quand quelqu'un annonce sa venue. Adresse de
+// l'équipe : WELCOME_NOTIFY_EMAIL (facultative). Seuls le nom, le jour et le
+// nombre de personnes y figurent : jamais téléphone, e-mail ni demande de prière.
+export async function sendVisitTeamAlert(visit: {
+  firstName: string;
+  lastName: string;
+  visitDate: Date;
+  companions: number;
+  childrenCount: number;
+  companionNames: string | null;
+}): Promise<EmailResult> {
+  const to = (process.env.WELCOME_NOTIFY_EMAIL || '').trim();
+  if (!to) return { ok: false, reason: 'not-configured' };
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const day = formatVisitDayWithYear(visit.visitDate);
+  const name = `${visit.firstName} ${visit.lastName}`;
+  const people = peopleLabel(visit);
+  const sheet = siteUrl ? `${siteUrl}/equipe-accueil` : '';
+
+  const text = [
+    'Bonjour,',
+    '',
+    `${name} annonce sa venue le ${day} (${people}).`,
+    visit.companionNames ? `Accompagnants : ${visit.companionNames}` : '',
+    sheet ? `Feuille d'accueil : ${sheet}` : '',
+    '',
+    `${church.name}`
+  ]
+    .filter((line, index, all) => line !== '' || (index > 0 && all[index - 1] !== ''))
+    .join('\n');
+
+  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1f1a14">
+<p>Bonjour,</p>
+<p><strong>${escapeHtml(name)}</strong> annonce sa venue le <strong>${escapeHtml(day)}</strong> (${escapeHtml(people)}).</p>
+${visit.companionNames ? `<p>Accompagnants : ${escapeHtml(visit.companionNames)}</p>` : ''}
+${sheet ? `<p><a href="${escapeHtml(sheet)}">Ouvrir la feuille d'accueil</a></p>` : ''}
+<p>${escapeHtml(church.name)}</p>
+</div>`;
+
+  return sendEmail({ to, subject: `Nouvelle visite annoncée : ${name}`.slice(0, 150), text, html });
+}
+
+// Accusé de réception au visiteur (s'il a donné son adresse).
+export async function sendVisitorWelcome(visit: {
+  firstName: string;
+  email: string;
+  visitDate: Date;
+}): Promise<EmailResult> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const service = visitServiceFor(visit.visitDate);
+  const day = `${formatVisitDayWithYear(visit.visitDate)}${service ? ` à ${service.time}` : ''}`;
+  const place = `${church.address.replace(' — ', ', ')}, ${church.city}`;
+
+  const text = [
+    `Bonjour ${visit.firstName},`,
+    '',
+    `Nous avons bien reçu l'annonce de votre venue le ${day}. Nous serons heureux de vous accueillir !`,
+    '',
+    `Lieu : ${place}`,
+    siteUrl ? `Plus d'informations : ${siteUrl}/visite` : '',
+    '',
+    `${church.name}`
+  ]
+    .filter((line, index, all) => line !== '' || (index > 0 && all[index - 1] !== ''))
+    .join('\n');
+
+  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1f1a14">
+<p>Bonjour ${escapeHtml(visit.firstName)},</p>
+<p>Nous avons bien reçu l'annonce de votre venue le <strong>${escapeHtml(day)}</strong>. Nous serons heureux de vous accueillir !</p>
+<p><strong>Lieu :</strong> ${escapeHtml(place)}</p>
+${siteUrl ? `<p><a href="${escapeHtml(siteUrl)}/visite">Plus d'informations</a></p>` : ''}
+<p>${escapeHtml(church.name)}</p>
+</div>`;
+
+  return sendEmail({ to: visit.email, subject: `Nous vous attendons le ${formatVisitDayWithYear(visit.visitDate)}`, text, html });
 }

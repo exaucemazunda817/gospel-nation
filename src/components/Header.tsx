@@ -18,6 +18,7 @@ const primaryLinks = [
 ];
 
 const resourceLinks = [
+  { href: '/visite', label: 'Première visite' },
   { href: '/evenements', label: 'Événements' },
   { href: '/bible', label: 'Bible' },
   { href: '/blog', label: 'Bibliothèque' },

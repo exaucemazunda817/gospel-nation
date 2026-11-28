@@ -20,6 +20,7 @@ const explore = [
 ];
 
 const community = [
+  { href: '/visite', label: 'Première visite' },
   { href: '/inscription', label: 'Devenir membre' },
   { href: '/blog', label: 'Bibliothèque' },
   { href: '/temoignages', label: 'Témoignages' },

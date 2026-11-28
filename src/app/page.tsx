@@ -186,12 +186,12 @@ export default async function HomePage() {
                 >
                   Écouter la dernière prédication
                 </Link>
-                <a
-                  href="#visite"
+                <Link
+                  href="/visite"
                   className="inline-flex min-h-[44px] items-center rounded-full border border-gn-cream/35 px-[26px] text-xs font-semibold uppercase tracking-wide text-gn-cream transition-colors hover:border-gn-gold hover:text-gn-gold"
                 >
                   Planifier ma visite
-                </a>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -223,14 +223,22 @@ export default async function HomePage() {
               <p className="max-w-md font-serif text-base font-semibold text-gn-ink">{church.address}</p>
             </div>
           </div>
-          <a
-            href={mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-[44px] items-center rounded-full bg-gn-black px-6 text-xs font-bold uppercase tracking-wide text-gn-cream transition-opacity hover:opacity-90"
-          >
-            Itinéraire
-          </a>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center rounded-full bg-gn-black px-6 text-xs font-bold uppercase tracking-wide text-gn-cream transition-opacity hover:opacity-90"
+            >
+              Itinéraire
+            </a>
+            <Link
+              href="/visite"
+              className="inline-flex min-h-[44px] items-center rounded-full bg-gradient-to-br from-gn-gold-light to-gn-gold px-6 text-xs font-bold uppercase tracking-wide text-gn-black transition-opacity hover:opacity-90"
+            >
+              Annoncer ma venue
+            </Link>
+          </div>
         </Reveal>
         {/* Direct des cultes sur YouTube : lien à ouvrir ou à copier */}
         <LiveStrip live={live} />
