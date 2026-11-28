@@ -489,6 +489,8 @@ model Visit {
   // E-mails automatiques (Resend), réservés une seule fois chacun.
   teamEmailSentAt    DateTime?
   visitorEmailSentAt DateTime?
+  // Rappel de la veille (tâche planifiée /api/cron/visites), envoyé une seule fois par visite.
+  reminderEmailSentAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,12 +1,25 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["pdx1"],
+  "regions": [
+    "pdx1"
+  ],
   "redirects": [
     {
       "source": "/((?!api/).*)",
-      "has": [{ "type": "host", "value": "gospel-nation.vercel.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "gospel-nation.vercel.app"
+        }
+      ],
       "destination": "https://eglisegospelnation.com/$1",
       "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/visites",
+      "schedule": "0 14 * * *"
     }
   ]
 }

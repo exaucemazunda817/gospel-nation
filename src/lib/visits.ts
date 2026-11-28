@@ -192,6 +192,16 @@ export function welcomeMessage(visit: { firstName: string; visitDate: Date }): s
   ].join('\n');
 }
 
+export function reminderMessage(visit: { firstName: string; visitDate: Date }): string {
+  const service = visitServiceFor(visit.visitDate);
+  return [
+    `Bonjour ${visit.firstName}, c'est l'équipe d'accueil de ${church.name}.`,
+    `Petit rappel : nous vous attendons ${formatVisitDay(visit.visitDate)}${service ? ` à ${service.time}` : ''}.`,
+    `Nous sommes à ${church.address}.`,
+    'À très bientôt !'
+  ].join('\n');
+}
+
 export function thanksMessage(visit: { firstName: string; visitDate: Date }): string {
   return [
     `Bonjour ${visit.firstName}, c'est l'équipe d'accueil de ${church.name}.`,

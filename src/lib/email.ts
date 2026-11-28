@@ -1,6 +1,6 @@
 import { church } from '@/lib/content';
 import { formatTimeFr } from '@/lib/appointments';
-import { formatVisitDayWithYear, peopleLabel, visitServiceFor } from '@/lib/visits';
+import { formatVisitDay, formatVisitDayWithYear, peopleLabel, totalPeople, visitServiceFor } from '@/lib/visits';
 
 // Envoi d'e-mails via Resend (https://resend.com), par simple appel HTTP : pas
 // de dépendance à ajouter. Tant que RESEND_API_KEY et EMAIL_FROM ne sont pas
@@ -12,7 +12,8 @@ import { formatVisitDayWithYear, peopleLabel, visitServiceFor } from '@/lib/visi
 // ne livre qu'à l'adresse du compte Resend lui-même : impossible d'écrire aux
 // visiteurs.
 
-const RESEND_URL = 'https://api.resend.com/emails';
+// RESEND_API_URL ne sert qu'aux tests (faux serveur local) ; en production, Resend.
+const RESEND_URL = process.env.RESEND_API_URL || 'https://api.resend.com/emails';
 const SEND_TIMEOUT_MS = 8000;
 
 export type EmailResult =
@@ -249,4 +250,133 @@ ${siteUrl ? `<p><a href="${escapeHtml(siteUrl)}/visite">Plus d'informations</a><
 </div>`;
 
   return sendEmail({ to: visit.email, subject: `Nous vous attendons le ${formatVisitDayWithYear(visit.visitDate)}`, text, html });
+}
+
+// ---------------------------------------------------------------------------
+// Rappels et résumé hebdomadaire des visites (tâche planifiée /api/cron/visites)
+// ---------------------------------------------------------------------------
+
+function teamAddress(): string {
+  return (process.env.WELCOME_NOTIFY_EMAIL || '').trim();
+}
+
+function wrapHtml(inner: string): string {
+  return `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#1f1a14">\n${inner}\n<p>${escapeHtml(church.name)}</p>\n</div>`;
+}
+
+// Rappel au visiteur, la veille de sa venue.
+export async function sendVisitReminder(visit: {
+  firstName: string;
+  email: string;
+  visitDate: Date;
+}): Promise<EmailResult> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const service = visitServiceFor(visit.visitDate);
+  const day = `${formatVisitDay(visit.visitDate)}${service ? ` à ${service.time}` : ''}`;
+  const place = `${church.address.replace(' — ', ', ')}, ${church.city}`;
+  const text = [
+    `Bonjour ${visit.firstName},`,
+    '',
+    `Petit rappel : nous vous attendons demain, ${day}. Quelqu'un de l'équipe d'accueil sera là pour vous recevoir.`,
+    '',
+    `Lieu : ${place}`,
+    siteUrl ? `Itinéraire et horaires : ${siteUrl}/visite` : '',
+    '',
+    "Si vous ne pouvez finalement pas venir, ce n'est pas grave : vous serez toujours les bienvenus.",
+    '',
+    church.name
+  ]
+    .filter((line, index, all) => line !== '' || (index > 0 && all[index - 1] !== ''))
+    .join('\n');
+  const html = wrapHtml(`<p>Bonjour ${escapeHtml(visit.firstName)},</p>
+<p>Petit rappel : nous vous attendons <strong>demain, ${escapeHtml(day)}</strong>. Quelqu'un de l'équipe d'accueil sera là pour vous recevoir.</p>
+<p><strong>Lieu :</strong> ${escapeHtml(place)}</p>
+${siteUrl ? `<p><a href="${escapeHtml(siteUrl)}/visite">Itinéraire et horaires</a></p>` : ''}
+<p>Si vous ne pouvez finalement pas venir, ce n'est pas grave : vous serez toujours les bienvenus.</p>`);
+  return sendEmail({ to: visit.email, subject: `Rappel : nous vous attendons demain`, text, html });
+}
+
+type RecapVisit = { firstName: string; lastName: string; companions: number; childrenCount: number };
+
+function visitLine(v: RecapVisit): string {
+  return `${v.firstName} ${v.lastName} (${peopleLabel(v)})`;
+}
+
+// La veille : récapitulatif pour l'équipe d'accueil (noms et effectifs, jamais téléphone ni prière).
+export async function sendTeamDayBefore(date: Date, visits: RecapVisit[]): Promise<EmailResult> {
+  const to = teamAddress();
+  if (!to) return { ok: false, reason: 'not-configured' };
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const people = visits.reduce((n, v) => n + totalPeople(v), 0);
+  const day = formatVisitDayWithYear(date);
+  const service = visitServiceFor(date);
+  const link = siteUrl ? `${siteUrl}/admin/visites/accueil` : '';
+  const text = [
+    'Bonjour,',
+    '',
+    `Demain, ${day}${service ? ` (${service.label}, ${service.time})` : ''} : ${visits.length} visite${visits.length > 1 ? 's' : ''} annoncée${visits.length > 1 ? 's' : ''}, ${people} personne${people > 1 ? 's' : ''}.`,
+    '',
+    ...visits.map((v) => `• ${visitLine(v)}`),
+    '',
+    link ? `Feuille d'accueil (espace admin) : ${link}` : '',
+    '',
+    church.name
+  ]
+    .filter((line, index, all) => line !== '' || (index > 0 && all[index - 1] !== ''))
+    .join('\n');
+  const html = wrapHtml(`<p>Bonjour,</p>
+<p><strong>Demain, ${escapeHtml(day)}</strong>${service ? ` (${escapeHtml(service.label)}, ${escapeHtml(service.time)})` : ''} : ${visits.length} visite${visits.length > 1 ? 's' : ''} annoncée${visits.length > 1 ? 's' : ''}, ${people} personne${people > 1 ? 's' : ''}.</p>
+<ul>${visits.map((v) => `<li>${escapeHtml(visitLine(v))}</li>`).join('')}</ul>
+${link ? `<p><a href="${escapeHtml(link)}">Ouvrir la feuille d'accueil (espace admin)</a></p>` : ''}`);
+  return sendEmail({ to, subject: `Demain : ${visits.length} visite${visits.length > 1 ? 's' : ''} attendue${visits.length > 1 ? 's' : ''}`, text, html });
+}
+
+export type WeeklyVisitSummary = {
+  from: Date;
+  to: Date;
+  visits: number;
+  people: number;
+  came: number;
+  noShow: number;
+  members: number;
+  toFollowUp: { firstName: string; lastName: string }[];
+  upcomingVisits: number;
+};
+
+// Le lundi : bilan de la semaine écoulée pour le pasteur et l'accueil.
+export async function sendWeeklyVisitSummary(summary: WeeklyVisitSummary): Promise<EmailResult> {
+  const to = teamAddress();
+  if (!to) return { ok: false, reason: 'not-configured' };
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+  const link = siteUrl ? `${siteUrl}/admin/visites` : '';
+  const period = `du ${formatVisitDay(summary.from)} au ${formatVisitDay(summary.to)}`;
+  const follow = summary.toFollowUp.map((v) => `${v.firstName} ${v.lastName}`);
+  const lines = [
+    `Visites annoncées : ${summary.visits} (${summary.people} personne${summary.people > 1 ? 's' : ''})`,
+    `Venues : ${summary.came}`,
+    `Pas venues : ${summary.noShow}`,
+    `Devenues membres : ${summary.members}`,
+    `Déjà annoncées pour la semaine qui commence : ${summary.upcomingVisits}`
+  ];
+  const text = [
+    'Bonjour,',
+    '',
+    `Bilan des visites ${period} :`,
+    '',
+    ...lines.map((l) => `• ${l}`),
+    '',
+    follow.length > 0 ? `À remercier (venues, pas encore de mot de suivi) : ${follow.join(', ')}.` : 'Personne en attente de mot de suivi.',
+    '',
+    link ? `Espace admin : ${link}` : '',
+    '',
+    church.name
+  ]
+    .filter((line, index, all) => line !== '' || (index > 0 && all[index - 1] !== ''))
+    .join('\n');
+  const html = wrapHtml(`<p>Bonjour,</p>
+<p>Bilan des visites <strong>${escapeHtml(period)}</strong> :</p>
+<ul>${lines.map((l) => `<li>${escapeHtml(l)}</li>`).join('')}</ul>
+<p>${follow.length > 0 ? `<strong>À remercier</strong> (venues, pas encore de mot de suivi) : ${escapeHtml(follow.join(', '))}.` : 'Personne en attente de mot de suivi.'}</p>
+${link ? `<p><a href="${escapeHtml(link)}">Ouvrir l'espace admin</a></p>` : ''}`);
+  return sendEmail({ to, subject: `Visites de la semaine : ${summary.visits} annoncée${summary.visits > 1 ? 's' : ''}, ${summary.came} venue${summary.came > 1 ? 's' : ''}`, text, html });
 }

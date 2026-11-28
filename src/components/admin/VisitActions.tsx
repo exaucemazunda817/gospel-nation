@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { VISIT_STATUS_LABELS, thanksMessage, welcomeMessage, whatsappUrl } from "@/lib/visits";
+import { VISIT_STATUS_LABELS, reminderMessage, thanksMessage, welcomeMessage, whatsappUrl } from "@/lib/visits";
 
 const outline =
   "inline-flex min-h-[44px] items-center rounded-full border border-gn-cream/25 px-4 text-sm font-semibold text-gn-cream/80 transition-colors hover:border-gn-cream/50 disabled:opacity-60";
@@ -16,6 +16,7 @@ export default function VisitActions({
   firstName,
   visitDate,
   note,
+  remind,
 }: {
   id: string;
   status: string;
@@ -23,6 +24,8 @@ export default function VisitActions({
   firstName: string;
   visitDate: string;
   note: string | null;
+  /** Vrai quand le culte est aujourd'hui ou demain : propose le rappel WhatsApp. */
+  remind: boolean;
 }) {
   const router = useRouter();
   const [text, setText] = useState(note ?? "");
@@ -115,6 +118,16 @@ export default function VisitActions({
               className={outline}
             >
               WhatsApp : mot de bienvenue
+            </a>
+          )}
+          {status === "EXPECTED" && remind && (
+            <a
+              href={whatsappUrl(phone, reminderMessage({ firstName, visitDate: date }))}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={solid}
+            >
+              WhatsApp : rappel
             </a>
           )}
           {came && (

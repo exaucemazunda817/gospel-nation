@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin-auth";
 import VisitActions from "@/components/admin/VisitActions";
+import { isEmailConfigured } from "@/lib/email";
 import {
   VISIT_STATUS_LABELS,
   formatVisitDay,
@@ -26,6 +27,7 @@ export default async function AdminVisitsPage() {
   await anonymizeOldVisits();
 
   const today = todayInKinshasa();
+  const tomorrow = new Date(today.getTime() + 86400_000);
   const since = new Date(today.getTime() - 365 * 86400_000);
   const recentLimit = new Date(today.getTime() - 60 * 86400_000);
 
@@ -63,6 +65,10 @@ export default async function AdminVisitsPage() {
   const sources = [...bySource.entries()].sort((a, b) => b[1] - a[1]);
   const maxSource = Math.max(1, ...sources.map(([, n]) => n));
 
+  const emailOn = isEmailConfigured();
+  const teamOn = Boolean((process.env.WELCOME_NOTIFY_EMAIL || "").trim());
+  const cronOn = (process.env.CRON_SECRET || "").length >= 16;
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -75,6 +81,25 @@ export default async function AdminVisitsPage() {
           <Link href="/admin/visites/affiche" className={button}>Affiche avec QR code</Link>
         </div>
       </div>
+
+      {/* Rappels automatiques : état */}
+      <section aria-labelledby="rappels" className="rounded-2xl border border-gn-cream/15 p-5">
+        <h2 id="rappels" className="font-serif text-lg font-semibold text-gn-cream">Rappels automatiques</h2>
+        <ul className="mt-2 space-y-1 text-sm text-gn-cream/70">
+          <li>
+            Chaque jour à 15 h (Kinshasa), la veille d&apos;un culte : e-mail de rappel aux visiteurs qui ont donné leur adresse,
+            et récapitulatif envoyé à l&apos;adresse de l&apos;équipe. Le lundi : bilan de la semaine.
+          </li>
+          <li>
+            E-mails (Resend) : {emailOn ? "actifs" : "inactifs, aucun e-mail ne part tant que RESEND_API_KEY et EMAIL_FROM ne sont pas définis"}.
+          </li>
+          <li>
+            Adresse de l&apos;équipe (WELCOME_NOTIFY_EMAIL) : {teamOn ? "définie" : "non définie, le récapitulatif et le bilan ne sont pas envoyés"}.
+          </li>
+          <li>Tâche planifiée (CRON_SECRET) : {cronOn ? "configurée" : "non configurée, la tâche refuse de tourner"}.</li>
+          <li>Sans e-mail, utilisez le bouton « WhatsApp : rappel » sur les visites d&apos;aujourd&apos;hui et de demain.</li>
+        </ul>
+      </section>
 
       {/* Prochains cultes */}
       <section aria-labelledby="a-venir">
@@ -110,7 +135,7 @@ export default async function AdminVisitsPage() {
                   </div>
                   <div className="mt-3 space-y-3">
                     {visits.map((v) => (
-                      <VisitCard key={v.id} visit={v} />
+                      <VisitCard key={v.id} visit={v} remind={v.visitDate <= tomorrow && v.visitDate >= today} />
                     ))}
                   </div>
                 </div>
@@ -190,7 +215,7 @@ export default async function AdminVisitsPage() {
           </summary>
           <div className="mt-4 space-y-3">
             {recentPast.map((v) => (
-              <VisitCard key={v.id} visit={v} />
+              <VisitCard key={v.id} visit={v} remind={v.visitDate <= tomorrow && v.visitDate >= today} />
             ))}
           </div>
         </details>
@@ -205,7 +230,7 @@ export default async function AdminVisitsPage() {
 
 type VisitRow = Awaited<ReturnType<typeof prisma.visit.findMany>>[number];
 
-function VisitCard({ visit: v }: { visit: VisitRow }) {
+function VisitCard({ visit: v, remind }: { visit: VisitRow; remind: boolean }) {
   const service = visitServiceFor(v.visitDate);
   return (
     <div className="rounded-2xl border border-gn-cream/15 bg-gn-black-soft p-5">
@@ -231,6 +256,11 @@ function VisitCard({ visit: v }: { visit: VisitRow }) {
           {v.prayerRequest}
         </p>
       )}
+      {v.reminderEmailSentAt && (
+        <p className="mt-1 text-xs text-gn-cream/60">
+          Rappel e-mail envoyé le {v.reminderEmailSentAt.toLocaleString("fr-FR", { timeZone: "Africa/Kinshasa" })}
+        </p>
+      )}
       <p className="mt-2 text-xs text-gn-cream/60">Annoncé le {v.createdAt.toLocaleString("fr-FR", { timeZone: "Africa/Kinshasa" })}</p>
       <div className="mt-4">
         <VisitActions
@@ -240,6 +270,7 @@ function VisitCard({ visit: v }: { visit: VisitRow }) {
           firstName={v.firstName}
           visitDate={v.visitDate.toISOString()}
           note={v.note}
+          remind={remind}
         />
       </div>
     </div>
