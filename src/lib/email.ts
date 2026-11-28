@@ -191,14 +191,14 @@ export async function sendVisitTeamAlert(visit: {
   const day = formatVisitDayWithYear(visit.visitDate);
   const name = `${visit.firstName} ${visit.lastName}`;
   const people = peopleLabel(visit);
-  const sheet = siteUrl ? `${siteUrl}/equipe-accueil` : '';
+  const sheet = siteUrl ? `${siteUrl}/admin/visites` : '';
 
   const text = [
     'Bonjour,',
     '',
     `${name} annonce sa venue le ${day} (${people}).`,
     visit.companionNames ? `Accompagnants : ${visit.companionNames}` : '',
-    sheet ? `Feuille d'accueil : ${sheet}` : '',
+    sheet ? `Voir les visites (espace admin) : ${sheet}` : '',
     '',
     `${church.name}`
   ]
@@ -209,7 +209,7 @@ export async function sendVisitTeamAlert(visit: {
 <p>Bonjour,</p>
 <p><strong>${escapeHtml(name)}</strong> annonce sa venue le <strong>${escapeHtml(day)}</strong> (${escapeHtml(people)}).</p>
 ${visit.companionNames ? `<p>Accompagnants : ${escapeHtml(visit.companionNames)}</p>` : ''}
-${sheet ? `<p><a href="${escapeHtml(sheet)}">Ouvrir la feuille d'accueil</a></p>` : ''}
+${sheet ? `<p><a href="${escapeHtml(sheet)}">Voir les visites (espace admin)</a></p>` : ''}
 <p>${escapeHtml(church.name)}</p>
 </div>`;
 

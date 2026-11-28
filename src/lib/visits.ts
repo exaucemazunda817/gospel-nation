@@ -174,8 +174,7 @@ export function teamSummaryMessage(date: Date, visits: VisitLike[]): string {
     '',
     ...lines,
     '',
-    `Total : ${visits.length} visite${visits.length > 1 ? 's' : ''}, ${people} personne${people > 1 ? 's' : ''}${children > 0 ? `, dont ${children} enfant${children > 1 ? 's' : ''}` : ''}.`,
-    `Feuille d'accueil : ${SITE_URL}/equipe-accueil`
+    `Total : ${visits.length} visite${visits.length > 1 ? 's' : ''}, ${people} personne${people > 1 ? 's' : ''}${children > 0 ? `, dont ${children} enfant${children > 1 ? 's' : ''}` : ''}.`
   ].join('\n');
 }
 

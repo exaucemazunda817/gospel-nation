@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import PrintButton from "@/components/accueil/PrintButton";
+import PrintButton from "@/components/admin/PrintButton";
 import { isAdmin } from "@/lib/admin-auth";
 import { church } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";

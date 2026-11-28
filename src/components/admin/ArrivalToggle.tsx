@@ -16,10 +16,10 @@ export default function ArrivalToggle({ id, arrived, locked }: { id: string; arr
     setBusy(true);
     setError(false);
     try {
-      const res = await fetch(`/api/accueil/visites/${id}`, {
+      const res = await fetch(`/api/admin/visites/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ arrived: next })
+        body: JSON.stringify({ status: next ? 'ARRIVED' : 'EXPECTED' })
       });
       if (!res.ok) throw new Error();
       router.refresh();

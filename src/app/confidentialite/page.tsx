@@ -98,9 +98,9 @@ export default function ConfidentialitePage() {
               <p>
                 Les données des membres, des messages et des rendez-vous ne sont consultables que par les
                 administrateurs de l&apos;église, depuis un espace protégé par mot de passe. Les annonces de première
-                visite sont aussi vues par l&apos;équipe d&apos;accueil (nom et nombre de personnes seulement, jamais
-                votre téléphone, votre e-mail ni votre demande de prière), depuis un accès distinct, lui aussi protégé
-                par mot de passe. Nous ne vendons pas vos
+                visite sont consultées dans ce même espace : l&apos;équipe d&apos;accueil n&apos;en reçoit que le nom
+                et le nombre de personnes attendues, jamais votre téléphone, votre e-mail ni votre demande de prière.
+                Nous ne vendons pas vos
                 données et ne les transmettons pas à des annonceurs.
               </p>
               <p>Pour faire fonctionner le site, nous faisons appel à des prestataires techniques :</p>

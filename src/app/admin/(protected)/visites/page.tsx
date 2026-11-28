@@ -71,7 +71,7 @@ export default async function AdminVisitsPage() {
           <Link href="/visite" className="text-gn-gold underline underline-offset-2">Première visite</Link>.
         </p>
         <div className="flex flex-wrap gap-2">
-          <Link href="/equipe-accueil" className={button}>Feuille d&apos;accueil</Link>
+          <Link href="/admin/visites/accueil" className={button}>Feuille d&apos;accueil</Link>
           <Link href="/admin/visites/affiche" className={button}>Affiche avec QR code</Link>
         </div>
       </div>
